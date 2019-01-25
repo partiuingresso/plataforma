@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+OrderStatus.delete_all
+OrderStatus.create( id: 1, name: 'Pending' )
+OrderStatus.create( id: 2, name: 'Approved' )
+OrderStatus.create( id: 3, name: 'Denied' )
+OrderStatus.create( id: 4, name: 'Refunded' )
+TicketStatus.delete_all
+TicketStatus.create( id: 1, name: 'Valid' )
+TicketStatus.create( id: 2, name: 'Used' )
+TicketStatus.create( id: 3, name: 'Cancelled' )
