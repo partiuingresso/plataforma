@@ -9,6 +9,8 @@ gem 'rails', '~> 5.2.2'
 gem 'pg'
 # Use Devise for authentication
 gem 'devise'
+# Use bulma CSS framework
+gem "bulma-rails", "~> 0.7.2"
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

@@ -1,0 +1,27 @@
+.partiu-header {
+  z-index: 100;
+  height: 60px;
+  margin-bottom: -60px;
+  background: none;
+}
+
+.navbar {
+  background-color: unset!important;
+  padding-top: 0.5rem;
+}
+
+.logo {
+  max-height: unset!important;
+}
+
+.section.hero {
+  background-image: image-url("hero/home.jpg");
+  background-size: cover;
+  min-height: 28rem;
+  width: 100%;
+  background-position: center 40%;
+}
+
+.hero-content {
+  padding-top: 10rem;
+}
