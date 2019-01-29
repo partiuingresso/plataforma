@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_000233) do
+ActiveRecord::Schema.define(version: 2019_01_29_001149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,12 +126,12 @@ ActiveRecord::Schema.define(version: 2019_01_29_000233) do
   end
 
   create_table "ticket_tokens", force: :cascade do |t|
-    t.string "code"
-    t.string "owner_name"
-    t.string "owner_email"
-    t.bigint "ticket_id"
+    t.string "code", null: false
+    t.string "owner_name", null: false
+    t.string "owner_email", null: false
+    t.bigint "ticket_id", null: false
     t.bigint "validation_id"
-    t.bigint "ticket_status_id"
+    t.bigint "ticket_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ticket_id"], name: "index_ticket_tokens_on_ticket_id"
