@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_24_235709) do
+ActiveRecord::Schema.define(version: 2019_01_29_011752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "companies", force: :cascade do |t|
-    t.string "name"
-    t.bigint "company_finance_id"
+    t.string "name", null: false
+    t.bigint "company_finance_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_finance_id"], name: "index_companies_on_company_finance_id"
@@ -37,33 +37,33 @@ ActiveRecord::Schema.define(version: 2019_01_24_235709) do
   end
 
   create_table "credit_cards", force: :cascade do |t|
-    t.string "cardid"
-    t.bigint "user_id"
+    t.string "cardid", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
   create_table "event_venues", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "number"
+    t.string "name", null: false
+    t.string "address", null: false
+    t.string "number", null: false
     t.string "complement"
-    t.string "neighborhood"
-    t.string "city"
-    t.string "state"
-    t.string "zipcode"
+    t.string "neighborhood", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "zipcode", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
-    t.datetime "start"
+    t.datetime "start", null: false
     t.datetime "end"
     t.bigint "event_venue_id"
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_venue_id"], name: "index_events_on_event_venue_id"
@@ -71,21 +71,21 @@ ActiveRecord::Schema.define(version: 2019_01_24_235709) do
   end
 
   create_table "offers", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
-    t.decimal "price", precision: 10, scale: 2
-    t.bigint "event_id"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_offers_on_event_id"
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.bigint "offer_id"
-    t.bigint "order_id"
-    t.integer "quantity"
-    t.decimal "unit_price", precision: 10, scale: 2
-    t.decimal "total_price", precision: 10, scale: 2
+    t.bigint "offer_id", null: false
+    t.bigint "order_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "total_price", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["offer_id"], name: "index_order_items_on_offer_id"
@@ -93,19 +93,19 @@ ActiveRecord::Schema.define(version: 2019_01_24_235709) do
   end
 
   create_table "order_statuses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "number"
-    t.decimal "subotal", precision: 10, scale: 2
-    t.decimal "fee", precision: 10, scale: 2
-    t.decimal "total", precision: 10, scale: 2
-    t.bigint "user_id"
-    t.bigint "payment_id"
-    t.bigint "order_status_id"
+    t.string "number", null: false
+    t.decimal "subotal", precision: 10, scale: 2, null: false
+    t.decimal "fee", precision: 10, scale: 2, null: false
+    t.decimal "total", precision: 10, scale: 2, null: false
+    t.bigint "user_id", null: false
+    t.bigint "payment_id", null: false
+    t.bigint "order_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_status_id"], name: "index_orders_on_order_status_id"
@@ -114,24 +114,24 @@ ActiveRecord::Schema.define(version: 2019_01_24_235709) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.string "tid"
+    t.string "tid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "ticket_statuses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "ticket_tokens", force: :cascade do |t|
-    t.string "code"
-    t.string "owner_name"
-    t.string "owner_email"
-    t.bigint "ticket_id"
+    t.string "code", null: false
+    t.string "owner_name", null: false
+    t.string "owner_email", null: false
+    t.bigint "ticket_id", null: false
     t.bigint "validation_id"
-    t.bigint "ticket_status_id"
+    t.bigint "ticket_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ticket_id"], name: "index_ticket_tokens_on_ticket_id"
@@ -140,18 +140,18 @@ ActiveRecord::Schema.define(version: 2019_01_24_235709) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.bigint "offer_id"
+    t.bigint "offer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["offer_id"], name: "index_tickets_on_offer_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.integer "age"
-    t.string "cpf"
-    t.integer "role"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.integer "age", null: false
+    t.string "cpf", null: false
+    t.integer "role", null: false
     t.bigint "company_id"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -180,8 +180,8 @@ ActiveRecord::Schema.define(version: 2019_01_24_235709) do
   end
 
   create_table "validations", force: :cascade do |t|
-    t.bigint "user_id"
-    t.datetime "time"
+    t.bigint "user_id", null: false
+    t.datetime "time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_validations_on_user_id"
