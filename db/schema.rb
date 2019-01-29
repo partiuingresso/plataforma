@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_040512) do
+ActiveRecord::Schema.define(version: 2019_01_29_170035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,12 +24,12 @@ ActiveRecord::Schema.define(version: 2019_01_29_040512) do
   end
 
   create_table "company_finances", force: :cascade do |t|
-    t.string "bank_code", null: false
-    t.string "agencia", null: false
-    t.string "agencia_dv", null: false
-    t.string "conta", null: false
+    t.integer "bank_code", null: false
+    t.integer "agencia", null: false
+    t.integer "agencia_dv", null: false
+    t.integer "conta", null: false
     t.string "type", null: false
-    t.string "conta_dv", null: false
+    t.integer "conta_dv", null: false
     t.string "document_number", null: false
     t.string "legal_name", null: false
     t.datetime "created_at", null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_040512) do
   create_table "event_venues", force: :cascade do |t|
     t.string "name", null: false
     t.string "address", null: false
-    t.string "number", null: false
+    t.integer "number", null: false
     t.string "complement"
     t.string "neighborhood", null: false
     t.string "city", null: false
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_040512) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "number", null: false
+    t.integer "number", null: false
     t.decimal "subtotal", precision: 10, scale: 2, null: false
     t.decimal "fee", precision: 10, scale: 2, null: false
     t.decimal "total", precision: 10, scale: 2, null: false
