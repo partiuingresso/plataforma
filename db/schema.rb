@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_033212) do
+ActiveRecord::Schema.define(version: 2019_01_29_040512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(version: 2019_01_29_033212) do
     t.bigint "order_id", null: false
     t.integer "quantity", null: false
     t.decimal "unit_price", precision: 10, scale: 2, null: false
-    t.decimal "total_price", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["offer_id"], name: "index_order_items_on_offer_id"
@@ -100,7 +99,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_033212) do
 
   create_table "orders", force: :cascade do |t|
     t.string "number", null: false
-    t.decimal "subotal", precision: 10, scale: 2, null: false
+    t.decimal "subtotal", precision: 10, scale: 2, null: false
     t.decimal "fee", precision: 10, scale: 2, null: false
     t.decimal "total", precision: 10, scale: 2, null: false
     t.bigint "user_id", null: false
@@ -172,6 +171,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_033212) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "gender", null: false
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
