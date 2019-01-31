@@ -1,7 +1,7 @@
 class OrderItem < ApplicationRecord
   belongs_to :offer
   belongs_to :order
-  has_many :tickets
+  has_many :ticket_tokens
 
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :offer_present
