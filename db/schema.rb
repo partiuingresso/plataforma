@@ -10,20 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_051622) do
+ActiveRecord::Schema.define(version: 2019_01_31_211118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "company_finance_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["company_finance_id"], name: "index_companies_on_company_finance_id"
   end
 
-  create_table "company_finances", force: :cascade do |t|
+  create_table "company_finances", primary_key: "company_id", id: :bigint, default: nil, force: :cascade do |t|
     t.integer "bank_code", null: false
     t.integer "agencia", null: false
     t.integer "agencia_dv", null: false
@@ -34,6 +32,7 @@ ActiveRecord::Schema.define(version: 2019_01_31_051622) do
     t.string "legal_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_company_finances_on_company_id"
   end
 
   create_table "credit_cards", force: :cascade do |t|
@@ -105,20 +104,19 @@ ActiveRecord::Schema.define(version: 2019_01_31_051622) do
     t.decimal "subtotal", precision: 10, scale: 2, null: false
     t.decimal "fee", precision: 3, scale: 2, null: false
     t.bigint "user_id", null: false
-    t.bigint "payment_id", null: false
     t.bigint "order_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["number"], name: "index_orders_on_number", unique: true
     t.index ["order_status_id"], name: "index_orders_on_order_status_id"
-    t.index ["payment_id"], name: "index_orders_on_payment_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
-  create_table "payments", force: :cascade do |t|
+  create_table "payments", primary_key: "order_id", id: :bigint, default: nil, force: :cascade do |t|
     t.string "tid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_payments_on_order_id"
   end
 
   create_table "ticket_statuses", force: :cascade do |t|
@@ -131,7 +129,6 @@ ActiveRecord::Schema.define(version: 2019_01_31_051622) do
     t.string "code", null: false
     t.string "owner_name", null: false
     t.string "owner_email", null: false
-    t.bigint "validation_id"
     t.bigint "ticket_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -139,7 +136,6 @@ ActiveRecord::Schema.define(version: 2019_01_31_051622) do
     t.index ["code"], name: "index_ticket_tokens_on_code", unique: true
     t.index ["order_item_id"], name: "index_ticket_tokens_on_order_item_id"
     t.index ["ticket_status_id"], name: "index_ticket_tokens_on_ticket_status_id"
-    t.index ["validation_id"], name: "index_ticket_tokens_on_validation_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -176,11 +172,12 @@ ActiveRecord::Schema.define(version: 2019_01_31_051622) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  create_table "validations", force: :cascade do |t|
+  create_table "validations", primary_key: "ticket_token_id", id: :bigint, default: nil, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["ticket_token_id"], name: "index_validations_on_ticket_token_id"
     t.index ["user_id"], name: "index_validations_on_user_id"
   end
 
