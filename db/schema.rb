@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_221443) do
+ActiveRecord::Schema.define(version: 2019_01_31_051622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,10 @@ ActiveRecord::Schema.define(version: 2019_01_29_221443) do
     t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", null: false
+    t.integer "available_quantity", null: false
+    t.datetime "start_t", null: false
+    t.datetime "end_t"
     t.index ["event_id"], name: "index_offers_on_event_id"
   end
 
@@ -84,7 +88,6 @@ ActiveRecord::Schema.define(version: 2019_01_29_221443) do
     t.bigint "offer_id", null: false
     t.bigint "order_id", null: false
     t.integer "quantity", null: false
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["offer_id"], name: "index_order_items_on_offer_id"
@@ -128,22 +131,15 @@ ActiveRecord::Schema.define(version: 2019_01_29_221443) do
     t.string "code", null: false
     t.string "owner_name", null: false
     t.string "owner_email", null: false
-    t.bigint "ticket_id", null: false
     t.bigint "validation_id"
     t.bigint "ticket_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "order_item_id"
     t.index ["code"], name: "index_ticket_tokens_on_code", unique: true
-    t.index ["ticket_id"], name: "index_ticket_tokens_on_ticket_id"
+    t.index ["order_item_id"], name: "index_ticket_tokens_on_order_item_id"
     t.index ["ticket_status_id"], name: "index_ticket_tokens_on_ticket_status_id"
     t.index ["validation_id"], name: "index_ticket_tokens_on_validation_id"
-  end
-
-  create_table "tickets", force: :cascade do |t|
-    t.bigint "offer_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["offer_id"], name: "index_tickets_on_offer_id"
   end
 
   create_table "users", force: :cascade do |t|
