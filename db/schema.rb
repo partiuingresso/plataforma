@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_211118) do
+ActiveRecord::Schema.define(version: 2019_01_31_215227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,4 +181,17 @@ ActiveRecord::Schema.define(version: 2019_01_31_211118) do
     t.index ["user_id"], name: "index_validations_on_user_id"
   end
 
+  add_foreign_key "company_finances", "companies"
+  add_foreign_key "credit_cards", "users"
+  add_foreign_key "events", "event_venues"
+  add_foreign_key "events", "users"
+  add_foreign_key "offers", "events"
+  add_foreign_key "order_items", "offers"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "order_statuses"
+  add_foreign_key "orders", "users"
+  add_foreign_key "payments", "orders"
+  add_foreign_key "ticket_tokens", "order_items"
+  add_foreign_key "ticket_tokens", "ticket_statuses"
+  add_foreign_key "users", "companies"
 end
