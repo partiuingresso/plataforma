@@ -1,0 +1,81 @@
+<% provide(:title, "Cadastre-se") %>
+<% content_for :navbar do %>
+<%= render 'layouts/header_clean' %>
+<% end %>
+
+
+
+<section class="section login">
+  <div class="container">
+    <div class="columns is-centered">
+
+      <div class="column is-5">
+        <div class="card">
+          <div class="card-content">
+            <p class="title has-text-centered">Crie sua conta</p>
+            <br />
+
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= devise_error_messages! %>
+
+            <div class="field">
+              <label class="label">Nome completo</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Seu nome">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left has-icons-right">
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Senha</label>
+              <div class="control has-icons-left has-icons-right">
+                <%= f.password_field :password, autocomplete: "new-password", class: "input", placeholder: "********" %>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </div>
+              <p class="help">Mínimo de 8 caracteres</p>
+            </div>
+
+            <p class="help">Ao cadastrar-se, você concorda com a <%= link_to "política de privacidade", "#" %> e os <%= link_to "termos de uso", "#" %>.</p><br />
+
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <div class="control">
+                    <%= f.submit "Cadastre-se", class: "button is-primary is-medium" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <p class="help"><%= render "devise/shared/links" %></p>
+                </div>
+              </div>
+            </nav>
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
