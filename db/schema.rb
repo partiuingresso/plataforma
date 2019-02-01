@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_215227) do
+ActiveRecord::Schema.define(version: 2019_01_31_221343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2019_01_31_215227) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["offer_id"], name: "index_order_items_on_offer_id"
+    t.index ["order_id", "offer_id"], name: "index_order_items_on_order_id_and_offer_id", unique: true
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
@@ -132,7 +133,7 @@ ActiveRecord::Schema.define(version: 2019_01_31_215227) do
     t.bigint "ticket_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "order_item_id"
+    t.bigint "order_item_id", null: false
     t.index ["code"], name: "index_ticket_tokens_on_code", unique: true
     t.index ["order_item_id"], name: "index_ticket_tokens_on_order_item_id"
     t.index ["ticket_status_id"], name: "index_ticket_tokens_on_ticket_status_id"
@@ -141,8 +142,8 @@ ActiveRecord::Schema.define(version: 2019_01_31_215227) do
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
-    t.integer "age", null: false
-    t.string "cpf", null: false
+    t.integer "age"
+    t.string "cpf"
     t.integer "role", null: false
     t.bigint "company_id"
     t.string "email", default: "", null: false
@@ -164,7 +165,7 @@ ActiveRecord::Schema.define(version: 2019_01_31_215227) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "gender", null: false
+    t.string "gender"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -174,7 +175,6 @@ ActiveRecord::Schema.define(version: 2019_01_31_215227) do
 
   create_table "validations", primary_key: "ticket_token_id", id: :bigint, default: nil, force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.datetime "time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ticket_token_id"], name: "index_validations_on_ticket_token_id"
