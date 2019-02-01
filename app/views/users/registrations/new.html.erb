@@ -21,7 +21,7 @@
             <div class="field">
               <label class="label">Nome completo</label>
               <div class="control has-icons-left has-icons-right">
-                <input class="input" type="text" placeholder="Seu nome">
+                <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "input", placeholder: "Seu nome" %>
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -31,7 +31,7 @@
             <div class="field">
               <label class="label">Email</label>
               <div class="control has-icons-left has-icons-right">
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
+                <%= f.email_field :email, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
@@ -55,14 +55,14 @@
               <div class="level-left">
                 <div class="level-item">
                   <div class="control">
-                    <%= f.submit "Cadastre-se", class: "button is-primary is-medium" %>
+                    <%= f.button "Cadastre-se", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Aguarde..." }, class: "button is-primary is-medium" %>
                     <% end %>
                   </div>
                 </div>
               </div>
               <div class="level-right">
                 <div class="level-item">
-                  <p class="help"><%= render "devise/shared/links" %></p>
+                  <p class="help"><%= render "users/shared/links" %></p>
                 </div>
               </div>
             </nav>

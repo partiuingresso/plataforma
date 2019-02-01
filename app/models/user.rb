@@ -9,6 +9,8 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable,
          :trackable
 
+  has_person_name
+
   validates :first_name, presence: true
   validates :last_name, presence: true
 
