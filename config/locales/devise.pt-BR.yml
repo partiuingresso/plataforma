@@ -46,8 +46,8 @@ pt-BR:
       signed_up: "Bem-vindo! Você se registrou com êxito."
       signed_up_but_inactive: "Você se registrou com êxito. Entretanto, precisa confirmar sua conta antes de fazer login."
       signed_up_but_locked: "Você se registrou com sucesso. Entretando, sua conta está bloqueada, e não foi possível fazer login."
-      signed_up_but_unconfirmed: "Uma mensagem com um link de confirmação foi enviada para seu endereço de email. Por favor, siga o link para ativar sua conta."
-      update_needs_confirmation: "Você atualizou sua conta com sucesso, mas nós precisamos verificar seu endereço de email. Por favor, cheque sua caixa de entrada e siga o link recebido."
+      signed_up_but_unconfirmed: "Você receberá um email com instruções para confirmar sua conta em alguns minutos."
+      update_needs_confirmation: "Para confirmar as alterações clique no link de confirmação enviado para seu email."
       updated: "Sua conta foi atualizada com sucesso."
     sessions:
       signed_in: "Logado com sucesso."

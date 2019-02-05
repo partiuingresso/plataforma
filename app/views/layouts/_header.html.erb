@@ -1,9 +1,9 @@
 <header class="partiu_header">
-  <nav class="navbar container" role="navigation" aria-label="main navigation">
+  <nav class="navbar container is-transparent" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <%= link_to image_tag('logo-light.svg', alt:'PartiuIngresso.com', width:'160', class:'logo'), root_path, class: "navbar-item" %>
 
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarPartiuIngresso">
+      <a role="button" class="navbar-burger burger has-text-white" aria-label="menu" aria-expanded="false" data-target="navbarPartiuIngresso">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -12,27 +12,52 @@
 
     <div id="navbarPartiuIngresso" class="navbar-menu">
       <div class="navbar-end">
+        <% if signed_in? %>
+
+        <%= link_to nil, class: "navbar-item user" do %>
+        <span class="icon has-text-danger">
+          <i class="fas fa-ticket-alt"></i>
+        </span>
+        <span>Meus Ingressos</span>
+        <% end %>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link user">
+            <span class="icon">
+            <i class="fas fa-user"></i>
+            </span> 
+            <span><%= current_user.name.first %></span>
+          </a>
+
+
+          <div class="navbar-dropdown is-boxed">
+
+            <%= link_to edit_user_registration_path, class: "navbar-item" do %>
+            <span class="icon has-text-info">
+              <i class="far fa-file-alt"></i>
+            </span>
+            <span>Editar Perfil</span>
+            <% end %>
+
+            <%= link_to nil, class: "navbar-item" do %>
+            <span class="icon has-text-link">
+              <i class="fas fa-question-circle"></i>
+            </span>
+            <span>Precisa de Ajuda?</span>
+            <% end %>
+
+            <hr class="navbar-divider">
+            <%= link_to destroy_user_session_path, method: "delete", class: "navbar-item" do %>
+            <span class="icon">
+            <i class="fas fa-sign-out-alt"></i>
+            </span>
+            <span>Sair</span>
+            <% end %>
+          </div>
+        </div>
+        <% else %>
         <div class="navbar-item">
           <div class="buttons">
-            <% if signed_in? %>
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">
-                <%= current_user.name.first %>
-              </a>
-
-              <div class="navbar-dropdown">
-                <%= link_to "Profile", edit_user_registration_path, class: "navbar-item" %>
-                <a class="navbar-item">
-                  Minhas Vendas
-                </a>
-                <a class="navbar-item">
-                  Precisa de Ajuda?
-                </a>
-                <hr class="navbar-divider">
-                <%= link_to "Sign out", destroy_user_session_path, method: "delete", class: "navbar-item" %>
-              </div>
-            </div>
-            <% else %>
             <%= link_to "Cadastre-se", signup_path, class: "button is-primary" %>
             <%= link_to "Login", login_path, class: "button is-light" %>
             <% end %>

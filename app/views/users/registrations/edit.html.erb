@@ -1,43 +1,119 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<section class="section hero">
+  <div class="container hero-content">
+    <div class="columns is-centered">
+      <div class="column is-half has-text-centered">
+        <h1 class="title has-text-white is-size-3">Editar Perfil</h1>
+      </div>
+    </div>
   </div>
+</section>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+<section class="section content">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6">
+        <div class="card">
+          <div class="card-content">
+            <h1 class="title is-size-2">Olá, <%= current_user.name.first %></h1>
+            <p class="subtitle is-uppercase is-size-6 has-text-grey">USUÁRIO DESDE <%= l current_user.created_at, format: ("%B de %Y") %></p>
+            <hr />
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
+              <div class="field">
+                <label class="label">Nome completo</label>
+                <div class="control has-icons-left has-icons-right">
+                  <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "input", placeholder: "Seu nome" %>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left has-icons-right">
+                  <%= f.email_field :email, class: "input", autocomplete: "email" %>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">CPF</label>
+                <div class="control has-icons-left has-icons-right">
+                  <%= f.text_field :cpf, autocomplete: "cpf", class: "input", placeholder: "Número do CPF", :data=> {:mask=> '999.999.999-99'} %>
+                  <span class="icon is-small is-left">
+                    <i class="far fa-id-card"></i>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="field is-grouped">  
+                <div class="control">
+                  <label class="label is-normal">Sexo</label>
+                  <div class="select">
+                    <%= f.select(:gender, options_for_select([['Masculino'], ['Feminino']]), include_blank: true) %>
+                  </div>
+                </div>
+                <div class="control">
+                  <label class="label">Data de Nascimento</label>
+                  <div class="select">
+                    <%= date_select :user, :age, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="columns">
+                <div class="column is-half">
+                  <div class="field">
+                    <label class="label">Mudar Senha</label>
+                    <div class="control has-icons-left">
+                      <%= f.password_field :password, autocomplete: "new-password", class: "input", placeholder: "********" %>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                      </span>
+                    </div>
+                    <p class="help">Deixe em branco, caso não queira alterar sua senha</p>
+                  </div>
+                </div>
+                <div class="column is-half">
+                  <div class="field">
+                    <label class="label">Confirmar Nova Senha</label>
+                    <div class="control has-icons-left">
+                      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input", placeholder: "********" %>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Senha Atual</label>
+                <div class="control has-icons-left has-icons-right">
+                  <%= f.password_field :current_password, autocomplete: "current-password", class: "input", placeholder: "********" %>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </div>
+                <p class="help">Necessário para salvar as alterações</p>
+              </div>
+
+
+
+              <div class="control">
+                <%= f.button "Atualizar", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Aguarde..." }, class: "button is-primary is-medium" %>
+                <% end %>
+              </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+</section>
