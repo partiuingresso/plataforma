@@ -1,3 +1,3 @@
 <% flash.each do |key, value| %>
-  <script>bulmaToast.toast({ message: "<%= value %>", type: "is-<%= key %>", dismissible: true, duration: 4000, pauseOnHover: true, animate: { in: 'bounceInRight', out: 'bounceOutRight' } });</script>
+  <script>bulmaToast.toast({ message: "<%= value %>", type: "is-<%= key %>", dismissible: true, duration: 5000, pauseOnHover: true, position: "top-center", animate: { in: 'bounceInDown', out: 'bounceOutUp' } });</script>
 <% end %>
