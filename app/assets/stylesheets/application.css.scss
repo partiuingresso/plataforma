@@ -15,6 +15,13 @@
  */
 $red: #DB3F4B;
 $primary: $red;
+.is-notice {
+  @extend .is-success;
+}
+
+.is-alert {
+  @extend .is-danger;
+}
  @import "bulma";
 
  
