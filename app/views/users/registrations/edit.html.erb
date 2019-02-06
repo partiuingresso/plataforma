@@ -8,9 +8,39 @@
   </div>
 </section>
 
-<section class="section content">
+<section class="section painel">
   <div class="container">
     <div class="columns is-centered">
+        
+        <div class="column is-3">        
+            <aside class="menu">
+              <p class="menu-label">
+                Meu Perfil
+              </p>
+              <ul class="menu-list">
+                <li><a class="is-active">Editar Perfil</a></li>
+                <li><a>Meu Endereço</a></li>
+              </ul>
+              <p class="menu-label">
+                Transações
+              </p>
+              <ul class="menu-list">
+                <li><a>Meus Ingressos</a></li>
+                <li><a>Pedidos</a></li>
+                <li><a>Cartão de Crédito</a></li>
+              </ul>
+              <p class="menu-label">
+                Área do Produtor
+              </p>
+              <ul class="menu-list">
+                <li><a>Cadastrar Evento</a></li>
+                <li><a>Editar Empresa</a></li>
+                <li><a>Minhas Vendas</a></li>
+              </ul>
+            </aside>
+        </div>
+
+
       <div class="column is-6">
         <div class="card">
           <div class="card-content">
@@ -21,7 +51,7 @@
             <%= devise_error_messages! %>
 
               <div class="field">
-                <label class="label">Nome completo</label>
+                <label class="label">Nome Completo</label>
                 <div class="control has-icons-left has-icons-right">
                   <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "input", placeholder: "Seu nome" %>
                   <span class="icon is-small is-left">
