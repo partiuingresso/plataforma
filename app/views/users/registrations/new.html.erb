@@ -27,7 +27,10 @@
                   <i class="fas fa-user"></i>
                 </span>
               </div>
-              <span id="user_name_error" class="error" aria-alive="polite">O campo "Nome" é obrigatório.</span>
+              <div class="error-msg-area">
+                <span id="blank_name_error" class="error" aria-alive="polite">O campo "Nome" é obrigatório.</span>
+                <span id="invalid_name_error" class="error" aria-alive="polite">Digite nome e sobrenome.</span>
+              </div>
             </div>
 
             <div class="field">
@@ -38,19 +41,25 @@
                   <i class="fas fa-envelope"></i>
                 </span>
               </div>
-              <span id="user_email_error" class="error" aria-alive="polite">O campo "Email" é obrigatório.</span>
+              <div class="error-msg-area">
+                <span id="blank_email_error" class="error" aria-alive="polite">O campo "Email" é obrigatório.</span>
+                <span id="invalid_email_error" class="error" aria-alive="polite">Email inválido.</span>
+              </div>
             </div>
 
             <div class="field">
-              <label class="label">Senha</label>
+              <label class="label" style="display: inline;">Senha</label>
+              <p class="help" style="display: inline;">Mínimo de 8 caracteres</p>
               <div class="control has-icons-left has-icons-right">
                 <%= f.password_field :password, autocomplete: "new-password", class: "input", placeholder: "********" %>
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
               </div>
-              <p class="help">Mínimo de 8 caracteres</p>
-              <span id="user_password_error" class="error" aria-alive="polite">O campo "Senha" é obrigatório.</span>
+              <div class="error-msg-area">
+                <span id="blank_password_error" class="error" aria-alive="polite">O campo "Senha" é obrigatório.</span>
+                <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisar ter pelo menos 8 caracteres.</span>
+              </div>
             </div>
 
             <p class="help">Ao cadastrar-se, você concorda com a <%= link_to "política de privacidade", "#" %> e os <%= link_to "termos de uso", "#" %>.</p><br />

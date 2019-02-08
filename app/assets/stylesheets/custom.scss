@@ -80,12 +80,13 @@ body {
   margin-top: -30px;
 }
 
+.error-msg-area {
+  height: 12px;
+}
+
 .error {
-  margin-bottom: -0.4rem;
-  display: block;
-  visibility: hidden;
+  display: none;
   width: 100%;
-  padding: 0;
 
   font-size: 0.75rem;
   color: red;
@@ -95,5 +96,5 @@ body {
 }
 
 .error.active {
-  visibility: visible;
+  display: block;
 }
