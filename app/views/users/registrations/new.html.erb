@@ -3,7 +3,7 @@
 <%= render 'layouts/header_clean' %>
 <% end %>
 
-<%= javascript_include_tag params[:controller], defer: true %>
+<%= javascript_include_tag "users/registrations/new", defer: true %>
 
 <section class="section login">
   <div class="container">
@@ -58,7 +58,7 @@
               </div>
               <div class="error-msg-area">
                 <span id="blank_password_error" class="error" aria-alive="polite">O campo "Senha" é obrigatório.</span>
-                <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisar ter pelo menos 8 caracteres.</span>
+                <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisa ter pelo menos 8 caracteres.</span>
               </div>
             </div>
 
