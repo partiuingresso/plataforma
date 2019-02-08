@@ -227,3 +227,4 @@ pt-BR:
         password: "Senha"
         first_name: "Nome"
         last_name: "Sobrenome"
+        current_password: "Senha atual"
