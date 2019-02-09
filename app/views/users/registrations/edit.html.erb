@@ -38,7 +38,18 @@
       <div class="column is-6">
         <div class="card">
           <div class="card-content">
-            <h1 class="title is-size-2">Olá, <%= current_user.name.first %></h1>
+            <p class="title is-size-2">Olá, <%= current_user.name.first %></p>
+            <% if current_user.producer? %>
+              <span class="tag is-success">Equipe</span>
+            <% end %>
+
+            <% if current_user.producer_admin? %>
+              <span class="tag is-success">Gerente</span>
+            <% end %>
+
+            <% if current_user.admin? %>
+              <span class="tag is-warning">Admin</span>
+            <% end %>
             <p class="subtitle is-uppercase is-size-6 has-text-grey">USUÁRIO DESDE <%= l current_user.created_at, format: ("%B de %Y") %></p>
             <hr />
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>

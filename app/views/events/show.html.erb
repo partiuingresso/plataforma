@@ -7,3 +7,16 @@
     </div>
   </div>
 </section>
+
+
+<section class="section teste">
+  <div class="container">
+    <% if current_user.admin? %>
+      <p>Admins conseguem ver</p>
+    <% end %>
+    <p>Users conseguem ver</p>
+    <p>Produtores Admins conseguem ver</p>
+    <p>Produtores Staffs conseguem ver</p>
+    <p>Guests conseguem ver</p>
+  </div>
+</section>

@@ -11,6 +11,8 @@ gem 'pg'
 gem 'devise'
 # Handle user names
 gem 'name_of_person'
+# Authorization
+gem 'cancancan', '~> 2.0'
 # Use bulma CSS framework
 gem "bulma-rails", "~> 0.7.2"
 # Use Puma as the app server
