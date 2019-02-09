@@ -1,0 +1,72 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section painel">
+  <div class="container">
+    <div class="columns is-centered">
+        
+        <div class="column is-3">        
+            <aside class="menu">
+              <p class="menu-label">
+                Empresas
+              </p>
+              <ul class="menu-list">
+                <li><%= link_to "Lista de Empresas", backoficce_path %></li>
+                <li><a class="is-active">Criar Empresa</a></li>
+              </ul>
+              <p class="menu-label">
+                Backend
+              </p>
+              <ul class="menu-list">
+                <li><a>Administrate</a></li>
+                <li><a>Sidekiq</a></li>
+                <li><a>Mascarade</a></li>
+              </ul>
+            </aside>
+        </div>
+
+
+      <div class="column is-6">
+        <div class="card">
+          <div class="card-content">
+            <p class="title is-size-2">Cadastrar Nova Empresa</p>
+
+              <%= form_with(model: @company, local: true) do |f| %>
+                <% if @company.errors.any? %>
+                  <article class="message signup is-danger">
+                    <div class="message-body">
+                      <h2><%= pluralize(product.errors.count, "erro") %> impediu que esta empresa fosse criada:</h2>
+                      <ul>
+                      <% product.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+                  </article>
+                <% end %>
+
+
+                <div class="field">
+                  <label class="label">Nome da Empresa</label>
+                  <div class="control has-icons-left has-icons-right">
+                    <%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome Fantasia" %>
+                    <span class="icon is-small is-left">
+                      <i class="far fa-building"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="control">
+                  <%= f.button "Cadastrar", class: "button is-primary is-medium", data: { "disable-with": "<i class='fa fa-spinner fa-spin'></i> Aguarde..." } %>
+                </div>
+              <% end %>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

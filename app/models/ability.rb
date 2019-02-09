@@ -5,6 +5,14 @@ class Ability
 
     user ||= User.new(role: "guest")
 
+    if user.admin?
+        can :manage, Company
+    end
+
+    if user.producer_admin?
+        can :edit, Company
+    end
+
     
     # Define abilities for the passed in user here. For example:
     #

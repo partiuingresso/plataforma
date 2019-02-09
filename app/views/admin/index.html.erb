@@ -1,0 +1,70 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section painel">
+  <div class="container">
+    <div class="columns is-centered">
+        
+        <div class="column is-3">        
+            <aside class="menu">
+              <p class="menu-label">
+                Empresas
+              </p>
+              <ul class="menu-list">
+                <li><a class="is-active">Lista de Empresas</a></li>
+                <li><%= link_to "Criar Empresa", new_company_path %></li>
+              </ul>
+              <p class="menu-label">
+                Backend
+              </p>
+              <ul class="menu-list">
+                <li><a>Administrate</a></li>
+                <li><a>Sidekiq</a></li>
+                <li><a>Mascarade</a></li>
+              </ul>
+            </aside>
+        </div>
+
+
+      <div class="column is-6">
+        <div class="card">
+          <div class="card-content">
+            <p class="title is-size-2">Empresas Cadastradas</p>
+
+            <div class="columns">
+              <div class="column is-1">
+                <strong>ID</strong>
+              </div>
+              <div class="column is-11">
+                <strong>Nome</strong>
+              </div>
+            </div>
+
+            <div class="columns is-multiline">
+              <% @companies.each do |company| %>
+                <div class="column is-1">
+                  <%= company.id %>
+                </div>
+
+                <div class="column is-6">
+                  <%= company.name %>
+                </div>
+
+                <div class="column is-5">
+                   <%= link_to 'Editar', edit_company_path(company), class: "button is-link is-small" %>
+                </div>
+
+              <% end %>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
