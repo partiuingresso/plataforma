@@ -12,7 +12,7 @@
         <div class="column is-3">        
             <aside class="menu">
               <p class="menu-label">
-                Meu Perfil
+                Minha Conta
               </p>
               <ul class="menu-list">
                 <li><a class="is-active">Editar Perfil</a></li>
@@ -25,14 +25,6 @@
                 <li><a>Pedidos</a></li>
                 <li><a>Cartão de Crédito</a></li>
               </ul>
-              <p class="menu-label">
-                Área do Produtor
-              </p>
-              <ul class="menu-list">
-                <li><a>Cadastrar Evento</a></li>
-                <li><a>Editar Empresa</a></li>
-                <li><a>Minhas Vendas</a></li>
-              </ul>
             </aside>
         </div>
 
@@ -40,18 +32,19 @@
       <div class="column is-6">
         <div class="card">
           <div class="card-content">
-            <p class="title is-size-2">Olá, <%= current_user.name.first %></p>
+            <p class="title is-size-2">Olá, <%= current_user.name.first %>
             <% if current_user.producer? %>
               <span class="tag is-success">Equipe</span>
             <% end %>
 
             <% if current_user.producer_admin? %>
-              <span class="tag is-success">Gerente</span>
+              <span class="tag is-info">Gerente</span>
             <% end %>
 
             <% if current_user.admin? %>
               <span class="tag is-warning">Admin</span>
             <% end %>
+            </p>
             <p class="subtitle is-uppercase is-size-6 has-text-grey">USUÁRIO DESDE <%= l current_user.created_at, format: ("%B de %Y") %></p>
             <hr />
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
