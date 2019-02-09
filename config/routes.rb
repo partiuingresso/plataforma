@@ -15,5 +15,5 @@ Rails.application.routes.draw do
 
   resources :events
   resources :companies
-  root to: 'events#show'
+  root to: 'events#index'
 end
