@@ -15,5 +15,9 @@ Rails.application.routes.draw do
 
   resources :events
   resources :companies
+
+  get '/backoficce', to: 'admin#index'
+  get '/backstage', to: 'companies#show'
+
   root to: 'events#show'
 end
