@@ -13,4 +13,7 @@
 //= require rails-ujs
 //= require activestorage
 //= require_tree .
-//= stub users/registrations
+//= stub users/registrations/new
+//= stub users/registrations/edit
+//= stub utils/validation
+//= stub utils/input_mask
