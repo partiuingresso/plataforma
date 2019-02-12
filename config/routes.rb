@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   resources :events
   resources :companies
   
-  root to: 'events#index'
+  root to: 'home#index'
 end
