@@ -14,6 +14,10 @@
       <div class="navbar-end">
         <% if signed_in? %>
 
+        <%= link_to new_event_path, class: "navbar-item user" do %>
+        <span>Criar evento</span>
+        <% end %>
+
         <%= link_to nil, class: "navbar-item user" do %>
         <span class="icon has-text-danger">
           <i class="fas fa-ticket-alt"></i>
