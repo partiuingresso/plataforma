@@ -12,12 +12,13 @@ class Ability
     end
 
     if user.producer_admin?
-        can :edit, Company, company_id: user.company_id
+        can :producer_admin, :admin
+        can :manage, Company, id: user.company_id
+        can :manage, Event, company_id: user.company_id
     end
 
-    if user.producer_admin? || user.producer?
-        can :manage, Event, company_id: user.company_id
-        can :producer_admin, :admin
+    if user.producer?
+        can :read, Event, company_id: user.company_id
     end
 
     
