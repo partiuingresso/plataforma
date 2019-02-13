@@ -16,7 +16,6 @@ class Ability
     end
 
     if user.producer_admin? || user.producer?
-        can :read, Event, company_id: user.company_id
         can :manage, Event, company_id: user.company_id
         can :producer_admin, :admin
     end
