@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_170641) do
+ActiveRecord::Schema.define(version: 2019_02_12_235025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 2019_02_10_170641) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_url"
+    t.bigint "company_id", null: false
+    t.index ["company_id"], name: "index_events_on_company_id"
     t.index ["event_venue_id"], name: "index_events_on_event_venue_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
@@ -184,6 +186,7 @@ ActiveRecord::Schema.define(version: 2019_02_10_170641) do
 
   add_foreign_key "company_finances", "companies"
   add_foreign_key "credit_cards", "users"
+  add_foreign_key "events", "companies"
   add_foreign_key "events", "event_venues"
   add_foreign_key "events", "users"
   add_foreign_key "offers", "events"
