@@ -1,0 +1,31 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section painel">
+  <div class="container">
+    <div class="columns is-centered">
+        
+        <div class="column is-3">        
+          <%= render 'admin/producer_admin_menu' %>
+        </div>
+
+
+      <div class="column is-6">
+        <div class="card">
+          <div class="card-content">
+            <p class="title is-size-2">Dashboard</p>
+            <p class="subtitle">Usuário: <%= current_user.name.first %></p>
+            <p class="subtitle">Função: <%= current_user.role.to_s %></p>
+            <p class="subtitle">Empresa: <%= current_user.company.name %></p>
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
