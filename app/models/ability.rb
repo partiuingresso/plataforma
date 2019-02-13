@@ -7,8 +7,16 @@ class Ability
 
     if user.admin?
         can :manage, Company
-    elsif user.producer_admin?
-        can :manage, Company, company_id: company_id
+        can :manage, Event
+    end
+
+    if user.producer_admin?
+        can :edit, Company
+    end
+
+    if user.producer_admin? || user.producer?
+        can :read, Event, company_id: user.company_id
+        can :manage, Event, company_id: user.company_id
     end
 
     

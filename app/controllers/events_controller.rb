@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
+	load_and_authorize_resource
+
 	def index
-		@events = Event.where(company: current_user.company)
 	end
 end
