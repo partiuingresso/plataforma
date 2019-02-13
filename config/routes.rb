@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :events
   resources :companies
+  get '/companies/remove_staff/:user_id', to: 'companies#remove_staff'
   
   root to: 'home#index'
 end

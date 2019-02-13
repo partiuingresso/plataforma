@@ -11,6 +11,8 @@ load_and_authorize_resource
   end
 
   def edit
+    @staff = User.where(company_id: current_user.company)
+    @user = User.new
   end
 
   def create
@@ -26,9 +28,17 @@ load_and_authorize_resource
   end
 
   def update
+    @user = User.find_by(email: params[:email])
+
+    if params[:email].present? && @user.nil?
+      redirect_to backstage_path, alert: 'Usuário não encontrado' and return
+    elsif params[:email].present?
+      @user.update(role: update_params[:role].to_i, company_id: @company.id)
+    end
+
     respond_to do |format|
       if @company.update(company_params)
-        format.html { redirect_to @company, notice: 'Empresa atualizada com sucesso.' }
+        format.html { redirect_to backstage_path, notice: 'Empresa atualizada com sucesso.' }
         format.json { render :show, status: :ok, location: @company }
       else
         format.html { render :edit }
@@ -37,10 +47,23 @@ load_and_authorize_resource
     end
   end
 
+  def remove_staff
+    @user = User.find(params[:user_id])
+    if @user.update(role: 0, company_id: nil)
+      redirect_to backstage_path, notice: 'Usuário apagado'
+    else
+      redirect_to backstage_path, alert: 'Erro'
+    end
+  end
+
 private
 
   def company_params
     params.require(:company).permit(:name)
+  end
+
+  def update_params
+    params.require(:user).permit(:email, :role)
   end
 
 end
