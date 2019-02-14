@@ -11,7 +11,7 @@ load_and_authorize_resource
   end
 
   def edit
-    @staff = User.where(company_id: current_user.company)
+    @staff = User.where(company_id: @company.id)
     @user = User.new
   end
 
@@ -38,7 +38,8 @@ load_and_authorize_resource
 
     respond_to do |format|
       if @company.update(company_params)
-        format.html { redirect_to backstage_path, notice: 'Empresa atualizada com sucesso.' }
+        format.html { redirect_to backstage_path, notice: 'Empresa atualizada com sucesso.' } if current_user.producer_admin?
+        format.html { redirect_to backoffice_path, notice: 'Empresa atualizada com sucesso.' } if current_user.admin?
         format.json { render :show, status: :ok, location: @company }
       else
         format.html { render :edit }
@@ -50,7 +51,8 @@ load_and_authorize_resource
   def remove_staff
     @user = User.find(params[:user_id])
     if @user.update(role: 0, company_id: nil)
-      redirect_to backstage_path, notice: 'Usuário removido'
+      redirect_to backoffice_path, notice: 'Usuário removido' if current_user.admin?
+      redirect_to backstage_path, notice: 'Usuário removido' if current_user.producer_admin?
     else
       redirect_to backstage_path, alert: 'Erro'
     end

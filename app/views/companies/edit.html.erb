@@ -20,9 +20,9 @@
           <% if @company.errors.any? %>
             <article class="message signup is-danger">
               <div class="message-body">
-                <h2><%= pluralize(product.errors.count, "erro") %> impediu que esta empresa fosse criada:</h2>
+                <h2><%= pluralize(company.errors.count, "erro") %> impediu que esta empresa fosse criada:</h2>
                 <ul>
-                <% product.errors.full_messages.each do |message| %>
+                <% company.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
                 </ul>
@@ -65,7 +65,7 @@
                       <label class="label">Função</label>
                       <div class="select">
                         <%= fields_for @user.role do |e| %>
-                          <%= e.select :role, options_for_select([['Equipe', 1], ['Gerente', 2]]), include_blank: true %>
+                          <%= e.select :role, options_for_select([['Equipe', 1], ['Gerente', 2]]) %>
                         <% end %>   
                       </div>
                     </div>
@@ -83,16 +83,16 @@
           <div class="tile is-parent">
             <div class="tile is-child box">
               <label class="label is-size-5">Minha Equipe</label>
-              <ul class="content">
+              <ul class="content is-small is-uppercase">
                 <% @staff.each do |s| %>
                   <li> 
                     <% if s.producer_admin? %>
-                      <span class="has-text-grey content is-small">GERENTE</span>
+                      <span class="has-text-grey content is-small">Gerente</span>
                     <% end %>
-                    <% if s.admin? %>
-                      <span class="has-text-grey content is-small">EQUIPE</span>
+                    <% if s.producer? %>
+                      <span class="has-text-grey content is-small">Equipe</span>
                     <% end %>
-                    <%= s.name.full %>
+                    <strong><%= s.name.full %></strong>
                     <% if s.id != current_user.id %>
                       <%= link_to remove_staff_path(:user_id => s.id), data: { confirm: "Deseja remover este usuário?" } do %>
                         <span class="icon is-small has-text-danger">
