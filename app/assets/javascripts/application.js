@@ -17,3 +17,4 @@
 //= stub users/registrations/edit
 //= stub utils/validation
 //= stub utils/input_mask
+//= stub events

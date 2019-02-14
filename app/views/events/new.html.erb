@@ -1,0 +1,124 @@
+<%= javascript_include_tag params[:controller], defer: true %>
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+<section class="section">
+	<div class="container">
+		<div class="columns is-centered">
+			<div class="column is-3">
+				<%= render 'admin/producer_admin_menu' %>
+			</div>
+			<div class="column is-6">
+				<div class="card">
+					<div class="card-content">
+			            <p class="title is-size-2">Criar Evento</p>
+						<%= form_with scope: :event, url: events_path, local: true do |f|%>	
+							<label class="label">Nome do evento</label>
+							<div class="control has-icons-right">
+								<%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome do evento" %>
+								<span class="icon is-right has-text-danger">
+									<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+								</span>
+							</div>
+							<div class="field control has-icons-right">
+								<div class="file is-info has-name">
+									<label class="file-label">
+										<%= f.file_field :image, class: "file-input" %>
+										<span class="file-cta">
+											<span class="file-icon">
+												<i class="fas fa-upload"></i>
+											</span>
+											<span class="file-label">
+												Imagem	
+											</span>
+										</span>
+										<span id="filename" class="file-name" style="min-width: 300px;"></span>
+										<span class="icon is-right has-text-danger">
+											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+										</span>
+									</label>
+								</div>
+							</div>
+							<label class="label">Quando</label>
+							<label class="label">Data de Início</label>
+							<div class="control has-icons-right">
+								<%= f.date_field :start_t, class: "input" %>
+								<span class="icon is-right has-text-danger">
+									<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+								</span>
+							</div>
+							<label class="label">Data de Término</label>
+							<div class="control">
+								<%= f.date_field :end_t, class: "input" %>
+							</div>
+							<label class="label">Onde</label>
+							<%= fields_for @event_venue do |venue_f| %>
+								<label class="label">Nome</label>
+								<div class="control has-icons-right">
+									<%= venue_f.text_field :name, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Endereço</label>
+								<div class="control has-icons-right">
+									<%= venue_f.text_field :address, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Número</label>
+								<div class="control has-icons-right">
+									<%= venue_f.number_field :number, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Complemento</label>
+								<div class="control">
+									<%= venue_f.text_field :complement, class: "input" %>
+								</div>
+								<label class="label">Bairro</label>
+								<div class="control has-icons-right">
+									<%= venue_f.text_field :neighborhood, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Cidade</label>
+								<div class="control has-icons-right">
+									<%= venue_f.text_field :city, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Estado</label>
+								<div class="control has-icons-right">
+									<%= venue_f.text_field :state, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">CEP</label>
+								<div class="control has-icons-right">
+									<%= venue_f.text_field :zipcode, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+							<% end %>
+							<label class="label">Descrição</label>
+							<div class="control">
+								<%= f.text_area :description, class: "textarea" %>
+							</div>
+							<div class="control">
+				                <%= f.button "Criar", class: "button is-primary is-medium" %>
+				            </div>
+						<% end %>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
