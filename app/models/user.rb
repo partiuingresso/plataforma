@@ -18,12 +18,6 @@ class User < ApplicationRecord
   enum role: [:user, :producer, :producer_admin, :admin]
   after_initialize :set_default_role, :if => :new_record?
 
-
-  def timeout_in
-   return 1.minute if admin?
-   1.days
-  end
-
   def set_default_role
     self.role ||= :user
   end
