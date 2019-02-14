@@ -12,42 +12,54 @@
         </div>
 
 
-      <div class="column is-6">
-        <div class="card">
-          <div class="card-content">
-            <p class="title is-size-2">Empresas Cadastradas</p>
+      <div class="column is-8">
+        <p class="title is-size-2">Dashboard</p>
 
-            <div class="columns">
-              <div class="column is-1">
-                <strong>ID</strong>
-              </div>
-              <div class="column is-11">
-                <strong>Nome</strong>
-              </div>
-            </div>
 
-            <div class="columns is-multiline">
-              <% @companies.each do |company| %>
+        <div class="tile is-ancestor">
+          <div class="tile is-8 is-vertical is-parent">
+            <div class="tile box is-child">
+
+              <label class="label is-size-5">Empresas Cadastradas</label>
+
+              <div class="columns">
                 <div class="column is-1">
-                  <%= company.id %>
+                  <strong>ID</strong>
                 </div>
-
-                <div class="column is-6">
-                  <%= company.name %>
+                <div class="column is-11">
+                  <strong>Nome</strong>
                 </div>
+              </div>
 
-                <div class="column is-5">
-                   <%= link_to 'Editar', edit_company_path(company), class: "button is-link is-small" %>
-                </div>
+              <div class="columns is-multiline">
+                <% @companies.each do |company| %>
+                  <div class="column is-1">
+                    <%= company.id %>
+                  </div>
 
-              <% end %>
+                  <div class="column is-6">
+                    <%= company.name %>
+                  </div>
+
+                  <div class="column is-5">
+                     <%= link_to 'Editar', edit_company_path(company), class: "button is-link is-small" %>
+                  </div>
+
+                <% end %>
+              </div>
+            </div>            
+          </div>
+          <div class="tile is-parent">
+            <div class="tile is-child box">
+              <label class="label is-size-5">Resumo</label>
+              <div class="content is-small">
+                <p>Período:</p>
+                <p>Ingressos vendidos:</p>
+                <p>Faturamento:</p>
+              </div>
             </div>
-
-
-
           </div>
         </div>
-
       </div>
     </div>
   </div>

@@ -30,7 +30,7 @@ load_and_authorize_resource
   def update
     @user = User.find_by(email: params[:email])
 
-    if params[:email].present? && @user.nil?
+    if params[:email].present? && update_params[:role].nil? && @user.nil?
       redirect_to backstage_path, alert: 'Usuário não encontrado' and return
     elsif params[:email].present?
       @user.update(role: update_params[:role].to_i, company_id: @company.id)
@@ -50,7 +50,7 @@ load_and_authorize_resource
   def remove_staff
     @user = User.find(params[:user_id])
     if @user.update(role: 0, company_id: nil)
-      redirect_to backstage_path, notice: 'Usuário apagado'
+      redirect_to backstage_path, notice: 'Usuário removido'
     else
       redirect_to backstage_path, alert: 'Erro'
     end
