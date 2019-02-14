@@ -13,7 +13,7 @@
 				<div class="card">
 					<div class="card-content">
 			            <p class="title is-size-2">Criar Evento</p>
-						<%= form_with scope: :event, url: events_path, local: true do |f|%>	
+						<%= form_for @event do |f|%>
 							<label class="label">Nome do evento</label>
 							<div class="control has-icons-right">
 								<%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome do evento" %>
@@ -53,7 +53,7 @@
 								<%= f.date_field :end_t, class: "input" %>
 							</div>
 							<label class="label">Onde</label>
-							<%= fields_for :event_venue do |venue_f| %>
+							<%= f.fields_for :event_venue do |venue_f| %>
 								<label class="label">Nome</label>
 								<div class="control has-icons-right">
 									<%= venue_f.text_field :name, class: "input" %>

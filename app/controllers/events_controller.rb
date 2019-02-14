@@ -5,12 +5,13 @@ class EventsController < ApplicationController
 	end
 
 	def new
+		@event.build_event_venue
 	end
 
 	def create
-		puts event_params
+		@event = Event.new(event_params)
 		set_user_and_company
-		if @event.create(event_params)
+		if @event.save
 			redirect_to events_path
 		else
 			redirect_back(fallback_location: new_event_path)
