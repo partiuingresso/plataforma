@@ -1,3 +1,4 @@
 <% flash.each do |key, value| %>
+<% next unless value.is_a? String %>
   <script>bulmaToast.toast({ message: "<%= value %>", type: "is-<%= key %>", dismissible: true, duration: 10000, pauseOnHover: true, animate: { in: 'bounceInRight', out: 'bounceOutRight' } });</script>
 <% end %>
