@@ -16,7 +16,7 @@ class Offer < ApplicationRecord
 	private
 
 		def available_quantity_cannot_be_greater_than_quantity
-			if available_quantity > quantity
+			if quantity.present? && available_quantity.present? && available_quantity > quantity
 				errors.add(:available_quantity, "can't be greater than quantity")
 			end
 		end
