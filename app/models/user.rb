@@ -21,4 +21,11 @@ class User < ApplicationRecord
   def set_default_role
     self.role ||= :user
   end
+
+  # Timeout for dev
+  def timeout_in
+   return 1.year if admin?
+   1.days
+  end
+
 end
