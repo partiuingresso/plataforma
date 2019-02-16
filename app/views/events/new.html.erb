@@ -4,16 +4,34 @@
   </div>
 </section>
 <section class="section">
-	<div class="container">
+	<div class="container">		
 		<div class="columns is-centered">
+
 			<div class="column is-3">
 				<%= render 'admin/producer_admin_menu' %>
 			</div>
-			<div class="column is-6">
-				<div class="card">
-					<div class="card-content">
-			            <p class="title is-size-2">Criar Evento</p>
-						<%= form_for @event do |f|%>
+
+			<div class="column is-8">
+				<p class="title is-size-2">Criar Evento</p>
+				<%= form_for @event do |f|%>
+	       
+	      <% if @event.errors.any? %>
+        <article class="message is-danger">
+          <div class="message-body">
+            <h2><%= pluralize(event.errors.count, "erro") %>:</h2>
+            <ul>          	
+              <% event.errors.full_messages.each do |message| %>
+              	<li><%= message %></li>
+	          	<% end %>
+            </ul>
+          </div>
+        </article>
+        <% end %>
+
+
+				<div class="tile is-ancestor">
+					<div class="tile is-vertical is-7 is-parent">
+						<div class="tile is-child box">
 							<label class="label">Nome do evento</label>
 							<div class="control has-icons-right">
 								<%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome do evento" %>
@@ -21,186 +39,239 @@
 									<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 								</span>
 							</div>
-							<div class="field control has-icons-right">
-								<div class="file is-info has-name">
-									<label class="file-label">
-										<%= f.file_field :image, class: "file-input" %>
-										<span class="file-cta">
-											<span class="file-icon">
-												<i class="fas fa-upload"></i>
-											</span>
-											<span class="file-label">
-												Imagem	
-											</span>
-										</span>
-										<span id="filename" class="file-name" style="min-width: 300px;"></span>
+						</div>
+					</div>
+
+					<div class="tile is-parent is-3">
+						<div class="tile is-child box">
+							<label class="label">Imagem</label>
+	            <div class="field control has-icons-right">
+	              <div class="file is-info has-name" style="display: block;">
+	                <label class="file-label">
+	                  <%= f.file_field :image, class: "file-input" %>
+	                  <span class="file-cta">
+	                    <span class="file-icon">
+	                      <i class="fas fa-upload"></i>
+	                    </span>
+	                    <span class="file-label">
+	                      Selecione...  
+	                    </span>
+	                  </span>
+	                  <span id="filename" class="file-name" style="width:11rem"></span>
+	                  <span class="icon is-right has-text-danger">
+	                    <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+	                  </span>
+	                </label>
+	              </div>
+	            </div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tile is-ancestor">
+					<div class="tile is-parent is-vertical is-12">
+						<div class="tile is-child box">
+							<div class="columns">
+								<div class="column">
+									<label class="label">Data de Início</label>
+									<div class="control has-icons-right">
+										<%= f.datetime_local_field :start_t, class: "input" %>
 										<span class="icon is-right has-text-danger">
 											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 										</span>
-									</label>
+									</div>
+								</div>
+								<div class="column">
+									<label class="label">Data de Término</label>
+									<div class="control">
+										<%= f.datetime_local_field :end_t, class: "input" %>
+									</div>
 								</div>
 							</div>
-							<label class="label">Quando</label>
-							<label class="label">Data de Início</label>
-							<div class="control has-icons-right">
-								<%= f.date_field :start_t, class: "input" %>
-								<span class="icon is-right has-text-danger">
-									<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-								</span>
-							</div>
-							<label class="label">Data de Término</label>
-							<div class="control">
-								<%= f.date_field :end_t, class: "input" %>
-							</div>
-							<label class="label">Onde</label>
-							<%= f.fields_for :event_venue do |venue_f| %>
-								<label class="label">Nome</label>
-								<div class="control has-icons-right">
-									<%= venue_f.text_field :name, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-								<label class="label">Endereço</label>
-								<div class="control has-icons-right">
-									<%= venue_f.text_field :address, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-								<label class="label">Número</label>
-								<div class="control has-icons-right">
-									<%= venue_f.number_field :number, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-								<label class="label">Complemento</label>
-								<div class="control">
-									<%= venue_f.text_field :complement, class: "input" %>
-								</div>
-								<label class="label">Bairro</label>
-								<div class="control has-icons-right">
-									<%= venue_f.text_field :neighborhood, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-								<label class="label">Cidade</label>
-								<div class="control has-icons-right">
-									<%= venue_f.text_field :city, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-								<label class="label">Estado</label>
-								<div class="control has-icons-right">
-									<%= venue_f.text_field :state, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-								<label class="label">CEP</label>
-								<div class="control has-icons-right">
-									<%= venue_f.text_field :zipcode, class: "input" %>
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-								</div>
-							<% end %>
+						</div>
+						<div class="tile is-child box">
 							<label class="label">Descrição</label>
 							<div class="control">
 								<%= f.text_area :description, class: "textarea" %>
 							</div>
-							<div id="new-offer-modal" class="modal">
-								<div class="modal-background"></div>
-								<div class="modal-content">
-									<div class="modal-card">
-										<header class="modal-card-head">
-											<p class="modal-card-title">Criar Ingressos</p>
-											<a class="delete" aria-label="close"></a>
-										</header>
-										<section class="modal-card-body">
-											<%= f.fields_for :offers do |offer_f| %>
-												<div class="offers">
-													<div class="offer-fields">
-														<label class="label">Nome</label>
-														<div class="control has-icons-right">
-															<%= offer_f.text_field :name, class: "input name-input" %>
-															<span class="icon is-right has-text-danger">
-																<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-															</span>
-														</div>
-														<label class="label">Descrição</label>
-														<div class="control">
-															<%= offer_f.text_area :description, class: "textarea" %>
-														</div>
-														<label class="label">Preço</label>
-														<div class="control has-icons-right">
-															<%= offer_f.text_field :price, class: "input price-input" %>
-															<span class="icon is-right has-text-danger">
-																<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-															</span>
-														</div>
-														<label class="label">Quantidade</label>
-														<div class="control has-icons-right">
-															<%= offer_f.number_field :quantity, class: "input quantity-input" %>
-															<span class="icon is-right has-text-danger">
-																<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-															</span>
-														</div>
-														<label class="label">Data de Início</label>
-														<div class="control has-icons-right">
-															<%= offer_f.date_field :start_t, class: "input" %>
-															<span class="icon is-right has-text-danger">
-																<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-															</span>
-														</div>
-														<label class="label">Data de Término</label>
-														<div class="control">
-															<%= offer_f.date_field :end_t, class: "input" %>
-														</div>
-													</div>
-												</div>
-											<% end %>
-										</section>
-										<footer class="modal-card-foot">
-											<a id="create-offer-button" class="button is-success">Criar Ingresso</a>
-											<a id="cancel-button" class="button">Cancelar</a>
-										</footer>
+						</div>
+					</div>
+				</div>
+
+				<p class="title is-size-3">Local do Evento</p>
+
+				<div class="tile is-ancestor">
+					<div class="tile is-parent is-vertical">
+						<div class="tile is-child box">
+							<%= f.fields_for :event_venue do |venue_f| %>
+								<div class="field">
+									<label class="label">Nome</label>
+									<div class="control has-icons-right">
+										<%= venue_f.text_field :name, class: "input" %>
+										<span class="icon is-right has-text-danger">
+											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+										</span>
 									</div>
 								</div>
-							</div>
-							<div class="hidden-fields"></div>
-							<a id="offer-button" class="button is-light is-medium">Criar Ingresso</a>
-							<table id="offers-table" class="table is-fullwidth">
-								<thead>
-									<th>Nome</th>
-									<th>Quantidade</th>
-									<th>Preço</th>
-									<th></th>
-								</thead>
-								<tbody>
-									<tr class="prototype-row">
-										<td class="name-cell"></td>
-										<td class="quantity-cell"></td>
-										<td class="price-cell"></td>
-										<td>
-											<a href="#">
-										        <span class="icon">
-											        <i class="fas fa-edit"></i>
-											    </span>
-											</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="control">
-				                <%= f.button "Criar", class: "button is-primary is-medium" %>
-				            </div>
-						<% end %>
-					</div>	
+
+								<div class="columns is-multiline" style="margin-top: unset;">
+									<div class="column is-6">
+										<label class="label">Endereço</label>
+										<div class="control has-icons-right">
+											<%= venue_f.text_field :address, class: "input" %>
+											<span class="icon is-right has-text-danger">
+												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+											</span>
+										</div>
+									</div>
+									<div class="column is-3">
+										<label class="label">Número</label>
+										<div class="control has-icons-right">
+											<%= venue_f.number_field :number, class: "input" %>
+											<span class="icon is-right has-text-danger">
+												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+											</span>
+										</div>
+									</div>
+									<div class="column is-3">
+										<label class="label">Complemento</label>
+										<div class="control">
+											<%= venue_f.text_field :complement, class: "input" %>
+										</div>
+									</div>
+
+									<div class="column is-3">
+										<label class="label">Bairro</label>
+										<div class="control has-icons-right">
+											<%= venue_f.text_field :neighborhood, class: "input" %>
+											<span class="icon is-right has-text-danger">
+												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+											</span>
+										</div>
+									</div>
+									<div class="column is-3">
+										<label class="label">Cidade</label>
+										<div class="control has-icons-right">
+											<%= venue_f.text_field :city, class: "input" %>
+											<span class="icon is-right has-text-danger">
+												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+											</span>
+										</div>
+									</div>
+									<div class="column is-3">
+										<label class="label">Estado</label>
+										<div class="control has-icons-right">
+											<%= venue_f.text_field :state, class: "input" %>
+											<span class="icon is-right has-text-danger">
+												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+											</span>
+										</div>
+									</div>
+									<div class="column is-3">
+										<label class="label">CEP</label>
+										<div class="control has-icons-right">
+											<%= venue_f.text_field :zipcode, class: "input" %>
+											<span class="icon is-right has-text-danger">
+												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+											</span>
+										</div>										
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
 				</div>
+					
+
+				<div id="new-offer-modal" class="modal">
+					<div class="modal-background"></div>
+					<div class="modal-content">
+						<div class="modal-card">
+							<header class="modal-card-head">
+								<p class="modal-card-title">Criar Ingressos</p>
+								<a class="delete" aria-label="close"></a>
+							</header>
+							<section class="modal-card-body">
+								<%= f.fields_for :offers do |offer_f| %>
+									<div class="offers">
+										<div class="offer-fields">
+											<label class="label">Nome</label>
+											<div class="control has-icons-right">
+												<%= offer_f.text_field :name, class: "input name-input" %>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+											</div>
+											<label class="label">Descrição</label>
+											<div class="control">
+												<%= offer_f.text_area :description, class: "textarea" %>
+											</div>
+											<label class="label">Preço</label>
+											<div class="control has-icons-right">
+												<%= offer_f.text_field :price, class: "input price-input" %>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+											</div>
+											<label class="label">Quantidade</label>
+											<div class="control has-icons-right">
+												<%= offer_f.number_field :quantity, class: "input quantity-input" %>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+											</div>
+											<label class="label">Data de Início</label>
+											<div class="control has-icons-right">
+												<%= offer_f.date_field :start_t, class: "input" %>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+											</div>
+											<label class="label">Data de Término</label>
+											<div class="control">
+												<%= offer_f.date_field :end_t, class: "input" %>
+											</div>
+										</div>
+									</div>
+								<% end %>
+							</section>
+							<footer class="modal-card-foot">
+								<a id="create-offer-button" class="button is-success">Criar Ingresso</a>
+								<a id="cancel-button" class="button">Cancelar</a>
+							</footer>
+						</div>
+					</div>
+				</div>
+
+				<div class="hidden-fields"></div>
+				<a id="offer-button" class="button is-light is-medium">Criar Ingresso</a>
+				<table id="offers-table" class="table is-fullwidth">
+					<thead>
+						<th>Nome</th>
+						<th>Quantidade</th>
+						<th>Preço</th>
+						<th></th>
+					</thead>
+					<tbody>
+						<tr class="prototype-row">
+							<td class="name-cell"></td>
+							<td class="quantity-cell"></td>
+							<td class="price-cell"></td>
+							<td>
+								<a href="#">
+							        <span class="icon">
+								        <i class="fas fa-edit"></i>
+								    </span>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="control">
+          <%= f.button "Criar", class: "button is-primary is-medium" %>
+	      </div>
+					<% end %>
+
 			</div>
 		</div>
 	</div>
