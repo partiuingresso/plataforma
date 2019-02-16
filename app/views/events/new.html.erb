@@ -112,6 +112,45 @@
 							<div class="control">
 								<%= f.text_area :description, class: "textarea" %>
 							</div>
+							<label class="label">Oferta</label>
+							<%= f.fields_for :offers do |offer_f| %>
+								<label class="label">Nome</label>
+								<div class="control has-icons-right">
+									<%= offer_f.text_field :name, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Descrição</label>
+								<div class="control">
+									<%= offer_f.text_area :description, class: "textarea" %>
+								</div>
+								<label class="label">Preço</label>
+								<div class="control has-icons-right">
+									<%= offer_f.text_field :price, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Quantidade</label>
+								<div class="control has-icons-right">
+									<%= offer_f.number_field :quantity, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Data de Início</label>
+								<div class="control has-icons-right">
+									<%= offer_f.date_field :start_t, class: "input" %>
+									<span class="icon is-right has-text-danger">
+										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+									</span>
+								</div>
+								<label class="label">Data de Término</label>
+								<div class="control">
+									<%= offer_f.date_field :end_t, class: "input" %>
+								</div>
+							<% end %>
 							<div class="control">
 				                <%= f.button "Criar", class: "button is-primary is-medium" %>
 				            </div>

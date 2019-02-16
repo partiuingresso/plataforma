@@ -5,7 +5,8 @@ class Event < ApplicationRecord
 	has_many :offers
 	has_one_attached :image
 
-	validates :name, presence: true
+	validates :name, presence: true, length: { maximum: 150 }
+	validates :description, length: { maximum: 10000 }, allow_blank: true
 	validates :image, presence: true
 	validates :start_t, presence: true
 	validate :end_date_cannot_be_before_start
@@ -13,6 +14,7 @@ class Event < ApplicationRecord
 	validates_associated :event_venue
 
 	accepts_nested_attributes_for :event_venue
+	accepts_nested_attributes_for :offers
 
 	def end_date_cannot_be_before_start
 		if end_t.present? && end_t < start_t

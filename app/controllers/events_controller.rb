@@ -6,6 +6,7 @@ class EventsController < ApplicationController
 
 	def new
 		@event.build_event_venue
+		@event.offers.build
 	end
 
 	def create
@@ -28,7 +29,8 @@ class EventsController < ApplicationController
 		def event_params
 			params.require(:event).permit(
 				:name, :image, :start_t, :end_t, :description,
-				event_venue_attributes: [:name, :address, :number, :complement, :neighborhood, :city, :state, :zipcode]
+				event_venue_attributes: [:name, :address, :number, :complement, :neighborhood, :city, :state, :zipcode],
+				offers_attributes: [:name, :description, :price, :quantity, :start_t, :end_t]
 			)
 		end
 end
