@@ -65,7 +65,7 @@
                       <label class="label">Função</label>
                       <div class="select">
                         <%= fields_for @user.role do |e| %>
-                          <%= e.select :role, options_for_select([['Equipe', 1], ['Gerente', 2]]) %>
+                          <%= e.select :role, options_for_select([['Equipe', 2], ['Gerente', 3]]) %>
                         <% end %>   
                       </div>
                     </div>

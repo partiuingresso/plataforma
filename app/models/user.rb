@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  enum role: [:user, :producer, :producer_admin, :admin]
+  enum role: [:guest, :user, :producer, :producer_admin, :admin]
   after_initialize :set_default_role, :if => :new_record?
 
   def set_default_role
