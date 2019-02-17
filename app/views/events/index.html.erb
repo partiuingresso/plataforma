@@ -8,41 +8,42 @@
 	        <div class="column is-3">        
 	        	<%= render 'admin/producer_admin_menu' %>
 	        </div>
-	        <div class="column is-6">
-	        	<div class="card">
-	        		<table class="table is-fullwidth">
-	        			<thead>
-	        				<th>Evento</th>
-	        				<th>Quando</th>
-	        				<th>Onde</th>
-	        				<th></th>
-	        				<th></th>
-	        			</thead>
-	        			<tbody>
-	        				<% @events.each do |event| %>
-	        				<tr>
-	        					<td><%= event.name %></td>
-	        					<td><%= event.start_t.strftime("%d/%m/%Y") %></td>
-	        					<td><%= event.event_venue.state %></td>
-	        					<td>
-									<%= link_to edit_event_path(event) do %>
-								        <span class="icon">
-									        <i class="fas fa-edit"></i>
-			        					</span>
-		        					<% end %>
-	        					</td>
-	        					<td>
-									<%= link_to event_path(event) do %>
-								        <span class="icon">
-			        						<i class="fas fa-external-link-alt"></i>
-			        					</span>
-		        					<% end %>
-	        					</td>
-	        				</tr>
-	        				<% end %>
-	        			</tbody>
-	        		</table>
-	        	</div>
+	        <div class="column is-8">
+	        	<p class="title is-size-2">Meus Eventos</p>
+
+        		<table class="table is-fullwidth">
+        			<thead>
+        				<th>Evento</th>
+        				<th>Quando</th>
+        				<th>Onde</th>
+        				<th></th>
+        				<th></th>
+        			</thead>
+        			<tbody>
+        				<% @events.each do |event| %>
+        				<tr>
+        					<td><%= event.name %></td>
+        					<td><%= event.start_t.strftime("%d/%m/%Y") %></td>
+        					<td><%= event.event_venue.city %>-<%= event.event_venue.state %></td>
+        					<td>
+								<%= link_to edit_event_path(event) do %>
+							        <span class="icon">
+								        <i class="fas fa-edit"></i>
+		        					</span>
+	        					<% end %>
+        					</td>
+        					<td>
+								<%= link_to event_path(event) do %>
+							        <span class="icon">
+		        						<i class="fas fa-external-link-alt"></i>
+		        					</span>
+	        					<% end %>
+        					</td>
+        				</tr>
+        				<% end %>
+        			</tbody>
+        		</table>
+
 	        </div>
 		</div>
 	</div>
