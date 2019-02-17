@@ -1,0 +1,27 @@
+<style>
+  .section.hero-event { background-image: url(<%= url_for(@event.image) %>); }
+</style>
+
+<section class="section hero-event">
+  <div class="container hero-content-event">
+    <div class="columns is-centered is-vcentered">
+      <div class="column is-5 has-text-centered">
+        <p class="title has-text-white is-size-1"><%= @event.headline %></span></p>
+      </div>
+
+      <% if @event.video.present? %>
+        <div class="column is-1"></div>
+        <div class="column is-5 event video">
+            <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="<%= @event.video %>" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section teste">
+  <div class="container">
+  </div>
+</section>

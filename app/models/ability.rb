@@ -5,6 +5,8 @@ class Ability
 
     user ||= User.new(role: "guest")
 
+    can :read, Event
+
     if user.admin?
         can :manage, Company
         can :manage, Event

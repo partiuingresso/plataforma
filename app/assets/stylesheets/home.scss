@@ -1,3 +1,16 @@
 // Place all the styles related to the Home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.section.hero-home {
+  background-image: image-url("hero/home.jpg");
+  background-size: cover;
+  min-height: 28rem;
+  width: 100%;
+  background-position: center 40%;
+}
+
+.hero-content-home {
+  padding-top: 7rem;
+}

@@ -9,3 +9,15 @@
 .hidden-fields {
 	display: none;
 }
+
+.section.hero-event {
+  background-size: cover;
+  min-height: 28rem;
+  width: 100%;
+  background-position: center 40%;
+}
+
+.hero-content-event {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
