@@ -70,6 +70,15 @@
 
 				<div class="tile is-ancestor">
 					<div class="tile is-parent is-vertical is-12">
+						<label class="label">Headline</label>
+						<div class="control">
+							<%= f.text_area :headline, class: "textarea", rows: 2, maxlength: 200 %>
+						</div>
+					</div>
+				</div>
+
+				<div class="tile is-ancestor">
+					<div class="tile is-parent is-vertical is-12">
 						<div class="tile is-child box">
 							<div class="columns">
 								<div class="column">

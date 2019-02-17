@@ -6,6 +6,7 @@ class Event < ApplicationRecord
 	has_one_attached :image
 
 	validates :name, presence: true, length: { maximum: 150 }
+	validates :headline, length: { maximum: 200 }, allow_blank: true
 	validates :description, length: { maximum: 10000 }, allow_blank: true
 	validates :image, presence: true
 	validates :start_t, presence: true
