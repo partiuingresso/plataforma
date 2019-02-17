@@ -244,7 +244,14 @@
 				</div>
 
 				<div class="hidden-fields"></div>
-				<a id="offer-button" class="button is-light is-medium">Criar Ingresso</a>
+				<div class="field">
+					<a id="offer-button" class="button is-rounded">
+						<span class="icon has-text-success">
+						  <i class="fas fa-plus"></i>
+						</span>
+						<span class="subtitle is-size-5">ADICIONAR OFERTA</span>
+					</a>
+				</div>
 				<table id="offers-table" class="table is-fullwidth">
 					<thead>
 						<th>Nome</th>
@@ -267,8 +274,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<div class="control">
-          <%= f.button "Criar", class: "button is-primary is-medium" %>
+
+				<div class="control" style="margin-top: 2.5rem;">
+          <%= f.button "Cadastrar Evento", class: "button is-primary is-medium" %>
 	      </div>
 					<% end %>
 
