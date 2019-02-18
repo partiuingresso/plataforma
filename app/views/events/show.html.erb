@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function(){
       <div class="column is-7">
         <div class="content">
           <p class="about event">Sobre o Evento <span class="about event-name has-text-primary"><%= @event.name %></span></p>
-          <p class="has-text-grey"><%= @event.description %></p>
+          <div class="has-text-grey"><%= sanitize @event.description %></div>
         </div>
       </div>
       <div class="column is-4 is-hidden-touch">

@@ -103,7 +103,7 @@
 						<div class="tile is-child box">
 							<label class="label">Descrição</label>
 							<div class="control">
-								<%= f.text_area :description, class: "textarea" %>
+								<%= f.trix_editor :description %>
 							</div>
 						</div>
 					</div>
@@ -223,7 +223,7 @@
 									</div>
 									<label class="label">Descrição</label>
 									<div class="control">
-										<%= offer_f.text_area :description, class: "textarea" %>
+										<%= offer_f.trix_editor :description %>
 									</div>
 									<label class="label">Preço</label>
 									<div class="control has-icons-right">
