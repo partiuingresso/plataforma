@@ -10,4 +10,6 @@ class EventVenue < ApplicationRecord
   validates :state, presence: true, length: { maximum: 100 }
   validates :zipcode, presence: true, format: { with: /\A\d{5}-\d{3}\Z/,
 		message: "only allows cep format" }
+  validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }, allow_blank: true
+  validates :longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }, allow_blank: true
 end
