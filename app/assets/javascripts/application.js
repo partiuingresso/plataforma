@@ -12,6 +12,7 @@
 //
 //= require rails-ujs
 //= require activestorage
+//= require trix
 //= require_tree .
 //= stub users/registrations/new
 //= stub users/registrations/edit
