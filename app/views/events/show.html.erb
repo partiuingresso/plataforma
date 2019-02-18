@@ -78,6 +78,9 @@
       <div class="column is-7">
         <div class="content">
           <p class="about event">Como Chegar <span class="about event-name has-text-primary"><%= @event.event_venue.name %></span></p>
+          <p>
+            <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?zoom=17&size=500x300&markers=size:small%7Ccolor:red%7C#{@event.event_venue.latitude},#{@event.event_venue.longitude}&key=#{Rails.application.credentials.google_maps_api_key}", alt: "Mapa" %>
+          </p>
         </div>
       </div>
       <div class="column is-4">

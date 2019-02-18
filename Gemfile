@@ -15,6 +15,8 @@ gem 'name_of_person'
 gem 'cancancan', '~> 2.0'
 # Use bulma CSS framework
 gem "bulma-rails", "~> 0.7.2"
+# User Geocoder to retrieve lat and long addresses
+gem 'geocoder'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
