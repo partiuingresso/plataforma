@@ -3,7 +3,7 @@ var modal = document.getElementById('new-offer-modal');
 var table = document.getElementById('offers-table');
 var prototypeRow = table.querySelector('.prototype-row');
 var hiddenFields = document.querySelector('.hidden-fields');
-var offerFieldsPrototype = hiddenFields.querySelector('.offer-fields').cloneNode(true);
+var offerFieldsPrototype;
 
 var newOffer;
 var offerCount;
@@ -11,10 +11,14 @@ var offerCount;
 init();
 
 function init() {
-	hiddenFields.querySelector('.offer-fields').remove();
-	offerCount = 0;
+	offerCount = table.tBodies[0].rows.length - 1;
+	if(offerCount == 0) {
+		table.style.display = 'none';
+	}
+	offerFieldsPrototype = hiddenFields.querySelector('.empty-fields');
+	hiddenFields.querySelector('.empty-fields').remove();
+
 	newOffer = newOfferFields();
-	table.style.display = 'none';
 
 	setEventsHandlers();
 }
@@ -70,7 +74,7 @@ function setEventsHandlers() {
 		var quantityInput = modal.querySelector('.quantity-input');
 		addOfferRow(nameInput.value, priceInput.value, quantityInput.value);
 
-		var offer = modal.querySelector('.offer-fields');
+		var offer = modal.querySelector('.empty-fields');
 		offer.remove();
 		hiddenFields.appendChild(offer);
 
