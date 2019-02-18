@@ -1,27 +1,93 @@
 <style>
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,700');
+</style>
+<style>
   .section.hero-event { background-image: url(<%= url_for(@event.image) %>); }
 </style>
 
 <section class="section hero-event">
   <div class="container hero-content-event">
-    <div class="columns is-centered is-vcentered">
+    <div class="columns is-centered is-vcentered event header">
       <div class="column is-5 has-text-centered">
-        <p class="title has-text-white is-size-1"><%= @event.headline %></span></p>
+        <p class="event title has-text-white"><%= @event.headline %></span></p>
       </div>
 
       <% if @event.video.present? %>
         <div class="column is-1"></div>
-        <div class="column is-5 event video">
-            <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="<%= @event.video %>" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+        <div class="column is-5">
+            <div style="padding:56.25% 0 0 0;position:relative;" class="event video"><iframe src="<%= @event.video %>" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
         </div>
       <% end %>
+    </div>
+
+
+    <div class="columns">
+      <div class="column is-11 is-offset-1">
+        <table class="event table is-narrow">
+          <tbody>
+            <tr>
+              <td class="spacer"></td>
+              <td><span class="icon"><i class="far fa-calendar-check has-text-grey-light"></i></span></td>
+              <td><span class="has-text-grey"><%= l @event.start_t, format: ("%d de %B de %Y") %></span></td>
+              <td class="spacer"></td>
+            </tr>
+            <tr>
+              <td class="spacer"></td>
+              <td><span class="icon"><i class="far fa-clock has-text-grey-light"></i></span></td>
+              <td><span class="has-text-grey"><%= l @event.start_t, format: ("%H horas") %></span></td>
+              <td class="spacer"></td>
+            </tr>
+            <tr>
+              <td class="spacer"></td>
+              <td><span class="icon"><i class="fas fa-map-marker-alt has-text-grey-light"></i></span></td>
+              <td><span class="has-text-grey"><%= truncate(@event.event_venue.city, length: 24) %>/<%= @event.event_venue.state %></span>
+              <td class="spacer"></td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+
+
+<section class="section description">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-7">
+        <div class="content">
+          <p class="about event">Sobre o Evento <span class="about event-name has-text-primary"><%= @event.name %></span></p>
+          <p class="has-text-grey"><%= @event.description %></p>
+        </div>
+      </div>
+      <div class="column is-4">
+        <% @event.offers.each do |offer| %>
+          <%= offer.name %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section venue">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-7">
+        <div class="content">
+          <p class="about event">Como Chegar <span class="about event-name has-text-primary"><%= @event.event_venue.name %></span></p>
+        </div>
+      </div>
+      <div class="column is-4">
+      </div>
     </div>
   </div>
 </section>
 
 
 
-<section class="section teste">
-  <div class="container">
-  </div>
-</section>
+
+
+
