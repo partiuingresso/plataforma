@@ -5,6 +5,8 @@ var prototypeRow = table.querySelector('.prototype-row');
 var updateRow;
 var hiddenFields = document.querySelector('.hidden-fields');
 var offerFieldsPrototype;
+var newOfferButton = document.getElementById('create-offer-button');
+var updateOfferButton = document.getElementById('update-offer-button');
 
 var offerCount;
 
@@ -40,6 +42,8 @@ function setEventsHandlers() {
 	addOfferButton.addEventListener('click', function(e) {
 		var newOffer = newOfferFields();
 		modalForm.appendChild(newOffer);
+		updateOfferButton.remove();
+		document.querySelector('.modal-card-foot').appendChild(newOfferButton);
 		showModal();
 	});
 
@@ -82,7 +86,6 @@ function setEventsHandlers() {
 		closeModal();
 	});
 
-	var newOfferButton = document.getElementById('create-offer-button');
 	// 6. New offer button handler
 	newOfferButton.addEventListener('click', function(e) {
 		offerCount += 1;
@@ -92,17 +95,29 @@ function setEventsHandlers() {
 
 		var offer = modal.querySelector('.empty-fields');
 
-		if(offer.id) {
-			// Update
-			updateOfferRow(nameInput.value, priceInput.value, quantityInput.value);
-			updateRow = null;
-			oldOfferFields.remove();
-			oldOfferFields = null;
-		} else {
-			// Create
-			addOfferRow(nameInput.value, priceInput.value, quantityInput.value);
-			offer.id = "new_offer_" + offerCount;
-		}
+		addOfferRow(nameInput.value, priceInput.value, quantityInput.value);
+		offer.id = "new_offer_" + offerCount;
+
+		offer.classList.remove('empty-fields');
+		offer.classList.add('offer-fields');
+		offer.remove();
+		hiddenFields.appendChild(offer);
+
+		closeModal();
+	});
+
+	updateOfferButton.addEventListener('click', function(e) {
+		offerCount += 1;
+		var nameInput = modal.querySelector('.name-input');
+		var priceInput = modal.querySelector('.price-input');
+		var quantityInput = modal.querySelector('.quantity-input');
+
+		var offer = modal.querySelector('.empty-fields');
+
+		updateOfferRow(nameInput.value, priceInput.value, quantityInput.value);
+		updateRow = null;
+		oldOfferFields.remove();
+		oldOfferFields = null;
 
 		offer.classList.remove('empty-fields');
 		offer.classList.add('offer-fields');
@@ -123,6 +138,8 @@ function setEventsHandlers() {
 			oldOfferFields.id = "";
 			modalForm.appendChild(updateOfferFields);
 			updateRow = this.closest('tr');
+			newOfferButton.remove();
+			document.querySelector('.modal-card-foot').appendChild(updateOfferButton);
 			showModal();
 		});
 	}
@@ -182,6 +199,8 @@ function addOfferRow(name, price, quantity) {
 		oldOfferFields.id = "";
 		modalForm.appendChild(updateOfferFields);
 		updateRow = this.closest('tr');
+		newOfferButton.remove();
+		document.querySelector('.modal-card-foot').appendChild(updateOfferButton);
 		showModal();
 	});
 }
