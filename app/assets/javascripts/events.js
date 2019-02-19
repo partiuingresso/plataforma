@@ -1,5 +1,5 @@
 var html = document.querySelector('html');
-var modal = document.getElementById('new-offer-modal');
+var modal = document.getElementById('offer-modal');
 var table = document.getElementById('offers-table');
 var prototypeRow = table.querySelector('.prototype-row');
 var updateRow;
@@ -26,12 +26,12 @@ function init() {
 }
 
 function setEventsHandlers() {
-	var file = document.getElementById("event_image");
 	// 1. Image file input handler
-	file.onchange = function(){
-	    if(file.files.length > 0)
+	var fileInput = document.getElementById("event_image");
+	fileInput.onchange = function(){
+	    if(fileInput.files.length > 0)
 	    {
-			document.getElementById('filename').innerHTML = file.files[0].name;
+			document.getElementById('filename').innerHTML = fileInput.files[0].name;
 	    }
 	};
 

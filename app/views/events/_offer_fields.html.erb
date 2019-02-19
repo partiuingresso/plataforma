@@ -1,0 +1,50 @@
+<div class="columns is-multiline">
+	<div class="column is-full">
+		<label class="label">Nome</label>
+		<div class="control has-icons-right">
+			<%= field.text_field :name, class: "input name-input" %>
+			<span class="icon is-right has-text-danger">
+				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+			</span>
+		</div>
+	</div>
+	<div class="column is-full">
+		<label class="label">Descrição</label>
+		<div class="control">
+			<%= field.trix_editor :description %>
+		</div>
+	</div>
+	<div class="column is-half">
+		<label class="label">Quantidade</label>
+		<div class="control has-icons-right">
+			<%= field.number_field :quantity, class: "input quantity-input" %>
+			<span class="icon is-right has-text-danger">
+				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+			</span>
+		</div>
+	</div>
+	<div class="column is-half">
+		<label class="label">Preço</label>
+		<div class="control has-icons-right">
+			<%= field.text_field :price, class: "input price-input" %>
+			<span class="icon is-right has-text-danger">
+				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+			</span>
+		</div>
+	</div>
+	<div class="column is-half">
+		<label class="label">Data de Início</label>
+		<div class="control has-icons-right">
+			<%= field.date_field :start_t, class: "input" %>
+			<span class="icon is-right has-text-danger">
+				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+			</span>
+		</div>
+	</div>
+	<div class="column is-half">
+		<label class="label">Data de Término</label>
+		<div class="control">
+			<%= field.date_field :end_t, class: "input" %>
+		</div>
+	</div>
+</div>
