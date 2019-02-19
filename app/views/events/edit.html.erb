@@ -212,7 +212,11 @@
 				</div>
 				<div class="hidden-fields">
 					<% @event.offers.each do |offer| %>
-						<div class="<%= offer.id? ? 'offer-fields' : 'empty-fields' %>">
+						<% if offer.id? %>
+							<div id="<%= 'offer_' + offer.id.to_s %>" class="offer-fields">
+						<% else %>
+							<div class="empty-fields">
+						<% end %>
 							<%= f.fields_for :offers, offer do |offer_f| %>
 									<label class="label">Nome</label>
 									<div class="control has-icons-right">
@@ -275,7 +279,7 @@
 							<td class="quantity-cell"></td>
 							<td class="price-cell"></td>
 							<td>
-								<a href="#">
+								<a>
 					        <span class="icon">
 						        <i class="fas fa-edit"></i>
 							    </span>
@@ -289,7 +293,7 @@
 									<td class="quantity-cell"><%= offer.quantity %></td>
 									<td class="price-cell"><%= offer.price %></td>
 									<td>
-										<a href="#">
+										<a data-target="<%= 'offer_' + offer.id.to_s %>">
 							        <span class="icon">
 								        <i class="fas fa-edit"></i>
 									    </span>
