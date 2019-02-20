@@ -1,99 +1,101 @@
 <header class="partiu_header">
-  <nav class="navbar container is-transparent" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <%= link_to image_tag('logo-light.svg', alt:'PartiuIngresso.com', width:'130', class:'logo'), root_path, class: "navbar-item" %>
+  <div class="container">
+    <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <%= link_to image_tag('logo-light.svg', alt:'PartiuIngresso.com', width:'130', class:'logo'), root_path, class: "navbar-item" %>
 
-      <a role="button" class="navbar-burger burger has-text-white" aria-label="menu" aria-expanded="false" data-target="navbarPartiuIngresso">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div id="navbarPartiuIngresso" class="navbar-menu">
-      <div class="navbar-end">
-        <% if signed_in? %>
-
-          <div class="navbar-item user">
-            <div class="buttons">
-
-          <% if current_user.admin? || current_user.producer_admin? %>
-            <%= link_to new_event_path, class: "header button" do %>
-              <span>Criar Evento</span>
-            <% end %>
-          <% end %>
-
-          <%= link_to nil, class: "header button" do %>
-            <span class="icon has-text-danger">
-              <i class="fas fa-ticket-alt"></i>
-            </span>
-            <span>Meus Ingressos</span>
-          <% end %>
-
-            </div>
-          </div>
-
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link user">
-              <span class="icon">
-              <i class="fas fa-user"></i>
-              </span> 
-              <span><%= current_user.name.first %></span>
-            </a>
-
-
-            <div class="navbar-dropdown is-boxed">
-
-              <% if current_user.producer_admin? %>
-                <%= link_to backstage_path, class: "navbar-item" do %>
-                  <span class="icon has-text-success">
-                    <i class="fas fa-dollar-sign"></i>
-                  </span>
-                  <span>Produtor</span>
-                <% end %>
-              <% end %>
-
-              <% if current_user.admin? %>
-                <%= link_to backoffice_path, class: "navbar-item" do %>
-                  <span class="icon has-text-info">
-                    <i class="fas fa-atom"></i>
-                  </span>
-                  <span>Admin</span>
-                <% end %>
-              <% end %>
-
-              <%= link_to edit_user_registration_path, class: "navbar-item" do %>
-                <span class="icon has-text-info">
-                  <i class="far fa-file-alt"></i>
-                </span>
-                <span>Minha Conta</span>
-              <% end %>
-
-              <%= link_to nil, class: "navbar-item" do %>
-                <span class="icon has-text-link">
-                  <i class="fas fa-question-circle"></i>
-                </span>
-                <span>Precisa de Ajuda?</span>
-              <% end %>
-
-              <hr class="navbar-divider">
-              <%= link_to destroy_user_session_path, method: "delete", class: "navbar-item" do %>
-                <span class="icon">
-                <i class="fas fa-sign-out-alt"></i>
-                </span>
-                <span>Sair</span>
-              <% end %>
-            </div>
-          </div>
-          <% else %>
-            <div class="navbar-item">
-              <div class="buttons">
-                <%= link_to "Cadastre-se", signup_path, class: "button is-primary" %>
-                <%= link_to "Login", login_path, class: "button is-light" %>
-            </div>
-        </div>
-        <% end %>
+        <a role="button" class="navbar-burger burger has-text-white" aria-label="menu" aria-expanded="false" data-target="navbarPartiuIngresso">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-    </div>
-  </nav>
+
+      <div id="navbarPartiuIngresso" class="navbar-menu">
+        <div class="navbar-end">
+          <% if signed_in? %>
+
+            <div class="navbar-item user">
+              <div class="buttons">
+
+            <% if current_user.admin? || current_user.producer_admin? %>
+              <%= link_to new_event_path, class: "header button" do %>
+                <span>Criar Evento</span>
+              <% end %>
+            <% end %>
+
+            <%= link_to nil, class: "header button" do %>
+              <span class="icon has-text-danger">
+                <i class="fas fa-ticket-alt"></i>
+              </span>
+              <span>Meus Ingressos</span>
+            <% end %>
+
+              </div>
+            </div>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link user">
+                <span class="icon">
+                <i class="fas fa-user"></i>
+                </span> 
+                <span><%= current_user.name.first %></span>
+              </a>
+
+
+              <div class="navbar-dropdown is-boxed">
+
+                <% if current_user.producer_admin? %>
+                  <%= link_to backstage_path, class: "navbar-item" do %>
+                    <span class="icon">
+                      <i class="fas fa-dollar-sign"></i>
+                    </span>
+                    <span>Produtor</span>
+                  <% end %>
+                <% end %>
+
+                <% if current_user.admin? %>
+                  <%= link_to backoffice_path, class: "navbar-item" do %>
+                    <span class="icon">
+                      <i class="fas fa-atom"></i>
+                    </span>
+                    <span>Admin</span>
+                  <% end %>
+                <% end %>
+
+                <%= link_to edit_user_registration_path, class: "navbar-item" do %>
+                  <span class="icon">
+                    <i class="far fa-file-alt"></i>
+                  </span>
+                  <span>Minha Conta</span>
+                <% end %>
+
+                <%= link_to nil, class: "navbar-item" do %>
+                  <span class="icon">
+                    <i class="fas fa-question-circle"></i>
+                  </span>
+                  <span>Precisa de Ajuda?</span>
+                <% end %>
+
+                <hr class="navbar-divider">
+                <%= link_to destroy_user_session_path, method: "delete", class: "navbar-item" do %>
+                  <span class="icon has-text-grey-dark">
+                  <i class="fas fa-sign-out-alt"></i>
+                  </span>
+                  <span>Sair</span>
+                <% end %>
+              </div>
+            </div>
+            <% else %>
+              <div class="navbar-item">
+                <div class="buttons">
+                  <%= link_to "Cadastre-se", signup_path, class: "button is-primary" %>
+                  <%= link_to "Login", login_path, class: "button is-light" %>
+              </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+  </div>
 </header>
