@@ -1,33 +1,38 @@
+<%= javascript_include_tag "events/colors", async: true %>
+<%= javascript_include_tag "events/maps", defer: true %>
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
     initMap(<%=@event.event_venue.latitude%>, <%=@event.event_venue.longitude%>)
 });
 </script>
-<style>
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,700');
-</style>
+<script>
+  imgurl = "<%= url_for(@event.image) %>"
+</script>
 <style>
   .section.hero-event { background-image: url(<%= url_for(@event.image) %>); }
 </style>
 
 <section class="section hero-event">
-  <div class="container hero-content-event">
-    <div class="columns is-centered is-vcentered event header">
-      <div class="column is-5 has-text-centered">
-        <p class="event title has-text-white"><%= @event.headline %></span></p>
+  <div class="hero-content-event">
+    <div class="container">
+      <div class="columns is-multiline event header">
+        <% if @event.video.present? %>
+          <div class="column is-12 has-text-centered">
+            <a class="video-btn">
+              <span class="icon has-text-white">
+                <i class="fas fa-4x fa-play"></i>
+              </span>
+            </a>
+          </div>
+        <% end %> 
+        <div class="column is-11 is-offset-1">
+          <p class="event title has-text-white"><%= @event.name %></span></p>
+        </div> 
       </div>
-
-      <% if @event.video.present? %>
-        <div class="column is-1"></div>
-        <div class="column is-5">
-            <div style="padding:56.25% 0 0 0;position:relative;" class="event video"><iframe src="<%= @event.video %>" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-        </div>
-      <% end %>
     </div>
 
-
-    <div class="columns">
+    <div class="columns is-hidden-tablet">
       <div class="column is-11 is-offset-1">
         <table class="event table is-narrow">
           <tbody>
@@ -46,14 +51,53 @@ document.addEventListener("DOMContentLoaded", function(){
             <tr>
               <td class="spacer"></td>
               <td><span class="icon"><i class="fas fa-map-marker-alt has-text-grey-light"></i></span></td>
-              <td><span class="has-text-grey"><%= truncate(@event.event_venue.city, length: 24) %>/<%= @event.event_venue.state %></span>
+              <td><span class="has-text-grey"><%= truncate(@event.event_venue.name, length: 15) %> - <%= truncate(@event.event_venue.city, length: 24) %>/<%= @event.event_venue.state %></span>
               <td class="spacer"></td>
           </tbody>
         </table>
       </div>
     </div>
-
-
+  </div>
+  <div id="infobar" class="is-hidden-mobile">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-11 is-offset-1 is-vcentered">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <span class="icon is-medium">
+                  <span class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="far fa-calendar-check fa-stack-1x has-text-white"></i>
+                  </span>
+                </span>
+              </div>
+              <div class="level-item">
+                <span class="info"><%= l @event.start_t, format: ("%d de %B de %Y") %></span>
+              </div>
+              <div class="level-item spacer">
+                <span class="fa-stack">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="far fa-clock fa-stack-1x has-text-white"></i>
+                </span>
+              </div>
+              <div class="level-item">
+                <span class="info"><%= l @event.start_t, format: ("%H horas") %></span>
+              </div>
+              <div class="level-item spacer">
+                <span class="fa-stack">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-map-marker-alt fa-stack-1x has-text-white"></i>
+                </span>
+              </div>
+              <div class="level-item">
+                <span class="info"><%= @event.event_venue.name %> - <%= truncate(@event.event_venue.city, length: 24) %>/<%= @event.event_venue.state %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -62,10 +106,11 @@ document.addEventListener("DOMContentLoaded", function(){
 <section class="section description">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-7">
+      <div class="column is-6">
         <div class="content">
-          <p class="about event">Sobre o Evento <span class="about event-name has-text-primary"><%= @event.name %></span></p>
-          <div class="has-text-grey"><%= sanitize @event.description %></div>
+          <p class="about event">Sobre o Evento</p>
+          <p class="about event-name has-text-primary"><%= @event.headline %></p>
+          <div class="has-text-grey-dark"><%= sanitize @event.description %></div>
         </div>
       </div>
       <div class="card column is-4 is-hidden-touch">
@@ -105,9 +150,10 @@ document.addEventListener("DOMContentLoaded", function(){
 <section class="section venue">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-7">
+      <div class="column is-6">
         <div class="content">
-          <p class="about event">Como Chegar <span class="about event-name has-text-primary"><%= @event.event_venue.name %></span></p>
+          <p class="about event">Como Chegar</p>
+          <p class="about event-name has-text-primary"><%= @event.event_venue.name %></p>
           <p>
             <div id="map"></div>
           </p>
@@ -118,9 +164,3 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
   </div>
 </section>
-
-
-
-
-
-

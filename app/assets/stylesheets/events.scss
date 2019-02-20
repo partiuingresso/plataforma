@@ -2,6 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// Create and edit view
+
 .prototype-row {
 	display: none;
 }
@@ -10,18 +12,20 @@
 	display: none;
 }
 
+// Show view
+
 .section.hero-event {
   background-size: cover;
-  min-height: 28rem;
+  min-height: 18rem;
   width: 100%;
   background-position: center 40%;
   border-bottom-left-radius: 0% 0%;
   border-bottom-right-radius: 0% 0%;
-  box-shadow: inset 10px 10px 300px 150px rgba(0,0,0,0.45);
+  box-shadow: inset 10px 10px 300px 150px rgba(20,20,25,0.45);
 }
 
 .hero-content-event {
-  padding-top: 3.5rem;
+  padding-top: 7rem;
 }
 
 .event.header {
@@ -29,15 +33,15 @@
 }
 
 .event.title {
-  font-family: 'Rubik', sans-serif;
   font-style: normal;
-  font-weight: 700;
-  font-size: 2.4rem;
+  font-weight: 600;
+  font-size: 2.5rem;
+  letter-spacing: 0.04rem;
   text-shadow: 1px 4px 7px rgba(0,0,0,0.25);
+  margin-top: 1.5rem;
 }
 
 .event.table {
-  // font-family: 'Rubik', sans-serif;
   font-weight: 300;
   font-size: 1.1rem;
   margin-bottom: -6.5rem;
@@ -49,31 +53,69 @@ hr.vertical {
   height: 50px;
 }
 
+svg.fa-play:hover {
+  -webkit-filter: drop-shadow(5px 5px 15px rgba(255,255,255,0.45));
+  filter: drop-shadow(5px 5px 15px rgba(255,255,255,0.45));
+  // box-shadow: 0px 10px 25px 0px rgba(255,255,255,0.45);
+}
+
 .event.video {
   box-shadow:0px 10px 25px 0px rgba(0,0,0,0.45);
 }
 
+#infobar {
+  height: 3.75rem;
+  margin-left:-1.5rem;
+  margin-right:-1.5rem;
+  margin-bottom: -3rem;
+}
+
+.fa-circle.fa-stack-2x {
+  opacity: 0.1;
+  color: white;
+}
+
+.level-item > .info {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.level-item.spacer {
+  margin-left: 2rem;
+}
+
+// Description page
+
 .section.description {
-  padding-top: 6rem;
+  padding-top: 3rem;
+}
+
+.event.offers {
+  position: -webkit-sticky; // Safari
+  position: sticky;
+  top: 1rem;
+  // margin-top: -6rem;
 }
 
 .about.event {
-  font-family: 'Rubik', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
 }
 
 .about.event-name {
-  font-family: 'Rubik', sans-serif;
+  font-family: sans-serif;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 600;
   font-size: 1.4rem;
   text-transform: uppercase;
+  margin-top: -0.75rem;
 }
 
 #map {
   width: 500px;
   height: 300px;
+  box-shadow:0px 5px 20px 0px rgba(0,0,0,0.15);
 }
