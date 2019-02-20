@@ -21,4 +21,5 @@
 //= stub events
 //= stub events/colors
 //= stub events/maps
+//= stub events/cart
 //= stub toggle
