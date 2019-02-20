@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     <p><%= offer.name %></p>
                   </div>
                   <div class="column is-3">
-                    <p><%= offer.price %></p>
+                    <p><%= value_to_currency(offer.price) %></p>
                   </div>
                   <div class="column is-5">
                     <%= f.fields_for :order_items do |order_item_f| %>
