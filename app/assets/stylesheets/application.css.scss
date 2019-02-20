@@ -14,17 +14,33 @@
  *= require_self
  *= require_tree .
  */
+
 $red: #DB3F4B;
 $primary: $red;
 $navbar-dropdown-arrow: $red;
 $navbar-item-hover-color: $red;
 $menu-item-active-background-color: $red;
+
+$column-gap: 1.05rem;
+
 .is-notice {
   @extend .is-success;
 }
 
 .is-alert {
   @extend .is-danger;
+}
+
+.navbar-item > .icon {
+  color: hsl(0, 0%, 48%);
+}
+
+.navbar-item:hover > .icon {
+  color: $primary;
+}
+$family-primary: 'Inter', sans-serif;
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
 }
 
  @import "bulma";
