@@ -1,0 +1,1 @@
+//=require bulma-accordion/dist/js/bulma-accordion.min

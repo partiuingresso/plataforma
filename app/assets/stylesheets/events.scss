@@ -95,7 +95,14 @@ svg.fa-play:hover {
   position: -webkit-sticky; // Safari
   position: sticky;
   top: 1rem;
+  font-size: 0.85rem;
   // margin-top: -6rem;
+}
+
+.tickets.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .about.event {
