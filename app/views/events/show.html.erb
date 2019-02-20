@@ -113,56 +113,16 @@ document.addEventListener("DOMContentLoaded", function(){
           <p class="about event-name has-text-primary"><%= @event.headline %></p>
           <div class="has-text-grey-dark"><%= sanitize @event.description %></div>
         </div>
-<<<<<<< HEAD
+
         <hr />
-=======
-      </div>
-      <div class="card column is-4 is-hidden-touch">
-        <%= form_for @order, url: new_order_path, method: "get" do |f| %>
-          <ul>
-            <% @event.offers.each do |offer| %>
-              <li>
-                <div class="columns">
-                  <div class="column is-4">
-                    <p><%= offer.name %></p>
-                  </div>
-                  <div class="column is-3">
-                    <p><%= value_to_currency(offer.price) %></p>
-                  </div>
-                  <div class="column is-5">
-                    <%= f.fields_for :order_items do |order_item_f| %>
-                      <%= order_item_f.hidden_field :offer_id, value: offer.id %>
-                      <div class="control">
-                        <%= order_item_f.number_field :quantity, class: "input", placeholder: "quantidade" %>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-          <div class="control" style="margin-top: 2.5rem;">
-            <%= f.button "Comprar", class: "button is-primary is-medium" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</section>
 
-
-<section class="section venue">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-6">
->>>>>>> 4f1c4294eea794909c72c019d259a422e9abec6d
         <div class="content">
           <p class="about event">Como Chegar</p>
           <p class="about event-name has-text-primary"><%= @event.event_venue.name %></p>
           <p>
             <div id="map"></div>
           </p>
-        </div>
+        </div>        
       </div>
       <div class="column is-4">
         <div class="event offers card">
@@ -179,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         <p><%= offer.name %></p>
                       </div>
                       <div class="column is-3">
-                        <p><%= offer.price %></p>
+                        <p><%= value_to_currency(offer.price) %></p>
                       </div>
                       <div class="column is-5">
                         <%= f.fields_for :order_items do |order_item_f| %>
