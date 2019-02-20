@@ -1,5 +1,7 @@
 {
   "name": "plataforma",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "node-vibrant": "^3.2.0-alpha"
+  }
 }

@@ -19,3 +19,5 @@
 //= stub utils/validation
 //= stub utils/input_mask
 //= stub events
+//= stub events/colors
+//= stub events/maps
