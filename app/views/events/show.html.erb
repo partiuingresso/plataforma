@@ -68,9 +68,33 @@ document.addEventListener("DOMContentLoaded", function(){
           <div class="has-text-grey"><%= sanitize @event.description %></div>
         </div>
       </div>
-      <div class="column is-4 is-hidden-touch">
-        <% @event.offers.each do |offer| %>
-          <%= offer.name %>
+      <div class="card column is-4 is-hidden-touch">
+        <%= form_for @order, url: new_order_path, method: "get" do |f| %>
+          <ul>
+            <% @event.offers.each do |offer| %>
+              <li>
+                <div class="columns">
+                  <div class="column is-4">
+                    <p><%= offer.name %></p>
+                  </div>
+                  <div class="column is-3">
+                    <p><%= offer.price %></p>
+                  </div>
+                  <div class="column is-5">
+                    <%= f.fields_for :order_items do |order_item_f| %>
+                      <%= order_item_f.hidden_field :offer_id, value: offer.id %>
+                      <div class="control">
+                        <%= order_item_f.number_field :quantity, class: "input", placeholder: "quantidade" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+          <div class="control" style="margin-top: 2.5rem;">
+            <%= f.button "Comprar", class: "button is-primary is-medium" %>
+          </div>
         <% end %>
       </div>
     </div>

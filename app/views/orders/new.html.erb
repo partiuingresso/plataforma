@@ -1,0 +1,11 @@
+<p class="title">Order</p>
+<ul>
+	<% @order.order_items.each do |order_item| %>
+		<li>
+			<%= order_item.offer.name %>
+			<%= order_item.offer.description %>
+			<%= order_item.offer.price %>
+			<%= order_item.quantity %>
+		</li>	
+	<% end %>
+</ul>

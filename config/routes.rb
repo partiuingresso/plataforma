@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   resources :events
   resources :companies
   get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
+
+  resources :orders, only: [:index, :new, :create, :show]
   
   root to: 'home#index'
 end

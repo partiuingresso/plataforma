@@ -4,6 +4,11 @@ class EventsController < ApplicationController
 	def index
 	end
 
+	def show
+		@order = Order.new
+		@order.order_items.build
+	end
+
 	def new
 		@event.build_event_venue
 		@event.offers.build
