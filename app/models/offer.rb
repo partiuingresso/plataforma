@@ -5,8 +5,8 @@ class Offer < ApplicationRecord
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :description, length: { maximum: 500 }, allow_blank: true
 	validates :price, presence: true, numericality: { less_than: (10 ** 10) }
-	validates :quantity, presence: true, numericality: { only_integer: true }
-	validates :available_quantity, presence: true, numericality: { only_integer: true }
+	validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
+	validates :available_quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 	validate :available_quantity_cannot_be_greater_than_quantity
 	validates :start_t, presence: true
 	validate :end_date_cannot_be_before_start
