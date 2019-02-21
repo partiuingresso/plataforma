@@ -18,7 +18,7 @@ class EventsController < ApplicationController
 		@event = Event.new(event_params)
 		set_user_and_company
 		if @event.save
-			redirect_to event_path
+			redirect_to @event
 		else
 			redirect_back(fallback_location: new_event_path)
 		end
@@ -30,7 +30,7 @@ class EventsController < ApplicationController
 
 	def update
 		if @event.update_attributes(event_params)
-			redirect_to event_path
+			redirect_to @event
 		else
 			redirect_back(fallback_location: new_event_path)
 		end
