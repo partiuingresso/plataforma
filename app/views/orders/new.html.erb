@@ -31,7 +31,7 @@
               <span class="icon">
                 <i class="fas fa-ticket-alt"></i>
               </span>
-              <span class="offer-start"><%= @order.total_quantity %> ingressos selecionados. <%= link_to "Editar?", event_path(@order.event), class: "has-text-primary content is-small" %></span>
+              <span class="offer-start"><%= @order.total_quantity %> <%= "ingresso".pluralize(@order.total_quantity) %> <%= "selecionado".pluralize(@order.total_quantity) %>. <%= link_to "Editar?", event_path(@order.event), class: "has-text-primary content is-small" %></span>
             </div>
             <hr />
             <div class="columns is-vcentered is-multiline is-mobile">
