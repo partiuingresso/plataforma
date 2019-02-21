@@ -3,6 +3,7 @@ class Order < ApplicationRecord
   belongs_to :order_status
   has_many :order_items
   has_one :payment
+  has_many :events, through: :order_items
 
   before_create :set_order_status
   before_save :update_subtotal
@@ -11,6 +12,10 @@ class Order < ApplicationRecord
 
   def subtotal
     order_items.collect { |oi| oi.valid? ? (oi.quantity * oi.offer.price) : 0 }.sum
+  end
+
+  def event
+    events[0]
   end
 
 private
