@@ -34,6 +34,19 @@ body {
   .cnpj { opacity: 0.5; font-size: 0.7rem; }
 }
 
+.footer-clear {
+  background-color: unset;
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  bottom: 0;
+  font-size: 0.85rem;
+  hr { height: 3px; }
+  .logo { opacity: 0.2; }
+  .cnpj { opacity: 0.5; font-size: 0.7rem; }
+  .copyright { opacity: 0.5; font-size: 0.75rem; }
+}
+
 
 .partiu_header {
   z-index: 100;
