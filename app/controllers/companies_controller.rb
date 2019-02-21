@@ -18,7 +18,7 @@ load_and_authorize_resource
   def create
     respond_to do |format|
       if @company.save
-        format.html { redirect_to controller: 'admin', action: 'index', notice: 'Empresa criada com sucesso.' }
+        format.html { redirect_to backoffice_path, notice: 'Empresa criada com sucesso.' }
         format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
