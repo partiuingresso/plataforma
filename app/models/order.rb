@@ -6,9 +6,9 @@ class Order < ApplicationRecord
   has_many :events, through: :order_items
   has_many :offers, through: :order_items
 
-  before_create :set_order_status
   before_create :generate_order_number
   before_save :update_subtotal
+  after_initialize :default_values
 
   accepts_nested_attributes_for :order_items
 
@@ -30,6 +30,13 @@ class Order < ApplicationRecord
 
   private
 
+    def default_values
+      # *** Taxa de serviço ***
+      self.fee ||= 0.1
+      # ***********************
+      self.order_status_id ||= 1
+    end
+
     def generate_order_number
       now = DateTime.now
       year = (now.year % 100).to_s
@@ -45,10 +52,6 @@ class Order < ApplicationRecord
       end
 
       self.number = order_number
-    end
-
-    def set_order_status
-      self.order_status_id = 1
     end
 
     def update_subtotal

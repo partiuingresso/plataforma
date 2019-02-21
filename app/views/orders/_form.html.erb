@@ -1,146 +1,151 @@
-<div class="columns is-multiline">
-  <div class="column is-12">
-    <div class="field">
-      <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
-      <div class="control">
-        <input class="input" type="text" placeholder="">
-      </div>
-    </div>
-  </div>
-  <div class="column is-12">
-    <label class="label">Informações do cartão</label>
-    <div class="field has-addons">
-      <div class="control is-expanded">
-        <input class="input" type="text" placeholder="Número do cartão">
-      </div>
-      <div class="control">
-        <input class="input" type="text" placeholder="Validade">
-      </div>
-      <div class="control">
-        <input class="input" type="text" placeholder="CVV">
-      </div>
-    </div>
-  </div>
-  <div class="column is-6">
-    <div class="field">
-      <label class="label">CPF</label>
-      <div class="control">
-        <input class="input" type="text" placeholder="">
-      </div>
-    </div> 
-  </div>
-  <div class="column is-6">
-    <div class="field">
-      <label class="label">Telefone celular</label>
-      <div class="control">
-        <input class="input" type="text" placeholder="">
-      </div>
-    </div> 
-  </div>
-  <div class="column is-6">
-    <div class="field">
-      <div class="control">
-        <label class="label">Data de Nascimento</label>
-        <div class="select">
-          <select>
-            <option>--</option>
-          </select>
+<%= form_for @order do |f| %>
+  <div class="columns is-multiline">
+    <div class="column is-12">
+      <div class="field">
+        <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
+        <div class="control">
+          <input class="input" type="text" placeholder="">
         </div>
       </div>
     </div>
-  </div>
-  <div class="column is-6">
-    <div class="field">
-      <label class="label">CEP</label>
-      <div class="control">
-        <input class="input" type="text" placeholder="">
-      </div>
-    </div> 
-  </div>
-
-  <div class="column is-12 address is-hidden">
-    <div class="columns is-multiline">
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">Endereço</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="">
-          </div>
-        </div> 
-      </div>
-      <div class="column is-3">
-        <div class="field">
-          <label class="label">Número</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="">
-          </div>
-        </div> 
-      </div>
-      <div class="column is-3">
-        <div class="field">
-          <label class="label">Complemento</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="">
-          </div>
-        </div> 
-      </div>
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">Cidade</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="">
-          </div>
-        </div> 
-      </div>
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">Estado</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="">
-          </div>
-        </div> 
+    <div class="column is-12">
+      <label class="label">Informações do cartão</label>
+      <div class="field has-addons">
+        <div class="control is-expanded">
+          <input class="input" type="text" placeholder="Número do cartão">
+        </div>
+        <div class="control">
+          <input class="input" type="text" placeholder="Validade">
+        </div>
+        <div class="control">
+          <input class="input" type="text" placeholder="CVV">
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="column is-12 is-paddingless">
-    <hr />
-  </div>
-
-  <% index = 0; @order.order_items.each do |order_item| %>
-    <% order_item.quantity.times do %>
-      <div class="column is-12 ticket-label">
-        <label class="label is-inline-block">Ingresso n<span class="numr">0</span> <%= index += 1 %></label>
-        <span class="is-inline-block">-> <%= order_item.offer.name %></span>
+    <div class="column is-6">
+      <div class="field">
+        <label class="label">CPF</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="">
+        </div>
       </div>
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">Quem vai usar?</label>
-          <div class="control">
-            <input class="input" type="text" placeholder="Nome e sobrenome">
+    </div>
+    <div class="column is-6">
+      <div class="field">
+        <label class="label">Telefone celular</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="">
+        </div>
+      </div>
+    </div>
+    <div class="column is-6">
+      <div class="field">
+        <div class="control">
+          <label class="label">Data de Nascimento</label>
+          <div class="select">
+            <select>
+              <option>--</option>
+            </select>
           </div>
         </div>
       </div>
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">E-mail </label>
-          <div class="control">
-            <input class="input" type="text" placeholder="">
-          </div>
-        </div> 
+    </div>
+    <div class="column is-6">
+      <div class="field">
+        <label class="label">CEP</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="">
+        </div>
       </div>
+    </div>
+
+    <div class="column is-12 address is-hidden">
+      <div class="columns is-multiline">
+        <div class="column is-6">
+          <div class="field">
+            <label class="label">Endereço</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="field">
+            <label class="label">Número</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="field">
+            <label class="label">Complemento</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="field">
+            <label class="label">Cidade</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="field">
+            <label class="label">Estado</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-12 is-paddingless">
+      <hr />
+    </div>
+    <% index = 0; @order.order_items.each do |order_item| %>
+      <%= f.fields_for :order_items, order_item do |order_item_f| %>
+        <%= order_item_f.hidden_field :offer_id, value: order_item.offer.id %>
+        <%= order_item_f.hidden_field :quantity, value: order_item.quantity %>
+          <% order_item.quantity.times do %>
+            <%= order_item_f.fields_for :ticket_tokens do |ticket_token_f| %>
+              <div class="column is-12 ticket-label">
+                <label class="label is-inline-block">Ingresso n<span class="numr">0</span> <%= index += 1 %></label>
+                <span class="is-inline-block">-> <%= order_item.offer.name %></span>
+              </div>
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">Quem vai usar?</label>
+                  <div class="control">
+                    <%= ticket_token_f.text_field :owner_name, class: "input" %>
+                  </div>
+                </div>
+              </div>
+              <div class="column is-6">
+                <div class="field">
+                  <label class="label">E-mail </label>
+                  <div class="control">
+                    <%= ticket_token_f.email_field :owner_email, class: "input" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+      <% end %>
     <% end %>
-  <% end %>
-
-  <div class="column is-12">
-    <hr />
-    <p class="help">Eu concordo com o <a href="#">Termos de Serviço</a>, <a href="#">Política de Cancelamento</a> e a <a href="#">Política de Privacidade</a>. Também concordo em pagar o valor total exibido, que inclui as taxas de serviço.</p>
-    <a class="confirm button is-primary">
-      <span>Confirmar e pagar</span>
-      <span class="icon is-small">
-        <i class="fas fa-lock"></i>
-      </span>
-    </a>
+    <div class="column is-12">
+      <hr />
+      <p class="help">Eu concordo com o <a href="#">Termos de Serviço</a>, <a href="#">Política de Cancelamento</a> e a <a href="#">Política de Privacidade</a>. Também concordo em pagar o valor total exibido, que inclui as taxas de serviço.</p>
+      <%= f.button :submit, class:"confirm button is-primary" do %>
+        <span>Confirmar e pagar</span>
+        <span class="icon is-small">
+          <i class="fas fa-lock"></i>
+        </span>
+      <% end %>
+    </div>
   </div>
-
-</div>
+<% end %>

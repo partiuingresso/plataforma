@@ -4,6 +4,8 @@ class OrderItem < ApplicationRecord
   has_many :ticket_tokens
   has_one :event, through: :offer
 
+  accepts_nested_attributes_for :ticket_tokens
+
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :offer_cannot_be_from_other_event
 
