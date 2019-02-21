@@ -23,6 +23,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def total_quantity
+    order_items.collect { |oi| oi.valid? ? (oi.quantity) : 0 }.sum
+  end
+
 private
   def set_order_status
     self.order_status_id = 1
