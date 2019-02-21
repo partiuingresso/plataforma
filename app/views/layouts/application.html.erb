@@ -25,7 +25,11 @@
 
     <%= yield %>
 
-    <%= render 'layouts/footer' %>
+    <% if content_for?(:footer) %>
+      <%= yield(:footer) %>
+    <% else %>
+      <%= render 'layouts/footer' %>
+    <% end %>
 
   </body>
 </html>
