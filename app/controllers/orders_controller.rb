@@ -4,8 +4,7 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new(orders_params)
-		# para obter o evento:
-		# @order.event
+		# @order.order_items[0].offer.event
 	end
 
 	def create
