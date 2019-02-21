@@ -1,3 +1,51 @@
 // Place all the styles related to the Orders controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.is-forward-1 {
+  margin-right: 8.3333333333%;
+}
+
+
+.column.total {
+  padding-top: unset;
+}
+
+.offer-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.offer-summary {
+  padding-top: 1rem;
+  font-weight: 300;
+  align-items: center;
+}
+
+.offer-start {
+  font-size: 0.9rem;
+}
+
+.offer-header {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding-bottom: unset;
+}
+
+.offer-content {
+  padding-bottom: unset;
+}
+
+p.total {
+  font-weight: 700;
+  font-feature-settings: 'ss01' 1;
+}
+
+
+// Form
+
+.help.is-inline-block {
+  margin-left: 0.5rem;
+}

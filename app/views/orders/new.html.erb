@@ -1,11 +1,73 @@
-<p class="title">Order</p>
-<ul>
-	<% @order.order_items.each do |order_item| %>
-		<li>
-			<%= order_item.offer.name %>
-			<%= order_item.offer.description %>
-			<%= order_item.offer.price %>
-			<%= order_item.quantity %>
-		</li>	
-	<% end %>
-</ul>
+<% provide(:title, @order.event.name) %>
+<% content_for :navbar do %>
+<%= render 'layouts/header_checkout' %>
+<% end %>
+
+<section class="section checkout">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6 is-offset-1">
+        <p class="title">Confirmar e pagar</p>
+        <%= render 'orders/form' %>
+      </div>
+      <div class="column is-3 is-forward-1">
+        <div class="card">
+          <div class="card-content">
+            <p class="offer-title"><%= @order.event.name %></p>
+            <div class="offer-summary">
+              <span class="icon">
+                <i class="far fa-calendar-check"></i>
+              </span>
+              <span class="offer-start"><%= l @order.event.start_t, format: ("%d de %B de %Y") %></span>
+              <br />
+              <span class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </span>
+              <span class="offer-start"><%= @order.event.event_venue.name %> - <%= truncate(@order.event.event_venue.city, length: 24) %>/<%= @order.event.event_venue.state %></span>
+              <br />
+              <span class="icon">
+                <i class="fas fa-ticket-alt"></i>
+              </span>
+              <span class="offer-start"><%= @order.order_items.collect { |oi| oi.valid? ? (oi.quantity) : 0 }.sum %> ingressos selecionados. <%= link_to "Editar?", event_path(@order.event), class: "has-text-primary content is-small" %></span>
+            </div>
+            <hr />
+            <div class="columns is-vcentered is-multiline is-mobile">
+              <div class="column is-5 has-text-left offer-header">
+                Tipo
+              </div>
+              <div class="column is-4 has-text-centered offer-header">
+                Valor
+              </div>
+              <div class="column is-3 has-text-right offer-header">
+                Qtd.
+              </div>
+              <% @order.order_items.each do |order_item| %>
+                <% if order_item.quantity > 0 %>
+                  <div class="column is-5 has-text-left offer-content">
+                    <%= order_item.offer.name %>
+                  </div>
+                  <div class="column is-4 has-text-centered offer-content">
+                    R$<%= value_to_currency(order_item.offer.price) %>
+                  </div>
+                  <div class="column is-3 has-text-right offer-content">
+                    <%= order_item.quantity %>
+                  </div>
+                <% end %>
+              <% end %>
+              <div class="column total is-12 offer-content">
+                <hr />
+                <p class="is-pulled-left">Taxa de serviço</p>
+                <p class="is-pulled-right">R$<%= value_to_currency(@order.subtotal) %></p>
+              </div>
+              <div class="column total is-12">
+                <hr />
+                <p class="is-pulled-left">Total</p>
+                <p class="is-pulled-right total">R$<%= value_to_currency(@order.subtotal) %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
