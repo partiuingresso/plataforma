@@ -1,6 +1,6 @@
 <%= javascript_include_tag "events/colors", async: true %>
 <%= javascript_include_tag "toggle", async: true %>
-<%= javascript_include_tag "cart", async: true %>
+<%= javascript_include_tag "events/cart", defer: true %>
 <%= javascript_include_tag "events/maps", defer: true %>
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
@@ -129,8 +129,15 @@ document.addEventListener("DOMContentLoaded", function(){
         <div class="event offers card">
           <div class="card-content">
             <%= form_for @order, url: new_order_path, method: "get" do |f| %>
-            <div class="content">
-              <p class="tickets title">Ingressos</p>
+            <div class="columns">
+              <div class="column is-6">
+                <p class="tickets title">Ingressos</p>
+              </div>
+              <div class="column is-3 is-offset-3">
+                <p>
+                  <span>R$</span><span id="total_price">0,00</span>
+                </p>
+              </div>
             </div>
               <ul>
                 <% @event.offers.each do |offer| %>
@@ -146,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         <%= f.fields_for :order_items do |order_item_f| %>
                           <%= order_item_f.hidden_field :offer_id, value: offer.id %>
                           <div class="control">
-                            <%= order_item_f.number_field :quantity, class: "input", placeholder: "quantidade" %>
+                            <%= order_item_f.number_field :quantity, value: 0, class: "input quantity-input", data: { price: offer.price }, placeholder: "quantidade" %>
                           </div>
                         <% end %>
                       </div>
