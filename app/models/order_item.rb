@@ -8,13 +8,23 @@ class OrderItem < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :offer_cannot_be_from_other_event
+  validate :quantity_cannot_be_different_to_valid_and_used_tokens_count
+
+  def valid_and_used_ticket_tokens
+    ticket_tokens.select { |ticket_token| ticket_token.ticket_status_id == 1 || ticket_token.ticket_status_id == 2 }
+  end
 
   private
 
-	def offer_cannot_be_from_other_event
-		if event.present? && order.order_items.length > 0 && event != order.event
-			errors.add(:event, "one order can't have order items related to different events")
-		end
-	end
+    def quantity_cannot_be_different_to_valid_and_used_tokens_count
+      if ticket_tokens.present? && self.quantity != valid_and_used_ticket_tokens.length
+        errors.add(:quantity, "can't mismatch the number of valid and used ticket tokens")
+      end
+    end
 
+    def offer_cannot_be_from_other_event
+      if event.present? && order.order_items.length > 0 && event != order.event
+        errors.add(:event, "one order can't have order items related to different events")
+      end
+    end
 end
