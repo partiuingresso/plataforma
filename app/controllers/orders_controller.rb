@@ -5,8 +5,12 @@ class OrdersController < ApplicationController
 	def new
 		@order = Order.new(order_params)
 		@order.order_items = @order.order_items.select { |order_item| order_item.quantity > 0 }
-		@order.order_items.each do |order_item|
-			order_item.ticket_tokens.build
+		if @order.order_items.empty?
+			redirect_back fallback_location: events_path
+		else
+			@order.order_items.each do |order_item|
+				order_item.ticket_tokens.build
+			end
 		end
 	end
 

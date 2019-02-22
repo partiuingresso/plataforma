@@ -13,7 +13,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_items
 
   def subtotal
-    order_items.collect { |oi| oi.valid? ? (oi.quantity * oi.offer.price) : 0 }.sum
+    order_items.collect { |oi| oi.quantity * oi.offer.price }.sum
   end
 
   def event
@@ -25,7 +25,7 @@ class Order < ApplicationRecord
   end
 
   def total_quantity
-    order_items.collect { |oi| oi.valid? ? (oi.quantity) : 0 }.sum
+    order_items.collect { |oi| oi.quantity }.sum
   end
 
   private
