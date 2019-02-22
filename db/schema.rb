@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_21_205121) do
+ActiveRecord::Schema.define(version: 2019_02_22_013107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,24 +122,8 @@ ActiveRecord::Schema.define(version: 2019_02_21_205121) do
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
-  create_table "order_statuses", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.decimal "subtotal", precision: 10, scale: 2, null: false
-    t.decimal "fee", precision: 3, scale: 2, null: false
-    t.bigint "user_id", null: false
-    t.bigint "order_status_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "number", null: false
-    t.index ["number"], name: "index_orders_on_number", unique: true
-    t.index ["order_status_id"], name: "index_orders_on_order_status_id"
-    t.index ["user_id"], name: "index_orders_on_user_id"
-  end
+# Could not dump table "orders" because of following StandardError
+#   Unknown type 'order_status' for column 'status'
 
   create_table "payments", primary_key: "order_id", id: :bigint, default: nil, force: :cascade do |t|
     t.string "tid", null: false
@@ -148,24 +132,8 @@ ActiveRecord::Schema.define(version: 2019_02_21_205121) do
     t.index ["order_id"], name: "index_payments_on_order_id"
   end
 
-  create_table "ticket_statuses", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ticket_tokens", force: :cascade do |t|
-    t.string "code", null: false
-    t.string "owner_name", null: false
-    t.string "owner_email", null: false
-    t.bigint "ticket_status_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "order_item_id", null: false
-    t.index ["code"], name: "index_ticket_tokens_on_code", unique: true
-    t.index ["order_item_id"], name: "index_ticket_tokens_on_order_item_id"
-    t.index ["ticket_status_id"], name: "index_ticket_tokens_on_ticket_status_id"
-  end
+# Could not dump table "ticket_tokens" because of following StandardError
+#   Unknown type 'ticket_status' for column 'status'
 
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
@@ -218,10 +186,8 @@ ActiveRecord::Schema.define(version: 2019_02_21_205121) do
   add_foreign_key "offers", "events"
   add_foreign_key "order_items", "offers"
   add_foreign_key "order_items", "orders"
-  add_foreign_key "orders", "order_statuses"
   add_foreign_key "orders", "users"
   add_foreign_key "payments", "orders"
   add_foreign_key "ticket_tokens", "order_items"
-  add_foreign_key "ticket_tokens", "ticket_statuses"
   add_foreign_key "users", "companies"
 end

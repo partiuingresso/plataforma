@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
+  enum status: { pending: "pending", approved: "approved", denied: "denied", refunded: "refunded" }
   belongs_to :user
-  belongs_to :order_status
   has_many :order_items
   has_one :payment
   has_many :events, through: :order_items
@@ -34,7 +34,7 @@ class Order < ApplicationRecord
       # *** Taxa de serviço ***
       self.fee ||= 0.1
       # ***********************
-      self.order_status_id ||= 1
+      self.status ||= :pending
     end
 
     def generate_order_number

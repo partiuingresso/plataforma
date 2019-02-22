@@ -10,14 +10,14 @@ class OrderItem < ApplicationRecord
   validate :offer_cannot_be_from_other_event
   validate :quantity_cannot_be_different_to_valid_and_used_tokens_count
 
-  def valid_and_used_ticket_tokens
-    ticket_tokens.select { |ticket_token| ticket_token.ticket_status_id == 1 || ticket_token.ticket_status_id == 2 }
+  def ticket_tokens_not_cancelled
+    ticket_tokens.select { |ticket_token| !ticket_token.cancelled? }
   end
 
   private
 
     def quantity_cannot_be_different_to_valid_and_used_tokens_count
-      if ticket_tokens.present? && self.quantity != valid_and_used_ticket_tokens.length
+      if ticket_tokens.present? && self.quantity != ticket_tokens_not_cancelled.length
         errors.add(:quantity, "can't mismatch the number of valid and used ticket tokens")
       end
     end

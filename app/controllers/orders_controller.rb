@@ -16,7 +16,6 @@ class OrdersController < ApplicationController
 		@order.order_items.each do |order_item|
 			order_item.ticket_tokens.each do |ticket_token|
 				ticket_token.code = "aaf0d0bab"
-				ticket_token.ticket_status_id = 1
 			end
 		end
 
