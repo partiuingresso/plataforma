@@ -2,15 +2,38 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
 .section.hero-home {
-  background-image: image-url("hero/home.jpg");
+  // background-image: image-url($img);
   background-size: cover;
   min-height: 28rem;
   width: 100%;
   background-position: center 40%;
+  background-repeat: no-repeat;
+  // box-shadow: inset 0px 0px 86px 200px rgba(0,0,0,0.45);
 }
 
+ 
+.search > input::placeholder {
+  font-weight: 300;
+  color: #ffffff !important;
+}
+
+.search > input {
+  background-color: rgba(20,20,25,0.55);
+  box-shadow: -1px 10px 45px -12px rgba(0,0,0,0.75);
+  border-width: 0;
+  height: 4rem;
+  color: #ffffff;
+}
+
+.search > button {
+  height: 4rem;
+  font-weight: 600;
+  box-shadow: -1px 9px 45px -12px rgba(0,0,0,0.75);
+}
+
+
+
 .hero-content-home {
-  padding-top: 7rem;
+  padding-top: 9.33rem;
 }

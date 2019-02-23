@@ -22,4 +22,8 @@ class Event < ApplicationRecord
 			errors.add(:end_t, "can't be before start date")
 		end
 	end
+
+	def self.to_happen
+		Event.all.select { |event| event.start_t >= DateTime.now }
+	end
 end
