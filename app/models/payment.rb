@@ -1,3 +1,21 @@
-class Payment < ApplicationRecord
-  has_one :order
+class Payment
+	include ActiveModel::Model
+
+	# Holder information
+	attr_accessor :holder_fullname
+	attr_accessor :holder_cpf
+	attr_accessor :holder_birthdate
+	attr_accessor :holder_phone
+
+	# Billing Address
+	attr_accessor :billing_address_street
+	attr_accessor :billing_address_number
+	attr_accessor :billing_address_complement
+	attr_accessor :billing_address_district
+	attr_accessor :billing_address_city
+	attr_accessor :billing_address_state
+	attr_accessor :billing_address_zipcode
+
+	# Encrypted Credit Card Number
+	attr_accessor :hash
 end

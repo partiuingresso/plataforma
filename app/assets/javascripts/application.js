@@ -23,3 +23,4 @@
 //= stub events/maps
 //= stub events/cart
 //= stub toggle
+//= stub orders

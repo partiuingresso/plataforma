@@ -392,18 +392,6 @@ ALTER SEQUENCE public.orders_id_seq OWNED BY public.orders.id;
 
 
 --
--- Name: payments; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.payments (
-    tid character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    order_id bigint NOT NULL
-);
-
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -679,14 +667,6 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.payments
-    ADD CONSTRAINT payments_pkey PRIMARY KEY (order_id);
-
-
---
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -817,17 +797,17 @@ CREATE UNIQUE INDEX index_orders_on_number ON public.orders USING btree (number)
 
 
 --
+-- Name: index_orders_on_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_status ON public.orders USING btree (status);
+
+
+--
 -- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_orders_on_user_id ON public.orders USING btree (user_id);
-
-
---
--- Name: index_payments_on_order_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_payments_on_order_id ON public.payments USING btree (order_id);
 
 
 --
@@ -842,6 +822,13 @@ CREATE UNIQUE INDEX index_ticket_tokens_on_code ON public.ticket_tokens USING bt
 --
 
 CREATE INDEX index_ticket_tokens_on_order_item_id ON public.ticket_tokens USING btree (order_item_id);
+
+
+--
+-- Name: index_ticket_tokens_on_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticket_tokens_on_status ON public.ticket_tokens USING btree (status);
 
 
 --
@@ -942,14 +929,6 @@ ALTER TABLE ONLY public.offers
 
 
 --
--- Name: payments fk_rails_6af949464b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.payments
-    ADD CONSTRAINT fk_rails_6af949464b FOREIGN KEY (order_id) REFERENCES public.orders(id);
-
-
---
 -- Name: users fk_rails_7682a3bdfe; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1039,6 +1018,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190217011746'),
 ('20190218033157'),
 ('20190221205121'),
-('20190222013107');
+('20190222013107'),
+('20190223050444');
 
 

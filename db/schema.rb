@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_22_013107) do
+ActiveRecord::Schema.define(version: 2019_02_23_050444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,13 +125,6 @@ ActiveRecord::Schema.define(version: 2019_02_22_013107) do
 # Could not dump table "orders" because of following StandardError
 #   Unknown type 'order_status' for column 'status'
 
-  create_table "payments", primary_key: "order_id", id: :bigint, default: nil, force: :cascade do |t|
-    t.string "tid", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_payments_on_order_id"
-  end
-
 # Could not dump table "ticket_tokens" because of following StandardError
 #   Unknown type 'ticket_status' for column 'status'
 
@@ -187,7 +180,6 @@ ActiveRecord::Schema.define(version: 2019_02_22_013107) do
   add_foreign_key "order_items", "offers"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
-  add_foreign_key "payments", "orders"
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "users", "companies"
 end

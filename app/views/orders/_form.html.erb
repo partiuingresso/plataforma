@@ -1,108 +1,119 @@
+<%= javascript_include_tag params[:controller], defer: true %>
 <%= form_for @order do |f| %>
   <div class="columns is-multiline">
-    <div class="column is-12">
-      <div class="field">
-        <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
-        <div class="control">
-          <input class="input" type="text" placeholder="">
-        </div>
-      </div>
-    </div>
-    <div class="column is-12">
-      <label class="label">Informações do cartão</label>
-      <div class="field has-addons">
-        <div class="control is-expanded">
-          <input class="input" type="text" placeholder="Número do cartão">
-        </div>
-        <div class="control">
-          <input class="input" type="text" placeholder="Validade">
-        </div>
-        <div class="control">
-          <input class="input" type="text" placeholder="CVV">
-        </div>
-      </div>
-    </div>
-    <div class="column is-6">
-      <div class="field">
-        <label class="label">CPF</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="">
-        </div>
-      </div>
-    </div>
-    <div class="column is-6">
-      <div class="field">
-        <label class="label">Telefone celular</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="">
-        </div>
-      </div>
-    </div>
-    <div class="column is-6">
-      <div class="field">
-        <div class="control">
-          <label class="label">Data de Nascimento</label>
-          <div class="select">
-            <select>
-              <option>--</option>
-            </select>
+    <%= fields_for @payment do |payment_f| %>
+      <div class="column is-12">
+        <div class="field">
+          <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
+          <div class="control">
+            <%= payment_f.text_field :holder_fullname, class: "input" %>
           </div>
         </div>
       </div>
-    </div>
-    <div class="column is-6">
-      <div class="field">
-        <label class="label">CEP</label>
-        <div class="control">
-          <input class="input" type="text" placeholder="">
+      <div class="column is-12">
+        <label class="label">Informações do cartão</label>
+        <div class="field has-addons">
+          <%= payment_f.hidden_field :hash %>
+          <div class="control is-expanded">
+            <input id="card-number" class="input" type="number" placeholder="Número do cartão">
+          </div>
+          <div class="control">
+            <input id="expiration-date" class="input" type="date" placeholder="Validade">
+          </div>
+          <div class="control">
+            <input id="cvc" class="input" type="text" placeholder="CVV">
+          </div>
         </div>
       </div>
-    </div>
+      <div class="column is-6">
+        <div class="field">
+          <label class="label">CPF</label>
+          <div class="control">
+            <%= payment_f.text_field :holder_cpf, class: "input" %>
+          </div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="field">
+          <label class="label">Telefone celular</label>
+          <div class="control">
+            <%= payment_f.text_field :holder_phone, class: "input" %>
+          </div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="field">
+          <div class="control">
+            <label class="label">Data de Nascimento</label>
+            <div class="select">
+              <%= payment_f.date_field :holder_birthdate, class: "input" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-6">
+        <div class="field">
+          <label class="label">CEP</label>
+          <div class="control">
+            <%= payment_f.number_field :billing_address_zipcode, class: "input" %>
+          </div>
+        </div>
+      </div>
 
-    <div class="column is-12 address is-hidden">
-      <div class="columns is-multiline">
-        <div class="column is-6">
-          <div class="field">
-            <label class="label">Endereço</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="">
+      <div class="column is-12 address">
+        <div class="columns is-multiline">
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">Endereço</label>
+              <div class="control">
+                <%= payment_f.text_field :billing_address_street, class: "input" %>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="column is-3">
-          <div class="field">
-            <label class="label">Número</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="">
+          <div class="column is-3">
+            <div class="field">
+              <label class="label">Número</label>
+              <div class="control">
+                <%= payment_f.number_field :billing_address_number, class: "input" %>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="column is-3">
-          <div class="field">
-            <label class="label">Complemento</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="">
+          <div class="column is-3">
+            <div class="field">
+              <label class="label">Complemento</label>
+              <div class="control">
+                <%= payment_f.text_field :billing_address_complement, class: "input" %>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="column is-6">
-          <div class="field">
-            <label class="label">Cidade</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="">
+          <div class="column is-4">
+            <label class="label">Bairro</label>
+            <div class="control has-icons-right">
+              <%= payment_f.text_field :billing_address_district, class: "input" %>
+              <span class="icon is-right has-text-danger">
+                <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+              </span>
             </div>
           </div>
-        </div>
-        <div class="column is-6">
-          <div class="field">
-            <label class="label">Estado</label>
-            <div class="control">
-              <input class="input" type="text" placeholder="">
+          <div class="column is-5">
+            <div class="field">
+              <label class="label">Cidade</label>
+              <div class="control">
+                <%= payment_f.text_field :billing_address_city, class: "input" %>
+              </div>
+            </div>
+          </div>
+          <div class="column is-3">
+            <div class="field">
+              <label class="label">Estado</label>
+              <div class="control">
+                <%= payment_f.text_field :billing_address_state, class: "input" %>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    <% end %>
 
     <div class="column is-12 is-paddingless">
       <hr />
