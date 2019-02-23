@@ -14,6 +14,15 @@ body {
   font-weight: 700;
 }
 
+.subtitle {
+  color: unset;
+  font-weight: 400;
+}
+
+.strong {
+  font-weight: 700;
+}
+
 .inline {
   display: inline;
 }
@@ -32,6 +41,10 @@ body {
   .seguro { padding-left: 1rem; }
   .logo { opacity: 0.2; }
   .cnpj { opacity: 0.5; font-size: 0.7rem; }
+}
+
+.footer a {
+  color: unset;
 }
 
 .footer-clear {

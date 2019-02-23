@@ -23,5 +23,7 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:index, :new, :create, :show]
   
-  root to: 'home#index'
+  root to: 'pages#index'
+  get 'terms', to: 'pages#terms'
+  get 'privacy', to: 'pages#privacy'
 end

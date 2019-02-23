@@ -139,7 +139,7 @@
     <% end %>
     <div class="column is-12">
       <hr />
-      <p class="help">Eu concordo com o <a href="#">Termos de Serviço</a>, <a href="#">Política de Cancelamento</a> e a <a href="#">Política de Privacidade</a>. Também concordo em pagar o valor total exibido, que inclui as taxas de serviço.</p>
+      <p class="help">Eu concordo com o <%= link_to "Termos de Uso", terms_path, target: "_blank" %>, <%= link_to "Política de Cancelamento", terms_path, target: "_blank" %> e a <%= link_to "Política de Privacidade", privacy_path, target: "_blank" %>. Também concordo em pagar o valor total exibido, que inclui as taxas de serviço.</p>
       <%= f.button :submit, class:"confirm button is-primary" do %>
         <span>Confirmar e pagar</span>
         <span class="icon is-small">
