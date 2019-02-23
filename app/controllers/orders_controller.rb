@@ -26,12 +26,11 @@ class OrdersController < ApplicationController
 		if @order.save
 			render plain: "OK"
 		else
-			puts "***************************************************************"
-			puts @order.errors.messages
-			puts "***************************************************************"
-
 			render plain: "NOT GOOD"
 		end
+
+		wirecard_order = Wirecard::create_order @order
+		puts wirecard_order.inspect
 	end
 
 	def show
