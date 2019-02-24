@@ -1,8 +1,19 @@
+<style>
+  .section.hero-home { background-image: linear-gradient(rgba(20,20,25,0.5), rgba(20,20,25,0.5)), url(<%= asset_path "hero/#{rand(29)}.jpg" %>); }
+</style>
+
 <section class="section hero-home">
   <div class="container hero-content-home">
     <div class="columns is-centered">
-      <div class="column is-half has-text-centered">
-        <h1 class="title has-text-white is-size-1">Ba Dum Tss!<span class="is-size-5">  (̿▀̿‿ ̿▀̿ ̿)</span></h1>
+      <div class="column is-8 has-text-centered">
+        <div class="field is-grouped">
+          <div class="control is-expanded search">
+            <input class="input is-large" type="text" placeholder="Busque seu próximo evento e partiu">
+          </div>
+          <div class="control search">
+            <button class="button is-white is-large"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -11,5 +22,14 @@
 
 <section class="section teste">
   <div class="container">
+    <% if @events.count >= 2 %>
+     <%= @events[0].name %>
+
+      <% @events[1..1].each do |event| %>
+        <% event.name %>
+      <% end %>
+    <% else %>
+
+    <% end %>
   </div>
 </section>
