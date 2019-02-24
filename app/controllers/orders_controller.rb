@@ -24,13 +24,14 @@ class OrdersController < ApplicationController
 			end
 		end
 
-		if @order.valid?
+		if @order.save
 			payment = Payment.new(payment_params)
 			if Wirecard.process_checkout? @order, payment
-				@order.save
 				render plain: "OK"
 
 				return
+			else
+				@order.destroy
 			end
 		end
 
