@@ -133,27 +133,43 @@ document.addEventListener("DOMContentLoaded", function(){
               <div class="column is-6">
                 <p class="tickets title">Ingressos</p>
               </div>
-              <div class="column is-3 is-offset-3">
-                <p>
-                  <span>R$</span><span id="total_price">0,00</span>
-                </p>
+              <div class="column is-6 has-text-right">
+                <span class="icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+                <span>R$</span><span id="total_price">0,00</span>
               </div>
             </div>
               <ul>
                 <% @event.offers.each do |offer| %>
                   <li>
                     <div class="columns is-vcentered">
-                      <div class="column is-4">
+                      <div class="column is-6">
                         <p><%= offer.name %></p>
                       </div>
                       <div class="column is-3">
                         <p><%= value_to_currency(offer.price) %></p>
                       </div>
-                      <div class="column is-5">
+                      <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>
                           <%= order_item_f.hidden_field :offer_id, value: offer.id %>
-                          <div class="control">
-                            <%= order_item_f.number_field :quantity, value: 0, class: "input quantity-input", data: { price: offer.price }, placeholder: "quantidade" %>
+                          <div class="level">
+                            <div class="level-item">
+                              <span class="icon is-small button minus">
+                                <i class="fas fa-minus"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price }, placeholder: "quantidade" %>
+                              <span class="quantity-view">
+                                0
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon is-small button plus">
+                                <i class="fas fa-plus"></i>
+                              </span>
+                            </div>
                           </div>
                         <% end %>
                       </div>

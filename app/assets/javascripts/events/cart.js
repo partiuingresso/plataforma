@@ -1,6 +1,3 @@
-var orderForm = document.getElementById('new_order');
-var totalPrice = document.getElementById('total_price');
-
 init();
 
 function init() {
@@ -9,6 +6,7 @@ function init() {
 }
 
 function setEventHandlers() {
+	var orderForm = document.getElementById('new_order');
 	var orderInputs = orderForm.querySelectorAll('input.quantity-input');
 	var calculateTotal = function() {
 		let total = 0;
@@ -19,13 +17,42 @@ function setEventHandlers() {
 		return total;
 	};
 
-	for(let input of orderInputs) {
-		input.addEventListener('input', function(e) {
-			if(Number(input.value) < 0) {
-				return;
-			}
+	var plus = document.querySelectorAll('.button.plus');
+	var minus = document.querySelectorAll('.button.minus');
+	var totalPrice = document.getElementById('total_price');
+
+	for(let button of plus) {
+		button.addEventListener('click', function(e) {
+		var buttonParent = button.parentElement;
+		var divSibling = buttonParent.previousElementSibling;
+		var quantityView = divSibling.querySelector('.quantity-view');
+		var number = quantityView.innerHTML;
+		if(number < 5) {
+			number++;
+			quantityView.innerHTML = number;
+			var hiddenInput = divSibling.querySelector('.quantity-input');
+			hiddenInput.value = number;
 			let total = calculateTotal().toFixed(2);
 			totalPrice.innerText = total.toString(10).replace(".", ",");
+		}
+		});
+	}
+
+	for(let button of minus) {
+		button.addEventListener('click', function(e) {
+		var buttonParent = button.parentElement;
+		var divSibling = buttonParent.nextElementSibling;
+		var quantityView = divSibling.querySelector('.quantity-view');
+		var number = quantityView.innerHTML;
+			if(number > 0) {
+				number--;
+				quantityView.innerHTML = number;
+				var hiddenInput = divSibling.querySelector('.quantity-input');
+				hiddenInput.value = number;
+				let total = calculateTotal().toFixed(2);
+				totalPrice.innerText = total.toString(10).replace(".", ",");
+			}
 		});
 	}
 }
+
