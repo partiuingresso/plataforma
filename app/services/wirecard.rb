@@ -12,9 +12,9 @@ module Wirecard
 
 	def self.process_checkout? order_data, payment_data
 		order = create_order order_data
-		if order.status.present? && order.status == "CREATED"
+		if order.respond_to?(:status) && order.status.present? && order.status == "CREATED"
 			payment = create_payment order.id, payment_data
-			if payment.status.present? && payment.status == "CREATED"
+			if payment.respond_to?(:status) && payment.status.present? && payment.status == "IN_ANALYSIS"
 				return true
 			end
 		end

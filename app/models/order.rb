@@ -6,6 +6,7 @@ class Order < ApplicationRecord
   has_many :events, through: :order_items
   has_many :offers, through: :order_items
 
+  before_create :generate_order_number
   before_save :update_subtotal
   after_initialize :default_values
 
@@ -33,7 +34,6 @@ class Order < ApplicationRecord
       # *** Taxa de serviço ***
       self.fee ||= 0.1
       # ***********************
-      self.number ||= generate_order_number
       self.status ||= :pending
     end
 
@@ -51,7 +51,7 @@ class Order < ApplicationRecord
         break unless Order.exists?(number: order_number)
       end
 
-      return order_number
+      self.number = order_number
     end
 
     def update_subtotal
