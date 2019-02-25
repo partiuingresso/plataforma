@@ -10,21 +10,59 @@
           </div>
         </div>
       </div>
-      <div class="column is-12">
-        <label class="label">Informações do cartão</label>
-        <div class="field has-addons">
+      <div class="column is-12 cards-label">
+        <div class="level" style="margin-bottom: 0.75rem;">
+          <div class="level-left">
+            <div class="level-item">
+              <label class="label">Informações do cartão</label>
+            </div>
+          </div>
+          <div class="level-right cards">
+            <div class="level-item">
+              <%= image_tag 'cards/visa.svg', alt:'Visa', width:'36rem', id: 'visa' %>
+            </div>
+            <div class="level-item">
+              <%= image_tag 'cards/mastercard.svg', alt:'Visa', width:'36rem', id: 'mastercard' %>
+            </div>
+            <div class="level-item">
+              <%= image_tag 'cards/amex.svg', alt:'Visa', width:'36rem', id: 'amex' %>
+            </div>
+            <div class="level-item">
+              <%= image_tag 'cards/elo.svg', alt:'Visa', width:'36rem', id: 'elo' %>
+            </div>
+            <div class="level-item">
+              <%= image_tag 'cards/hiper.svg', alt:'Visa', width:'36rem', id: 'hiper' %>
+            </div>
+            <div class="level-item">
+              <%= image_tag 'cards/diners.svg', alt:'Visa', width:'36rem', id: 'dinersclub' %>
+            </div>
+            <div class="level-item">
+              <%= image_tag 'cards/hipercard.svg', alt:'Visa', width:'36rem', id: 'hipercard' %>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      <div class="column is-6 no-top-pad">
+        <div class="field">
           <%= payment_f.hidden_field :hash %>
           <div class="control is-expanded">
-            <input id="card-number" class="input" type="number" placeholder="Número do cartão">
+            <input id="card-number" class="input" type="tel" placeholder="Número do cartão" maxlength="16">
+            <span class="help is-danger is-hidden" id="cardHelp">Número de cartão inválido.</span>
           </div>
+        </div>
+      </div>
+      <div class="column is-6 no-top-pad">
+        <div class="field has-addons">
           <div class="control">
             <input id="expiration-date" class="input" type="date" placeholder="Validade">
           </div>
           <div class="control">
-            <input id="cvc" class="input" type="text" placeholder="CVV">
+            <input id="cvc" class="input" type="text" placeholder="CVV" maxlength="4">
           </div>
         </div>
       </div>
+
       <div class="column is-6">
         <div class="field">
           <label class="label">CPF</label>

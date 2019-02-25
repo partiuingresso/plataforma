@@ -1,3 +1,4 @@
+//= require orders/new
 //= require moip/moip-sdk-js
 
 const pubKey = `-----BEGIN PUBLIC KEY-----

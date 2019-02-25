@@ -62,3 +62,20 @@ p.total {
     vertical-align: middle;
   }
 }
+
+.cards-label {
+  padding-bottom: 8.400px;
+}
+
+.no-top-pad {
+  padding-top: unset;
+}
+
+.unselected {
+  transition: .5s ease;
+  opacity: 0.3;
+}
+
+.cards > .level-item > img {
+  transition: .5s ease;
+}
