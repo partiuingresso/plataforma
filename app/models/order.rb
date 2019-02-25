@@ -5,6 +5,7 @@ class Order < ApplicationRecord
   has_one :payment
   has_many :events, through: :order_items
   has_many :offers, through: :order_items
+  has_many :ticket_tokens, through: :order_items
 
   before_create :generate_order_number
   before_save :update_subtotal
@@ -26,6 +27,13 @@ class Order < ApplicationRecord
 
   def total_quantity
     order_items.collect { |oi| oi.quantity }.sum
+  end
+
+  def approved!
+    super
+    ticket_tokens.each do |ticket_token|
+      ticket_token.ready!
+    end
   end
 
   private

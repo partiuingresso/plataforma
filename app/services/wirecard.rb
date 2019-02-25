@@ -1,4 +1,7 @@
 module Wirecard
+
+	autoload :Webhooks, 'webhooks'
+
 	token = Rails.application.credentials.dig(:wirecard_sandbox_api_token)
 	key = Rails.application.credentials.dig(:wirecard_sandbox_api_key)
 	auth = Moip2::Auth::Basic.new(token, key)
@@ -10,11 +13,21 @@ module Wirecard
 		@@api
 	end
 
+	@@notification = api.notifications.create(
+		events: ["ORDER.*"],
+		target: "http://e8bc08b7.ngrok.io/webhooks",
+		media: "WEBHOOK"
+	)
+
+	def self.notification_token
+		@@notification.token
+	end
+
 	def self.process_checkout? order_data, payment_data
 		order = create_order order_data
-		if order.respond_to?(:status) && order.status.present? && order.status == "CREATED"
+		if order.respond_to?(:status) && order.status.present?
 			payment = create_payment order.id, payment_data
-			if payment.respond_to?(:status) && payment.status.present? && payment.status == "IN_ANALYSIS"
+			if payment.respond_to?(:status) && payment.status.present?
 				return true
 			end
 		end
