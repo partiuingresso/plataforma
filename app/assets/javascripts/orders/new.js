@@ -1,17 +1,20 @@
 //=require creditcard-warder/creditcard-warder.min
-//=require brazilian-values/dist/brazilian-values.min
+//=require brazilian-values/dist/brazilian-values
 //=require payment-formatter/umd/index.min
 
+var brazilValues = require('brazilian-values');
 
 var cardInput = document.getElementById('card-number');
 var cvcInput = document.getElementById('cvc');
 var expInput = document.getElementById('expiration-date');
+var cpfInput = document.getElementById('payment_holder_cpf');
+var celInput = document.getElementById('payment_holder_phone');
+var zipInput = document.getElementById('payment_billing_address_zipcode');
 var imagesDiv = document.querySelector('.level-right.cards');
 var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
 var formInputs = form.querySelectorAll('input, select');
 var complement = document.getElementById('payment_billing_address_complement');
-
 
 // Max length do input do cartão e cvv
 cardInput.addEventListener('keypress', function() {
@@ -25,7 +28,7 @@ cvcInput.addEventListener('keypress', function() {
   }
 });
 
-// Masks
+// Masks e dica Validade do CC
 expInput.addEventListener('focusin', function() {
   expInput.placeholder = "MM/AA";
 });
@@ -37,6 +40,20 @@ paymentFormatter({
   selector: 'input#expiration-date'
 });
 
+// Mask do CPF
+cpfInput.addEventListener('input', function() {
+  cpfInput.value = brazilValues.formatToCPF(cpfInput.value);
+});
+
+// Mask do Telefone Cel
+celInput.addEventListener('input', function() {
+  celInput.value = brazilValues.formatToPhone(celInput.value);
+});
+
+// Mask do CEP
+zipInput.addEventListener('input', function() {
+  zipInput.value = brazilValues.formatToCEP(zipInput.value);
+});
 
 // Seleciona bandeira do cartão
 cardInput.addEventListener('input', function(e) {

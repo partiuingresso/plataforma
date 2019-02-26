@@ -67,7 +67,7 @@
         <div class="field">
           <label class="label">CPF</label>
           <div class="control">
-            <%= payment_f.text_field :holder_cpf, class: "input" %>
+            <%= payment_f.text_field :holder_cpf, class: "input", maxlength: "14" %>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@
         <div class="field">
           <label class="label">Telefone celular</label>
           <div class="control">
-            <%= payment_f.text_field :holder_phone, class: "input" %>
+            <%= payment_f.text_field :holder_phone, class: "input", maxlength: "16" %>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
         <div class="field">
           <label class="label">CEP</label>
           <div class="control">
-            <%= payment_f.number_field :billing_address_zipcode, class: "input" %>
+            <%= payment_f.text_field :billing_address_zipcode, class: "input", maxlength: "9" %>
           </div>
         </div>
       </div>
