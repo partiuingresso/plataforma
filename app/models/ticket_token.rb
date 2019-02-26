@@ -4,6 +4,8 @@ class TicketToken < ApplicationRecord
 	has_one :validation
 	belongs_to :order_item
 
+	has_secure_token :code
+
 	after_initialize :default_values
 
 	private
