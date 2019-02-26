@@ -102,6 +102,7 @@ function validateCC() {
 // Valida os campos
 function validateInputs() {
   var valid = true;
+  var cpfValid = brazilValues.isCPF(cpfInput.value);
   for(let input of formInputs) {
     if(!input.value.length && !(input == complement) && !(input.type == "hidden") && !(input == cardInput)) {
       if(input.matches('select')) {
@@ -114,6 +115,16 @@ function validateInputs() {
         input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Este campo é obrigatório.</span>');
       }
       input.scrollIntoView({block: "end", behavior: "smooth"});
+      valid = false;
+    } else if((input == cpfInput) && (cpfInput.value >= 1) && !cpfValid) {
+      var spanHelp = input.nextElementSibling;
+      if(!spanHelp || !spanHelp.matches('.cpf')) {
+        input.classList.add('is-danger');
+        input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">CPF inválido.</span>');
+        input.scrollIntoView({block: "end", behavior: "smooth"});
+      } else if (spanHelp.matches('.cpf')) {
+        spanHelp.classList.remove('is-hidden');
+      }
       valid = false;
     }
   }
