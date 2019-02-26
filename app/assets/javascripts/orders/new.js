@@ -26,6 +26,12 @@ cvcInput.addEventListener('keypress', function() {
 });
 
 // Masks
+expInput.addEventListener('focusin', function() {
+  expInput.placeholder = "MM/AA";
+});
+expInput.addEventListener('focusout', function() {
+  expInput.placeholder = "Validade";
+});
 paymentFormatter({
   inputType: 'expiry',
   selector: 'input#expiration-date'
