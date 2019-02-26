@@ -1,8 +1,11 @@
 //=require creditcard-warder/creditcard-warder.min
 //=require brazilian-values/dist/brazilian-values.min
+//=require payment-formatter/umd/index.min
+
 
 var cardInput = document.getElementById('card-number');
 var cvcInput = document.getElementById('cvc');
+var expInput = document.getElementById('expiration-date');
 var imagesDiv = document.querySelector('.level-right.cards');
 var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
@@ -21,6 +24,13 @@ cvcInput.addEventListener('keypress', function() {
     event.preventDefault();
   }
 });
+
+// Masks
+paymentFormatter({
+  inputType: 'expiry',
+  selector: 'input#expiration-date'
+});
+
 
 // Seleciona bandeira do cartão
 cardInput.addEventListener('input', function(e) {
