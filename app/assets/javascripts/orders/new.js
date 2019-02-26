@@ -1,6 +1,8 @@
 //=require creditcard-warder/creditcard-warder.min
+//=require brazilian-values/dist/brazilian-values.min
 
 var cardInput = document.getElementById('card-number');
+var cvcInput = document.getElementById('cvc');
 var imagesDiv = document.querySelector('.level-right.cards');
 var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
@@ -8,9 +10,14 @@ var formInputs = form.querySelectorAll('input, select');
 var complement = document.getElementById('payment_billing_address_complement');
 
 
-// Max length do input do cartão
+// Max length do input do cartão e cvv
 cardInput.addEventListener('keypress', function() {
   if(cardInput.value.length == 16) {
+    event.preventDefault();
+  }
+});
+cvcInput.addEventListener('keypress', function() {
+  if(cvcInput.value.length == 4) {
     event.preventDefault();
   }
 });
