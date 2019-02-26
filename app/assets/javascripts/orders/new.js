@@ -7,6 +7,14 @@ var form = document.getElementsByTagName('form')[0];
 var formInputs = document.querySelectorAll('input');
 var complement = document.getElementById('payment_billing_address_complement');
 
+
+// Max length do input do cartão
+cardInput.addEventListener('keypress', function() {
+  if(cardInput.value.length == 16) {
+    event.preventDefault();
+  }
+});
+
 // Seleciona bandeira do cartão
 cardInput.addEventListener('input', function(e) {
   for(let img of images) {
@@ -31,17 +39,18 @@ function validateCC() {
   var card = CreditcardWarder(number);
   var validate = card.validate();
   var brand = card.getBrand();
+  var spanHelp = cardInput.nextElementSibling;
 
   if(!validate) {
     cardInput.classList.add('is-danger');
-    cardInput.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Número de cartão inválido.</span>');
+    spanHelp.classList.remove('is-hidden');
     cardInput.scrollIntoView({block: "end", behavior: "smooth"});
 
     return false
   }
   else if(brand == "other") {
     cardInput.classList.add('is-danger');
-    cardInput.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Número de cartão inválido.</span>');
+    spanHelp.classList.remove('is-hidden');
     cardInput.scrollIntoView({block: "end", behavior: "smooth"});
 
     return false
@@ -68,18 +77,20 @@ function validateInputs() {
 // Retira o help ao preencher
 function cleanInputs() {
   for(let input of formInputs) {
-    input.addEventListener('focusin', function() {
-      var spanHelp = input.nextSibling;
-      input.classList.remove('is-danger');
-      spanHelp.classList.add('is-hidden');
-    });
-    input.addEventListener('focusout', function() {
-      if(!input.value.length && !(input == complement)) {
-        var spanHelp = input.nextSibling;
-        input.classList.add('is-danger');
-        spanHelp.classList.remove('is-hidden');
-      }
-    });
+    if(input != complement) {
+      input.addEventListener('focusin', function() {
+        var spanHelp = input.nextElementSibling;
+        input.classList.remove('is-danger');
+        spanHelp.classList.add('is-hidden');
+      });
+      input.addEventListener('focusout', function() {
+        if(!input.value.length && !(input == complement)) {
+          var spanHelp = input.nextElementSibling;
+          input.classList.add('is-danger');
+          spanHelp.classList.remove('is-hidden');
+        }
+      });
+    }
   }
 }
 

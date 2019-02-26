@@ -47,14 +47,15 @@
         <div class="field">
           <%= payment_f.hidden_field :hash %>
           <div class="control">
-            <input id="card-number" class="input" type="tel" placeholder="Número do cartão" maxlength="16">
+            <input id="card-number" class="input" type="number" placeholder="Número do cartão">
+            <span class="help checkout is-danger is-hidden">Número de cartão inválido.</span>
           </div>
         </div>
       </div>
       <div class="column is-6 no-top-pad">
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input id="expiration-date" class="input" type="tel" placeholder="Validade">
+            <input id="expiration-date" class="input" type="number" placeholder="Validade">
           </div>
           <div class="control">
             <input id="cvc" class="input" type="text" placeholder="CVV" maxlength="4">
