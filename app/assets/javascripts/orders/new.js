@@ -5,6 +5,7 @@ var imagesDiv = document.querySelector('.level-right.cards');
 var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
 var formInputs = document.querySelectorAll('input');
+var complement = document.getElementById('payment_billing_address_complement');
 
 // Seleciona bandeira do cartão
 cardInput.addEventListener('input', function(e) {
@@ -52,7 +53,6 @@ function validateCC() {
 // Valida os campos
 function validateInputs() {
   var valid = true;
-  var complement = document.getElementById('payment_billing_address_complement');
   for(let input of formInputs) {
     if(!input.value.length && !(input == complement) && !(input.type == "hidden") && !(input == cardInput)) {
       input.classList.add('is-danger');
