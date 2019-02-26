@@ -18,11 +18,6 @@ class OrdersController < ApplicationController
 	def create
 		@order = Order.new(order_params)
 		@order.user = current_user
-		@order.order_items.each do |order_item|
-			order_item.ticket_tokens.each do |ticket_token|
-				ticket_token.code = "jorge"
-			end
-		end
 
 		if @order.save
 			payment = Payment.new(payment_params)
