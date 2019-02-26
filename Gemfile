@@ -19,6 +19,8 @@ gem "bulma-rails", "~> 0.7.2"
 gem 'geocoder'
 # Use Trix Rich Text Editor
 gem 'trix-rails', require: 'trix'
+# Use browserify (change to Webpacker asap)
+gem "browserify-rails"
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
