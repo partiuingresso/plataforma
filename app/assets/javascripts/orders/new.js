@@ -1,7 +1,9 @@
 //=require creditcard-warder/creditcard-warder.min
 //=require brazilian-values/dist/brazilian-values
 //=require payment-formatter/umd/index.min
+//=require cep-promise/dist/cep-promise-browser
 
+var cepPromise = require('cep-promise');
 var brazilValues = require('brazilian-values');
 
 var cardInput = document.getElementById('card-number');
@@ -15,6 +17,12 @@ var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
 var formInputs = form.querySelectorAll('input, select');
 var complement = document.getElementById('payment_billing_address_complement');
+var streetInput = document.getElementById('payment_billing_address_street');
+var districtInput = document.getElementById('payment_billing_address_district');
+var cityInput = document.getElementById('payment_billing_address_city');
+var stateInput = document.getElementById('payment_billing_address_state');
+var numberInput = document.getElementById('payment_billing_address_number');
+var addressInput = document.getElementById('address');
 
 // Max length do input do cartão e cvv
 cardInput.addEventListener('keypress', function() {
@@ -53,7 +61,28 @@ celInput.addEventListener('input', function() {
 // Mask do CEP
 zipInput.addEventListener('input', function() {
   zipInput.value = brazilValues.formatToCEP(zipInput.value);
+  if(zipInput.value.length == 9) {
+    zipInput.parentElement.classList.add('is-loading');
+    cepToAddress();
+  }
 });
+
+// Pega o cep e popula
+function cepToAddress() {
+  cep(zipInput.value).then(function(result) {
+    zipInput.parentElement.classList.remove('is-loading');
+    addressInput.classList.remove('is-hidden');
+    streetInput.value = result.street;
+    districtInput.value = result.neighborhood;
+    cityInput.value = result.city;
+    stateInput.value = result.state;
+    numberInput.focus();
+  }, function() {
+    zipInput.parentElement.classList.remove('is-loading');
+    addressInput.classList.remove('is-hidden');
+    streetInput.focus();
+  });
+}
 
 // Seleciona bandeira do cartão
 cardInput.addEventListener('input', function(e) {
