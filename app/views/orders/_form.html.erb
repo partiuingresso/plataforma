@@ -75,7 +75,7 @@
         <div class="field">
           <label class="label">Telefone celular</label>
           <div class="control">
-            <%= payment_f.text_field :holder_phone, class: "input", maxlength: "16" %>
+            <input id="phone" type="text" name="phone" maxlength="16" class="input">
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
           <div class="control">
             <label class="label">Data de Nascimento</label>
             <div class="select">
-              <%= payment_f.date_select :holder_birthdate, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
+              <%= select_date(nil, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'}) %>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 class OrderItem < ApplicationRecord
   belongs_to :offer
   belongs_to :order
-  has_many :ticket_tokens
+  has_many :ticket_tokens, dependent: :destroy
   has_one :event, through: :offer
 
   accepts_nested_attributes_for :ticket_tokens

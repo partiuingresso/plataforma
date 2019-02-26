@@ -17,9 +17,9 @@ var expirationDate = document.getElementById('expiration-date').value;
 form.addEventListener('submit', function(e) {
 	var cardNumberValue = document.getElementById('card-number').value;
 	var cvcValue = document.getElementById('cvc').value;
-	var expirationDate = document.getElementById('expiration-date').value;
-	var expMonthValue = new Date(expirationDate).getMonth();
-	var expYearValue = new Date(expirationDate).getYear();
+	var expirationDate = document.getElementById('expiration-date').value.split('/');
+	var expMonthValue = expirationDate[0];
+	var expYearValue = expirationDate[1];
 
 	MoipSdkJs.MoipCreditCard
 		.setPubKey(pubKey)

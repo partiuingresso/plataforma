@@ -5,7 +5,8 @@ class Payment
 	attr_accessor :holder_fullname
 	attr_accessor :holder_cpf
 	attr_accessor :holder_birthdate
-	attr_accessor :holder_phone
+	attr_accessor :holder_phone_area_code
+	attr_accessor :holder_phone_number
 
 	# Billing Address
 	attr_accessor :billing_address_street

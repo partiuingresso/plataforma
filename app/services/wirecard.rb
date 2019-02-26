@@ -30,6 +30,7 @@ module Wirecard
 			if payment.respond_to?(:status) && payment.status.present?
 				return true
 			end
+			puts payment
 		end
 
 		return false
@@ -75,8 +76,8 @@ module Wirecard
 							},
 							phone: {
 								countryCode: "55",
-								areaCode: "21",
-								number: payment.holder_phone
+								areaCode: payment.holder_phone_area_code,
+								number: payment.holder_phone_number
 							},
 							billingAddress: {
 								street: payment.billing_address_street,

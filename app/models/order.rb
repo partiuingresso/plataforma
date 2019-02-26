@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   enum status: { pending: "pending", approved: "approved", denied: "denied", refunded: "refunded" }
   belongs_to :user
-  has_many :order_items
+  has_many :order_items, dependent: :destroy
   has_one :payment
   has_many :events, through: :order_items
   has_many :offers, through: :order_items
