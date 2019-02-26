@@ -25,14 +25,14 @@ var numberInput = document.getElementById('payment_billing_address_number');
 var addressInput = document.getElementById('address');
 
 // Max length do input do cartão e cvv
-cardInput.addEventListener('keypress', function() {
+cardInput.addEventListener('keypress', function(e) {
   if(cardInput.value.length == 16) {
-    event.preventDefault();
+    e.preventDefault();
   }
 });
-cvcInput.addEventListener('keypress', function() {
+cvcInput.addEventListener('keypress', function(e) {
   if(cvcInput.value.length == 4) {
-    event.preventDefault();
+    e.preventDefault();
   }
 });
 
@@ -110,14 +110,7 @@ function validateCC() {
   var brand = card.getBrand();
   var spanHelp = cardInput.nextElementSibling;
 
-  if(!validate) {
-    cardInput.classList.add('is-danger');
-    spanHelp.classList.remove('is-hidden');
-    cardInput.scrollIntoView({block: "end", behavior: "smooth"});
-
-    return false
-  }
-  else if(brand == "other") {
+  if(!validate || brand == "other") {
     cardInput.classList.add('is-danger');
     spanHelp.classList.remove('is-hidden');
     cardInput.scrollIntoView({block: "end", behavior: "smooth"});
@@ -133,7 +126,7 @@ function validateInputs() {
   var valid = true;
   var cpfValid = brazilValues.isCPF(cpfInput.value);
   for(let input of formInputs) {
-    if(!input.value.length && !(input == complement) && !(input.type == "hidden") && !(input == cardInput)) {
+    if(input.value.length === 0 && input !== complement && input.type !== "hidden" && input !== cardInput) {
       if(input.matches('select')) {
         input.parentElement.classList.add('is-danger');
       } else {
@@ -145,13 +138,13 @@ function validateInputs() {
       }
       input.scrollIntoView({block: "end", behavior: "smooth"});
       valid = false;
-    } else if((input == cpfInput) && (cpfInput.value >= 1) && !cpfValid) {
+    } else if((input === cpfInput) && (cpfInput.value >= 1) && !cpfValid) { // Rever condição (cpfInput.value >= 1)
       var spanHelp = input.nextElementSibling;
       if(!spanHelp || !spanHelp.matches('.cpf')) {
         input.classList.add('is-danger');
         input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">CPF inválido.</span>');
         input.scrollIntoView({block: "end", behavior: "smooth"});
-      } else if (spanHelp.matches('.cpf')) {
+      } else if(spanHelp.matches('.cpf')) {
         spanHelp.classList.remove('is-hidden');
       }
       valid = false;
@@ -175,7 +168,7 @@ function cleanInputs() {
         }
       });
       input.addEventListener('focusout', function() {
-        if(!input.value.length && !(input == complement)) {
+        if(input.value.length === 0 && input !== complement) {
           var spanHelp = input.nextElementSibling;
           spanHelp.classList.remove('is-hidden');
           if(input.matches('select')) {
