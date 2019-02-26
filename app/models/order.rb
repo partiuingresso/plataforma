@@ -32,7 +32,18 @@ class Order < ApplicationRecord
   def approved!
     super
     ticket_tokens.each do |ticket_token|
-      ticket_token.ready!
+      if ticket_token.pending?
+        ticket_token.ready!
+      end
+    end
+  end
+
+  def denied!
+    super
+    ticket_tokens.each do |ticket_token|
+      if ticket_token.pending?
+        ticket_token.cancelled!
+      end
     end
   end
 
