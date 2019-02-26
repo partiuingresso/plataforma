@@ -4,7 +4,7 @@ var cardInput = document.getElementById('card-number');
 var imagesDiv = document.querySelector('.level-right.cards');
 var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
-var formInputs = document.querySelectorAll('input');
+var formInputs = form.querySelectorAll('input, select');
 var complement = document.getElementById('payment_billing_address_complement');
 
 
@@ -64,7 +64,11 @@ function validateInputs() {
   var valid = true;
   for(let input of formInputs) {
     if(!input.value.length && !(input == complement) && !(input.type == "hidden") && !(input == cardInput)) {
-      input.classList.add('is-danger');
+      if(input.matches('select')) {
+        input.parentElement.classList.add('is-danger');
+      } else {
+        input.classList.add('is-danger');
+      }
       var spanHelp = input.nextElementSibling;
       if(!spanHelp) {
         input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Este campo é obrigatório.</span>');
@@ -83,14 +87,22 @@ function cleanInputs() {
     if(input != complement) {
       input.addEventListener('focusin', function() {
         var spanHelp = input.nextElementSibling;
-        input.classList.remove('is-danger');
         spanHelp.classList.add('is-hidden');
+        if(input.matches('select')) {
+          input.parentElement.classList.remove('is-danger');
+        } else {
+          input.classList.remove('is-danger');
+        }
       });
       input.addEventListener('focusout', function() {
         if(!input.value.length && !(input == complement)) {
           var spanHelp = input.nextElementSibling;
-          input.classList.add('is-danger');
           spanHelp.classList.remove('is-hidden');
+          if(input.matches('select')) {
+            input.parentElement.classList.add('is-danger');
+          } else {
+            input.classList.add('is-danger');
+          }
         }
       });
     }
