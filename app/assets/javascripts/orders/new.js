@@ -65,7 +65,10 @@ function validateInputs() {
   for(let input of formInputs) {
     if(!input.value.length && !(input == complement) && !(input.type == "hidden") && !(input == cardInput)) {
       input.classList.add('is-danger');
-      input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Este campo é obrigatório.</span>');
+      var spanHelp = input.nextElementSibling;
+      if(!spanHelp) {
+        input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Este campo é obrigatório.</span>');
+      }
       input.scrollIntoView({block: "end", behavior: "smooth"});
       valid = false;
     }

@@ -112,7 +112,7 @@
             <div class="field">
               <label class="label">Número</label>
               <div class="control">
-                <%= payment_f.number_field :billing_address_number, class: "input" %>
+                <%= payment_f.text_field :billing_address_number, class: "input" %>
               </div>
             </div>
           </div>
@@ -120,17 +120,14 @@
             <div class="field">
               <label class="label">Complemento</label>
               <div class="control">
-                <%= payment_f.text_field :billing_address_complement, class: "input" %>
+                <%= payment_f.text_field :billing_address_complement, class: "input", placeholder: "Opcional" %>
               </div>
             </div>
           </div>
           <div class="column is-4">
             <label class="label">Bairro</label>
-            <div class="control has-icons-right">
+            <div class="control">
               <%= payment_f.text_field :billing_address_district, class: "input" %>
-              <span class="icon is-right has-text-danger">
-                <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-              </span>
             </div>
           </div>
           <div class="column is-5">
