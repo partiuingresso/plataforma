@@ -2,6 +2,7 @@
   "name": "plataforma",
   "private": true,
   "dependencies": {
+    "brazilian-values": "^0.3.0",
     "bulma-accordion": "^2.0.1",
     "node-vibrant": "^3.2.0-alpha"
   }
