@@ -46,16 +46,15 @@
       <div class="column is-6 no-top-pad">
         <div class="field">
           <%= payment_f.hidden_field :hash %>
-          <div class="control is-expanded">
+          <div class="control">
             <input id="card-number" class="input" type="tel" placeholder="Número do cartão" maxlength="16">
-            <span class="help is-danger is-hidden" id="cardHelp">Número de cartão inválido.</span>
           </div>
         </div>
       </div>
       <div class="column is-6 no-top-pad">
         <div class="field has-addons">
-          <div class="control">
-            <input id="expiration-date" class="input" type="date" placeholder="Validade">
+          <div class="control is-expanded">
+            <input id="expiration-date" class="input" type="tel" placeholder="Validade">
           </div>
           <div class="control">
             <input id="cvc" class="input" type="text" placeholder="CVV" maxlength="4">
@@ -84,7 +83,7 @@
           <div class="control">
             <label class="label">Data de Nascimento</label>
             <div class="select">
-              <%= payment_f.date_field :holder_birthdate, class: "input" %>
+              <%= payment_f.date_select :holder_birthdate, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
             </div>
           </div>
         </div>

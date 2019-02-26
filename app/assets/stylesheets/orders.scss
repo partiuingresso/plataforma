@@ -71,6 +71,10 @@ p.total {
   padding-top: unset;
 }
 
+.help.checkout {
+  position: absolute;
+}
+
 .unselected {
   transition: .5s ease;
   opacity: 0.3;
