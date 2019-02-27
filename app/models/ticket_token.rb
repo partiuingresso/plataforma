@@ -3,6 +3,8 @@ class TicketToken < ApplicationRecord
 		 authenticated: "authenticated", expired: "expired", cancelled: "cancelled" }
 	has_one :validation
 	belongs_to :order_item
+	has_one :order, through: :order_item
+	has_one :user, through: :order_item
 
 	has_secure_token :code
 
