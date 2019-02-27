@@ -1,4 +1,6 @@
 class OrderItem < ApplicationRecord
+  before_save :update_offer_quantity, on: :create
+
   belongs_to :offer
   belongs_to :order
   has_many :ticket_tokens, dependent: :destroy
@@ -13,7 +15,6 @@ class OrderItem < ApplicationRecord
   validate :quantity_cannot_be_different_to_valid_and_used_tokens_count
   validate :quantity_cannot_be_greater_than_offer_available_quantity
 
-  before_create :update_offer_quantity
 
   def ticket_tokens_not_cancelled
     ticket_tokens.select { |ticket_token| !ticket_token.cancelled? }
