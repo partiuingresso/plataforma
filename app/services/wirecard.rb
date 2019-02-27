@@ -26,9 +26,22 @@ module Wirecard
 		@@api
 	end
 
+	if Rails.env.development?
+		if Ngrok::Tunnel.stopped?
+			Ngrok::Tunnel.start({ port: 300 })
+		end
+		url = Ngrok::Tunnel.ngrok_url_https + "/webhooks"
+	else
+		url = "https://moip.partiuingresso.com/webhooks"
+	end
+
+	current_notifications = api.notifications.find_all
+	current_notifications.each do |notification|
+		api.notifications.delete notification.id
+	end
 	@@notification = api.notifications.create(
-		events: ["ORDER.*"],
-		target: "http://e8bc08b7.ngrok.io/webhooks",
+		events: ["ORDER.PAID", "ORDER.REVERTED"],
+		target: url,
 		media: "WEBHOOK"
 	)
 
