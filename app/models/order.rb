@@ -53,6 +53,19 @@ class Order < ApplicationRecord
         ticket_token.cancelled!
       end
     end
+    order_items.each do |order_item|
+      order_item.cancel
+    end
+  end
+
+  def refunded!
+    super
+    ticket_tokens.each do |ticket_token|
+        ticket_token.cancelled!
+    end
+    order_items.each do |order_item|
+      order_item.cancel
+    end
   end
 
   private
@@ -82,7 +95,7 @@ class Order < ApplicationRecord
     end
 
     def update_subtotal
-      self[:subtotal] = subtotal
+      self.subtotal = subtotal
     end
 
 end

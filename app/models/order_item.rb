@@ -20,6 +20,10 @@ class OrderItem < ApplicationRecord
     ticket_tokens.select { |ticket_token| !ticket_token.cancelled? }
   end
 
+  def cancel
+    offer.available_quantity += self.quantity
+  end
+
   private
 
     def update_offer_quantity
