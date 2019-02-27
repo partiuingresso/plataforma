@@ -37,7 +37,7 @@ module Wirecard
 
 	current_notifications = api.notifications.find_all
 	current_notifications.each do |notification|
-		api.notifications.delete notification.id
+		api.notifications.delete notification["id"]
 	end
 	@@notification = api.notifications.create(
 		events: ["ORDER.PAID", "ORDER.REVERTED"],
