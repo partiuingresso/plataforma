@@ -40,7 +40,7 @@ module Wirecard
 		api.notifications.delete notification["id"]
 	end
 	@@notification = api.notifications.create(
-		events: ["ORDER.PAID", "ORDER.REVERTED"],
+		events: ["ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED"],
 		target: url,
 		media: "WEBHOOK"
 	)
