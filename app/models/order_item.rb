@@ -1,5 +1,5 @@
 class OrderItem < ApplicationRecord
-  before_save :update_offer_quantity, on: :create
+  before_save :update_offer_quantity, if: :new_record?
 
   belongs_to :offer
   belongs_to :order
@@ -12,13 +12,9 @@ class OrderItem < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :offer_cannot_be_from_other_event
-  validate :quantity_cannot_be_different_to_valid_and_used_tokens_count
+  validate :quantity_cannot_be_different_to_ticket_tokens_count
   validate :quantity_cannot_be_greater_than_offer_available_quantity
 
-
-  def ticket_tokens_not_cancelled
-    ticket_tokens.select { |ticket_token| !ticket_token.cancelled? }
-  end
 
   def cancel
     offer.available_quantity += self.quantity
@@ -36,8 +32,8 @@ class OrderItem < ApplicationRecord
       end
     end
 
-    def quantity_cannot_be_different_to_valid_and_used_tokens_count
-      if ticket_tokens.present? && self.quantity != ticket_tokens_not_cancelled.length
+    def quantity_cannot_be_different_to_ticket_tokens_count
+      if ticket_tokens.present? && self.quantity != ticket_tokens.length
         errors.add(:quantity, "can't mismatch the number of valid and used ticket tokens")
       end
     end

@@ -47,7 +47,6 @@ class Order < ApplicationRecord
   end
 
   def denied!
-    super
     ticket_tokens.each do |ticket_token|
       if ticket_token.pending?
         ticket_token.cancelled!
@@ -56,16 +55,17 @@ class Order < ApplicationRecord
     order_items.each do |order_item|
       order_item.cancel
     end
+    super
   end
 
   def refunded!
-    super
     ticket_tokens.each do |ticket_token|
         ticket_token.cancelled!
     end
     order_items.each do |order_item|
       order_item.cancel
     end
+    super
   end
 
   private
