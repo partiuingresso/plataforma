@@ -50,22 +50,17 @@
                     <%= order_item.offer.name %>
                   </div>
                   <div class="column is-4 has-text-centered offer-content">
-                    R$<%= value_to_currency(order_item.offer.price) %>
+                    R$<%= value_to_currency(order_item.offer.price * (1 + @order.fee)) %>
                   </div>
                   <div class="column is-3 has-text-right offer-content">
                     <%= order_item.quantity %>
                   </div>
                 <% end %>
               <% end %>
-              <div class="column total is-12 offer-content">
-                <hr />
-                <p class="is-pulled-left">Taxa de serviço</p>
-                <p class="is-pulled-right">R$<%= value_to_currency(@order.subtotal) %></p>
-              </div>
               <div class="column total is-12">
                 <hr />
                 <p class="is-pulled-left">Total</p>
-                <p class="is-pulled-right total">R$<%= value_to_currency(@order.subtotal) %></p>
+                <p class="is-pulled-right total">R$<span id="total"><%= value_to_currency(@order.total) %></span></p>
               </div>
             </div>
           </div>

@@ -1,6 +1,10 @@
 class Payment
 	include ActiveModel::Model
 
+	# Encrypted Credit Card Number
+	attr_accessor :hash
+	attr_accessor :installment_count
+
 	# Holder information
 	attr_accessor :holder_fullname
 	attr_accessor :holder_cpf
@@ -16,7 +20,4 @@ class Payment
 	attr_accessor :billing_address_city
 	attr_accessor :billing_address_state
 	attr_accessor :billing_address_zipcode
-
-	# Encrypted Credit Card Number
-	attr_accessor :hash
 end

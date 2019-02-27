@@ -1,6 +1,13 @@
 //= require orders/new
 //= require moip/moip-sdk-js
 
+var installmentSelect = document.getElementById('payment_installment_count');
+installmentSelect.addEventListener('change', function() {
+	var selectedOption = installmentSelect.selectedOptions[0];
+	var totalElement = document.getElementById('total');
+	totalElement.innerText = selectedOption.dataset.price.toString(10);
+});
+
 const pubKey = `-----BEGIN PUBLIC KEY-----
 				MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
 			    mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel

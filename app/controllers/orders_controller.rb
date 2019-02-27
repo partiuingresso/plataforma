@@ -44,10 +44,11 @@ class OrdersController < ApplicationController
 
 	def payment_params
 		p_params = params.require(:payment).permit(
-			:holder_fullname, :holder_cpf, :billing_address_street,
+			:installment_count, :holder_fullname, :holder_cpf, :billing_address_street,
 			:billing_address_number, :billing_address_complement, :billing_address_district,
 			:billing_address_city, :billing_address_state, :billing_address_zipcode, :hash
 		)
+		p_params[:installment_count] = p_params[:installment_count].to_i
 		p_params[:holder_cpf].gsub! /[.-]/, ""
 		date = params.delete(:date)
 		p_params[:holder_birthdate] = date[:year] + "-" + date[:month] + "-" + date[:day]

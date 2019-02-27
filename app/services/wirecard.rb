@@ -2,6 +2,19 @@ module Wirecard
 
 	autoload :Webhooks, 'webhooks'
 
+	InterestTable = { 1 => 0,
+					  2 => 0.045,
+					  3 => 0.0575,
+					  4 => 0.07,
+					  5 => 0.0825,
+					  6 => 0.095,
+					  7 => 0.10203,
+					  8 => 0.11526,
+					  9 => 0.12864,
+					  10 => 0.145,
+					  11 => 0.15549,
+					  12 => 0.18 }
+
 	token = Rails.application.credentials.dig(:wirecard_sandbox_api_token)
 	key = Rails.application.credentials.dig(:wirecard_sandbox_api_key)
 	auth = Moip2::Auth::Basic.new(token, key)
@@ -24,7 +37,7 @@ module Wirecard
 	end
 
 	def self.process_checkout? order_data, payment_data
-		order = create_order order_data
+		order = create_order order_data, payment_data.installment_count
 		if order.respond_to?(:status) && order.status.present?
 			payment = create_payment order.id, payment_data
 			if payment.respond_to?(:status) && payment.status.present?
@@ -36,12 +49,13 @@ module Wirecard
 		return false
 	end
 
-	def self.create_order order
+	def self.create_order order, installment_count
+		absolute_interest = Wirecard::InterestTable[installment_count] * order.total
 		order = api.order.create({
 			own_id: order.number,
 			amount: {
 				currency: "BRL",
-				subtotals: { addition: (order.fee * order.subtotal) * 100 }
+				subtotals: { addition: (order.absolute_fee + absolute_interest) * 100 }
 			},
 			items: order.order_items.collect do |order_item|
 				{
@@ -61,7 +75,7 @@ module Wirecard
 	def self.create_payment order_id, payment
 		payment = api.payment.create(order_id,
 			{
-				installmentCount: 1,
+				installmentCount: payment.installment_count,
 				fundingInstrument: {
 					method: "CREDIT_CARD",
 					creditCard: {

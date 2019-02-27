@@ -17,6 +17,14 @@ class Order < ApplicationRecord
     order_items.collect { |oi| oi.quantity * oi.offer.price }.sum
   end
 
+  def total
+    subtotal * (1 + self.fee)
+  end
+
+  def absolute_fee
+    self.fee * subtotal
+  end
+
   def event
     if self.new_record?
       order_items.first.offer.event
