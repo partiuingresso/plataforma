@@ -138,7 +138,7 @@ function validateInputs() {
       }
       input.scrollIntoView({block: "end", behavior: "smooth"});
       valid = false;
-    } else if((input === cpfInput) && (cpfInput.value >= 1) && !cpfValid) { // Rever condição (cpfInput.value >= 1)
+    } else if((input === cpfInput) && (cpfInput.value.length >= 1) && !cpfValid) {
       var spanHelp = input.nextElementSibling;
       if(!spanHelp || !spanHelp.matches('.cpf')) {
         input.classList.add('is-danger');
