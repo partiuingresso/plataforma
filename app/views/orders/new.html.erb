@@ -8,12 +8,13 @@
 
 <section class="section checkout">
   <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-6 is-offset-1">
-        <p class="title">Confirmar e pagar</p>
+    <div class="columns is-centered ordered-mobile">
+      <div class="column is-6 is-offset-1 fl-2">
+        <p class="title is-hidden-touch">Confirmar e pagar</p>
         <%= render 'orders/form' %>
       </div>
-      <div class="column is-3 is-forward-1">
+      <div class="column is-3 is-forward-1 fl-1">
+        <p class="title is-hidden-desktop">Confirmar e pagar</p>
         <div class="card">
           <div class="card-content">
             <p class="offer-title"><%= @order.event.name %></p>

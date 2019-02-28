@@ -2,7 +2,7 @@
 <%= form_for @order do |f| %>
   <div class="columns is-multiline">
     <%= fields_for @payment do |payment_f| %>
-      <div class="column is-12">
+      <div class="column is-6">
         <div class="field">
           <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
           <div class="control">
@@ -10,21 +10,24 @@
           </div>
         </div>
       </div>
-      <div class="column is-4">
+      <div class="column is-6">
         <div class="field">
           <label class="label">Opções de pagamento</label>
-          <div class="select">
-            <%= payment_f.select :installment_count do %>
-              <% (1..12).each do |index| %>
-                <%= content_tag :option, installment_info(index), value: index, data: { price: price_with_interest(index) } %>
+          <div class="control is-expanded">
+            <div class="select is-fullwidth">
+              <%= payment_f.select :installment_count do %>
+                <% (1..12).each do |index| %>
+                  <%= content_tag :option, installment_info(index), value: index, data: { price: price_with_interest(index) } %>
+                <% end %>
               <% end %>
-            <% end %>
+            </div>
           </div>
         </div>
       </div>
       <div class="column is-12 cards-label">
-        <div class="level" style="margin-bottom: 0.75rem;">
-          <div class="level-left">
+        <label class="label is-hidden-desktop">Informações do cartão</label>
+        <div class="level is-mobile" style="margin-bottom: 0.75rem;">
+          <div class="level-left is-hidden-touch">
             <div class="level-item">
               <label class="label">Informações do cartão</label>
             </div>
