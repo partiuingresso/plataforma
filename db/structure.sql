@@ -157,7 +157,7 @@ CREATE TABLE public.company_finances (
     agencia integer NOT NULL,
     agencia_dv integer NOT NULL,
     conta integer NOT NULL,
-    type character varying NOT NULL,
+    account_type character varying NOT NULL,
     conta_dv integer NOT NULL,
     document_number character varying NOT NULL,
     legal_name character varying NOT NULL,
@@ -1022,6 +1022,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190221205121'),
 ('20190222013107'),
 ('20190223050444'),
-('20190228200145');
+('20190228200145'),
+('20190228225237');
 
 
