@@ -155,7 +155,7 @@ ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 CREATE TABLE public.company_finances (
     bank_code integer NOT NULL,
     agencia integer NOT NULL,
-    agencia_dv integer NOT NULL,
+    agencia_dv integer,
     conta integer NOT NULL,
     account_type character varying NOT NULL,
     conta_dv integer NOT NULL,
@@ -1023,6 +1023,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190222013107'),
 ('20190223050444'),
 ('20190228200145'),
-('20190228225237');
+('20190228225237'),
+('20190228233943');
 
 
