@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   root to: 'pages#index'
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
+  get 'tickets', to: 'ticket_tokens#index'
+  get 'ticket/:id', to: 'ticket_tokens#show'
 
   if Rails.env.development?
     post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
