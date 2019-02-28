@@ -7,6 +7,12 @@ class Ability
 
     can :read, Event
 
+    unless user.guest?
+        can :read, TicketToken do |ticket_token|
+            ticket_token.user == user
+        end
+    end
+
     if user.admin?
         can :manage, Company
         can :manage, Event
