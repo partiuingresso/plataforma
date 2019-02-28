@@ -1,0 +1,110 @@
+// Place all the styles related to the ticket_tokens controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.no-ticket {
+  padding: unset;
+  margin-top: -8rem;
+}
+
+.column.tickets {
+  padding-bottom: unset;
+}
+
+.mask {
+  display: block;
+}
+
+.object-mask {
+  -webkit-mask-image: image-url('tickets/mask.svg');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 320px;
+  -webkit-mask-position: center;
+  mask-image: image-url('tickets/mask.svg');
+  mask-repeat: no-repeat;
+  mask-size: 320px;
+  mask-position: center;
+}
+
+.ticket {
+  position:relative;
+  width: 320px;
+  margin-left: 2.3rem;
+  filter: drop-shadow(3px 5px 6px rgba(0,0,0,0.25));
+}
+
+.ticket:hover {
+  cursor: pointer;
+  & img {
+    -webkit-filter: brightness(125%);filter: brightness(125%);
+  }
+}
+
+.qr-box {
+  background: white;
+  position: absolute;
+  z-index: 999;
+  left: -25px;
+  top: 36%;
+  width: 60px;
+  height: 60px;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  color: hsl(0, 0%, 21%);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(to bottom left, rgba(20,20,25,0.7), rgba(20,20,25,0.6), rgba(20,20,25,0.7), rgba(200,208,255,0.2), rgba(255,255,255,0.1) );
+}
+
+.ticket-content {
+  color: white;
+  position: absolute;
+  width: 65%;
+  top: 50%;
+  left: 62.5%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  & span.event-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  & span.event-date {
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+  & span.ticket-owner {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .no-ticket {
+    padding: unset;
+    margin-top: -2rem;
+  }
+
+  .ticket {
+    width: 290px;
+  }
+
+  .qr-box {
+    top: 33%;
+  }
+
+  .object-mask {
+    -webkit-mask-size: 290px;
+    mask-size: 290px;
+  }
+}

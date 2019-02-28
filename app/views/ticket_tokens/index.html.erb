@@ -1,0 +1,59 @@
+<% provide(:title, "Meus Ingressos") %>
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<% if @ticket_tokens.empty? %>
+  <section class="section tickets">
+    <div class="container">
+      <div class="columns is-multiline">
+        <div class="column is-12">
+          <div class="content">
+            <p class="title">Vai ficar em casa?</p>
+            <p class="subtitle is-6">Você não tem nenhum ingresso reservado. Comece agora a explorar os eventos disponíveis em sua região.</p>
+            <%= link_to "Partiu sair de casa!", root_path, class: 'button is-primary' %>
+          </div>
+        </div>
+        <div class="column is-12 has-text-centered no-ticket">
+          <%= image_tag 'tickets/no-ticket.svg', alt:'PartiuIngresso.com', width:'800vw' %>
+        </div>
+      </div>
+    </div>
+  </section>
+<% else %>
+  <section class="section tickets">
+    <div class="container">
+      <div class="columns is-multiline">
+        <div class="column tickets is-12">
+          <div class="content">
+            <p class="title">Meus Ingressos</p>
+          </div>
+        </div>
+        <% @ticket_tokens.ready.each do |t| %>
+          <div class="column is-paddingless">
+            <div class="ticket">
+              <div class="qr-box">
+                  <i class="fas fa-3x fa-qrcode"></i>
+              </div>
+              <%= image_tag t.order_item.event.image.variant(resize: "320x320"), class: 'mask object-mask' %>
+              <div class="overlay object-mask">
+                <div class="ticket-content">
+                  <span class="event-title"><%= t.order_item.event.name %></span><br />
+                  <span class="icon is-small event-date">
+                    <i class="far fa-calendar-check"></i>
+                  </span>
+                  <span class="event-date"><%= l t.order_item.event.start_t, format: ("%d de %B de %Y") %></span><br /><br />
+                  <span class="icon is-small ticket-owner">
+                    <i class="far fa-user"></i>
+                  </span>
+                  <span class="ticket-owner"><%= t.owner_name %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
