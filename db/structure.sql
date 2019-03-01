@@ -165,7 +165,8 @@ CREATE TABLE public.company_finances (
     updated_at timestamp without time zone NOT NULL,
     company_id bigint NOT NULL,
     moip_id character varying NOT NULL,
-    document_type character varying NOT NULL
+    document_type character varying NOT NULL,
+    access_token character varying
 );
 
 
@@ -1024,6 +1025,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190223050444'),
 ('20190228200145'),
 ('20190228225237'),
-('20190228233943');
+('20190228233943'),
+('20190301035621');
 
 
