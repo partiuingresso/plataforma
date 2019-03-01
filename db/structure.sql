@@ -153,12 +153,12 @@ ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 --
 
 CREATE TABLE public.company_finances (
-    bank_code integer NOT NULL,
-    agencia integer NOT NULL,
-    agencia_dv integer,
-    conta integer NOT NULL,
+    bank_code character varying NOT NULL,
+    agency_number character varying NOT NULL,
+    agency_check_number character varying,
+    account_number character varying NOT NULL,
     account_type character varying NOT NULL,
-    conta_dv integer NOT NULL,
+    account_check_number character varying NOT NULL,
     document_number character varying NOT NULL,
     legal_name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE public.company_finances (
     company_id bigint NOT NULL,
     moip_id character varying NOT NULL,
     document_type character varying NOT NULL,
-    access_token character varying
+    access_token character varying NOT NULL
 );
 
 
@@ -1026,6 +1026,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190228200145'),
 ('20190228225237'),
 ('20190228233943'),
-('20190301035621');
+('20190301035621'),
+('20190301195942');
 
 

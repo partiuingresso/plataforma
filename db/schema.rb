@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_01_035621) do
+ActiveRecord::Schema.define(version: 2019_03_01_195942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,19 +43,19 @@ ActiveRecord::Schema.define(version: 2019_03_01_035621) do
   end
 
   create_table "company_finances", primary_key: "company_id", id: :bigint, default: nil, force: :cascade do |t|
-    t.integer "bank_code", null: false
-    t.integer "agencia", null: false
-    t.integer "agencia_dv"
-    t.integer "conta", null: false
+    t.string "bank_code", null: false
+    t.string "agency_number", null: false
+    t.string "agency_check_number"
+    t.string "account_number", null: false
     t.string "account_type", null: false
-    t.integer "conta_dv", null: false
+    t.string "account_check_number", null: false
     t.string "document_number", null: false
     t.string "legal_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "moip_id", null: false
     t.string "document_type", null: false
-    t.string "access_token"
+    t.string "access_token", null: false
     t.index ["company_id"], name: "index_company_finances_on_company_id"
   end
 
