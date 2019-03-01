@@ -371,6 +371,7 @@ CREATE TABLE public.orders (
     updated_at timestamp without time zone NOT NULL,
     number bigint NOT NULL,
     status public.order_status DEFAULT 'pending'::public.order_status NOT NULL,
+    events_id bigint NOT NULL,
     CONSTRAINT total_fee_check CHECK (((subtotal >= (0)::numeric) AND (fee >= (0)::numeric) AND (fee <= (1)::numeric)))
 );
 
@@ -793,6 +794,13 @@ CREATE UNIQUE INDEX index_order_items_on_order_id_and_offer_id ON public.order_i
 
 
 --
+-- Name: index_orders_on_events_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_events_id ON public.orders USING btree (events_id);
+
+
+--
 -- Name: index_orders_on_number; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -905,6 +913,14 @@ ALTER TABLE ONLY public.events
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT fk_rails_0cb5590091 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: orders fk_rails_18c2146a05; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_18c2146a05 FOREIGN KEY (events_id) REFERENCES public.events(id);
 
 
 --
@@ -1027,6 +1043,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190228225237'),
 ('20190228233943'),
 ('20190301035621'),
-('20190301195942');
+('20190301195942'),
+('20190301235126');
 
 
