@@ -26,7 +26,7 @@
 
     <div class="columns is-multiline">
       <% if @events.count >= 1 %>
-        <% @events[0..0].each do |event| %>
+        <% @events[0..0].try(:each) do |event| %>
           <div class="column is-5">
             <%= link_to event_path(event) do %>
               <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
@@ -50,7 +50,7 @@
             <% end %>
          </div>
         <% end %>
-        <% @events[1..1].each do |event| %>
+        <% @events[1..1].try(:each) do |event| %>
           <div class="column is-7">
             <%= link_to event_path(event) do %>
               <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
@@ -74,7 +74,7 @@
             <% end %>
          </div>
         <% end %>
-        <% @events[2..5].each do |event| %>
+        <% @events[2..5].try(:each) do |event| %>
           <div class="column is-3">
             <%= link_to event_path(event) do %>
               <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
@@ -98,8 +98,9 @@
             <% end %>
           </div>
         <% end %>
-      <% else %>
 
+      <% else %>
+        <p> Não há evento listado no momento.</p>
       <% end %>
     </div>
 
