@@ -12,6 +12,11 @@
     color: unset;
   }
 
+  .search > input::placeholder {
+    font-size: 1rem;
+    bottom: 20%;
+  }
+
   .event.title {
     font-size: 2rem;
   }

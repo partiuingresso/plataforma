@@ -19,17 +19,89 @@
   </div>
 </section>
 
-
-<section class="section teste">
+<section class="section tickets">
   <div class="container">
-    <% if @events.count >= 2 %>
-     <%= @events[0].name %>
 
-      <% @events[1..1].each do |event| %>
-        <% event.name %>
+    <p class="title is-4">Mais recentes</p>
+
+    <div class="columns is-multiline">
+      <% if @events.count >= 1 %>
+        <% @events[0..0].each do |event| %>
+          <div class="column is-5">
+            <%= link_to event_path(event) do %>
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
+                <div class="event-overlay">
+                  <div class="item-down">
+                    <div>
+                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
+                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.event_venue.city, length: 24) %>/<%= event.event_venue.state %></p>
+                    </div>
+                  </div>
+                  <div class="item-down-right">
+                    <div>
+                      <span class="icon">
+                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+         </div>
+        <% end %>
+        <% @events[1..1].each do |event| %>
+          <div class="column is-7">
+            <%= link_to event_path(event) do %>
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
+                <div class="event-overlay">
+                  <div class="item-down">
+                    <div>
+                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
+                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.event_venue.city, length: 24) %>/<%= event.event_venue.state %></p>
+                    </div>
+                  </div>
+                  <div class="item-down-right">
+                    <div>
+                      <span class="icon">
+                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+         </div>
+        <% end %>
+        <% @events[2..5].each do |event| %>
+          <div class="column is-3">
+            <%= link_to event_path(event) do %>
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
+                <div class="event-overlay">
+                  <div class="item-down">
+                    <div>
+                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
+                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.event_venue.city, length: 24) %>/<%= event.event_venue.state %></p>
+                    </div>
+                  </div>
+                  <div class="item-down-right">
+                    <div>
+                      <span class="icon">
+                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+
       <% end %>
-    <% else %>
+    </div>
 
-    <% end %>
   </div>
 </section>
