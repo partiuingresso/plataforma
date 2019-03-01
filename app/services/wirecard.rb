@@ -17,7 +17,8 @@ module Wirecard
 
 	token = Rails.application.credentials.dig(:wirecard_sandbox_api_token)
 	key = Rails.application.credentials.dig(:wirecard_sandbox_api_key)
-	auth = Moip2::Auth::Basic.new(token, key)
+	access_token = Rails.application.credentials.dig(:wirecard_sandbox_api_access_token)
+	auth = Moip2::Auth::OAuth.new(access_token)
 	client = Moip2::Client.new(:sandbox, auth)
 
 	@@api = Moip2::Api.new(client)
@@ -31,14 +32,14 @@ module Wirecard
 			Ngrok::Tunnel.start({ port: 300 })
 		end
 		url = Ngrok::Tunnel.ngrok_url_https + "/webhooks"
+		current_notifications = api.notifications.find_all
+		current_notifications.each do |notification|
+			api.notifications.delete notification["id"]
+		end
 	else
 		url = "https://moip.partiuingresso.com/webhooks"
 	end
 
-	current_notifications = api.notifications.find_all
-	current_notifications.each do |notification|
-		api.notifications.delete notification["id"]
-	end
 	@@notification = api.notifications.create(
 		events: ["ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED"],
 		target: url,
@@ -119,6 +120,67 @@ module Wirecard
 						}
 					}
 				}
+			}
+		)
+	end
+
+	def self.create_account user, company_finance
+		phone_area_code = /(\d\d)/.match(company_finance.phone).to_s
+		phone_number = /(?:\d\s*)?[0-9]{4}-?[0-9]{4}/.match(company_finance.phone).to_s.gsub(/\s+/, '').sub(/-/, '')
+		account = api.accounts.create(
+			{
+				transparentAccount: true,
+				email: {
+					address: user.email
+				},
+				person: {
+					name: user.first_name,
+					lastName: user.last_name,
+					taxDocument: {
+						type: company_finance.document_type,
+						number: company_finance.document_number
+					},
+					birthDate: company_finance.birth_date.strftime("%Y-%m-%d"),
+					phone: {
+						countryCode: "55",
+						areaCode: phone_area_code,
+						number: phone_number
+					},
+					address: {
+						street: company_finance.address,
+						streetNumber: company_finance.number,
+						complement: company_finance.complement,
+						district: company_finance.district,
+						zipCode: company_finance.zipcode,
+						city: company_finance.city,
+						state: company_finance.state,
+						country: "BRA"
+					}
+				},
+				company: {
+					name: "Partiu Ingresso",
+					businessName: "CR COMUNICAÇÃO E TECNOLOGIA LTDA",
+					taxDocument: {
+						type: "CNPJ",
+						number: "31.419.883/0001-00"
+					},
+					phone: {
+						countryCode: "55",
+						areaCode: "21",
+						number: "997754668"
+					},
+					address: {
+						street: "Av. Belisário Leite de Andrade Neto",
+						streetNumber: "354",
+						complement: "101",
+						district: "Barra da Tijuca",
+						zipCode: "22621270",
+						city: "Rio de Janeiro",
+						state: "RJ",
+						country: "BRA"
+					}
+				},
+				type: "MERCHANT"
 			}
 		)
 	end

@@ -22,7 +22,11 @@
     Financeiro
   </p>
   <ul class="menu-list">
-    <li><%= link_to_in_li "Dados Financeiros", root_path %></li>
+    <% if current_user.company.company_finance.present? %>
+      <li><%= link_to_in_li "Dados Financeiros", edit_company_finance_path(current_user.company.company_finance) %></li>
+    <% else %>
+      <li><%= link_to_in_li "Dados Financeiros", new_company_finance_path %></li>
+    <% end %>
     <li><%= link_to_in_li "Saldo", root_path %></li>
   </ul>
 </aside>

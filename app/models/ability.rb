@@ -22,6 +22,7 @@ class Ability
     if user.producer_admin?
         can :producer_admin, :admin
         can :manage, Company, id: user.company_id
+        can :manage, CompanyFinance, company_id: user.company_id
         can :manage, Event, company_id: user.company_id
     end
 

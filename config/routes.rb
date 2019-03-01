@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   get 'tickets', to: 'ticket_tokens#index'
   get 'ticket/:id', to: 'ticket_tokens#show'
 
+  resources :company_finances, only: [:new, :create, :edit, :update]
+
   if Rails.env.development?
     post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
   elsif Rails.env.production?
