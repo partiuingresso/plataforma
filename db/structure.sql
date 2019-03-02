@@ -371,7 +371,7 @@ CREATE TABLE public.orders (
     updated_at timestamp without time zone NOT NULL,
     number bigint NOT NULL,
     status public.order_status DEFAULT 'pending'::public.order_status NOT NULL,
-    events_id bigint NOT NULL,
+    event_id bigint NOT NULL,
     CONSTRAINT total_fee_check CHECK (((subtotal >= (0)::numeric) AND (fee >= (0)::numeric) AND (fee <= (1)::numeric)))
 );
 
@@ -794,10 +794,10 @@ CREATE UNIQUE INDEX index_order_items_on_order_id_and_offer_id ON public.order_i
 
 
 --
--- Name: index_orders_on_events_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_orders_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_orders_on_events_id ON public.orders USING btree (events_id);
+CREATE INDEX index_orders_on_event_id ON public.orders USING btree (event_id);
 
 
 --
@@ -916,14 +916,6 @@ ALTER TABLE ONLY public.events
 
 
 --
--- Name: orders fk_rails_18c2146a05; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT fk_rails_18c2146a05 FOREIGN KEY (events_id) REFERENCES public.events(id);
-
-
---
 -- Name: company_finances fk_rails_20abbc78fb; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -945,6 +937,14 @@ ALTER TABLE ONLY public.order_items
 
 ALTER TABLE ONLY public.offers
     ADD CONSTRAINT fk_rails_60bd59a32f FOREIGN KEY (event_id) REFERENCES public.events(id);
+
+
+--
+-- Name: orders fk_rails_64bd9e45d4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_64bd9e45d4 FOREIGN KEY (event_id) REFERENCES public.events(id);
 
 
 --

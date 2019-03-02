@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(version: 2019_03_01_235126) do
   add_foreign_key "offers", "events"
   add_foreign_key "order_items", "offers"
   add_foreign_key "order_items", "orders"
-  add_foreign_key "orders", "events", column: "events_id"
+  add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "users", "companies"
