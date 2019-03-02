@@ -3,6 +3,7 @@ class Event < ApplicationRecord
 	belongs_to :user
 	belongs_to :event_venue
 	has_many :offers
+	has_many :orders
 	has_one_attached :image
 
 	validates :name, presence: true, length: { maximum: 150 }

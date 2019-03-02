@@ -5,7 +5,7 @@ class EventsController < ApplicationController
 	end
 
 	def show
-		@order = Order.new
+		@order = @event.orders.build
 		@order.order_items.build
 	end
 

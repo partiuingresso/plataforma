@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
 			end
 		end
 
-		render plain: "NOT GOOD"
+		render plain: @order.errors.messages
 	end
 
 	def show
@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
 	private
 
 	def order_params
-		params.require(:order).permit(order_items_attributes: [:offer_id, :quantity, ticket_tokens_attributes: [:owner_name, :owner_email]])
+		params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity, ticket_tokens_attributes: [:owner_name, :owner_email]])
 	end
 
 	def payment_params

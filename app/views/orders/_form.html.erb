@@ -1,5 +1,6 @@
 <%= javascript_include_tag params[:controller], defer: true %>
 <%= form_for @order do |f| %>
+  <%= f.hidden_field :event_id, value: @order.event.id %>
   <div class="columns is-multiline">
     <%= fields_for @payment do |payment_f| %>
       <div class="column is-6">

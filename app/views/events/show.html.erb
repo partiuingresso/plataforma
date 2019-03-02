@@ -129,17 +129,18 @@ document.addEventListener("DOMContentLoaded", function(){
         <div class="event offers card">
           <div class="card-content">
             <%= form_for @order, url: new_order_path, method: "get" do |f| %>
-            <div class="columns">
-              <div class="column is-6">
-                <p class="tickets title">Ingressos</p>
+              <%= f.hidden_field :event_id, value: @order.event.id %>
+              <div class="columns">
+                <div class="column is-6">
+                  <p class="tickets title">Ingressos</p>
+                </div>
+                <div class="column is-6 has-text-right">
+                  <span class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                  </span>
+                  <span>R$</span><span id="total_price">0,00</span>
+                </div>
               </div>
-              <div class="column is-6 has-text-right">
-                <span class="icon">
-                  <i class="fas fa-shopping-cart"></i>
-                </span>
-                <span>R$</span><span id="total_price">0,00</span>
-              </div>
-            </div>
               <ul>
                 <% @event.offers.each do |offer| %>
                   <li>

@@ -3,7 +3,7 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items, dependent: :destroy
   has_one :payment
-  has_many :events, through: :order_items
+  belongs_to :event
   has_many :offers, through: :order_items
   has_many :ticket_tokens, through: :order_items
 
@@ -23,14 +23,6 @@ class Order < ApplicationRecord
 
   def absolute_fee
     self.fee * subtotal
-  end
-
-  def event
-    if self.new_record?
-      order_items.first.offer.event
-    else
-      events.first
-    end
   end
 
   def total_quantity
