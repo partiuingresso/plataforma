@@ -88,7 +88,19 @@ module Wirecard
 				ownId: order.user.id,
 				fullname: order.user.name.full,
 				email: order.user.email
-			}
+			},
+			receivers: [
+				{
+					type: "SECONDARY",
+					feePayor: false,
+					moipAccount: {
+						id: order.company.company_finance.moip_id
+					},
+					amount: {
+						fixed: order.subtotal * 100
+					}
+				}
+			]
 		})
 	end
 
@@ -235,5 +247,9 @@ module Wirecard
 			}
 		)
 		bank_account.respond_to?(:id) && bank_account.id.present?
+	end
+
+	def self.show_balances company_finance
+		api(company_finance.access_token).balances.show()
 	end
 end
