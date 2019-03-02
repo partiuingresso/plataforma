@@ -8,7 +8,6 @@ class CompanyFinance < ApplicationRecord
   validates :account_type, presence: true
   validates :agency_number, presence: true
   validates :account_number, presence: true
-  validates :account_check_number, presence: true
   validates :moip_id, presence: true
   validates :access_token, presence: true
 
