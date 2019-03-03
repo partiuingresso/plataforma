@@ -4,6 +4,7 @@ class OrderItem < ApplicationRecord
   belongs_to :offer
   belongs_to :order
   has_many :ticket_tokens, dependent: :destroy
+  has_one :event, through: :offer
   has_one :user, through: :order
 
   accepts_nested_attributes_for :ticket_tokens
@@ -43,7 +44,7 @@ class OrderItem < ApplicationRecord
     end
 
     def offer_event_cannot_be_different_to_order_event
-      if offer.event != order.event
+      if event != order.event
         errors.add(:event, "one order can't have order items related to different events")
       end
     end
