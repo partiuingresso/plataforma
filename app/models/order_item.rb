@@ -14,6 +14,11 @@ class OrderItem < ApplicationRecord
   validate :quantity_cannot_be_different_to_ticket_tokens_count
   validate :quantity_cannot_be_greater_than_offer_available_quantity
 
+  monetize :offer_total_cents
+
+  def offer_total_cents
+    offer.price_cents * (1 + order.fee)
+  end
 
   def cancel
     offer.available_quantity += self.quantity

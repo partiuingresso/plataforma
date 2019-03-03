@@ -291,7 +291,6 @@ CREATE TABLE public.offers (
     id bigint NOT NULL,
     name character varying NOT NULL,
     description text,
-    price numeric(10,2) NOT NULL,
     event_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -299,8 +298,8 @@ CREATE TABLE public.offers (
     available_quantity integer NOT NULL,
     start_t timestamp without time zone NOT NULL,
     end_t timestamp without time zone,
+    price_cents integer DEFAULT 0 NOT NULL,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t)),
-    CONSTRAINT positive_price_check CHECK ((price >= (0)::numeric)),
     CONSTRAINT quantities_check CHECK (((quantity > 0) AND (available_quantity >= 0) AND (available_quantity <= quantity)))
 );
 
@@ -364,7 +363,6 @@ ALTER SEQUENCE public.order_items_id_seq OWNED BY public.order_items.id;
 
 CREATE TABLE public.orders (
     id bigint NOT NULL,
-    subtotal numeric(10,2) NOT NULL,
     fee numeric(3,2) NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -372,7 +370,7 @@ CREATE TABLE public.orders (
     number bigint NOT NULL,
     status public.order_status DEFAULT 'pending'::public.order_status NOT NULL,
     event_id bigint NOT NULL,
-    CONSTRAINT total_fee_check CHECK (((subtotal >= (0)::numeric) AND (fee >= (0)::numeric) AND (fee <= (1)::numeric)))
+    subtotal_cents integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1044,6 +1042,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190228233943'),
 ('20190301035621'),
 ('20190301195942'),
-('20190301235126');
+('20190301235126'),
+('20190302210207');
 
 

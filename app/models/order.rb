@@ -14,20 +14,24 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :order_items
 
-  def subtotal
-    order_items.collect { |oi| oi.quantity * oi.offer.price }.sum
+  monetize :subtotal_cents
+  monetize :total_cents
+  monetize :absolute_fee_cents
+
+  def subtotal_cents
+    order_items.collect { |order_item| order_item.quantity * order_item.offer.price_cents }.sum
   end
 
-  def total
-    subtotal * (1 + self.fee)
+  def total_cents
+    subtotal_cents * (1 + self.fee)
   end
 
-  def absolute_fee
-    self.fee * subtotal
+  def absolute_fee_cents
+    self.fee * subtotal_cents
   end
 
   def total_quantity
-    order_items.collect { |oi| oi.quantity }.sum
+    order_items.collect { |order_item| order_item.quantity }.sum
   end
 
   def approved!
@@ -88,7 +92,7 @@ class Order < ApplicationRecord
     end
 
     def update_subtotal
-      self.subtotal = subtotal
+      self.subtotal_cents = subtotal_cents
     end
 
 end

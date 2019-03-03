@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         <p><%= offer.name %></p>
                       </div>
                       <div class="column is-3">
-                        <p><%= value_to_currency(offer.price) %></p>
+                        <p><%= offer.price.format %></p>
                       </div>
                       <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function(){
                               </span>
                             </div>
                             <div class="level-item">
-                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price }, placeholder: "quantidade" %>
+                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price.to_f }, placeholder: "quantidade" %>
                               <span class="quantity-view">
                                 0
                               </span>

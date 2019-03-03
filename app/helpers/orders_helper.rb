@@ -1,9 +1,9 @@
 module OrdersHelper
 	def installment_info(count)
-		count.to_s + "x de R$" + value_to_currency((@order.total * (1 + Wirecard::InterestTable[count])) / count)
+		count.to_s + "x de " + ((@order.total * (1 + Wirecard::InterestTable[count])) / count).format
 	end
 
 	def price_with_interest(count)
-		value_to_currency(@order.total * (1 + Wirecard::InterestTable[count]))
+		(@order.total * (1 + Wirecard::InterestTable[count])).format
 	end
 end
