@@ -1,3 +1,4 @@
+//=require simple-mask-money/lib/simple-mask-money
 var html = document.querySelector('html');
 var modal = document.getElementById('offer-modal');
 var table = document.getElementById('offers-table');
@@ -23,6 +24,24 @@ function init() {
 	hiddenFields.querySelector('.empty-fields').remove();
 
 	setEventsHandlers();
+
+	SimpleMaskMoney.args = {
+	    allowNegative: false,
+	    negativeSignAfter: false,
+	    prefix: 'R$',
+	    suffix: '',
+	    fixed: true,
+	    fractionDigits: 2,
+	    decimalSeparator: ',',
+	    thousandsSeparator: '.',
+	    cursor: 'move'
+	};
+
+	var priceInputList = document.querySelectorAll('.price-input');
+	for(input of priceInputList) {
+		input.value = SimpleMaskMoney.format(input.value);
+		SimpleMaskMoney.setMask(input);
+	}
 }
 
 function setEventsHandlers() {
@@ -158,6 +177,10 @@ function closeModal() {
 function newOfferFields() {
 	var offerFields = offerFieldsPrototype.cloneNode(true);
 
+	var priceInput = offerFields.querySelector('.price-input');
+	priceInput.value = SimpleMaskMoney.format(priceInput.value);
+	SimpleMaskMoney.setMask(priceInput);
+
 	var fields = offerFields.querySelectorAll('input, textarea');
 	for(let field of fields) {
 		field.name = field.name.replace(/\[\d\]/, '[' + offerCount + ']');
@@ -194,6 +217,7 @@ function addOfferRow(name, price, quantity) {
 		var modalForm = modal.querySelector('.modal-form');
 		oldOfferFields = document.getElementById(this.dataset.target);
 		var updateOfferFields = oldOfferFields.cloneNode(true);
+		var priceInput = updateOfferFields.querySelector('.price-input');
 		updateOfferFields.classList.remove('offer-fields');
 		updateOfferFields.classList.add('empty-fields');
 		oldOfferFields.id = "";
