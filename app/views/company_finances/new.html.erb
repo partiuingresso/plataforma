@@ -55,6 +55,17 @@
 										</div>
 									</div>
 									<div class="column is-3">
+										<label class="label">Tipo de conta</label>
+	                    <div class="control">
+	                    	<div class="select">
+													<%= f.select :account_type do %>
+														<%= content_tag :option, "Conta Corrente", value: "CHECKING" %>
+														<%= content_tag :option, "Couta Poupança", value: "SAVING" %>
+		                      <% end %>
+		                    </div>
+	                    </div>
+									</div>
+									<div class="column is-3">
 										<label class="label">Agência</label>
 										<div class="field has-addons">
 	                    <p class="control is-expanded has-icons-right">
