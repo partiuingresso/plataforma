@@ -114,11 +114,11 @@
 				<div class="tile is-ancestor">
 					<div class="tile is-parent is-vertical">
 						<div class="tile is-child box">
-							<%= f.fields_for :event_venue do |venue_f| %>
+							<%= f.fields_for :address do |address_f| %>
 								<div class="field">
 									<label class="label">Nome</label>
 									<div class="control has-icons-right">
-										<%= venue_f.text_field :name, class: "input" %>
+										<%= address_f.text_field :name, class: "input" %>
 										<span class="icon is-right has-text-danger">
 											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 										</span>
@@ -129,7 +129,7 @@
 									<div class="column is-6">
 										<label class="label">Endereço</label>
 										<div class="control has-icons-right">
-											<%= venue_f.text_field :address, class: "input" %>
+											<%= address_f.text_field :address, class: "input" %>
 											<span class="icon is-right has-text-danger">
 												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 											</span>
@@ -138,7 +138,7 @@
 									<div class="column is-3">
 										<label class="label">Número</label>
 										<div class="control has-icons-right">
-											<%= venue_f.number_field :number, class: "input" %>
+											<%= address_f.number_field :number, class: "input" %>
 											<span class="icon is-right has-text-danger">
 												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 											</span>
@@ -147,14 +147,14 @@
 									<div class="column is-3">
 										<label class="label">Complemento</label>
 										<div class="control">
-											<%= venue_f.text_field :complement, class: "input" %>
+											<%= address_f.text_field :complement, class: "input" %>
 										</div>
 									</div>
 
 									<div class="column is-3">
 										<label class="label">Bairro</label>
 										<div class="control has-icons-right">
-											<%= venue_f.text_field :neighborhood, class: "input" %>
+											<%= address_f.text_field :district, class: "input" %>
 											<span class="icon is-right has-text-danger">
 												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 											</span>
@@ -163,7 +163,7 @@
 									<div class="column is-3">
 										<label class="label">Cidade</label>
 										<div class="control has-icons-right">
-											<%= venue_f.text_field :city, class: "input" %>
+											<%= address_f.text_field :city, class: "input" %>
 											<span class="icon is-right has-text-danger">
 												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 											</span>
@@ -172,7 +172,7 @@
 									<div class="column is-3">
 										<label class="label">Estado</label>
 										<div class="control has-icons-right">
-											<%= venue_f.text_field :state, class: "input" %>
+											<%= address_f.text_field :state, class: "input" %>
 											<span class="icon is-right has-text-danger">
 												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 											</span>
@@ -181,7 +181,7 @@
 									<div class="column is-3">
 										<label class="label">CEP</label>
 										<div class="control has-icons-right">
-											<%= venue_f.text_field :zipcode, class: "input" %>
+											<%= address_f.text_field :zipcode, class: "input" %>
 											<span class="icon is-right has-text-danger">
 												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 											</span>

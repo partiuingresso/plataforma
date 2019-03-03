@@ -106,6 +106,46 @@ ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage
 
 
 --
+-- Name: addresses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.addresses (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    address character varying NOT NULL,
+    complement character varying,
+    district character varying NOT NULL,
+    city character varying NOT NULL,
+    state character varying NOT NULL,
+    zipcode character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    latitude numeric(10,8),
+    longitude numeric(11,8),
+    number character varying NOT NULL
+);
+
+
+--
+-- Name: addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.addresses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.addresses_id_seq OWNED BY public.addresses.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -203,47 +243,6 @@ ALTER SEQUENCE public.credit_cards_id_seq OWNED BY public.credit_cards.id;
 
 
 --
--- Name: event_venues; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.event_venues (
-    id bigint NOT NULL,
-    name character varying NOT NULL,
-    address character varying NOT NULL,
-    number integer NOT NULL,
-    complement character varying,
-    neighborhood character varying NOT NULL,
-    city character varying NOT NULL,
-    state character varying NOT NULL,
-    zipcode character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    latitude numeric(10,8),
-    longitude numeric(11,8),
-    CONSTRAINT number_check CHECK ((number > 0))
-);
-
-
---
--- Name: event_venues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.event_venues_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: event_venues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.event_venues_id_seq OWNED BY public.event_venues.id;
-
-
---
 -- Name: events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -253,13 +252,13 @@ CREATE TABLE public.events (
     description text,
     start_t timestamp without time zone NOT NULL,
     end_t timestamp without time zone,
-    event_venue_id bigint,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     company_id bigint NOT NULL,
     headline character varying,
     video character varying,
+    address_id bigint NOT NULL,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -518,6 +517,13 @@ ALTER TABLE ONLY public.active_storage_blobs ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: addresses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.addresses ALTER COLUMN id SET DEFAULT nextval('public.addresses_id_seq'::regclass);
+
+
+--
 -- Name: companies id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -529,13 +535,6 @@ ALTER TABLE ONLY public.companies ALTER COLUMN id SET DEFAULT nextval('public.co
 --
 
 ALTER TABLE ONLY public.credit_cards ALTER COLUMN id SET DEFAULT nextval('public.credit_cards_id_seq'::regclass);
-
-
---
--- Name: event_venues id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event_venues ALTER COLUMN id SET DEFAULT nextval('public.event_venues_id_seq'::regclass);
 
 
 --
@@ -597,6 +596,14 @@ ALTER TABLE ONLY public.active_storage_blobs
 
 
 --
+-- Name: addresses addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.addresses
+    ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -626,14 +633,6 @@ ALTER TABLE ONLY public.company_finances
 
 ALTER TABLE ONLY public.credit_cards
     ADD CONSTRAINT credit_cards_pkey PRIMARY KEY (id);
-
-
---
--- Name: event_venues event_venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event_venues
-    ADD CONSTRAINT event_venues_pkey PRIMARY KEY (id);
 
 
 --
@@ -722,6 +721,13 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 
 
 --
+-- Name: index_addresses_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_addresses_on_latitude_and_longitude ON public.addresses USING btree (latitude, longitude);
+
+
+--
 -- Name: index_company_finances_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -736,10 +742,10 @@ CREATE INDEX index_credit_cards_on_user_id ON public.credit_cards USING btree (u
 
 
 --
--- Name: index_event_venues_on_latitude_and_longitude; Type: INDEX; Schema: public; Owner: -
+-- Name: index_events_on_address_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_event_venues_on_latitude_and_longitude ON public.event_venues USING btree (latitude, longitude);
+CREATE INDEX index_events_on_address_id ON public.events USING btree (address_id);
 
 
 --
@@ -747,13 +753,6 @@ CREATE INDEX index_event_venues_on_latitude_and_longitude ON public.event_venues
 --
 
 CREATE INDEX index_events_on_company_id ON public.events USING btree (company_id);
-
-
---
--- Name: index_events_on_event_venue_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_events_on_event_venue_id ON public.events USING btree (event_venue_id);
 
 
 --
@@ -898,14 +897,6 @@ ALTER TABLE ONLY public.credit_cards
 
 
 --
--- Name: events fk_rails_07a8e73ad7; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.events
-    ADD CONSTRAINT fk_rails_07a8e73ad7 FOREIGN KEY (event_venue_id) REFERENCES public.event_venues(id);
-
-
---
 -- Name: events fk_rails_0cb5590091; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -919,6 +910,14 @@ ALTER TABLE ONLY public.events
 
 ALTER TABLE ONLY public.company_finances
     ADD CONSTRAINT fk_rails_20abbc78fb FOREIGN KEY (company_id) REFERENCES public.companies(id);
+
+
+--
+-- Name: events fk_rails_2a2c9250e8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_2a2c9250e8 FOREIGN KEY (address_id) REFERENCES public.addresses(id);
 
 
 --
@@ -1043,6 +1042,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190301035621'),
 ('20190301195942'),
 ('20190301235126'),
-('20190302210207');
+('20190302210207'),
+('20190303013336');
 
 

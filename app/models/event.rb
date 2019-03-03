@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
 	belongs_to :company
 	belongs_to :user
-	belongs_to :event_venue
+	belongs_to :address
 	has_many :offers
 	has_many :orders
 	has_one_attached :image
@@ -13,9 +13,9 @@ class Event < ApplicationRecord
 	validates :start_t, presence: true
 	validate :end_date_cannot_be_before_start
 
-	validates_associated :event_venue
+	validates_associated :address
 
-	accepts_nested_attributes_for :event_venue
+	accepts_nested_attributes_for :address
 	accepts_nested_attributes_for :offers
 
 	def end_date_cannot_be_before_start

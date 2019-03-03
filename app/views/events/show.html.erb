@@ -5,7 +5,7 @@
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-    initMap(<%=@event.event_venue.latitude%>, <%=@event.event_venue.longitude%>);
+    initMap(<%=@event.address.latitude%>, <%=@event.address.longitude%>);
     var accordions = bulmaAccordion.attach();
 });
 </script>
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <tr>
               <td class="spacer"></td>
               <td><span class="icon"><i class="fas fa-map-marker-alt has-text-grey-light"></i></span></td>
-              <td><span class="has-text-grey"><%= truncate(@event.event_venue.name, length: 15) %> - <%= truncate(@event.event_venue.city, length: 24) %>/<%= @event.event_venue.state %></span>
+              <td><span class="has-text-grey"><%= truncate(@event.address.name, length: 15) %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %></span>
               <td class="spacer"></td>
           </tbody>
         </table>
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 </span>
               </div>
               <div class="level-item">
-                <span class="info"><%= @event.event_venue.name %> - <%= truncate(@event.event_venue.city, length: 24) %>/<%= @event.event_venue.state %></span>
+                <span class="info"><%= @event.address.name %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %></span>
               </div>
             </div>
           </div>
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         <div class="content">
           <p class="about event">Como Chegar</p>
-          <p class="about event-name has-text-primary"><%= @event.event_venue.name %></p>
+          <p class="about event-name has-text-primary"><%= @event.address.name %></p>
           <p>
             <div id="map"></div>
           </p>

@@ -14,7 +14,7 @@ class EventsController < ApplicationController
 			flash[:warning] = "Opa.. você precisa registrar uma conta bancária antes!"
 			redirect_to new_company_finance_path
 		end
-		@event.build_event_venue
+		@event.build_address
 		@event.offers.build
 	end
 
@@ -50,7 +50,7 @@ class EventsController < ApplicationController
 		def event_params
 			params.require(:event).permit(
 				:name, :headline, :image, :start_t, :end_t, :description,
-				event_venue_attributes: [:id, :name, :address, :number, :complement, :neighborhood, :city, :state, :zipcode],
+				address_attributes: [:id, :name, :address, :number, :complement, :district, :city, :state, :zipcode],
 				offers_attributes: [:id, :name, :description, :price, :quantity, :start_t, :end_t]
 			)
 		end

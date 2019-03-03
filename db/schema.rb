@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_210207) do
+ActiveRecord::Schema.define(version: 2019_03_03_013336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,22 @@ ActiveRecord::Schema.define(version: 2019_03_02_210207) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "address", null: false
+    t.string "complement"
+    t.string "district", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "zipcode", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "latitude", precision: 10, scale: 8
+    t.decimal "longitude", precision: 11, scale: 8
+    t.string "number", null: false
+    t.index ["latitude", "longitude"], name: "index_addresses_on_latitude_and_longitude"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -67,36 +83,20 @@ ActiveRecord::Schema.define(version: 2019_03_02_210207) do
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
-  create_table "event_venues", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "address", null: false
-    t.integer "number", null: false
-    t.string "complement"
-    t.string "neighborhood", null: false
-    t.string "city", null: false
-    t.string "state", null: false
-    t.string "zipcode", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.decimal "latitude", precision: 10, scale: 8
-    t.decimal "longitude", precision: 11, scale: 8
-    t.index ["latitude", "longitude"], name: "index_event_venues_on_latitude_and_longitude"
-  end
-
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.datetime "start_t", null: false
     t.datetime "end_t"
-    t.bigint "event_venue_id"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "company_id", null: false
     t.string "headline"
     t.string "video"
+    t.bigint "address_id", null: false
+    t.index ["address_id"], name: "index_events_on_address_id"
     t.index ["company_id"], name: "index_events_on_company_id"
-    t.index ["event_venue_id"], name: "index_events_on_event_venue_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
@@ -176,8 +176,8 @@ ActiveRecord::Schema.define(version: 2019_03_02_210207) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "company_finances", "companies"
   add_foreign_key "credit_cards", "users"
+  add_foreign_key "events", "addresses"
   add_foreign_key "events", "companies"
-  add_foreign_key "events", "event_venues"
   add_foreign_key "events", "users"
   add_foreign_key "offers", "events"
   add_foreign_key "order_items", "offers"
