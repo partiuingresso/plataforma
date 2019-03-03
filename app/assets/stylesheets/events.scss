@@ -91,6 +91,7 @@ svg.fa-play:hover {
   position: sticky;
   top: 1rem;
   font-size: 0.85rem;
+  box-shadow: -1px 4px 35px -12px rgba(0,0,0,0.40);
   // margin-top: -6rem;
 }
 
@@ -98,6 +99,49 @@ svg.fa-play:hover {
   font-size: 1.3rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.button.minus, .button.plus {
+  border-radius: 5rem;
+  padding: 0.6rem;
+  & :hover {
+    color: #DB3F4B;
+  }
+}
+
+.offer-info {
+  padding-top: 0.3rem;
+  padding-bottom: unset;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  color: hsl(0, 0%, 48%);
+  & a {
+    text-transform: uppercase;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color:unset;
+  }
+  & svg {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    margin-left: 0.3rem;
+  }
+}
+
+.offer-info-content {
+  & a {
+    margin-bottom: 0.3rem;
+  }
+  & div {
+    border-radius: 0.6rem;
+    padding: 0.6rem;
+  }
+
+  & svg {
+    font-size: 1rem;
+    margin-bottom: -0.2rem;
+    margin-left: 0.3rem;
+  }
 }
 
 .about.event {

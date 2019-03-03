@@ -1,12 +1,12 @@
 <%= javascript_include_tag "events/colors", defer: true %>
-<%= javascript_include_tag "toggle", async: true %>
+<%= javascript_include_tag "toggle", defer: true %>
 <%= javascript_include_tag "events/cart", defer: true %>
 <%= javascript_include_tag "events/maps", defer: true %>
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
     initMap(<%=@event.event_venue.latitude%>, <%=@event.event_venue.longitude%>);
-    var accordions = bulmaAccordion.attach();
+    toggle();
 });
 </script>
 <script>
@@ -144,12 +144,13 @@ document.addEventListener("DOMContentLoaded", function(){
               <ul>
                 <% @event.offers.each do |offer| %>
                   <li>
-                    <div class="columns is-vcentered">
-                      <div class="column is-6">
-                        <p><%= offer.name %></p>
+                    <hr />
+                    <div class="columns is-vcentered is-multiline">
+                      <div class="column is-5">
+                        <p class="is-size-6"><%= offer.name %></p>
                       </div>
-                      <div class="column is-3">
-                        <p><%= value_to_currency(offer.price) %></p>
+                      <div class="column is-4 has-text-left">
+                        <p>R$<%= value_to_currency(offer.price) %></p>
                       </div>
                       <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>
@@ -174,6 +175,17 @@ document.addEventListener("DOMContentLoaded", function(){
                           </div>
                         <% end %>
                       </div>
+                      <% if offer.description? %>
+                        <div class="column is-12 offer-info">
+                          <a class="toggle button">Mais info<i class="fas fa-sort-down"></i></a>
+                          <div class="offer-info-content dismiss is-hidden">
+                            <a class="button">ESCONDER<i class="fas fa-sort-up"></i></a>
+                            <div class="has-background-light animated fadeIn fast">
+                              <%= sanitize offer.description %>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
                     </div>
                   </li>
                 <% end %>
