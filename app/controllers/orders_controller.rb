@@ -22,15 +22,15 @@ class OrdersController < ApplicationController
 		if @order.save
 			payment = Payment.new(payment_params)
 			if Wirecard.process_checkout? @order, payment
-				render plain: "OK"
-
-				return
+				render plain: "Compra feita com sucesso."
 			else
 				@order.destroy
+				flash[:danger] = "Hmmmm.. não foi possível fazer o pagamento. Revise os campos enviados!"
+				redirect_back(fallback_location: new_order_path)
 			end
+		else
+			render plain: @order.errors.messages
 		end
-
-		render plain: @order.errors.messages
 	end
 
 	def show

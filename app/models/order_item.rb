@@ -4,6 +4,7 @@ class OrderItem < ApplicationRecord
   belongs_to :offer
   belongs_to :order
   has_many :ticket_tokens, dependent: :destroy
+  has_one :event, through: :offer
   has_one :user, through: :order
 
   accepts_nested_attributes_for :ticket_tokens
@@ -14,6 +15,11 @@ class OrderItem < ApplicationRecord
   validate :quantity_cannot_be_different_to_ticket_tokens_count
   validate :quantity_cannot_be_greater_than_offer_available_quantity
 
+  monetize :offer_total_cents
+
+  def offer_total_cents
+    offer.price_cents * (1 + order.fee)
+  end
 
   def cancel
     offer.available_quantity += self.quantity
@@ -38,7 +44,7 @@ class OrderItem < ApplicationRecord
     end
 
     def offer_event_cannot_be_different_to_order_event
-      if offer.event != order.event
+      if event != order.event
         errors.add(:event, "one order can't have order items related to different events")
       end
     end

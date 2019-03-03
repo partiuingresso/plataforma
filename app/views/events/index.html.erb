@@ -24,7 +24,7 @@
         				<tr>
         					<td><%= event.name %></td>
         					<td><%= event.start_t.strftime("%d/%m/%Y") %></td>
-        					<td><%= event.event_venue.city %>-<%= event.event_venue.state %></td>
+                    <td><%= event.address.city %>-<%= event.address.state %></td>
         					<td>
 								<%= link_to edit_event_path(event) do %>
 							        <span class="icon">

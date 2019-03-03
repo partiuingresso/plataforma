@@ -27,7 +27,7 @@
               <span class="icon">
                 <i class="fas fa-map-marker-alt"></i>
               </span>
-              <span class="offer-start"><%= @order.event.event_venue.name %> - <%= truncate(@order.event.event_venue.city, length: 24) %>/<%= @order.event.event_venue.state %></span>
+              <span class="offer-start"><%= @order.event.address.name %> - <%= truncate(@order.event.address.city, length: 24) %>/<%= @order.event.address.state %></span>
               <br />
               <span class="icon">
                 <i class="fas fa-ticket-alt"></i>
@@ -51,7 +51,7 @@
                     <%= order_item.offer.name %>
                   </div>
                   <div class="column is-4 has-text-centered offer-content">
-                    R$<%= value_to_currency(order_item.offer.price * (1 + @order.fee)) %>
+                    <%= number_to_currency(order_item.offer_total.to_f, unit: "R$", separator: ",", delimiter: "") %>
                   </div>
                   <div class="column is-3 has-text-right offer-content">
                     <%= order_item.quantity %>
@@ -61,7 +61,7 @@
               <div class="column total is-12">
                 <hr />
                 <p class="is-pulled-left">Total</p>
-                <p class="is-pulled-right total">R$<span id="total"><%= value_to_currency(@order.total) %></span></p>
+                <p class="is-pulled-right total"><span id="total"><%= @order.total.format %></span></p>
               </div>
             </div>
           </div>

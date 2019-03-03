@@ -63,25 +63,26 @@ module Wirecard
 			if payment.respond_to?(:status) && payment.status.present?
 				return true
 			end
-			puts payment
 		end
 
 		return false
 	end
 
 	def self.create_order order, installment_count
-		absolute_interest = Wirecard::InterestTable[installment_count] * order.total
+		absolute_interest_cents = (Wirecard::InterestTable[installment_count] * order.total).cents
+		addition = order.absolute_fee_cents + absolute_interest_cents
+		puts addition
 		order = api.order.create({
 			own_id: order.number,
 			amount: {
 				currency: "BRL",
-				subtotals: { addition: (order.absolute_fee + absolute_interest) * 100 }
+				subtotals: { addition: addition }
 			},
 			items: order.order_items.collect do |order_item|
 				{
 					product: order_item.offer.name,
 					quantity: order_item.quantity,
-					price: order_item.offer.price * 100
+					price: order_item.offer.price_cents
 				}
 			end,
 			customer: {
@@ -97,7 +98,7 @@ module Wirecard
 						id: order.company.company_finance.moip_id
 					},
 					amount: {
-						fixed: order.subtotal * 100
+						fixed: order.subtotal_cents
 					}
 				}
 			]
