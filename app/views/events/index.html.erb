@@ -8,16 +8,17 @@
 	        <div class="column is-3">        
 	        	<%= render 'admin/producer_admin_menu' %>
 	        </div>
-	        <div class="column is-8">
+	        <div class="column is-8 events-table">
 	        	<p class="title is-size-2">Meus Eventos</p>
 
-        		<table class="table is-fullwidth">
+        		<table class="table is-fullwidth is-narrow is-striped is-hoverable">
         			<thead>
         				<th>Evento</th>
         				<th>Quando</th>
         				<th>Onde</th>
-        				<th></th>
-        				<th></th>
+        				<th>Editar</th>
+        				<th>Ver</th>
+                        <th>Apagar</th>
         			</thead>
         			<tbody>
         				<% @events.each do |event| %>
@@ -39,6 +40,13 @@
 		        					</span>
 	        					<% end %>
         					</td>
+                            <td>
+                                <%= link_to event, method: :delete, data: { confirm: 'Deseja mesmo apagar este evento?' } do %>
+                                    <span class="icon">
+                                        <i class="far fa-trash-alt"></i>
+                                    </span>
+                                <% end %>
+                            </td>
         				</tr>
         				<% end %>
         			</tbody>

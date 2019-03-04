@@ -40,6 +40,12 @@
     text-align: center;
   }
 
+  .events-table {
+    overflow-x: auto;
+    font-size: 0.75rem;
+    margin-left: -0.5rem;
+  }
+
   .section.description {
     padding-top: 6rem;
   }
