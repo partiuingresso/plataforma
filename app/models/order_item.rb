@@ -17,6 +17,8 @@ class OrderItem < ApplicationRecord
 
   monetize :offer_total_cents
 
+  after_destroy :cancel
+
   def offer_total_cents
     offer.price_cents * (1 + order.fee)
   end

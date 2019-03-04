@@ -2,19 +2,6 @@ module Wirecard
 
 	autoload :Webhooks, 'webhooks'
 
-	InterestTable = { 1 => 0,
-					  2 => 0.045,
-					  3 => 0.0575,
-					  4 => 0.07,
-					  5 => 0.0825,
-					  6 => 0.095,
-					  7 => 0.10203,
-					  8 => 0.11526,
-					  9 => 0.12864,
-					  10 => 0.145,
-					  11 => 0.15549,
-					  12 => 0.18 }
-
 	token = Rails.application.credentials.dig(:wirecard_sandbox_api_token)
 	key = Rails.application.credentials.dig(:wirecard_sandbox_api_key)
 	access_token = Rails.application.credentials.dig(:wirecard_sandbox_api_access_token)
@@ -69,7 +56,7 @@ module Wirecard
 	end
 
 	def self.create_order order, installment_count
-		absolute_interest_cents = (Wirecard::InterestTable[installment_count] * order.total).cents
+		absolute_interest_cents = (Business::Finance::InterestRate[installment_count] * order.total).cents
 		addition = order.absolute_fee_cents + absolute_interest_cents
 		puts addition
 		order = api.order.create({
