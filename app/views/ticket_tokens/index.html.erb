@@ -36,7 +36,7 @@
               <div class="qr-box">
                   <i class="fas fa-3x fa-qrcode"></i>
               </div>
-              <%= image_tag t.order_item.event.image.variant(resize: "320x320"), class: 'mask object-mask' %>
+              <%= image_tag t.order_item.event.hero_image.variant(resize: "320x320"), class: 'mask object-mask' %>
               <div class="overlay object-mask">
                 <div class="ticket-content">
                   <span class="event-title"><%= t.order_item.event.name %></span><br />

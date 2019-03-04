@@ -249,7 +249,7 @@ ALTER SEQUENCE public.credit_cards_id_seq OWNED BY public.credit_cards.id;
 CREATE TABLE public.events (
     id bigint NOT NULL,
     name character varying NOT NULL,
-    description text,
+    description text NOT NULL,
     start_t timestamp without time zone NOT NULL,
     end_t timestamp without time zone,
     user_id bigint NOT NULL,
@@ -259,6 +259,8 @@ CREATE TABLE public.events (
     headline character varying,
     video character varying,
     address_id bigint NOT NULL,
+    features text,
+    invite_text text,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -1043,6 +1045,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190301195942'),
 ('20190301235126'),
 ('20190302210207'),
-('20190303013336');
+('20190303013336'),
+('20190303233347');
 
 

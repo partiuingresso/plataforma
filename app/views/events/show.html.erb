@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 </script>
 <script>
-  imgurl = "<%= url_for(@event.image) %>"
+  imgurl = "<%= url_for(@event.hero_image) %>"
 </script>
 <style>
-  .section.hero-event { background-image: url(<%= url_for(@event.image) %>); }
+  .section.hero-event { background-image: url(<%= url_for(@event.hero_image) %>); }
 </style>
 
 <section class="section hero-event">

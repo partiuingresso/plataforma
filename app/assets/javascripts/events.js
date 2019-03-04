@@ -46,14 +46,16 @@ function init() {
 
 function setEventsHandlers() {
 	// 1. Image file input handler
-	var fileInput = document.getElementById("event_image");
-	fileInput.onchange = function(){
-	    if(fileInput.files.length > 0)
-	    {
-			document.getElementById('filename').innerHTML = fileInput.files[0].name;
-	    }
-	};
-
+	var fileInputs = document.querySelectorAll(".file-input");
+	for(let input of fileInputs) {
+		input.onchange = function(){
+		    if(input.files.length > 0)
+		    {
+				let filenameSpan = document.getElementById(this.dataset.target);
+				filenameSpan.innerHTML = input.files[0].name;
+		    }
+		};
+	}
 
 	var addOfferButton = document.getElementById('offer-button');
 	var modalForm = modal.querySelector('.modal-form');

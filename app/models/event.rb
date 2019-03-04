@@ -4,12 +4,13 @@ class Event < ApplicationRecord
 	belongs_to :address
 	has_many :offers
 	has_many :orders
-	has_one_attached :image
+	has_one_attached :hero_image
+	has_one_attached :content_image
+	has_many_attached :testimonial_images
 
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :headline, length: { maximum: 200 }, allow_blank: true
 	validates :description, length: { maximum: 10000 }, allow_blank: true
-	validates :image, presence: true
 	validates :start_t, presence: true
 	validate :end_date_cannot_be_before_start
 
