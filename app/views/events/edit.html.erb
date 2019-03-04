@@ -28,9 +28,8 @@
         </article>
         <% end %>
 
-
 				<div class="tile is-ancestor">
-					<div class="tile is-vertical is-7 is-parent">
+					<div class="tile is-parent is-vertical">
 						<div class="tile is-child box">
 							<label class="label">Nome do evento</label>
 							<div class="control has-icons-right">
@@ -40,15 +39,22 @@
 								</span>
 							</div>
 						</div>
-					</div>
-
-					<div class="tile is-parent is-3">
 						<div class="tile is-child box">
-							<label class="label">Imagem</label>
+							<label class="label">Vídeo</label>
+							<div class="control">
+								<%= f.text_field :video, autofocus: true, class: "input", placeholder: "Link do vídeo" %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tile is-ancestor">
+					<div class="tile is-parent">
+						<div class="tile is-child box">
+							<label class="label">Imagem hero</label>
 	            <div class="field control has-icons-right">
 	              <div class="file is-info has-name" style="display: block;">
 	                <label class="file-label">
-	                  <%= f.file_field :image, class: "file-input" %>
+	                  <%= f.file_field :hero_image, class: "file-input", data: { target: "hero-file"} %>
 	                  <span class="file-cta">
 	                    <span class="file-icon">
 	                      <i class="fas fa-upload"></i>
@@ -57,7 +63,55 @@
 	                      Selecione...  
 	                    </span>
 	                  </span>
-	                  <span id="filename" class="file-name" style="width:11rem"></span>
+	                  <span id="hero-file" class="file-name" style="width:11rem"></span>
+	                  <span class="icon is-right has-text-danger">
+	                    <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+	                  </span>
+	                </label>
+	              </div>
+	            </div>
+						</div>
+					</div>
+					<div class="tile is-parent">
+						<div class="tile is-child box">
+							<label class="label">Imagem conteúdo</label>
+	            <div class="field control has-icons-right">
+	              <div class="file is-info has-name" style="display: block;">
+	                <label class="file-label">
+	                  <%= f.file_field :content_image, class: "file-input", data: { target: "content-file"} %>
+	                  <span class="file-cta">
+	                    <span class="file-icon">
+	                      <i class="fas fa-upload"></i>
+	                    </span>
+	                    <span class="file-label">
+	                      Selecione...
+	                    </span>
+	                  </span>
+	                  <span id="content-file" class="file-name" style="width:11rem"></span>
+	                  <span class="icon is-right has-text-danger">
+	                    <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+	                  </span>
+	                </label>
+	              </div>
+	            </div>
+						</div>
+					</div>
+					<div class="tile is-parent">
+						<div class="tile is-child box">
+							<label class="label">Imagens de depoimento</label>
+	            <div class="field control has-icons-right">
+	              <div class="file is-info has-name" style="display: block;">
+	                <label class="file-label">
+	                  <%= f.file_field :testimonial_images, multiple: true, class: "file-input", data: { target: "testimonial-file"} %>
+	                  <span class="file-cta">
+	                    <span class="file-icon">
+	                      <i class="fas fa-upload"></i>
+	                    </span>
+	                    <span class="file-label">
+	                      Selecione...
+	                    </span>
+	                  </span>
+	                  <span id="testimonial-file" class="file-name" style="width:11rem"></span>
 	                  <span class="icon is-right has-text-danger">
 	                    <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 	                  </span>
@@ -104,6 +158,18 @@
 							<label class="label">Descrição</label>
 							<div class="control">
 								<%= f.trix_editor :description %>
+							</div>
+						</div>
+						<div class="tile is-child box">
+							<label class="label">Features</label>
+							<div class="control">
+								<%= f.text_area :features, class:"textarea" %>
+							</div>
+						</div>
+						<div class="tile is-child box">
+							<label class="label">Convite</label>
+							<div class="control">
+								<%= f.text_area :invite_text, class:"textarea" %>
 							</div>
 						</div>
 					</div>
@@ -192,6 +258,8 @@
 						</div>
 					</div>
 				</div>
+
+				
 				<%= render partial: "offer_modal" %>
 				<div class="hidden-fields">
 					<% @event.offers.each do |offer| %>
