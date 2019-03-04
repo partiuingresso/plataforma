@@ -19,6 +19,8 @@ class Event < ApplicationRecord
 	accepts_nested_attributes_for :address
 	accepts_nested_attributes_for :offers
 
+	after_destroy :destroy_attached_files
+
 	def end_date_cannot_be_before_start
 		if end_t.present? && end_t < start_t
 			errors.add(:end_t, "can't be before start date")
@@ -28,4 +30,12 @@ class Event < ApplicationRecord
 	def self.to_happen
 		Event.all.select { |event| event.start_t >= DateTime.now }
 	end
+
+	private
+
+		def destroy_attached_files
+			hero_image.purge
+			content_image.purge
+			testimonial_images.purge
+		end
 end
