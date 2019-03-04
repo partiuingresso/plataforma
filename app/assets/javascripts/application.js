@@ -22,6 +22,5 @@
 //= stub events/colors
 //= stub events/maps
 //= stub events/cart
-//= stub orders/new
 //= stub toggle
 //= stub orders
