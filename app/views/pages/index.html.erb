@@ -57,7 +57,7 @@
                     <div>
                       <p class="event-name"><%= truncate(event.name, length: 30) %></p>
                       <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.event_venue.city, length: 24) %>/<%= event.event_venue.state %></p>
+                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
                     </div>
                   </div>
                   <div class="item-down-right">
@@ -81,7 +81,7 @@
                     <div>
                       <p class="event-name"><%= truncate(event.name, length: 30) %></p>
                       <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.event_venue.city, length: 24) %>/<%= event.event_venue.state %></p>
+                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
                     </div>
                   </div>
                   <div class="item-down-right">
