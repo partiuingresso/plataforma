@@ -40,6 +40,16 @@ class EventsController < ApplicationController
 		end
 	end
 
+	def destroy
+		if @event.orders.present?
+			redirect_to events_path, alert: 'Evento não pode ser apagado.'
+		else
+			if @event.destroy
+				redirect_to events_path, notice: 'Evento apagado.'
+			end
+		end
+	end
+
 	private
 
 		def set_user_and_company
