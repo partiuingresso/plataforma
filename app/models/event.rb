@@ -2,9 +2,9 @@ class Event < ApplicationRecord
 	belongs_to :company
 	belongs_to :user
 	belongs_to :address
-	has_many :offers
+	has_many :offers, dependent: :destroy
 	has_many :orders
-	has_one_attached :image
+	has_one_attached :image, dependent: :destroy
 
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :headline, length: { maximum: 200 }, allow_blank: true
