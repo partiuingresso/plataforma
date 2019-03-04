@@ -6,17 +6,17 @@
     <li><%= link_to_in_li "Dashboard", backstage_path %></li>
   </ul>
   <p class="menu-label">
-    Minha Empresa
-  </p>
-  <ul class="menu-list">
-    <li><%= link_to_in_li "Editar Empresa", edit_company_path(current_user.company) %></li>
-  </ul>
-  <p class="menu-label">
     Eventos
   </p>
   <ul class="menu-list">
     <li><%= link_to_in_li "Meus Eventos", events_path %></li>
     <li><%= link_to_in_li "Criar Evento", new_event_path %></li>
+  </ul>
+  <p class="menu-label">
+    Minha Empresa
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to_in_li "Editar Empresa", edit_company_path(current_user.company) %></li>
   </ul>
   <p class="menu-label">
     Financeiro
