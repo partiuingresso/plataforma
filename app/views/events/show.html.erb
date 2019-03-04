@@ -5,7 +5,7 @@
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-    initMap(<%=@event.event_venue.latitude%>, <%=@event.event_venue.longitude%>);
+    initMap(<%=@event.address.latitude%>, <%=@event.address.longitude%>);
     toggle();
 });
 </script>
