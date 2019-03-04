@@ -27,7 +27,7 @@
         <% @events[0..0].try(:each) do |event| %>
           <div class="column is-5">
             <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
                 <div class="event-overlay">
                   <div class="item-down">
                     <div>
@@ -51,7 +51,7 @@
         <% @events[1..1].try(:each) do |event| %>
           <div class="column is-7">
             <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
                 <div class="event-overlay">
                   <div class="item-down">
                     <div>
@@ -75,7 +75,7 @@
         <% @events[2..5].try(:each) do |event| %>
           <div class="column is-3">
             <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.image %>);">
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
                 <div class="event-overlay">
                   <div class="item-down">
                     <div>
