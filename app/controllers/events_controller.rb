@@ -41,10 +41,12 @@ class EventsController < ApplicationController
 	end
 
 	def destroy
-		if @event.destroy
-			redirect_to events_path, notice: 'Evento apagado.'
-		else
+		if @event.orders.present?
 			redirect_to events_path, alert: 'Evento não pode ser apagado.'
+		else
+			if @event.destroy
+				redirect_to events_path, notice: 'Evento apagado.'
+			end
 		end
 	end
 
