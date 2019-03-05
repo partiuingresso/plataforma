@@ -10,10 +10,6 @@ class EventsController < ApplicationController
 	end
 
 	def new
-		if current_user.company.company_finance.nil?
-			flash[:warning] = "Opa.. você precisa registrar uma conta bancária antes!"
-			redirect_to new_company_finance_path
-		end
 		@event.build_address
 		@event.offers.build
 	end

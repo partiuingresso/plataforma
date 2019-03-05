@@ -16,6 +16,13 @@ load_and_authorize_resource
   end
 
   def create
+    account = Wirecard::create_account
+    unless account.respond_to?(:id) && account.id.present?
+      redirect_to new_company_path, alert: 'Ops... algo deu errado! Tente novamente.' and return
+    end
+    @company.moip_id = account.id
+    @company.moip_access_token = account.access_token
+
     respond_to do |format|
       if @company.save
         format.html { redirect_to backoffice_path, notice: 'Empresa criada com sucesso.' }
