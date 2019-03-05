@@ -2,18 +2,19 @@
 <%= javascript_include_tag "toggle", defer: true %>
 <%= javascript_include_tag "events/cart", defer: true %>
 <%= javascript_include_tag "events/maps", defer: true %>
+<%= javascript_include_tag "carousel", defer: true %>
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-    initMap(<%=@event.address.latitude%>, <%=@event.address.longitude%>);
     toggle();
+    initMap(<%=@event.address.latitude%>, <%=@event.address.longitude%>);
 });
 </script>
 <script>
   imgurl = "<%= url_for(@event.hero_image) %>"
 </script>
 <style>
-  .section.hero-event { background-image: url(<%= url_for(@event.hero_image) %>); }
+  .section.hero-event { background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= url_for(@event.hero_image) %>); }
 </style>
 
 <section class="section hero-event">
@@ -104,26 +105,54 @@ document.addEventListener("DOMContentLoaded", function(){
   </div>
 </section>
 
-
-<section class="section description">
+<section class="section big">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-6">
-        <div class="content">
-          <p class="about event">Sobre o Evento</p>
-          <p class="about event-name has-text-primary"><%= @event.headline %></p>
-          <div class="has-text-grey-dark"><%= sanitize @event.description %></div>
+        <div class="columns is-multiline">
+          <% if @event.features.present? %>
+            
+              <div class="column is-full">
+                <p class="title event-content">UM POUCO SOBRE <span class="lightvibrant"><%= @event.name %></span></p>
+                <ul class="features">
+                  <%= sanitize @event.features %>
+                </ul>
+              </div>
+          <% end %>
+
+          <div class="column is-full">
+            <% if @event.content_image.attached? %>
+              <%= image_tag @event.content_image %>
+            <% end %>
+            <p class="title event-content"><%= @event.headline %></p>
+            <p><%= sanitize @event.description %>
+          </div>
+
+          <% if @event.testimonial_images.present? %>
+              <div class="column is-full">
+                <p class="title event-content">O QUE DIZEM <span class="lightvibrant">SOBRE O SHOW?</span></p>
+                <div class="carousel carousel-animated carousel-animate-fade" data-autoplay="true" data-delay="4500">
+                  <div class="carousel-container">
+                    <% @event.testimonial_images.each do |t| %>
+                      <div class="carousel-item">
+                        <%= image_tag t, class: "is-background testimonial", width:"450vw" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+          <% end %>
+
+          <div class="column is-full">
+            <p class="title event-content">COMO CHEGAR EM <span class="lightvibrant"><%= @event.address.name %></span></p>
+            <p>
+              <div id="map"></div>
+            </p>
+          </div>
+
+          <div class="column is-full">
+          </div>
         </div>
-
-        <hr />
-
-        <div class="content">
-          <p class="about event">Como Chegar</p>
-          <p class="about event-name has-text-primary"><%= @event.address.name %></p>
-          <p>
-            <div id="map"></div>
-          </p>
-        </div>        
       </div>
       <div class="column is-4">
         <div class="event offers card">
