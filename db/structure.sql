@@ -359,12 +359,47 @@ ALTER SEQUENCE public.order_items_id_seq OWNED BY public.order_items.id;
 
 
 --
+-- Name: order_payments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.order_payments (
+    order_id bigint NOT NULL,
+    amount_cents integer DEFAULT 0 NOT NULL,
+    card_brand character varying NOT NULL,
+    card_number_last_4 integer NOT NULL,
+    installment_count integer DEFAULT 1 NOT NULL,
+    interest_rate numeric(6,5) DEFAULT 0 NOT NULL,
+    service_fee numeric(3,2) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: order_payments_order_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.order_payments_order_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: order_payments_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.order_payments_order_id_seq OWNED BY public.order_payments.order_id;
+
+
+--
 -- Name: orders; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.orders (
     id bigint NOT NULL,
-    fee numeric(3,2) NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -561,6 +596,13 @@ ALTER TABLE ONLY public.order_items ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: order_payments order_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_payments ALTER COLUMN order_id SET DEFAULT nextval('public.order_payments_order_id_seq'::regclass);
+
+
+--
 -- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -659,6 +701,14 @@ ALTER TABLE ONLY public.offers
 
 ALTER TABLE ONLY public.order_items
     ADD CONSTRAINT order_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: order_payments order_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_payments
+    ADD CONSTRAINT order_payments_pkey PRIMARY KEY (order_id);
 
 
 --
@@ -790,6 +840,13 @@ CREATE INDEX index_order_items_on_order_id ON public.order_items USING btree (or
 --
 
 CREATE UNIQUE INDEX index_order_items_on_order_id_and_offer_id ON public.order_items USING btree (order_id, offer_id);
+
+
+--
+-- Name: index_order_payments_on_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_order_payments_on_order_id ON public.order_payments USING btree (order_id);
 
 
 --
@@ -979,6 +1036,14 @@ ALTER TABLE ONLY public.order_items
 
 
 --
+-- Name: order_payments fk_rails_ecfe8f04cd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_payments
+    ADD CONSTRAINT fk_rails_ecfe8f04cd FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
 -- Name: ticket_tokens fk_rails_eeb18bfa0b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1046,6 +1111,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190301235126'),
 ('20190302210207'),
 ('20190303013336'),
-('20190303233347');
+('20190303233347'),
+('20190304230710'),
+('20190304231352');
 
 

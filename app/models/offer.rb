@@ -13,6 +13,11 @@ class Offer < ApplicationRecord
 	after_initialize :default_values
 
 	monetize :price_cents
+	monetize :price_with_service_fee_cents
+
+	def price_with_service_fee_cents
+		self.price_cents * (1 + Business::Finance::ServiceFee)
+	end
 
 	private
 

@@ -43,22 +43,29 @@ module Wirecard
 		@@notification.token
 	end
 
-	def self.process_checkout? order_data, payment_data
-		order = create_order order_data, payment_data.installment_count
-		if order.respond_to?(:status) && order.status.present?
-			payment = create_payment order.id, payment_data
-			if payment.respond_to?(:status) && payment.status.present?
-				return true
+	def self.process_checkout? order, payment_data
+		response_order = create_order order, payment_data.installment_count
+		if response_order.respond_to?(:status) && response_order.status.present?
+			payment_response = create_payment response_order.id, payment_data
+			if payment_response.respond_to?(:status) && payment_response.status.present?
+				payment = OrderPayment.new
+				payment.amount_cents = payment_response.amount.total
+				payment.installment_count = payment_response.installment_count
+				payment.interest_rate = Business::Finance::InterestRate[payment.installment_count]
+				payment.card_brand = payment_response.funding_instrument.credit_card.brand
+				payment.card_number_last_4 = payment_response.funding_instrument.credit_card.last4
+				payment.order = order
+
+				return payment
 			end
 		end
 
-		return false
+		return nil
 	end
 
 	def self.create_order order, installment_count
 		absolute_interest_cents = (Business::Finance::InterestRate[installment_count] * order.total).cents
 		addition = order.absolute_fee_cents + absolute_interest_cents
-		puts addition
 		order = api.order.create({
 			own_id: order.number,
 			amount: {

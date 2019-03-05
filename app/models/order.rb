@@ -2,7 +2,7 @@ class Order < ApplicationRecord
   enum status: { pending: "pending", approved: "approved", denied: "denied", refunded: "refunded" }
   belongs_to :user
   has_many :order_items, dependent: :destroy
-  has_one :payment
+  has_one :payment, class_name: :OrderPayment, dependent: :destroy
   belongs_to :event
   has_one :company, through: :event
   has_many :offers, through: :order_items
@@ -13,6 +13,7 @@ class Order < ApplicationRecord
   after_initialize :default_values
 
   accepts_nested_attributes_for :order_items
+  validates_associated :order_items
 
   monetize :subtotal_cents
   monetize :total_cents
@@ -23,11 +24,15 @@ class Order < ApplicationRecord
   end
 
   def total_cents
-    subtotal_cents * (1 + self.fee)
+    subtotal_cents + absolute_fee_cents
   end
 
   def absolute_fee_cents
-    self.fee * subtotal_cents
+    if payment.present?
+      payment.service_fee * subtotal_cents
+    else
+      Business::Finance::ServiceFee * subtotal_cents
+    end
   end
 
   def total_quantity
@@ -68,9 +73,6 @@ class Order < ApplicationRecord
   private
 
     def default_values
-      # *** Taxa de serviço ***
-      self.fee ||= 0.1
-      # ***********************
       self.status ||= :pending
     end
 

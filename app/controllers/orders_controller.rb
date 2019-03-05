@@ -20,8 +20,9 @@ class OrdersController < ApplicationController
 		@order.user = current_user
 
 		if @order.save
-			payment = Payment.new(payment_params)
-			if Wirecard.process_checkout? @order, payment
+			payment_info = Payment.new(payment_params)
+			order_payment = Wirecard.process_checkout? @order, payment_info
+			if order_payment && order_payment.save
 				render plain: "Compra feita com sucesso."
 			else
 				@order.destroy

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_03_233347) do
+ActiveRecord::Schema.define(version: 2019_03_04_231352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,18 @@ ActiveRecord::Schema.define(version: 2019_03_03_233347) do
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
+  create_table "order_payments", primary_key: "order_id", force: :cascade do |t|
+    t.integer "amount_cents", default: 0, null: false
+    t.string "card_brand", null: false
+    t.integer "card_number_last_4", null: false
+    t.integer "installment_count", default: 1, null: false
+    t.decimal "interest_rate", precision: 6, scale: 5, default: "0.0", null: false
+    t.decimal "service_fee", precision: 3, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_payments_on_order_id"
+  end
+
 # Could not dump table "orders" because of following StandardError
 #   Unknown type 'order_status' for column 'status'
 
@@ -184,6 +196,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_233347) do
   add_foreign_key "offers", "events"
   add_foreign_key "order_items", "offers"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_payments", "orders"
   add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
   add_foreign_key "ticket_tokens", "order_items"

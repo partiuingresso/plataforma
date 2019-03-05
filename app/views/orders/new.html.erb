@@ -51,7 +51,7 @@
                     <%= order_item.offer.name %>
                   </div>
                   <div class="column is-4 has-text-centered offer-content">
-                    <%= number_to_currency(order_item.offer_total.to_f, unit: "R$", separator: ",", delimiter: "") %>
+                    <%= order_item.offer.price_with_service_fee.format %>
                   </div>
                   <div class="column is-3 has-text-right offer-content">
                     <%= order_item.quantity %>

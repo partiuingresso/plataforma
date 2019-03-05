@@ -1,5 +1,6 @@
 class Payment
 	include ActiveModel::Model
+	include ActiveModel::Validations
 
 	# Encrypted Credit Card Number
 	attr_accessor :hash
@@ -20,4 +21,18 @@ class Payment
 	attr_accessor :billing_address_city
 	attr_accessor :billing_address_state
 	attr_accessor :billing_address_zipcode
+
+	# Validations
+	validates :hash, presence: true
+	validates :installment_count, presence: true
+	validates :holder_fullname, presence: true
+	validates :holder_cpf, presence: true
+	validates :holder_phone_area_code, presence: true
+	validates :holder_phone_number, presence: true
+	validates :billing_address_street, presence: true
+	validates :billing_address_number, presence: true
+	validates :billing_address_district, presence: true
+	validates :billing_address_city, presence: true
+	validates :billing_address_state, presence: true
+	validates :billing_address_zipcode, presence: true
 end
