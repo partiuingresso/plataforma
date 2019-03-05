@@ -5,26 +5,17 @@ class CompanyFinancesController < ApplicationController
 	end
 
 	def create
-		account = Wirecard::create_account
-		if account.respond_to?(:id) && account.id.present?
-			@company_finance.moip_id = account.id
-			@company_finance.access_token = account.access_token
-			if @company_finance.save
-				bank_account = Wirecard::create_bank_account @company_finance
-				if bank_account.respond_to?(:id) && bank_account.id.present?
-					flash[:notice] = "Conta bancária criada com sucesso."
-					redirect_to edit_company_finance_path(@company_finance)
-				else
-					flash[:danger] = "Erro ao registrar conta bancária moip."
-					redirect_back(fallback_location: new_company_finance_path)
-				end
-			else
-				flash[:danger] = "Erro ao salvar conta bancária."
-				redirect_back(fallback_location: new_company_finance_path)
-			end
+		bank_account = Wirecard::create_bank_account @company_finance.company
+		unless bank_account.respond_to?(:id) && bank_account.id.present?
+			redirect_to new_company_finance_path, alert: "Ops... algo deu errado! Tente novamente." and return
+		end
+		@company_finance.bank_account_id = bank_account.id
+
+		if @company_finance.save
+			redirect_to edit_company_finance_path(@company_finance), notice: "Conta bancária criada com sucesso."
 		else
-			flash[:danger] = "Erro ao criar conta moip."
-			redirect_back(fallback_location: new_company_finance_path)
+			Wirecard::delete_bank_account @company_finance.company
+			redirect_to new_company_finance_path, alert: "Ops... algo deu errado! Tente novamente."
 		end
 	end
 
@@ -34,18 +25,11 @@ class CompanyFinancesController < ApplicationController
 
 	def update
 		@company_finance.assign_attributes(company_finance_params)
-		if @company_finance.valid?
-			bank_account = Wirecard::bank_accounts(@company_finance).first
-			if Wirecard::update_bank_account @company_finance.reload, bank_account.id
-				@company_finance.save
-				flash[:notice] = "Conta bancária atualizada com sucesso."
-				redirect_to edit_company_finance_path(@company_finance)
-			else
-				render plain: "Erro ao atualizar a conta bancária. Revise os campos enviados."
-			end
+
+		if @company_finance.valid? && Wirecard::update_bank_account(@company_finance.company) && @company_finance.save
+			redirect_to edit_company_finance_path(@company_finance), notice: "Conta bancária atualizada com sucesso."
 		else
-			flash[:danger] = "Conta bancária inválida."
-			redirect_back(fallback_location: edit_company_finance_path(@company_finance))
+			redirect_to edit_company_finance_path(@company_finance), alert: "Ops... algo deu errado! Tente novamente."
 		end
 	end
 

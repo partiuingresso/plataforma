@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_04_231352) do
+ActiveRecord::Schema.define(version: 2019_03_05_033722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2019_03_04_231352) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "moip_id", null: false
+    t.string "moip_access_token", null: false
   end
 
   create_table "company_finances", primary_key: "company_id", id: :bigint, default: nil, force: :cascade do |t|
@@ -69,9 +71,8 @@ ActiveRecord::Schema.define(version: 2019_03_04_231352) do
     t.string "legal_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "moip_id", null: false
     t.string "document_type", null: false
-    t.string "access_token", null: false
+    t.string "bank_account_id"
     t.index ["company_id"], name: "index_company_finances_on_company_id"
   end
 

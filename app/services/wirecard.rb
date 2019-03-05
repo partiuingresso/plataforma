@@ -89,7 +89,7 @@ module Wirecard
 					type: "SECONDARY",
 					feePayor: false,
 					moipAccount: {
-						id: order.company.company_finance.moip_id
+						id: order.company.moip_id
 					},
 					amount: {
 						fixed: order.subtotal_cents
@@ -196,8 +196,9 @@ module Wirecard
 		)
 	end
 
-	def self.create_bank_account company_finance
-		bank_account = api(company_finance.access_token).bank_accounts.create(company_finance.moip_id,
+	def self.create_bank_account company
+		company_finance = company.company_finance
+		bank_account = api(company.moip_access_token).bank_accounts.create(company.moip_id,
 			{
 				type: company_finance.account_type,
 				bankNumber: company_finance.bank_code,
@@ -216,15 +217,20 @@ module Wirecard
 		)
 	end
 
-	def self.bank_accounts company_finance
-		bank_accounts = api(company_finance.access_token).bank_accounts.find_all(company_finance.moip_id).parsed_response
+	def self.delete_bank_account company
+		api(company.moip_access_token).bank_accounts.delete(company.bank_account_id)
+	end
+
+	def self.bank_accounts company
+		bank_accounts = api(company.moip_access_token).bank_accounts.find_all(company.moip_id).parsed_response
 		bank_accounts.map do |bank_account_hash|
 			RecursiveOpenStruct.new bank_account_hash
 		end
 	end
 
-	def self.update_bank_account company_finance, bank_account_id
-		bank_account = api(company_finance.access_token).bank_accounts.update(bank_account_id,
+	def self.update_bank_account company
+		company_finance = company.company_finance
+		bank_account = api(company.moip_access_token).bank_accounts.update(company_finance.bank_account_id,
 			{
 				type: company_finance.account_type,
 				bankNumber: company_finance.bank_code,
@@ -244,7 +250,7 @@ module Wirecard
 		bank_account.respond_to?(:id) && bank_account.id.present?
 	end
 
-	def self.show_balances company_finance
-		api(company_finance.access_token).balances.show()
+	def self.show_balances company
+		api(company.moip_access_token).balances.show()
 	end
 end
