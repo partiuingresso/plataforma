@@ -33,6 +33,18 @@ CREATE TYPE public.ticket_status AS ENUM (
 );
 
 
+--
+-- Name: transfer_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.transfer_status AS ENUM (
+    'requested',
+    'completed',
+    'failed',
+    'reversed'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -506,6 +518,41 @@ ALTER SEQUENCE public.ticket_tokens_id_seq OWNED BY public.ticket_tokens.id;
 
 
 --
+-- Name: transfers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transfers (
+    id bigint NOT NULL,
+    company_id bigint NOT NULL,
+    bank_account_id bigint NOT NULL,
+    amount_cents integer NOT NULL,
+    fee numeric(3,2) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    status public.transfer_status DEFAULT 'requested'::public.transfer_status NOT NULL
+);
+
+
+--
+-- Name: transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.transfers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.transfers_id_seq OWNED BY public.transfers.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -656,6 +703,13 @@ ALTER TABLE ONLY public.ticket_tokens ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: transfers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfers ALTER COLUMN id SET DEFAULT nextval('public.transfers_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -780,6 +834,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.ticket_tokens
     ADD CONSTRAINT ticket_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transfers transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfers
+    ADD CONSTRAINT transfers_pkey PRIMARY KEY (id);
 
 
 --
@@ -953,6 +1015,20 @@ CREATE INDEX index_ticket_tokens_on_status ON public.ticket_tokens USING btree (
 
 
 --
+-- Name: index_transfers_on_bank_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transfers_on_bank_account_id ON public.transfers USING btree (bank_account_id);
+
+
+--
+-- Name: index_transfers_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transfers_on_company_id ON public.transfers USING btree (company_id);
+
+
+--
 -- Name: index_users_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1007,6 +1083,14 @@ CREATE INDEX index_validations_on_user_id ON public.validations USING btree (use
 
 ALTER TABLE ONLY public.credit_cards
     ADD CONSTRAINT fk_rails_069bf994f3 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: transfers fk_rails_09d60ae02b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfers
+    ADD CONSTRAINT fk_rails_09d60ae02b FOREIGN KEY (bank_account_id) REFERENCES public.bank_accounts(id);
 
 
 --
@@ -1071,6 +1155,14 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT fk_rails_88786fdf2d FOREIGN KEY (company_id) REFERENCES public.companies(id);
+
+
+--
+-- Name: transfers fk_rails_95f2513d06; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfers
+    ADD CONSTRAINT fk_rails_95f2513d06 FOREIGN KEY (company_id) REFERENCES public.companies(id);
 
 
 --
@@ -1179,6 +1271,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190305032615'),
 ('20190305033722'),
 ('20190306220207'),
-('20190306220506');
+('20190306220506'),
+('20190307013717');
 
 

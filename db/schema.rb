@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_06_220506) do
+ActiveRecord::Schema.define(version: 2019_03_07_013717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,9 @@ ActiveRecord::Schema.define(version: 2019_03_06_220506) do
 # Could not dump table "ticket_tokens" because of following StandardError
 #   Unknown type 'ticket_status' for column 'status'
 
+# Could not dump table "transfers" because of following StandardError
+#   Unknown type 'transfer_status' for column 'status'
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -209,5 +212,7 @@ ActiveRecord::Schema.define(version: 2019_03_06_220506) do
   add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
   add_foreign_key "ticket_tokens", "order_items"
+  add_foreign_key "transfers", "bank_accounts"
+  add_foreign_key "transfers", "companies"
   add_foreign_key "users", "companies"
 end
