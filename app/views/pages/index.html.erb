@@ -21,9 +21,9 @@
 
 <section class="section home-tickets">
   <div class="container">
-    <p class="title recents is-4">Mais recentes</p>
-    <div class="columns is-multiline">
-      <% if @events.count >= 1 %>
+    <p class="title recents is-4">Mais recentes</p>   
+    <% if @events.count >= 1 %>
+      <div class="columns is-multiline">
         <% @events[0..0].try(:each) do |event| %>
           <div class="column is-5">
             <%= link_to event_path(event) do %>
@@ -96,10 +96,10 @@
             <% end %>
           </div>
         <% end %>
-      <% else %>
-        <p> Não há evento listado no momento.</p>
-      <% end %>
-    </div>
+      </div>
+    <% else %>
+      <p> Não há evento listado no momento.</p>
+    <% end %>
   </div>
 </section>
 
