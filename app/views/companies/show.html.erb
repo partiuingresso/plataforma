@@ -2,48 +2,83 @@
   <div class="container hero-content">
   </div>
 </section>
-
-
-
-<section class="section painel">
+<section class="section">
   <div class="container">
     <div class="columns is-centered">
-        
-        <div class="column is-3">        
-            <aside class="menu">
-              <p class="menu-label">
-                Meus Eventos
-              </p>
-              <ul class="menu-list">
-                <li><a class="is-active">Publicar Evento</a></li>
-                 <li><a class="is-active">Eventos Ativos</a></li>
-              </ul>
-              <p class="menu-label">
-                Transações
-              </p>
-              <ul class="menu-list">
-                <li><a>Histórico de Vendas</a></li>
-                <li><a>Saldo</a></li>
-              </ul>
-              <p class="menu-label">
-                Minha Empresa
-              </p>
-              <ul class="menu-list">
-                <li><a>Editar Perfil</a></li>
-                <li><a>Dados Bancários</a></li>
-              </ul>
-            </aside>
-        </div>
 
+      <div class="column is-3">
+        <%= render 'admin/producer_admin_menu' %>
+      </div>
 
-      <div class="column is-6">
-        <div class="card">
-          <div class="card-content">
-            
+      <div class="column is-8">
+        <p class="title is-size-2">Financeiro</p>
 
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
+           <div class="tile box is-child">
+            <div class="columns">
+             <div class="column is-3">
+               <div class="has-text-left">
+                 <p class="is-size-7 has-text-weight-semibold">Vendas totais</p>
+                 <p class="is-size-3 has-text-info"><%= @total_balance %></p>
+               </div>
+             </div>
+             <div class="column is-3">
+               <div class="has-text-left">
+                 <p class="is-size-7 has-text-weight-semibold">Vendas pendentes</p>
+                 <p class="is-size-3 has-text-warning"><%= @future_balance %></p>
+               </div>
+             </div>
+             <div class="column is-3">
+               <div class="has-text-left">
+                 <p class="is-size-7 has-text-weight-semibold">Vendas canceladas</p>
+                 <p class="is-size-3 has-text-danger"><%= @unavailable_balance %></p>
+               </div>
+             </div>
+             <div class="column is-3">
+               <div class="has-text-left">
+                 <p class="is-size-7 has-text-weight-semibold">Saldo disponível</p>
+                 <p class="is-size-3 has-text-success"><%= @current_balance %></p>
+               </div>
+             </div>
+            </div>
+           </div>
           </div>
         </div>
-
+        <div class="has-text-left">
+          <p class="is-size-6 has-text-weight-semibold">Histórico de transferências</p>
+        </div>
+        <table class="table is-fullwidth">
+          <thead>
+            <th>Data</th>
+            <th>Valor</th>
+            <th>Taxa</th>
+            <th></th>
+          </thead>
+          <% @transfers.each do |transfer| %>
+            <tr>
+              <td><%= transfer.created_at.strftime("%d/%m/%Y") %></td>
+              <td><%= transfer.amount.format %></td>
+              <td><%= transfer.fee.format %></td>
+              <td>
+                <% if transfer.requested? %>
+                  <span class="tag is-rounded is-light">Solicitada</span>
+                <% elsif transfer.completed? %>
+                  <span class="tag is-rounded is-success">Concluída</span>
+                <% elsif transfer.failed? %>
+                  <span class="tag is-rounded is-danger">Falhou</span>
+                <% elsif transfer.reversed? %>
+                  <span class="tag is-rounded is-danger">Revertida</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+          <tbody>
+          </tbody>
+        </table>
+        <div class="has-text-right">
+          <button class="button is-primary">Sacar</button>
+        </div>
       </div>
     </div>
   </div>
