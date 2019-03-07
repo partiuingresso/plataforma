@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function(){
                         <p class="is-size-6"><%= offer.name %></p>
                       </div>
                       <div class="column is-3">
-                        <p><%= offer.price.format %></p>
+                        <p><%= offer.price_with_service_fee.format %></p>
                       </div>
                       <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function(){
                               </span>
                             </div>
                             <div class="level-item">
-                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price.to_f }, placeholder: "quantidade" %>
+                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f }, placeholder: "quantidade" %>
                               <span class="quantity-view">
                                 0
                               </span>
