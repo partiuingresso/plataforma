@@ -197,20 +197,21 @@ module Wirecard
 	end
 
 	def self.create_bank_account company
-		company_finance = company.company_finance
-		bank_account = api(company.moip_access_token).bank_accounts.create(company.moip_id,
+		moip_id = company.moip_id
+		bank_account = company.company_finance.bank_account
+		new_bank_account = api(company.moip_access_token).bank_accounts.create(moip_id,
 			{
-				type: company_finance.account_type,
-				bankNumber: company_finance.bank_code,
-				agencyNumber: company_finance.agency_number.to_i,
-				agencyCheckNumber: company_finance.agency_check_number,
-				accountNumber: company_finance.account_number.to_i,
-				accountCheckNumber: company_finance.account_check_number.to_i,
+				type: bank_account.account_type,
+				bankNumber: bank_account.bank_code,
+				agencyNumber: bank_account.agency_number.to_i,
+				agencyCheckNumber: bank_account.agency_check_number,
+				accountNumber: bank_account.account_number.to_i,
+				accountCheckNumber: bank_account.account_check_number.to_i,
 				holder: {
-					fullname: company_finance.legal_name,
+					fullname: bank_account.legal_name,
 					taxDocument: {
-						type: company_finance.document_type,
-						number: company_finance.document_number.gsub(/[.\/-]/, '')
+						type: bank_account.document_type,
+						number: bank_account.document_number.gsub(/[.\/-]/, '')
 					}
 				}
 			}
@@ -218,7 +219,7 @@ module Wirecard
 	end
 
 	def self.delete_bank_account company
-		api(company.moip_access_token).bank_accounts.delete(company.bank_account_id)
+		api(company.moip_access_token).bank_accounts.delete(company.bank_account.moip_id)
 	end
 
 	def self.bank_accounts company
@@ -229,25 +230,25 @@ module Wirecard
 	end
 
 	def self.update_bank_account company
-		company_finance = company.company_finance
-		bank_account = api(company.moip_access_token).bank_accounts.update(company_finance.bank_account_id,
+		bank_account = company.company_finance.bank_account
+		new_bank_account = api(company.moip_access_token).bank_accounts.update(bank_account.moip_id,
 			{
-				type: company_finance.account_type,
-				bankNumber: company_finance.bank_code,
-				agencyNumber: company_finance.agency_number.to_i,
-				agencyCheckNumber: company_finance.agency_check_number,
-				accountNumber: company_finance.account_number.to_i,
-				accountCheckNumber: company_finance.account_check_number.to_i,
+				type: bank_account.account_type,
+				bankNumber: bank_account.bank_code,
+				agencyNumber: bank_account.agency_number.to_i,
+				agencyCheckNumber: bank_account.agency_check_number,
+				accountNumber: bank_account.account_number.to_i,
+				accountCheckNumber: bank_account.account_check_number.to_i,
 				holder: {
-					fullname: company_finance.legal_name,
+					fullname: bank_account.legal_name,
 					taxDocument: {
-						type: company_finance.document_type,
-						number: company_finance.document_number.gsub(/[.\/-]/, '')
+						type: bank_account.document_type,
+						number: bank_account.document_number.gsub(/[.\/-]/, '')
 					}
 				}
 			}
 		)
-		bank_account.respond_to?(:id) && bank_account.id.present?
+		new_bank_account.respond_to?(:id) && new_bank_account.id.present?
 	end
 
 	def self.show_balances company

@@ -2,6 +2,7 @@ class CompanyFinancesController < ApplicationController
 	load_and_authorize_resource
 
 	def new
+		@company_finance.build_bank_account
 	end
 
 	def create
@@ -9,7 +10,7 @@ class CompanyFinancesController < ApplicationController
 		unless bank_account.respond_to?(:id) && bank_account.id.present?
 			redirect_to new_company_finance_path, alert: "Ops... algo deu errado! Tente novamente." and return
 		end
-		@company_finance.bank_account_id = bank_account.id
+		@company_finance.bank_account.moip_id = bank_account.id
 
 		if @company_finance.save
 			redirect_to edit_company_finance_path(@company_finance), notice: "Conta bancária criada com sucesso."
@@ -35,8 +36,8 @@ class CompanyFinancesController < ApplicationController
 
 	private
 	def company_finance_params
-		params.require(:company_finance).permit(:legal_name, :document_type, :document_number, :bank_code,
-												:account_type, :agency_number, :agency_check_number,
-												:account_number, :account_check_number)
+		params.require(:company_finance).permit(bank_account_attributes: [:id, :legal_name, :document_type,
+												:document_number, :bank_code, :account_type, :agency_number,
+												:agency_check_number, :account_number, :account_check_number])
 	end
 end

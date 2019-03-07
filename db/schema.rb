@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_05_033722) do
+ActiveRecord::Schema.define(version: 2019_03_06_220506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,21 @@ ActiveRecord::Schema.define(version: 2019_03_05_033722) do
     t.index ["latitude", "longitude"], name: "index_addresses_on_latitude_and_longitude"
   end
 
+  create_table "bank_accounts", force: :cascade do |t|
+    t.string "moip_id", null: false
+    t.string "legal_name", null: false
+    t.string "document_type", null: false
+    t.string "document_number", null: false
+    t.string "bank_code", null: false
+    t.string "agency_number", null: false
+    t.string "agency_check_number"
+    t.string "account_number", null: false
+    t.string "account_type", null: false
+    t.string "account_check_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -61,18 +76,10 @@ ActiveRecord::Schema.define(version: 2019_03_05_033722) do
   end
 
   create_table "company_finances", primary_key: "company_id", id: :bigint, default: nil, force: :cascade do |t|
-    t.string "bank_code", null: false
-    t.string "agency_number", null: false
-    t.string "agency_check_number"
-    t.string "account_number", null: false
-    t.string "account_type", null: false
-    t.string "account_check_number", null: false
-    t.string "document_number", null: false
-    t.string "legal_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "document_type", null: false
-    t.string "bank_account_id"
+    t.bigint "bank_account_id", null: false
+    t.index ["bank_account_id"], name: "index_company_finances_on_bank_account_id", unique: true
     t.index ["company_id"], name: "index_company_finances_on_company_id"
   end
 
@@ -189,6 +196,7 @@ ActiveRecord::Schema.define(version: 2019_03_05_033722) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "company_finances", "bank_accounts"
   add_foreign_key "company_finances", "companies"
   add_foreign_key "credit_cards", "users"
   add_foreign_key "events", "addresses"

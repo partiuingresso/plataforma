@@ -158,6 +158,46 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: bank_accounts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.bank_accounts (
+    id bigint NOT NULL,
+    moip_id character varying NOT NULL,
+    legal_name character varying NOT NULL,
+    document_type character varying NOT NULL,
+    document_number character varying NOT NULL,
+    bank_code character varying NOT NULL,
+    agency_number character varying NOT NULL,
+    agency_check_number character varying,
+    account_number character varying NOT NULL,
+    account_type character varying NOT NULL,
+    account_check_number character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: bank_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.bank_accounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: bank_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
+
+
+--
 -- Name: companies; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -195,19 +235,10 @@ ALTER SEQUENCE public.companies_id_seq OWNED BY public.companies.id;
 --
 
 CREATE TABLE public.company_finances (
-    bank_code character varying NOT NULL,
-    agency_number character varying NOT NULL,
-    agency_check_number character varying,
-    account_number character varying NOT NULL,
-    account_type character varying NOT NULL,
-    account_check_number character varying NOT NULL,
-    document_number character varying NOT NULL,
-    legal_name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     company_id bigint NOT NULL,
-    document_type character varying NOT NULL,
-    bank_account_id character varying
+    bank_account_id bigint NOT NULL
 );
 
 
@@ -562,6 +593,13 @@ ALTER TABLE ONLY public.addresses ALTER COLUMN id SET DEFAULT nextval('public.ad
 
 
 --
+-- Name: bank_accounts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('public.bank_accounts_id_seq'::regclass);
+
+
+--
 -- Name: companies id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -654,6 +692,14 @@ ALTER TABLE ONLY public.addresses
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: bank_accounts bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.bank_accounts
+    ADD CONSTRAINT bank_accounts_pkey PRIMARY KEY (id);
 
 
 --
@@ -778,6 +824,13 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 --
 
 CREATE INDEX index_addresses_on_latitude_and_longitude ON public.addresses USING btree (latitude, longitude);
+
+
+--
+-- Name: index_company_finances_on_bank_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_company_finances_on_bank_account_id ON public.company_finances USING btree (bank_account_id);
 
 
 --
@@ -1021,6 +1074,14 @@ ALTER TABLE ONLY public.events
 
 
 --
+-- Name: company_finances fk_rails_b08dce50c9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.company_finances
+    ADD CONSTRAINT fk_rails_b08dce50c9 FOREIGN KEY (bank_account_id) REFERENCES public.bank_accounts(id);
+
+
+--
 -- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1116,6 +1177,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190304230710'),
 ('20190304231352'),
 ('20190305032615'),
-('20190305033722');
+('20190305033722'),
+('20190306220207'),
+('20190306220506');
 
 
