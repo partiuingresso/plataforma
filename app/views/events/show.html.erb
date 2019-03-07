@@ -2,6 +2,7 @@
 <%= javascript_include_tag "toggle", defer: true %>
 <%= javascript_include_tag "events/cart", defer: true %>
 <%= javascript_include_tag "events/maps", defer: true %>
+<%= javascript_include_tag "events/modal", defer: true %>
 <%= javascript_include_tag "carousel", defer: true %>
 <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
 <script>
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
       <div class="columns is-multiline event header">
         <% if @event.video.present? %>
           <div class="column is-12 has-text-centered">
-            <a class="video-btn">
+            <a class="video-btn" data-src="<%= @event.video %>">
               <span class="icon has-text-white">
                 <i class="fas fa-4x fa-play"></i>
               </span>
@@ -105,30 +106,58 @@ document.addEventListener("DOMContentLoaded", function(){
   </div>
 </section>
 
-<section class="section big">
+<section class="section description">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-6">
-        <div class="columns is-multiline">
+        <div class="columns description is-multiline">
           <% if @event.features.present? %>
-            
-              <div class="column is-full">
-                <p class="title event-content">UM POUCO SOBRE <span class="lightvibrant"><%= @event.name %></span></p>
-                <ul class="features">
-                  <%= sanitize @event.features %>
-                </ul>
-              </div>
+            <div class="column is-full">
+              <p class="title event-content">UM POUCO SOBRE <span class="lightvibrant"><%= @event.name %></span></p>
+              <ul class="features">
+                <%= sanitize @event.features %>
+              </ul>
+            </div>
+            <div class="column is-full">
+              <hr />
+            </div>
           <% end %>
 
           <div class="column is-full">
             <% if @event.content_image.attached? %>
               <%= image_tag @event.content_image %>
             <% end %>
-            <p class="title event-content"><%= @event.headline %></p>
-            <p><%= sanitize @event.description %>
+            <p class="title event-content"><%= sanitize @event.headline %></p>
+            <p><%= sanitize @event.description %></p>
+          </div>
+          <div class="column is-full">
+            <hr />
+          </div>
+
+          <div class="column is-full">
+            <p class="title event-content">COMO CHEGAR EM <span class="lightvibrant"><%= @event.address.name %></span></p>
+            <p>
+              <span class="icon">
+                <i class="fas fa-map-marked-alt"></i>
+              </span>
+              <%= @event.address.address %>, <%= @event.address.number %> - <%= @event.address.district %>
+            </p>
+            <p>
+              <span class="icon">
+                <i class="fas fa-globe-americas"></i>
+              </span>
+              <%= @event.address.city %>/<%= @event.address.state %>
+            </p>
+            <p>&nbsp;</p>
+            <p>
+              <div id="map"></div>
+            </p>
           </div>
 
           <% if @event.testimonial_images.present? %>
+              <div class="column is-full">
+                <hr />
+              </div>
               <div class="column is-full">
                 <p class="title event-content">O QUE DIZEM <span class="lightvibrant">SOBRE O SHOW?</span></p>
                 <div class="carousel carousel-animated carousel-animate-fade" data-autoplay="true" data-delay="4500">
@@ -143,15 +172,6 @@ document.addEventListener("DOMContentLoaded", function(){
               </div>
           <% end %>
 
-          <div class="column is-full">
-            <p class="title event-content">COMO CHEGAR EM <span class="lightvibrant"><%= @event.address.name %></span></p>
-            <p>
-              <div id="map"></div>
-            </p>
-          </div>
-
-          <div class="column is-full">
-          </div>
         </div>
       </div>
       <div class="column is-4">
@@ -229,3 +249,122 @@ document.addEventListener("DOMContentLoaded", function(){
     </div>
   </div>
 </section>
+
+
+<section class="section faq">
+  <div class="container">
+    <p class="title has-text-centered is-4">PERGUNTAS E RESPOSTAS</p>
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <div class="card">
+          <header class="card-header toggle">
+            <p class="card-header-title">
+              MEU PEDIDO FOI CONCLUÍDO?
+            </p>
+            <span class="card-header-icon">
+              <i class="fas fa-angle-down"></i>
+            </span>
+          </header>
+          <div class="dismiss is-hidden">
+          <header class="card-header">
+            <p class="card-header-title has-text-primary">
+              MEU PEDIDO FOI CONCLUÍDO?
+            </p>
+            <span class="card-header-icon has-text-primary">
+              <i class="fas fa-angle-up"></i>
+            </span>
+          </header>
+            <div class="card-content">
+              Caso o seu pagamento tenha sido aprovado, você receberá um e-mail com todas as informações que precisa para retirar o seu ingresso na portaria do evento
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <header class="card-header toggle">
+            <p class="card-header-title">
+              ONDE ESTÃO MEUS INGRESSOS?
+            </p>
+            <span class="card-header-icon">
+              <i class="fas fa-angle-down"></i>
+            </span>
+          </header>
+          <div class="dismiss is-hidden">
+          <header class="card-header">
+            <p class="card-header-title has-text-primary">
+              ONDE ESTÃO MEUS INGRESSOS?
+            </p>
+            <span class="card-header-icon has-text-primary">
+              <i class="fas fa-angle-up"></i>
+            </span>
+          </header>
+            <div class="card-content">
+              <p>Após sua compra ser aprovada você receberá um e-mail com todas as informações sobre sua compra e, inclusive, seu ingresso que estará disponível no formato de QR code. Todos os seus convidados receberão seus respectivos ingressos por e-mail.</p><br />
+
+              <p><strong>IMPORTANTE:</strong> Leve o pdf gerado com o QR code em seu celular caso não tenha acesso a internet no local, é importante ter em mãos o número do pedido para evitar qualquer problema.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <header class="card-header toggle">
+            <p class="card-header-title">
+              PRECISO IMPRIMIR MEU(S) INGRESSO(S)?
+            </p>
+            <span class="card-header-icon">
+              <i class="fas fa-angle-down"></i>
+            </span>
+          </header>
+          <div class="dismiss is-hidden">
+          <header class="card-header">
+            <p class="card-header-title has-text-primary">
+              PRECISO IMPRIMIR MEU(S) INGRESSO(S)?
+            </p>
+            <span class="card-header-icon has-text-primary">
+              <i class="fas fa-angle-up"></i>
+            </span>
+          </header>
+            <div class="card-content">
+              Você pode levar o PDF gerado após o pagamento com o QR CODE e as informações da compra no celular, mas a forma mais segura é imprimir este documento.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <header class="card-header toggle">
+            <p class="card-header-title">
+              OUTRAS DÚVIDAS?
+            </p>
+            <span class="card-header-icon">
+              <i class="fas fa-angle-down"></i>
+            </span>
+          </header>
+          <div class="dismiss is-hidden">
+          <header class="card-header">
+            <p class="card-header-title has-text-primary">
+              OUTRAS DÚVIDAS?
+            </p>
+            <span class="card-header-icon has-text-primary">
+              <i class="fas fa-angle-up"></i>
+            </span>
+          </header>
+            <div class="card-content">
+              Se você tiver dúvidas relacionadas especificamente com o evento ou desejar pedir um reembolso, entre diretamente em contato com o organizador do evento. Você pode fazer isso respondendo ao seu email de confirmação de pedido, a partir dos detalhes de seu pedido ou a partir da página do evento.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="container has-text-centered embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow=autoplay></iframe>
+    </div>
+  </div>
+</div>
