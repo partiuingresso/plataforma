@@ -23,6 +23,10 @@ class User < ApplicationRecord
     self.role ||= :user
   end
 
+  def latest_order
+    orders.order(:created_at).last
+  end
+
   # Timeout for dev
   def timeout_in
    return 1.year if admin?

@@ -11,6 +11,7 @@ class Ability
         can :read, TicketToken do |ticket_token|
             ticket_token.user == user
         end
+        can [:read, :create], Order, user_id: user.id
     end
 
     if user.admin?

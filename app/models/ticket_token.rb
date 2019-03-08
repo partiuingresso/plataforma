@@ -5,6 +5,7 @@ class TicketToken < ApplicationRecord
 	belongs_to :order_item
 	has_one :order, through: :order_item
 	has_one :user, through: :order_item
+	has_one :offer, through: :order_item
 
 	has_secure_token :code
 

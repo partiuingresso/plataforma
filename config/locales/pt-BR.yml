@@ -228,3 +228,8 @@ pt-BR:
         first_name: "Nome"
         last_name: "Sobrenome"
         current_password: "Senha atual"
+      order/status:
+        pending: "Pendente"
+        approved: "Aprovado"
+        denied: "Negado"
+        refunded: "Reembolsado"
