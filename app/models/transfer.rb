@@ -3,13 +3,14 @@ class Transfer < ApplicationRecord
 	belongs_to :company
 	belongs_to :bank_account
 
-	monetize :fee_cents
-	monetize :amount_cents
+	monetize :fee_cents, numericality: { greater_than_or_equal_to: 0 }
+	monetize :amount_cents, numericality: { greater_than_or_equal_to: 0 }
 
 	after_initialize :set_defaults
 
 	private
 		def set_defaults
 			self.status ||= :requested
+			self.fee ||= 0
 		end
 end

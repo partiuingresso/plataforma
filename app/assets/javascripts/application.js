@@ -24,3 +24,4 @@
 //= stub events/cart
 //= stub toggle
 //= stub orders
+//= stub companies

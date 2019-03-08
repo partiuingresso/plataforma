@@ -13,7 +13,7 @@ load_and_authorize_resource
     @unavailable_balance = Money.new(balances.unavailable.first.amount).format
     @current_balance = Money.new(balances.current.first.amount).format
 
-    @transfers = @company.transfers
+    @new_transfer = @company.transfers.build
   end
 
   def new

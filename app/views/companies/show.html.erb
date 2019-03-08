@@ -1,3 +1,4 @@
+<%= javascript_include_tag params[:controller], defer: true %>
 <section class="section hero">
   <div class="container hero-content">
   </div>
@@ -20,7 +21,7 @@
              <div class="column is-3">
                <div class="has-text-left">
                  <p class="is-size-7 has-text-weight-semibold">Vendas totais</p>
-                 <p class="is-size-3 has-text-info"><%= @total_balance %></p>
+                 <p class="is-size-3 has-text-success"><%= @total_balance %></p>
                </div>
              </div>
              <div class="column is-3">
@@ -55,30 +56,42 @@
             <th>Taxa</th>
             <th></th>
           </thead>
-          <% @transfers.each do |transfer| %>
-            <tr>
-              <td><%= transfer.created_at.strftime("%d/%m/%Y") %></td>
-              <td><%= transfer.amount.format %></td>
-              <td><%= transfer.fee.format %></td>
-              <td>
-                <% if transfer.requested? %>
-                  <span class="tag is-rounded is-light">Solicitada</span>
-                <% elsif transfer.completed? %>
-                  <span class="tag is-rounded is-success">Concluída</span>
-                <% elsif transfer.failed? %>
-                  <span class="tag is-rounded is-danger">Falhou</span>
-                <% elsif transfer.reversed? %>
-                  <span class="tag is-rounded is-danger">Revertida</span>
-                <% end %>
-              </td>
-            </tr>
+          <% @company.transfers.each do |transfer| %>
+            <% if transfer.persisted? %>
+              <tr>
+                <td><%= transfer.created_at.strftime("%d/%m/%Y") %></td>
+                <td><%= transfer.amount.format %></td>
+                <td><%= transfer.fee.format %></td>
+                <td>
+                  <% if transfer.requested? %>
+                    <span class="tag is-rounded is-light">Solicitada</span>
+                  <% elsif transfer.completed? %>
+                    <span class="tag is-rounded is-success">Concluída</span>
+                  <% elsif transfer.failed? %>
+                    <span class="tag is-rounded is-danger">Falhou</span>
+                  <% elsif transfer.reversed? %>
+                    <span class="tag is-rounded is-danger">Revertida</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
           <tbody>
           </tbody>
         </table>
-        <div class="has-text-right">
-          <button class="button is-primary">Sacar</button>
-        </div>
+        <% if @company.bank_account.present? %>
+          <%= form_for @new_transfer do |f| %>
+              <%= render partial: 'new_transfer_modal', locals: { field: f } %>
+          <% end %>
+          <div class="has-text-right">
+            <button id="new-transfer-button" class="button is-primary">Sacar</button>
+          </div>
+        <% else %>
+          <div class="has-text-right">
+            <%= link_to "Você precisa cadastrar uma conta bancária.", new_company_finance_path, class: "button is-text has-text-link is-size-7" %>
+            <a class="button is-primary" disabled>Sacar</a>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

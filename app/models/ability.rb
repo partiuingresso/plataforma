@@ -24,6 +24,7 @@ class Ability
         can :manage, Company, id: user.company_id
         can :manage, CompanyFinance, company_id: user.company_id
         can :manage, Event, company_id: user.company_id
+        can :manage, Transfer, company_id: user.company_id
     end
 
     if user.producer?

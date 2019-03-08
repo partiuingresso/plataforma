@@ -1,0 +1,49 @@
+<div class="modal">
+  <div class="close-modal modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Transferência</p>
+      <a class="delete close-modal" aria-label="close"></a>
+    </header>
+    <section class="modal-card-body">
+      <%= field.hidden_field :company_id, value: @company.id %>
+      <p class="is-size-5 has-text-weight-semibold">Conta destino</p>
+      <p>
+        <%= @company.bank_account.legal_name %>
+        <span class="has-text-weight-semibold">
+          <%= @company.bank_account.document_number %>
+        </span>
+      </p>
+      <%= @company.bank_account.bank_code %>
+      <%= @company.bank_account.account_type %>
+      <p>
+        <span class="has-text-weight-semibold">Agência: </span>
+        <%= @company.bank_account.agency_number %>
+        <% if @company.bank_account.agency_check_number.present? %>
+          <span>-</span>
+          <%= @company.bank_account.agency_check_number %>
+        <% end %>
+        <span class="has-text-weight-semibold">Conta: </span>
+        <%= @company.bank_account.account_number %>
+        <span>-</span>
+        <%= @company.bank_account.account_check_number %>
+      </p>
+      <div style="margin-top: 10px;" class="columns">
+        <div class="column is-4">
+          <div class="field">
+            <div class="control">
+              <%= field.text_field :amount, class: "input price-input" %>
+              <span class="help">
+                Até <span class="has-text-danger"><%= @current_balance %></span> (Saldo disponível)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="modal-card-foot" style="justify-content: flex-end;">
+      <a class="button close-modal">Cancelar</a>
+      <%= field.submit class: "button is-success", value: "Solicitar" %>
+    </footer>
+  </div>
+</div> 
