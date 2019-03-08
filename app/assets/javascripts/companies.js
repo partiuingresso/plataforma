@@ -28,7 +28,6 @@ function init() {
 function setEventHandlers() {
 	var newTransferButton = document.getElementById('new-transfer-button');
 	var closeModalControls = document.querySelectorAll('.close-modal');
-	var html = document.querySelector('html');
 	newTransferButton.addEventListener('click', function() {
 		showModal();
 	});
@@ -42,12 +41,14 @@ function setEventHandlers() {
 
 function showModal() {
 	var modal = document.querySelector('.modal');
+	var html = document.querySelector('html');
 	modal.classList.add('is-active');
 	html.classList.add('is-clipped');
 }
 
 function closeModal() {
 	var modal = document.querySelector('.modal');
+	var html = document.querySelector('html');
 	modal.classList.remove('is-active');
 	html.classList.remove('is-clipped');
 }
