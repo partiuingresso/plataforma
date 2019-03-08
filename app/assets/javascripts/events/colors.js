@@ -6,7 +6,7 @@ window.onload = function() {
     let vibrant = palette.Vibrant.getRgb();
     let muted = palette.Muted.getRgb();
     let darkmuted = palette.DarkMuted.getRgb();
-    let lightvibrant = palette.LightVibrant.getRgb();
+    let lightvibrant = palette.LightVibrant.getHex();
     let lightmuted = palette.LightMuted.getRgb();
 
     var elem = document.getElementById('infobar');
@@ -14,7 +14,7 @@ window.onload = function() {
 
     var style = document.createElement('style');
     style.type = 'text/css';
-    style.innerHTML = '.vibrantbg { background-color: rgb('+vibrant+'); } .mutedbg { background-color: rgb('+muted+'); } .darkvibrantbg { background-color: rgb('+darkvibrant+'); } .darkmutedbg { background-color: rgb('+darkmuted+'); } .lightvibrantbg { background-color: rgb('+lightvibrant+'); } .lightmutedbg { background-color: rgba('+lightmuted+', 0.1); } .vibrant { color: rgb('+vibrant+'); } .muted { color: rgb('+muted+'); } .darkvibrant { color: rgb('+darkvibrant+'); } .darkmuted { color: rgb('+darkmuted+'); } .lightvibrant { color: rgb('+lightvibrant+'); } .lightmuted { color: rgb('+lightmuted+'); }';
-    document.getElementsByTagName('head')[0].appendChild(style);
+    style.innerHTML = '.vibrantbg { background-color: rgb('+vibrant+'); } .mutedbg { background-color: rgb('+muted+'); } .darkvibrantbg { background-color: rgb('+darkvibrant+'); } .darkmutedbg { background-color: rgb('+darkmuted+'); } .lightvibrantbg { background-color: rgb('+lightvibrant+'); } .lightmutedbg { background-color: rgba('+lightmuted+', 0.1); } .vibrant { color: rgb('+vibrant+'); } .muted { color: rgb('+muted+'); } .darkvibrant { color: rgb('+darkvibrant+'); } .darkmuted { color: rgb('+darkmuted+'); } .lightvibrant { color: '+lightvibrant+'; } .lightmuted { color: rgb('+lightmuted+'); }';
+    document.getElementsByTagName('footer')[0].appendChild(style);
   });
 }

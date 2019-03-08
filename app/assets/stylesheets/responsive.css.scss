@@ -49,6 +49,27 @@
     margin-left: -0.5rem;
   }
 
+  .event.offers {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    padding-top: 2rem;
+    font-size: 0.85rem;
+    overflow-y: scroll;
+    & .card-footer {
+      display: flex;
+      align-self: flex-end;
+      justify-content: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: unset;
+    }
+  }
+
   .section.description {
     padding-top: 6rem;
   }

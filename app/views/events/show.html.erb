@@ -175,11 +175,11 @@ document.addEventListener("DOMContentLoaded", function(){
         </div>
       </div>
       <div class="column is-4">
-        <div class="event offers card is-hidden-mobile">
+        <div class="event offers card">
           <div class="card-content">
             <%= form_for @order, url: new_order_path, method: "get" do |f| %>
               <%= f.hidden_field :event_id, value: @order.event.id %>
-              <div class="columns">
+              <div class="columns is-mobile">
                 <div class="column is-6">
                   <p class="tickets title">Ingressos</p>
                 </div>
@@ -194,17 +194,17 @@ document.addEventListener("DOMContentLoaded", function(){
                 <% @event.offers.each do |offer| %>
                   <li>
                     <hr />
-                    <div class="columns is-vcentered is-multiline">
+                    <div class="columns is-vcentered is-multiline is-mobile">
                       <div class="column is-5">
                         <p class="is-size-6"><%= offer.name %></p>
                       </div>
-                      <div class="column is-3">
+                      <div class="column is-3 is-paddingless">
                         <p><%= offer.price_with_service_fee.format %></p>
                       </div>
                       <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>
                           <%= order_item_f.hidden_field :offer_id, value: offer.id %>
-                          <div class="level">
+                          <div class="level is-mobile">
                             <div class="level-item">
                               <span class="icon is-small button minus">
                                 <i class="fas fa-minus"></i>
@@ -244,6 +244,9 @@ document.addEventListener("DOMContentLoaded", function(){
               </div>
             <% end %>
           </div>
+          <footer class="card-footer">
+            <a class="hide-cart">Voltar</a>
+          </footer>
         </div>
       </div>
     </div>
@@ -362,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 <section class="section mobBtn is-hidden-desktop">
   <div class="container has-text-centered">
-    <a class="button is-primary is-medium">VER INGRESSOS</a>
+    <a class="button is-primary is-medium cart-btn">VER INGRESSOS</a>
   </div>
 </section>
 

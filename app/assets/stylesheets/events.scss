@@ -185,6 +185,9 @@ img.testimonial {
   margin-top: -1rem;
   font-size: 0.85rem;
   box-shadow: -1px 4px 35px -12px rgba(0,0,0,0.40);
+  & .card-footer {
+    display: none;
+  }
 }
 
 .tickets.title {
