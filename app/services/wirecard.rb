@@ -254,4 +254,19 @@ module Wirecard
 	def self.show_balances company
 		api(company.moip_access_token).balances.show()
 	end
+
+	def self.create_transfer transfer
+		company = transfer.company
+		transfer = api(company.moip_access_token).transfer.create(
+			{
+				amount: transfer.amount_cents,
+				transferInstrument: {
+					method: "BANK_ACCOUNT",
+					bankAccount: {
+						id: transfer.bank_account.moip_id
+					}
+				}
+			}
+		)
+	end
 end
