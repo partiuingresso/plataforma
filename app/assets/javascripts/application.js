@@ -22,6 +22,7 @@
 //= stub events/colors
 //= stub events/maps
 //= stub events/cart
+//= stub events/modal
 //= stub toggle
 //= stub orders
 //= stub companies
