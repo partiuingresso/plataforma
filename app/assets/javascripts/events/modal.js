@@ -1,4 +1,4 @@
-var cart = document.querySelector('.cart');
+var cart = document.querySelector('.offers.card');
 var modal = document.querySelector('.modal');
 
 if(cart) {
@@ -11,9 +11,12 @@ if(modal) {
 
 function cartInit() {
   var cartbtn = document.querySelector('.cart-btn');
+  var hidecart = document.querySelector('.hide-cart');
   cartbtn.addEventListener('click', function() {
-    cart.addClass("is-active");
-    cart.addClass("is-clipped");
+    cart.classList.add("is-block");
+  });
+  hidecart.addEventListener('click', function() {
+    cart.classList.remove("is-block");
   });
 }
 
@@ -30,14 +33,13 @@ function modalInit() {
   modal.addEventListener('click', function() {
     closeModal();
   });
+  document.addEventListener('keydown', function (event) {
+      var e = event || window.event;
+      if (e.keyCode === 27) {
+        closeModal();
+      }
+  });
 }
-
-document.addEventListener('keydown', function (event) {
-    var e = event || window.event;
-    if (e.keyCode === 27) {
-      closeModal();
-    }
-});
 
 function closeModal() {
     modal.classList.remove("is-active");
@@ -46,7 +48,7 @@ function closeModal() {
 }
 
 function closeCart() {
-    modal.classList.remove("is-active");
-    modal.classList.remove("is-clipped");
+    cart.classList.remove("is-active");
+    cart.classList.remove("is-clipped");
     video.setAttribute('src','');
 }
