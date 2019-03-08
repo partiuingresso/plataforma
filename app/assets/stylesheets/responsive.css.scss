@@ -32,12 +32,15 @@
 
   .event.title {
     font-style: normal;
-    font-weight: 700;
-    font-size: 1.75rem;
+    font-weight: 800;
     letter-spacing: unset;
     text-shadow: 1px 4px 7px rgba(0,0,0,0.25);
     margin-top: 1.5rem;
     text-align: center;
+  }
+
+  .title.event-content {
+    font-size: 1.55rem;
   }
 
   .events-table {
