@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function(){
         </div>
       </div>
       <div class="column is-4">
-        <div class="event offers card">
+        <div class="event offers card is-hidden-mobile">
           <div class="card-content">
             <%= form_for @order, url: new_order_path, method: "get" do |f| %>
               <%= f.hidden_field :event_id, value: @order.event.id %>
@@ -360,9 +360,19 @@ document.addEventListener("DOMContentLoaded", function(){
 </section>
 
 
+<section class="section mobBtn is-hidden-desktop">
+  <div class="container has-text-centered">
+    <a class="button is-primary is-medium">VER INGRESSOS</a>
+  </div>
+</section>
+
+
 <div class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-content">
+  <div class="video-background"></div>
+  <div class="modal-content back">
+    <p><span class="icon has-text-primary"><i class="fas fa-arrow-left"></i></span> Voltar</p>
+  </div>
+  <div class="modal-content img-raised">
     <div class="container has-text-centered embed-responsive embed-responsive-16by9">
       <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow=autoplay></iframe>
     </div>
