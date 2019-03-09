@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function(){
                               </span>
                             </div>
                             <div class="level-item">
-                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f }, placeholder: "quantidade" %>
+                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
                               <span class="quantity-view">
                                 0
                               </span>

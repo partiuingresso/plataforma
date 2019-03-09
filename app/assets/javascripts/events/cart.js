@@ -26,11 +26,12 @@ function setEventHandlers() {
 		var buttonParent = button.parentElement;
 		var divSibling = buttonParent.previousElementSibling;
 		var quantityView = divSibling.querySelector('.quantity-view');
-		var number = quantityView.innerHTML;
-		if(number < 5) {
+		var number = Number(quantityView.innerHTML);
+		var hiddenInput = divSibling.querySelector('.quantity-input');
+		var max = Number(hiddenInput.dataset.max);
+		if(number < max) {
 			number++;
 			quantityView.innerHTML = number;
-			var hiddenInput = divSibling.querySelector('.quantity-input');
 			hiddenInput.value = number;
 			let total = calculateTotal().toFixed(2);
 			totalPrice.innerText = total.toString(10).replace(".", ",");
@@ -43,7 +44,7 @@ function setEventHandlers() {
 		var buttonParent = button.parentElement;
 		var divSibling = buttonParent.nextElementSibling;
 		var quantityView = divSibling.querySelector('.quantity-view');
-		var number = quantityView.innerHTML;
+		var number = Number(quantityView.innerHTML);
 			if(number > 0) {
 				number--;
 				quantityView.innerHTML = number;
