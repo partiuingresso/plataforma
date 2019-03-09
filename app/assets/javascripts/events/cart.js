@@ -26,9 +26,9 @@ function setEventHandlers() {
 		var buttonParent = button.parentElement;
 		var divSibling = buttonParent.previousElementSibling;
 		var quantityView = divSibling.querySelector('.quantity-view');
-		var number = quantityView.innerHTML;
+		var number = Number(quantityView.innerHTML);
 		var hiddenInput = divSibling.querySelector('.quantity-input');
-		var max = hiddenInput.dataset.max;
+		var max = Number(hiddenInput.dataset.max);
 		if(number < max) {
 			number++;
 			quantityView.innerHTML = number;
@@ -44,7 +44,7 @@ function setEventHandlers() {
 		var buttonParent = button.parentElement;
 		var divSibling = buttonParent.nextElementSibling;
 		var quantityView = divSibling.querySelector('.quantity-view');
-		var number = quantityView.innerHTML;
+		var number = Number(quantityView.innerHTML);
 			if(number > 0) {
 				number--;
 				quantityView.innerHTML = number;
