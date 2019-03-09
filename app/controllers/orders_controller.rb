@@ -6,15 +6,14 @@ class OrdersController < ApplicationController
 	end
 
 	def new
-		@order = Order.new(order_params)
 		@order.order_items = @order.order_items.select { |order_item| order_item.quantity > 0 }
+		unless @order.valid? && @order.order_items.present?
+			redirect_back fallback_location: events_path and return
+		end
+
 		@payment = Payment.new
-		if @order.order_items.empty?
-			redirect_back fallback_location: events_path
-		else
-			@order.order_items.each do |order_item|
-				order_item.ticket_tokens.build
-			end
+		@order.order_items.each do |order_item|
+			order_item.ticket_tokens.build
 		end
 	end
 
