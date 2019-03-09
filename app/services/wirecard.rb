@@ -269,4 +269,18 @@ module Wirecard
 			}
 		)
 	end
+
+	def self.transfer_to company, amount
+		transfer = api.transfer.create(
+			{
+				amount: amount,
+				transferInstrument: {
+					method: "MOIP_ACCOUNT",
+					moipAccount: {
+						id: company.moip_id
+					}
+				}
+			}
+		)
+	end
 end
