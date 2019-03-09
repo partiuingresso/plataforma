@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <tr>
               <td class="spacer"></td>
               <td><span class="icon"><i class="fas fa-map-marker-alt has-text-grey-light"></i></span></td>
-              <td><span class="has-text-grey"><%= truncate(@event.address.name, length: 15) %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %></span>
+              <td><span class="has-text-grey"><%= truncate(@event.address.name, length: 15) %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %></span></td>
               <td class="spacer"></td>
           </tbody>
         </table>
