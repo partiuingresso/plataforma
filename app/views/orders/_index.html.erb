@@ -1,0 +1,62 @@
+<p class="title is-size-2">Último Pedido</p>
+<div class="tile is-ancestor">
+  <div class="tile is-parent">
+    <div class="tile box is-child">
+      <% if @latest_order.pending? %>
+        <span style="margin-bottom: 10px;" class="tag is-warning">
+          <%= Order.human_attribute_name("status.#{@latest_order.status}") %>
+        </span>
+      <% elsif @latest_order.approved? %>
+        <span style="margin-bottom: 10px;" class="tag is-success">
+          <%= Order.human_attribute_name("status.#{@latest_order.status}") %>
+        </span>
+      <% else %>
+        <span style="margin-bottom: 10px;" class="tag is-danger">
+          <%= Order.human_attribute_name("status.#{@latest_order.status}") %>
+        </span>
+      <% end %>
+      <p>
+        Nº do pedido: <span class="is-size-6 has-text-weight-semibold"><%= @latest_order.number %></span>
+      </p>
+      <p>
+        Evento: <span class="has-text-weight-semibold"><%= @latest_order.event.name %></span>
+      </p>
+      <table style="margin-top: 20px;" class="table is-fullwidth">
+        <thead>
+          <th>Participante</th>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Valor</th>
+        </thead>
+        <tbody>
+          <% @latest_order.ticket_tokens.each do |ticket_token| %>
+            <tr>
+              <td><%= ticket_token.owner_name %></td>
+              <td><%= ticket_token.owner_email %></td>
+              <td><%= ticket_token.offer.name %></td>
+              <td><%= ticket_token.offer.price_with_service_fee.format %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </table>
+      <div>
+        <% if @latest_order.payment.installment_count > 1 %>
+        <p>
+          Juros de parcelamento: 
+          <span class="has-text-weight-semibold">
+            <%= (@latest_order.payment.interest_rate * @latest_order.total).format %>
+          </span>
+        </p>
+        <% end %>
+        <p>
+          Total: 
+          <span class="has-text-weight-semibold">
+            <%= @latest_order.payment.amount.format %>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
