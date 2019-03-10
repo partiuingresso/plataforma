@@ -1,5 +1,6 @@
 var cart = document.querySelector('.offers.card');
 var modal = document.querySelector('.modal');
+var html = document.documentElement;
 
 if(cart) {
   cartInit();
@@ -10,13 +11,19 @@ if(modal) {
 }
 
 function cartInit() {
-  var cartbtn = document.querySelector('.cart-btn');
-  var hidecart = document.querySelector('.hide-cart');
+  let cartbtn = document.querySelector('.cart-btn');
+  let hidecart = document.querySelector('.hide-cart');
+  let body = document.body;
+  let footer = document.querySelector('.footer');
+  body.classList.add("mb-footer");
+  footer.classList.add("height-footer");
   cartbtn.addEventListener('click', function() {
-    cart.classList.add("is-block");
+    cart.classList.add("op-1");
+    html.classList.add("is-clipped");
   });
   hidecart.addEventListener('click', function() {
-    cart.classList.remove("is-block");
+    cart.classList.remove("op-1");
+    html.classList.remove("is-clipped");
   });
 }
 
@@ -25,8 +32,8 @@ function modalInit() {
   var modalclose = document.querySelector('.modal-close');
   var video = document.getElementById('video');
   videobtn.addEventListener('click', function() {
+    html.classList.add("is-clipped");
     modal.classList.add("is-active");
-    modal.classList.add("is-clipped");
     var videoSrc = videobtn.dataset.src;
     video.setAttribute('src',videoSrc + "?rel=0&amp;showinfo=0&amp;modestbranding=1&amp;autoplay=1" ); 
   });
@@ -43,12 +50,6 @@ function modalInit() {
 
 function closeModal() {
     modal.classList.remove("is-active");
-    modal.classList.remove("is-clipped");
-    video.setAttribute('src','');
-}
-
-function closeCart() {
-    cart.classList.remove("is-active");
-    cart.classList.remove("is-clipped");
+    html.classList.remove("is-clipped");
     video.setAttribute('src','');
 }
