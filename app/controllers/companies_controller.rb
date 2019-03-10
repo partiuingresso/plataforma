@@ -17,6 +17,7 @@ load_and_authorize_resource
   end
 
   def new
+    @company.build_address
   end
 
   def edit
@@ -77,7 +78,8 @@ load_and_authorize_resource
 private
 
   def company_params
-    params.require(:company).permit(:name)
+    params.require(:company).permit(:name, :business_name, :document_type, :document_number, :phone,
+                                    address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode])
   end
 
   def update_params

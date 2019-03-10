@@ -1,7 +1,7 @@
 class Address < ApplicationRecord
   has_many :event
 
-  validates :name, presence: true, length: { maximum: 150 }
+  validates :name, length: { maximum: 150 }, allow_blank: true
   validates :address, presence: true, length: { maximum: 150 }
   validates :number, presence: true
   validates :complement, length: { maximum: 50 }, allow_blank: true

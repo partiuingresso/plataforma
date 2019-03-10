@@ -14,48 +14,137 @@
 
       <div class="column is-8">
         <p class="title is-size-2">Cadastrar Nova Empresa</p>
-
         <%= form_with(model: @company, local: true) do |f| %>
           <% if @company.errors.any? %>
             <article class="message is-danger">
               <div class="message-body">
-                <h2><%= pluralize(company.errors.count, "erro") %>:</h2>
+                <h2><%= pluralize(@company.errors.count, "erro") %>:</h2>
                 <ul>
-                <% company.errors.full_messages.each do |message| %>
+                <% @company.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
                 </ul>
               </div>
             </article>
           <% end %>
-
-        <div class="tile is-ancestor">
-
-          <div class="tile is-8 is-vertical is-parent">
-
-            <div class="tile is-child box">
+          <div class="columns">
+            <div class="column is-8">
+              <div class="box">
                 <div class="field">
                   <label class="label">Nome da Empresa</label>
-                  <div class="control has-icons-left has-icons-right">
+                  <div class="control has-icons-left">
                     <%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome Fantasia" %>
                     <span class="icon is-small is-left">
                       <i class="far fa-building"></i>
                     </span>
                   </div>
                 </div>
-            </div>
-
-            <div class="tile is-child">
+                <div class="field">
+                  <label class="label">Razão Social</label>
+                  <div class="control">
+                    <%= f.text_field :business_name, class: "input" %>
+                  </div>
+                </div>
+                <div class="field is-horizontal">
+                  <div class="field-body">
+                    <div class="field">
+                      <div class="columns">
+                        <div class="column is-7">
+                          <label class="label">Documento</label>
+                          <div class="field has-addons">
+                            <div class="control">
+                              <div class="select">
+                                <%= f.select :document_type do %>
+                                  <%= content_tag(:option, "CPF", value: "CPF") %>
+                                  <%= content_tag(:option, "CNPJ", value: "CNPJ") %>
+                                <% end %>
+                              </div>
+                            </div>
+                            <div class="control is-expanded has-icons-right">
+                              <%= f.text_field :document_number, class: "input", placeholder: "___.___.___-__" %>
+                              <span class="icon is-right has-text-danger">
+                                <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="column is-5">
+                          <label class="label">Telefone</label>
+                          <div class="control">
+                            <%= f.text_field :phone, class: "input" %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <%= f.fields_for :address do |address_f| %>
+                  <div class="field">
+                    <div class="columns">
+                      <div class="column is-5">
+                        <label class="label">CEP</label>
+                        <div class="control">
+                          <%= address_f.text_field :zipcode, class: "input" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Endereço</label>
+                    <div class="control">
+                      <%= address_f.text_field :address, class: "input" %>
+                    </div>
+                  </div>
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <div class="columns">
+                          <div class="column is-4">
+                            <label class="label">Número</label>
+                            <div class="control">
+                              <%= address_f.text_field :number, class: "input" %>
+                            </div>
+                          </div>
+                          <div class="column is-4">
+                            <label class="label">Complemento</label>
+                            <div class="control">
+                              <%= address_f.text_field :complement, class: "input" %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="columns">
+                      <div class="column is-4">
+                        <label class="label">Bairro</label>
+                        <div class="control">
+                          <%= address_f.text_field :district, class: "input" %>
+                        </div>
+                      </div>
+                      <div class="column is-4">
+                        <label class="label">Cidade</label>
+                        <div class="control">
+                          <%= address_f.text_field :city, class: "input" %>
+                        </div>
+                      </div>
+                      <div class="column is-4">
+                        <label class="label">Estado</label>
+                        <div class="control">
+                          <%= address_f.text_field :state, class: "input" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
               <div class="control has-text-right">
                 <%= f.button "Cadastrar", class: "button is-primary is-medium", data: { "disable-with": "<i class='fa fa-spinner fa-spin'></i> Aguarde..." } %>
               </div>
-              <% end %>
             </div>
-
           </div>
-
-        </div>
-
+        <% end %>
       </div>
     </div>
   </div>

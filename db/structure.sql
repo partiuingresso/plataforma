@@ -123,7 +123,7 @@ ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage
 
 CREATE TABLE public.addresses (
     id bigint NOT NULL,
-    name character varying NOT NULL,
+    name character varying,
     address character varying NOT NULL,
     complement character varying,
     district character varying NOT NULL,
@@ -219,7 +219,13 @@ CREATE TABLE public.companies (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     moip_id character varying NOT NULL,
-    moip_access_token character varying NOT NULL
+    moip_access_token character varying NOT NULL,
+    address_id bigint NOT NULL,
+    business_name character varying NOT NULL,
+    document_type character varying NOT NULL,
+    document_number character varying NOT NULL,
+    phone_area_code integer NOT NULL,
+    phone_number integer NOT NULL
 );
 
 
@@ -583,7 +589,10 @@ CREATE TABLE public.users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     gender character varying,
-    birthday timestamp without time zone
+    birthday timestamp without time zone,
+    address_id bigint,
+    phone_area_code integer,
+    phone_number integer
 );
 
 
@@ -889,6 +898,13 @@ CREATE INDEX index_addresses_on_latitude_and_longitude ON public.addresses USING
 
 
 --
+-- Name: index_companies_on_address_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_companies_on_address_id ON public.companies USING btree (address_id);
+
+
+--
 -- Name: index_company_finances_on_bank_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1029,6 +1045,13 @@ CREATE INDEX index_transfers_on_company_id ON public.transfers USING btree (comp
 
 
 --
+-- Name: index_users_on_address_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_address_id ON public.users USING btree (address_id);
+
+
+--
 -- Name: index_users_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1110,6 +1133,14 @@ ALTER TABLE ONLY public.company_finances
 
 
 --
+-- Name: companies fk_rails_244dfae511; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.companies
+    ADD CONSTRAINT fk_rails_244dfae511 FOREIGN KEY (address_id) REFERENCES public.addresses(id);
+
+
+--
 -- Name: events fk_rails_2a2c9250e8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1187,6 +1218,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.order_items
     ADD CONSTRAINT fk_rails_e3cb28f071 FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: users fk_rails_eb2fc738e4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_eb2fc738e4 FOREIGN KEY (address_id) REFERENCES public.addresses(id);
 
 
 --
@@ -1273,6 +1312,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190306220207'),
 ('20190306220506'),
 ('20190307013717'),
-('20190307040029');
+('20190307040029'),
+('20190309175919');
 
 

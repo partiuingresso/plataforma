@@ -1,8 +1,9 @@
 class User < ApplicationRecord
   has_many :credit_cards
   has_many :orders
-  belongs_to :company, optional: true
   has_many :ticket_tokens, through: :orders
+  belongs_to :company, optional: true
+  belongs_to :address, optional: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
