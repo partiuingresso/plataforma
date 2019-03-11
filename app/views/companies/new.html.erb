@@ -29,6 +29,102 @@
           <% end %>
           <div class="columns">
             <div class="column is-8">
+              <%= fields_for @user do |user_f| %>
+                <p class="title is-5">Dados pessoais</p>
+                <div class="box">
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <div class="columns">
+                          <div class="column is-7">
+                            <label class="label">CPF</label>
+                            <div class="field">
+                              <div class="control">
+                                <%= user_f.text_field :cpf, class: "input", placeholder: "___.___.___-__" %>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="column is-5">
+                            <label class="label">Telefone</label>
+                            <div class="control">
+                              <%= user_f.text_field :phone, class: "input" %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label">Data de Nascimento</label>
+                    <div class="control">
+                      <div class="select">
+                        <%= user_f.date_select :birthday, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
+                      </div>
+                    </div>
+                  </div>
+                  <%= user_f.fields_for :address do |address_f| %>
+                    <div class="field">
+                      <div class="columns">
+                        <div class="column is-5">
+                          <label class="label">CEP</label>
+                          <div class="control">
+                            <%= address_f.text_field :zipcode, class: "input" %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label class="label">Endereço</label>
+                      <div class="control">
+                        <%= address_f.text_field :address, class: "input" %>
+                      </div>
+                    </div>
+                    <div class="field is-horizontal">
+                      <div class="field-body">
+                        <div class="field">
+                          <div class="columns">
+                            <div class="column is-4">
+                              <label class="label">Número</label>
+                              <div class="control">
+                                <%= address_f.text_field :number, class: "input" %>
+                              </div>
+                            </div>
+                            <div class="column is-4">
+                              <label class="label">Complemento</label>
+                              <div class="control">
+                                <%= address_f.text_field :complement, class: "input" %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="columns">
+                        <div class="column is-4">
+                          <label class="label">Bairro</label>
+                          <div class="control">
+                            <%= address_f.text_field :district, class: "input" %>
+                          </div>
+                        </div>
+                        <div class="column is-4">
+                          <label class="label">Cidade</label>
+                          <div class="control">
+                            <%= address_f.text_field :city, class: "input" %>
+                          </div>
+                        </div>
+                        <div class="column is-4">
+                          <label class="label">Estado</label>
+                          <div class="control">
+                            <%= address_f.text_field :state, class: "input" %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <p style="margin-top: 60px;" class="title is-5">Dados da Empresa</p>
               <div class="box">
                 <div class="field">
                   <label class="label">Nome da Empresa</label>
@@ -50,22 +146,9 @@
                     <div class="field">
                       <div class="columns">
                         <div class="column is-7">
-                          <label class="label">Documento</label>
-                          <div class="field has-addons">
-                            <div class="control">
-                              <div class="select">
-                                <%= f.select :document_type do %>
-                                  <%= content_tag(:option, "CPF", value: "CPF") %>
-                                  <%= content_tag(:option, "CNPJ", value: "CNPJ") %>
-                                <% end %>
-                              </div>
-                            </div>
-                            <div class="control is-expanded has-icons-right">
-                              <%= f.text_field :document_number, class: "input", placeholder: "___.___.___-__" %>
-                              <span class="icon is-right has-text-danger">
-                                <i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-                              </span>
-                            </div>
+                          <label class="label">CNPJ</label>
+                          <div class="control">
+                            <%= f.text_field :document_number, class: "input" %>
                           </div>
                         </div>
                         <div class="column is-5">

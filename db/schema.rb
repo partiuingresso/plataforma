@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_09_175919) do
+ActiveRecord::Schema.define(version: 2019_03_10_231745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(version: 2019_03_09_175919) do
     t.string "moip_access_token", null: false
     t.bigint "address_id", null: false
     t.string "business_name", null: false
-    t.string "document_type", null: false
     t.string "document_number", null: false
     t.integer "phone_area_code", null: false
     t.integer "phone_number", null: false

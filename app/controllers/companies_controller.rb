@@ -18,6 +18,8 @@ load_and_authorize_resource
 
   def new
     @company.build_address
+    @user = current_user
+    @user.build_address
   end
 
   def edit
@@ -26,7 +28,8 @@ load_and_authorize_resource
   end
 
   def create
-    account = Wirecard::create_account
+    current_user.assign_attributes(user_params)
+    account = Wirecard::create_account current_user, @company
     unless account.respond_to?(:id) && account.id.present?
       redirect_to new_company_path, alert: 'Ops... algo deu errado! Tente novamente.' and return
     end
@@ -34,7 +37,7 @@ load_and_authorize_resource
     @company.moip_access_token = account.access_token
 
     respond_to do |format|
-      if @company.save
+      if current_user.save && @company.save
         format.html { redirect_to backoffice_path, notice: 'Empresa criada com sucesso.' }
         format.json { render :show, status: :created, location: @company }
       else
@@ -47,10 +50,10 @@ load_and_authorize_resource
   def update
     @user = User.find_by(email: params[:email])
 
-    if params[:email].present? && update_params[:role].nil? && @user.nil?
+    if params[:email].present? && user_params[:role].nil? && @user.nil?
       redirect_to backstage_path, alert: 'Usuário não encontrado' and return
     elsif params[:email].present?
-      @user.update(role: update_params[:role].to_i, company_id: @company.id)
+      @user.update(role: user_params[:role].to_i, company_id: @company.id)
     end
 
     respond_to do |format|
@@ -78,12 +81,13 @@ load_and_authorize_resource
 private
 
   def company_params
-    params.require(:company).permit(:name, :business_name, :document_type, :document_number, :phone,
+    params.require(:company).permit(:name, :business_name, :document_number, :phone,
                                     address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode])
   end
 
-  def update_params
-    params.require(:user).permit(:email, :role)
+  def user_params
+    params.require(:user).permit(:email, :role, :cpf, :phone, :birthday,
+                                 address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode])
   end
 
 end

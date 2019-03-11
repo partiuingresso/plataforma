@@ -137,56 +137,56 @@ module Wirecard
 		)
 	end
 
-	def self.create_account
+	def self.create_account user, company
 		account = api.accounts.create(
 			{
 				email: {
-					address: "financeiro@partiuingresso.com"
+					address: user.email
 				},
 				person: {
-					name: "Rodrigo",
-					lastName: "Cortezi",
+					name: user.first_name,
+					lastName: user.last_name,
 					taxDocument: {
 						type: "CPF",
-						number: "06035033733"
+						number: user.cpf
 					},
-					birthDate: "1996-12-18",
+					birthDate: user.birthday.strftime("%Y-%m-%d"),
 					phone: {
 						countryCode: "55",
-						areaCode: "21",
-						number: "998025243"
+						areaCode: user.phone_area_code.to_s,
+						number: user.phone_number.to_s
 					},
 					address: {
-						street: "Av. Belisário Leite de Andrade Neto",
-						streetNumber: "354",
-						complement: "101",
-						district: "Barra da Tijuca",
-						zipCode: "22621270",
-						city: "Rio de Janeiro",
-						state: "RJ",
+						street: user.address.address,
+						streetNumber: user.address.number,
+						complement: user.address.complement,
+						district: user.address.district,
+						zipCode: user.address.zipcode.gsub(/[.-]/, ""),
+						city: user.address.city,
+						state: user.address.state,
 						country: "BRA"
 					}
 				},
 				company: {
-					name: "Partiu Ingresso",
-					businessName: "CR COMUNICAÇÃO E TECNOLOGIA LTDA",
+					name: company.name,
+					businessName: company.business_name,
 					taxDocument: {
 						type: "CNPJ",
-						number: "31419883000100"
+						number: company.document_number
 					},
 					phone: {
 						countryCode: "55",
-						areaCode: "21",
-						number: "997754968"
+						areaCode: company.phone_area_code,
+						number: company.phone_number
 					},
 					address: {
-						street: "Av. Belisário Leite de Andrade Neto",
-						streetNumber: "354",
-						complement: "101",
-						district: "Barra da Tijuca",
-						zipCode: "22621270",
-						city: "Rio de Janeiro",
-						state: "RJ",
+						street: company.address.address,
+						streetNumber: company.address.number,
+						complement: company.address.complement,
+						district: company.address.district,
+						zipCode: company.address.zipcode.gsub(/[.-]/, ""),
+						city: company.address.city,
+						state: company.address.state,
 						country: "BRA"
 					}
 				},

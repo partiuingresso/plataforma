@@ -5,6 +5,14 @@ class User < ApplicationRecord
   belongs_to :company, optional: true
   belongs_to :address, optional: true
 
+  accepts_nested_attributes_for :address
+
+  attribute :phone, :string
+  @phone_regex = /\A\(\d\d\)\s*(?:\d\s*)?[0-9]{4}-?[0-9]{4}\z/
+  class << self
+      attr_reader :phone_regex
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -16,9 +24,19 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :phone, format: self.phone_regex, allow_blank: true
+  validates_associated :address
 
   enum role: [:guest, :user, :producer, :producer_admin, :admin]
   after_initialize :set_default_role, :if => :new_record?
+
+  def phone=(value)
+      super
+      if Company.phone_regex.match?(value)
+          self.phone_area_code = /\(\d\d\)/.match(value).to_s.gsub(/[()]/, '')
+          self.phone_number = /(?:\d\s*)?[0-9]{4}-?[0-9]{4}/.match(value).to_s.gsub(/\s+/, '').sub(/-/, '')
+      end
+  end
 
   def set_default_role
     self.role ||= :user

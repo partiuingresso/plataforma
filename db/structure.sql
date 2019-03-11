@@ -222,7 +222,6 @@ CREATE TABLE public.companies (
     moip_access_token character varying NOT NULL,
     address_id bigint NOT NULL,
     business_name character varying NOT NULL,
-    document_type character varying NOT NULL,
     document_number character varying NOT NULL,
     phone_area_code integer NOT NULL,
     phone_number integer NOT NULL
@@ -1313,6 +1312,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190306220506'),
 ('20190307013717'),
 ('20190307040029'),
-('20190309175919');
+('20190309175919'),
+('20190310231745');
 
 
