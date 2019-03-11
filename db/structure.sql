@@ -310,6 +310,8 @@ CREATE TABLE public.events (
     address_id bigint NOT NULL,
     features text,
     invite_text text,
+    allotment integer DEFAULT 1,
+    CONSTRAINT allotment_check CHECK ((allotment > 0)),
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -1313,6 +1315,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190307013717'),
 ('20190307040029'),
 ('20190309175919'),
-('20190310231745');
+('20190310231745'),
+('20190311215457');
 
 
