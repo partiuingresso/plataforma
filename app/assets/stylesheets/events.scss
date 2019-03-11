@@ -16,7 +16,7 @@
 
 .section.hero-event {
   background-size: cover;
-  min-height: 18rem;
+  min-height: 17rem;
   width: 100%;
   background-position: center 40%;
   border-bottom-left-radius: 0% 0%;
@@ -37,6 +37,10 @@
   font-size: 2.5rem;
   letter-spacing: 0.04rem;
   text-shadow: 1px 4px 7px rgba(0,0,0,0.25);
+}
+
+.column.event.title {
+  padding-bottom: 0.5rem;
 }
 
 .event.table {
@@ -60,6 +64,7 @@ svg.fa-play:hover {
   margin-left:-1.5rem;
   margin-right:-1.5rem;
   margin-bottom: -3rem;
+  margin-top: 0.4rem;
 }
 
 .fa-circle.fa-stack-2x {
