@@ -11,7 +11,7 @@
       </p>
       <% @events.each do |event| %>
         <div class="columns is-centered">
-          <div class="column is-5">
+          <div class="column is-6">
             <%= link_to event_path(event) do %>
               <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
                 <div class="event-overlay">
@@ -38,6 +38,9 @@
     <% else %>
       <p class="search title has-text-centered">
         Nenhum resultado encontrado para <em><%= sanitize params[:q] %></em>
+      </p>
+      <p class="help has-text-centered">
+        <%= link_to "<- Voltar", root_path %>
       </p>
     <% end %>
   </div>
