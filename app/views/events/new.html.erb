@@ -15,18 +15,18 @@
 				<p class="title is-size-2">Criar Evento</p>
 				<%= form_for @event do |f|%>
 	       
-	      <% if @event.errors.any? %>
-        <article class="message is-danger">
-          <div class="message-body">
-            <h2><%= pluralize(event.errors.count, "erro") %>:</h2>
-            <ul>          	
-              <% event.errors.full_messages.each do |message| %>
-              	<li><%= message %></li>
-	          	<% end %>
-            </ul>
-          </div>
-        </article>
-        <% end %>
+          <% if @event.errors.any? %>
+            <article class="message is-danger">
+              <div class="message-body">
+                <h2><%= pluralize(@event.errors.count, "erro", "erros") %>:</h2>
+                <ul>
+                <% @event.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </div>
+            </article>
+          <% end %>
 
 
 				<div class="tile is-ancestor">

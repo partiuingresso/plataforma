@@ -18,7 +18,7 @@
           <% if @company.errors.any? %>
             <article class="message is-danger">
               <div class="message-body">
-                <h2><%= pluralize(@company.errors.count, "erro") %>:</h2>
+                <h2><%= pluralize(@company.errors.count, "erro", "erros") %>:</h2>
                 <ul>
                 <% @company.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
