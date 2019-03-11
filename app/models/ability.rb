@@ -16,7 +16,8 @@ class Ability
 
     if user.admin?
         can :manage, Company
-        can :manage, Event
+        can :manage, Event, company_id: user.company_id
+        can :manage, CompanyFinance, company_id: user.company_id
         can :manage, :admin
     end
 
