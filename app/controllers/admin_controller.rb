@@ -14,8 +14,11 @@ class AdminController < ApplicationController
 
   def manage_company
     @user = current_user
-    @user.update(company_id: params[:company_id])
-    redirect_to backstage_path, notice: "Gerenciando #{Company.find(params[:company_id]).name}"
+    if @user.update(company_id: params[:company_id])
+      redirect_to backstage_path, notice: "Gerenciando #{Company.find(params[:company_id]).name}"
+    else
+      redirect_to backoffice_path, alert: "Ops... algo deu errado! Tente novamente."
+    end
   end
 
 end

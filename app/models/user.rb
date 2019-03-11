@@ -38,10 +38,6 @@ class User < ApplicationRecord
       end
   end
 
-  def phone
-    self.phone_area_code.to_s + self.phone_number.to_s
-  end
-
   def set_default_role
     self.role ||= :user
   end
