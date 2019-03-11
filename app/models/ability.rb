@@ -5,7 +5,7 @@ class Ability
 
     user ||= User.new(role: "guest")
 
-    can :read, Event
+    can :show, Event
 
     unless user.guest?
         can :read, TicketToken do |ticket_token|
