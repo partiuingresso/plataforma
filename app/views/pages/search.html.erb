@@ -1,0 +1,44 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section results">
+  <div class="container">
+    <% if @events.any? %>
+      <p class="search title has-text-centered">
+        Exibindo resultados para <em><%= sanitize params[:q] %></em>
+      </p>
+      <% @events.each do |event| %>
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <%= link_to event_path(event) do %>
+              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
+                <div class="event-overlay">
+                  <div class="item-down">
+                    <div>
+                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
+                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                    </div>
+                  </div>
+                  <div class="item-down-right">
+                    <div>
+                      <span class="icon">
+                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+         </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="search title has-text-centered">
+        Nenhum resultado encontrado para <em><%= sanitize params[:q] %></em>
+      </p>
+    <% end %>
+  </div>
+</section>

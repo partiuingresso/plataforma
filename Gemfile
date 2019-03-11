@@ -21,6 +21,8 @@ gem 'geocoder'
 gem 'trix-rails', require: 'trix'
 # Use browserify (change to Webpacker asap)
 gem "browserify-rails"
+# Use PG_Search to do simple searches
+gem 'pg_search'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

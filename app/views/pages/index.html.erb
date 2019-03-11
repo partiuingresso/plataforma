@@ -6,14 +6,16 @@
   <div class="container hero-content-home">
     <div class="columns is-centered">
       <div class="column is-8 has-text-centered">
-        <div class="field is-grouped">
-          <div class="control is-expanded search">
-            <input class="input is-large" type="text" placeholder="Busque seu próximo evento e partiu">
+        <%= form_tag("/search", method: "get") do %>
+          <div class="field is-grouped">
+            <div class="control is-expanded search">
+              <input name="q" class="input is-large" type="text" placeholder="Busque seu próximo evento e partiu">
+            </div>
+            <div class="control search">
+              <button class="button is-white is-large"><i class="fas fa-search"></i></button>
+            </div>
           </div>
-          <div class="control search">
-            <button class="button is-white is-large"><i class="fas fa-search"></i></button>
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>

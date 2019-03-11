@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :orders, only: [:index, :new, :create, :show]
   
   root to: 'pages#index'
+  get 'search', to: 'pages#search'
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
   get 'tickets', to: 'ticket_tokens#index'
