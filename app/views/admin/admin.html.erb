@@ -17,7 +17,7 @@
 
 
         <div class="tile is-ancestor">
-          <div class="tile is-8 is-vertical is-parent">
+          <div class="tile is-7 is-vertical is-parent">
             <div class="tile box is-child">
 
               <label class="label is-size-5">Empresas Cadastradas</label>
@@ -43,6 +43,8 @@
 
                   <div class="column is-5">
                      <%= link_to 'Editar', edit_company_path(company), class: "button is-link is-small" %>
+                     <%= link_to 'Gerenciar', manage_company_path(company.id), class: "button is-link is-small" %>
+
                   </div>
 
                 <% end %>

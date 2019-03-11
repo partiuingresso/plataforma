@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   get '/backoffice', to: 'admin#admin'
   get '/backstage', to: 'admin#producer_admin'
+  get '/manage_company/:company_id', to: 'admin#manage_company', as: "manage_company"
 
   resources :events
   resources :companies

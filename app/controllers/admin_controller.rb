@@ -12,4 +12,10 @@ class AdminController < ApplicationController
   def producer_admin
   end
 
+  def manage_company
+    @user = current_user
+    @user.update(company_id: params[:company_id])
+    redirect_to backstage_path, notice: "Gerenciando #{Company.find(params[:company_id]).name}"
+  end
+
 end
