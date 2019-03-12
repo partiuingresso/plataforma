@@ -13,6 +13,8 @@ module Plataforma
 
     config.i18n.default_locale = :'pt-BR'
 
+    config.time_zone = 'Brasilia'
+
     config.active_record.schema_format :sql
 
     config.autoload_paths += %W( #{config.root}/lib )
