@@ -94,3 +94,26 @@ form.new_order {
       -moz-appearance: textfield;
   }
 }
+
+
+// My Orders
+tr.trhidden {
+  display: block;
+  height: 0px;
+  & td.tdhidden {
+    border: 0px;
+    padding: unset;
+  }
+}
+.order.row {
+  cursor: pointer;
+}
+.order.details {
+  display: block;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+  box-shadow: 0px 15px 45px -12px rgba(0,0,0,0.75);
+}

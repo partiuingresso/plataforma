@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   get '/backstage', to: 'admin#producer_admin'
   get '/manage_company/:company_id', to: 'admin#manage_company', as: "manage_company"
 
+  namespace :charts do
+    get "sales-count"
+    get "sales-value"
+  end
+
   resources :events
   resources :companies
   get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"

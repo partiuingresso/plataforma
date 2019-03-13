@@ -26,3 +26,4 @@
 //= stub toggle
 //= stub orders
 //= stub companies
+//= stub my_orders

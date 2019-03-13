@@ -20,9 +20,13 @@ gem 'geocoder'
 # Use Trix Rich Text Editor
 gem 'trix-rails', require: 'trix'
 # Use browserify (change to Webpacker asap)
-gem "browserify-rails"
+gem 'browserify-rails'
 # Use PG_Search to do simple searches
 gem 'pg_search'
+# Group data to serve dashboard
+gem 'groupdate'
+# Displays charts for dashboards
+gem 'chartkick'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

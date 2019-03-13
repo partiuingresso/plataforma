@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
 	load_and_authorize_resource
 
 	def index
-		@latest_order = current_user.latest_order
+		@orders = current_user.orders.order(created_at: :desc)
 	end
 
 	def new

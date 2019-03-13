@@ -12,7 +12,7 @@
       </div>
 
       <div class="column is-6">
-        <% if @latest_order.present? %>
+        <% if current_user.orders.present? %>
           <%= render partial: 'orders/index' %>
         <% else %>
           <%= render partial: 'orders/no_orders' %>
