@@ -1,3 +1,4 @@
+<%= javascript_include_tag File.join(params[:controller], "new"), defer: true %>
 <section class="section hero">
   <div class="container hero-content">
   </div>
@@ -47,7 +48,7 @@
                           <div class="column is-5">
                             <label class="label">CPF</label>
                             <div class="control">
-                              <%= person_f.text_field :document_number, class: "input" %>
+                              <%= person_f.text_field :document_number, maxlength: 14, class: "input cpf-input" %>
                             </div>
                           </div>
                         </div>
@@ -69,7 +70,7 @@
                           <div class="column is-5">
                             <label class="label">Telefone</label>
                             <div class="control">
-                              <%= person_f.text_field :phone, class: "input" %>
+                              <%= person_f.text_field :phone, maxlength: 16, class: "input phone-input" %>
                             </div>
                           </div>
                         </div>
@@ -77,7 +78,7 @@
                     </div>
                   </div>
                    <div class="field">
-                    <label class="label">data de nascimento</label>
+                    <label class="label">Data de Nascimento</label>
                     <div class="control">
                       <div class="select">
                         <%= person_f.date_select :birthdate, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
@@ -90,7 +91,7 @@
                         <div class="column is-5">
                           <label class="label">CEP</label>
                           <div class="control">
-                            <%= address_f.text_field :zipcode, class: "input" %>
+                            <%= address_f.text_field :zipcode, maxlength: 9, class: "input cep-input" %>
                           </div>
                         </div>
                       </div>
@@ -170,13 +171,13 @@
                         <div class="column is-7">
                           <label class="label">CNPJ</label>
                           <div class="control">
-                            <%= f.text_field :document_number, class: "input" %>
+                            <%= f.text_field :document_number, maxlength: 18, class: "input cnpj-input" %>
                           </div>
                         </div>
                         <div class="column is-5">
                           <label class="label">Telefone</label>
                           <div class="control">
-                            <%= f.text_field :phone, class: "input" %>
+                            <%= f.text_field :phone, maxlength: 16, class: "input phone-input" %>
                           </div>
                         </div>
                       </div>
@@ -189,7 +190,7 @@
                       <div class="column is-5">
                         <label class="label">CEP</label>
                         <div class="control">
-                          <%= address_f.text_field :zipcode, class: "input" %>
+                          <%= address_f.text_field :zipcode, maxlength: 9, class: "input cep-input" %>
                         </div>
                       </div>
                     </div>
