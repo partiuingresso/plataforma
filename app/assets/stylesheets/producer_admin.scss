@@ -11,3 +11,8 @@
 .tabcontent {
     display: none;
 }
+
+.blur {
+  color: hsl(0, 0%, 71%);
+  filter:blur(5px);
+}

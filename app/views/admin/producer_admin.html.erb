@@ -15,10 +15,10 @@
 
       <div class="column is-8">
         <p class="title is-size-2">Dashboard</p>
-        <div class="tile is-ancestor is-vertical">
-          <div class="tile is-parent is-12">
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
             <div class="tile box is-child">
-              <div class="level user-data is-mobile">
+              <div class="level user-data">
                 <div class="level-left">
                   <div class="level-item">
                     <span class="icon has-text-primary"><i class="far fa-user"></i></span><span>User: <%= current_user.name.first %></span>
@@ -38,9 +38,32 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-4">
+            <div class="tile box is-child">
+              <p class="title is-5">Valor em conta</p>
+              <div class="level">
+                <div class="level-item">
+                  <span id="balance" class="blur"><%= @total_balance %></span>
+                </div>
+                <div class="level-item">
+                  <span class="button show is-small is-rounded is-light">MOSTRAR</span>
+                  <span class="button hide is-small is-rounded is-light is-hidden">ESCONDER</span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="tile is-parent">
+            <div class="tile box is-child">
+              <p class="title is-5">Report por evento</p>
+            </div>
+          </div>
+        </div>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-12">
             <div class="tile chart box is-child">
-              <p class="title is-4">Vendas nos últimos 28 dias</p>
+              <p class="title is-5">Vendas nos últimos 28 dias</p>
               <div class="tabs">
                 <ul>
                   <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Unidades</a></li>
