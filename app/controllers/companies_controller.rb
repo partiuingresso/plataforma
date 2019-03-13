@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-load_and_authorize_resource
+  load_and_authorize_resource :except => :create
 
   def index
   end
@@ -17,9 +17,7 @@ load_and_authorize_resource
   end
 
   def new
-    @company.build_address
-    @user = current_user
-    @user.build_address
+    @company_form = CompanyForm.new
   end
 
   def edit
@@ -28,21 +26,14 @@ load_and_authorize_resource
   end
 
   def create
-    current_user.assign_attributes(user_params)
-    account = Wirecard::create_account current_user, @company
-    unless account.respond_to?(:id) && account.id.present?
-      redirect_to new_company_path, alert: 'Ops... algo deu errado! Tente novamente.' and return
-    end
-    @company.moip_id = account.id
-    @company.moip_access_token = account.access_token
-
+    @company_form = CompanyForm.new(permitted_params)
     respond_to do |format|
-      if current_user.save && @company.save
+      if @company_form.save
         format.html { redirect_to backoffice_path, notice: 'Empresa criada com sucesso.' }
         format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
-        format.json { render json: @company.errors, status: :unprocessable_entity }
+        format.json { render json: @company_form.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -81,13 +72,18 @@ load_and_authorize_resource
 private
 
   def company_params
-    params.require(:company).permit(:name, :business_name, :document_number, :phone,
-                                    address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode])
+    params.require(:company).permit(:name)
+  end
+
+  def permitted_params
+    params.require(:company_form).permit(:name, :business_name, :document_number, :phone,
+                                    address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode],
+                                    person_attributes: [:name, :document_number, :email, :phone, :birthdate,
+                                    address: [:address, :number, :complement, :district, :city, :state, :zipcode]])
   end
 
   def user_params
     params.require(:user).permit(:email, :role, :cpf, :phone, :birthday,
                                  address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode])
   end
-
 end

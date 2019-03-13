@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_11_220541) do
+ActiveRecord::Schema.define(version: 2019_03_12_010449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,10 +190,6 @@ ActiveRecord::Schema.define(version: 2019_03_11_220541) do
     t.datetime "updated_at", null: false
     t.string "gender"
     t.datetime "birthday"
-    t.bigint "address_id"
-    t.integer "phone_area_code"
-    t.integer "phone_number"
-    t.index ["address_id"], name: "index_users_on_address_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -226,6 +222,5 @@ ActiveRecord::Schema.define(version: 2019_03_11_220541) do
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "transfers", "bank_accounts"
   add_foreign_key "transfers", "companies"
-  add_foreign_key "users", "addresses"
   add_foreign_key "users", "companies"
 end

@@ -14,13 +14,13 @@
 
       <div class="column is-8">
         <p class="title is-size-2">Cadastrar Nova Empresa</p>
-        <%= form_with(model: @company, local: true) do |f| %>
-          <% if @company.errors.any? %>
+        <%= form_for @company_form, url: companies_path do |f| %>
+          <% if @company_form.errors.any? %>
             <article class="message is-danger">
               <div class="message-body">
-                <h2><%= pluralize(@company.errors.count, "erro", "erros") %>:</h2>
+                <h2><%= pluralize(@company_form.errors.count, "erro", "erros") %>:</h2>
                 <ul>
-                <% @company.errors.full_messages.each do |message| %>
+                <% @company_form.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
                 </ul>
@@ -29,7 +29,7 @@
           <% end %>
           <div class="columns">
             <div class="column is-8">
-              <%= fields_for @user do |user_f| %>
+              <%= f.fields_for :person do |person_f| %>
                 <p class="title is-5">Dados pessoais</p>
                 <div class="box">
                   <div class="field is-horizontal">
@@ -37,32 +37,54 @@
                       <div class="field">
                         <div class="columns">
                           <div class="column is-7">
-                            <label class="label">CPF</label>
+                            <label class="label">Nome</label>
                             <div class="field">
                               <div class="control">
-                                <%= user_f.text_field :cpf, class: "input", placeholder: "___.___.___-__" %>
+                                <%= person_f.text_field :name, class: "input" %>
                               </div>
                             </div>
                           </div>
                           <div class="column is-5">
-                            <label class="label">Telefone</label>
+                            <label class="label">CPF</label>
                             <div class="control">
-                              <%= user_f.text_field :phone, class: "input" %>
+                              <%= person_f.text_field :document_number, class: "input" %>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="field">
-                    <label class="label">Data de Nascimento</label>
-                    <div class="control">
-                      <div class="select">
-                        <%= user_f.date_select :birthday, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
+                  <div class="field is-horizontal">
+                    <div class="field-body">
+                      <div class="field">
+                        <div class="columns">
+                          <div class="column is-7">
+                            <label class="label">Email</label>
+                            <div class="field">
+                              <div class="control">
+                                <%= person_f.text_field :email, class: "input" %>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="column is-5">
+                            <label class="label">Telefone</label>
+                            <div class="control">
+                              <%= person_f.text_field :phone, class: "input" %>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <%= user_f.fields_for :address do |address_f| %>
+                   <div class="field">
+                    <label class="label">data de nascimento</label>
+                    <div class="control">
+                      <div class="select">
+                        <%= person_f.date_select :birthdate, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
+                      </div>
+                    </div>
+                  </div>
+                  <%= person_f.fields_for :address do |address_f| %>
                     <div class="field">
                       <div class="columns">
                         <div class="column is-5">
@@ -129,7 +151,7 @@
                 <div class="field">
                   <label class="label">Nome da Empresa</label>
                   <div class="control has-icons-left">
-                    <%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome Fantasia" %>
+                    <%= f.text_field :name, class: "input", placeholder: "Nome Fantasia" %>
                     <span class="icon is-small is-left">
                       <i class="far fa-building"></i>
                     </span>

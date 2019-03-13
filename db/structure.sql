@@ -590,10 +590,7 @@ CREATE TABLE public.users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     gender character varying,
-    birthday timestamp without time zone,
-    address_id bigint,
-    phone_area_code integer,
-    phone_number integer
+    birthday timestamp without time zone
 );
 
 
@@ -1046,13 +1043,6 @@ CREATE INDEX index_transfers_on_company_id ON public.transfers USING btree (comp
 
 
 --
--- Name: index_users_on_address_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_users_on_address_id ON public.users USING btree (address_id);
-
-
---
 -- Name: index_users_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1222,14 +1212,6 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- Name: users fk_rails_eb2fc738e4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT fk_rails_eb2fc738e4 FOREIGN KEY (address_id) REFERENCES public.addresses(id);
-
-
---
 -- Name: order_payments fk_rails_ecfe8f04cd; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1317,6 +1299,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190309175919'),
 ('20190310231745'),
 ('20190311215457'),
-('20190311220541');
+('20190311220541'),
+('20190312010449');
 
 

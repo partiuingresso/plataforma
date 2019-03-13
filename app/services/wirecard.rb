@@ -137,33 +137,33 @@ module Wirecard
 		)
 	end
 
-	def self.create_account user, company
+	def self.create_account person, company
 		account = api.accounts.create(
 			{
 				email: {
-					address: user.email
+					address: person.email
 				},
 				person: {
-					name: user.first_name,
-					lastName: user.last_name,
+					name: person.first_name,
+					lastName: person.last_name,
 					taxDocument: {
 						type: "CPF",
-						number: user.cpf
+						number: person.document_number
 					},
-					birthDate: user.birthday.strftime("%Y-%m-%d"),
+					birthDate: person.birthdate.strftime("%Y-%m-%d"),
 					phone: {
 						countryCode: "55",
-						areaCode: user.phone_area_code.to_s,
-						number: user.phone_number.to_s
+						areaCode: person.phone_area_code.to_s,
+						number: person.phone_number.to_s
 					},
 					address: {
-						street: user.address.address,
-						streetNumber: user.address.number,
-						complement: user.address.complement,
-						district: user.address.district,
-						zipCode: user.address.zipcode.gsub(/[.-]/, ""),
-						city: user.address.city,
-						state: user.address.state,
+						street: person.address.address,
+						streetNumber: person.address.number,
+						complement: person.address.complement,
+						district: person.address.district,
+						zipCode: person.address.zipcode.gsub(/[.-]/, ""),
+						city: person.address.city,
+						state: person.address.state,
 						country: "BRA"
 					}
 				},
