@@ -148,7 +148,7 @@ module Wirecard
 					lastName: person.last_name,
 					taxDocument: {
 						type: "CPF",
-						number: person.document_number
+						number: person.document_number.gsub(/[.\-]/, "")
 					},
 					birthDate: person.birthdate.strftime("%Y-%m-%d"),
 					phone: {
@@ -161,7 +161,7 @@ module Wirecard
 						streetNumber: person.address.number,
 						complement: person.address.complement,
 						district: person.address.district,
-						zipCode: person.address.zipcode.gsub(/[.-]/, ""),
+						zipCode: person.address.zipcode.gsub(/[.\-]/, ""),
 						city: person.address.city,
 						state: person.address.state,
 						country: "BRA"
@@ -172,7 +172,7 @@ module Wirecard
 					businessName: company.business_name,
 					taxDocument: {
 						type: "CNPJ",
-						number: company.document_number
+						number: company.document_number.gsub(/[.\-\/]/, "")
 					},
 					phone: {
 						countryCode: "55",
@@ -184,7 +184,7 @@ module Wirecard
 						streetNumber: company.address.number,
 						complement: company.address.complement,
 						district: company.address.district,
-						zipCode: company.address.zipcode.gsub(/[.-]/, ""),
+						zipCode: company.address.zipcode.gsub(/[.\-]/, ""),
 						city: company.address.city,
 						state: company.address.state,
 						country: "BRA"

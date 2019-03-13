@@ -25,6 +25,7 @@
 //= stub events/modal
 //= stub toggle
 //= stub orders
-//= stub companies
-//= stub my_orders
 //= stub admin
+//= stub companies/new
+//= stub companies/show
+//= stub my_orders
