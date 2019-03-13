@@ -1,3 +1,4 @@
+<%= javascript_include_tag "admin" %>
 <section class="section hero">
   <div class="container hero-content">
   </div>
@@ -14,21 +15,53 @@
 
       <div class="column is-8">
         <p class="title is-size-2">Dashboard</p>
-        <div class="tile is-ancestor">
-          <div class="tile is-vertical is-parent is-8">
+        <div class="tile is-ancestor is-vertical">
+          <div class="tile is-parent is-12">
             <div class="tile box is-child">
-              <p class="subtitle">Usuário: <%= current_user.name.first %></p>
-              <p class="subtitle">Função: <%= current_user.role.to_s %></p>
-              <p class="subtitle">Empresa: <%= current_user.company.name %></p>
+              <div class="level user-data is-mobile">
+                <div class="level-left">
+                  <div class="level-item">
+                    <span class="icon has-text-primary"><i class="far fa-user"></i></span><span>User: <%= current_user.name.first %></span>
+                  </div>
+                  <div class="level-item">
+                    <span class="icon has-text-primary"><i class="far fa-id-badge"></i></span><span>Função: <%= current_user.role.to_s.humanize %></span>
+                  </div>
+                  <div class="level-item">
+                    <span class="icon has-text-primary"><i class="far fa-building"></i></span><span>Empresa: <%= current_user.company.name %></span>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <%= l Time.now, format: "%d de %B de %Y" %>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="tile is-parent">
-            <div class="tile is-child">
+            <div class="tile chart box is-child">
+              <p class="title is-4">Vendas nos últimos 28 dias</p>
+              <div class="tabs">
+                <ul>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Unidades</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
+                </ul>
+              </div>
+              <div id="chart_sales_count" class="tabcontent">
+                <%= line_chart charts_sales_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: "." %>
+              </div>
+              <div id="chart_sales_value" class="tabcontent">
+                <%= column_chart charts_sales_value_path,
+                colors: ["#F53237", "#DB3F4B"],
+                label: "Valor",
+                prefix: "R$ ",
+                thousands: ".",
+                decimal: ","
+                %>
+              </div>
             </div>
           </div>
         </div>
-
-
 
       </div>
     </div>
