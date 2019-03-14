@@ -42,8 +42,20 @@
         <div class="tile is-ancestor">
           <div class="tile is-parent is-4">
             <div class="tile box is-child">
-              <p class="title is-5">Valor em conta</p>
               <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <p class="title is-5">Valor em conta</p>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <%= link_to "Mais Info", company_path(current_user.company), class: "mais-info" %>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="level report mb mt">
                 <div class="level-item">
                   <span id="balance" class="blur"><%= @total_balance %></span>
                 </div>
@@ -56,7 +68,52 @@
           </div>
           <div class="tile is-parent">
             <div class="tile box is-child">
-              <p class="title is-5">Report por evento</p>
+              <div class="level report mb">
+                <div class="level-left">
+                  <div class="level-item">
+                    <p class="report mb title is-5">Report por evento</p>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <%= link_to "Ver todos", events_path, class: "mais-info" %>
+                  </div>
+                </div>
+              </div>
+              <% @events[0..1].each do |event| %>
+                <div class="level report events">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <span class="icon">
+                        <i class="fas fa-info-circle"></i>
+                      </span>
+                      <span><%= event.name %></span>
+                    </div>
+                    <div class="level-item">
+                      <span class="icon">
+                        <i class="far fa-calendar-alt"></i>
+                      </span>
+                      <span><%= l event.start_t, format: ("%d de %B de %Y") %></span>
+                    </div>
+                    <div class="level-item">
+                      <span class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                      </span>
+                      <span><%= event.address.city %>/<%= event.address.state %></span>
+                    </div>
+                  </div>
+                  <div class="level-right">
+                    <div class="level-item">
+                      <a>
+                        <span class="icon has-text-link">
+                          <i class="fas fa-chart-line"></i>
+                        </span>
+                        <span>Report Completo</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>

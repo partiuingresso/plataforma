@@ -16,6 +16,10 @@ class AdminController < ApplicationController
     @events = Event.where(company_id: current_user.company_id)
   end
 
+  def reports
+    @events = Event.where(company_id: current_user.company_id)
+  end
+
   def manage_company
     @user = current_user
     if @user.update(company_id: params[:company_id])

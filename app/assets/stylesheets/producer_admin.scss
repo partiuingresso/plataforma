@@ -16,3 +16,29 @@
   color: hsl(0, 0%, 71%);
   filter:blur(5px);
 }
+
+.report.mb {
+  margin-bottom: 0.5rem;
+}
+
+.report.mb.mt {
+  margin-top: 2rem;
+}
+
+.report.events {
+  background-color: hsl(0, 0%, 96%);
+  margin-bottom: 0.2rem;
+  padding: 0.25rem;
+  font-size: 0.7rem;
+  & .icon {
+    color: hsl(0, 0%, 48%);
+  }
+}
+
+.mais-info {
+  font-size: 0.75rem;
+  font-weight: 600;
+  & .icon {
+    font-size: 0.55rem;
+  }
+}
