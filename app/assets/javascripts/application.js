@@ -29,3 +29,4 @@
 //= stub companies/new
 //= stub companies/show
 //= stub my_orders
+//= stub tabs
