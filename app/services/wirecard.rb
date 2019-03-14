@@ -2,6 +2,7 @@ module Wirecard
 
 	autoload :Webhooks, 'webhooks'
 
+	@@app_id = Rails.application.credentials.dig(:wirecard_app_id)
 	token = Rails.application.credentials.dig(:wirecard_sandbox_api_token)
 	key = Rails.application.credentials.dig(:wirecard_sandbox_api_key)
 	access_token = Rails.application.credentials.dig(:wirecard_sandbox_api_access_token)
@@ -34,9 +35,15 @@ module Wirecard
 	end
 
 	@@notification = api.notifications.create(
-		events: ["ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED"],
-		target: url,
-		media: "WEBHOOK"
+		{
+			events: [
+				"ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED",
+				"TRANSFER.COMPLETED", "TRANSFER.FAILED"
+			],
+			target: url,
+			media: "WEBHOOK"
+		},
+		@@app_id
 	)
 
 	def self.notification_token
@@ -259,6 +266,7 @@ module Wirecard
 		company = transfer.company
 		transfer = api(company.moip_access_token).transfer.create(
 			{
+				ownId: transfer.id,
 				amount: transfer.amount_cents,
 				transferInstrument: {
 					method: "BANK_ACCOUNT",

@@ -533,7 +533,7 @@ CREATE TABLE public.transfers (
     company_id bigint NOT NULL,
     bank_account_id bigint NOT NULL,
     amount_cents integer NOT NULL,
-    fee_cents integer NOT NULL,
+    fee_cents integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     status public.transfer_status DEFAULT 'requested'::public.transfer_status NOT NULL
@@ -1300,6 +1300,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190310231745'),
 ('20190311215457'),
 ('20190311220541'),
-('20190312010449');
+('20190312010449'),
+('20190313213945');
 
 

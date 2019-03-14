@@ -28,6 +28,22 @@ class WebHooksController < ApplicationController
 				end
 			end
 
+			hook.on(:transfer, :completed) do
+				id = hook.resource.ownId.to_i
+				transfer = Transfer.find(id)
+				unless transfer.completed?
+					transfer.completed!
+				end
+			end
+
+			hook.on(:transfer, :failed) do
+				id = hook.resource.ownId.to_i
+				transfer = Transfer.find(id)
+				unless transfer.failed?
+					transfer.failed!
+				end
+			end
+
 			hook.missing do |model, event|
 				Rails.logger.warn "Não encontrado hook para o modelo #{model} e evento #{event}"
 			end	

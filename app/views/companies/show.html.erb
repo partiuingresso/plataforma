@@ -1,4 +1,4 @@
-<%= javascript_include_tag params[:controller], defer: true %>
+<%= javascript_include_tag File.join(params[:controller], "show"), defer: true %>
 <section class="section hero">
   <div class="container hero-content">
   </div>

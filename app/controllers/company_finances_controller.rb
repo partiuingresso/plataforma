@@ -26,12 +26,28 @@ class CompanyFinancesController < ApplicationController
 
 	def update
 		@company_finance.assign_attributes(company_finance_params)
-
-		if @company_finance.valid? && Wirecard::update_bank_account(@company_finance.company) && @company_finance.save
-			redirect_to edit_company_finance_path(@company_finance), notice: "Conta bancária atualizada com sucesso."
+		if @company_finance.bank_account.transfers.exists?
+			bank_account_attributes = @company_finance.bank_account.attributes
+			bank_account_attributes[:id] = nil
+			@company_finance.build_bank_account(bank_account_attributes)
+			moip_bank_account = Wirecard::create_bank_account @company_finance.company
+			unless moip_bank_account.respond_to?(:id) && moip_bank_account.id.present?
+				redirect_to new_company_finance_path, alert: "Ops... algo deu errado! Tente novamente." and return
+			end
+			@company_finance.bank_account.moip_id = moip_bank_account.id
+			if @company_finance.save
+				redirect_to edit_company_finance_path(@company_finance), notice: "Conta bancária atualizada com sucesso."
+			else
+				redirect_to edit_company_finance_path(@company_finance), alert: "Ops... algo deu errado! Tente novamente."
+			end
 		else
-			redirect_to edit_company_finance_path(@company_finance), alert: "Ops... algo deu errado! Tente novamente."
+			if @company_finance.valid? && Wirecard::update_bank_account(@company_finance.company) && @company_finance.save
+				redirect_to edit_company_finance_path(@company_finance), notice: "Conta bancária atualizada com sucesso."
+			else
+				redirect_to edit_company_finance_path(@company_finance), alert: "Ops... algo deu errado! Tente novamente."
+			end
 		end
+
 	end
 
 	private
