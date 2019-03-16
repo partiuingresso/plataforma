@@ -38,6 +38,10 @@ class Event < ApplicationRecord
 		Event.all.select { |event| event.start_t >= DateTime.now }
 	end
 
+	def self.history
+		Event.all.select { |event| event.start_t < DateTime.now }
+	end
+
 	private
 
 		def destroy_attached_files
