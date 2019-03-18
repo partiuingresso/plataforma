@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/webpacker": "^4.0.2",
     "activestorage": "^5.2.2-1",
-    "brazilian-values": "^0.3.0",
+    "brazilian-values": "^0.4.0",
     "browserify": "^14.0.0",
     "browserify-incremental": "^3.1.0",
     "bulma": "^0.7.4",
@@ -12,6 +12,7 @@
     "cep-promise": "^3.0.6",
     "chart.js": "^2.8.0",
     "chartkick": "^3.0.2",
+    "moip-sdk-js": "^2.1.1",
     "node-vibrant": "^3.2.0-alpha",
     "payment-formatter": "^1.0.4",
     "rails-erb-loader": "^5.5.2",
