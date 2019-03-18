@@ -1,10 +1,6 @@
-//= require Chart.bundle
-//= require chartkick
-
 // Show balance
-window.onload = function() {
-  showBalance();
-}
+showBalance();
+
 
 function showBalance() {
   var showBtn = document.querySelector(".button.show");

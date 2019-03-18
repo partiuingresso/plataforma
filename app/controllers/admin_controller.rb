@@ -17,7 +17,9 @@ class AdminController < ApplicationController
   end
 
   def report
-    @orders = Order.where(event_id: params[:id])
+    @id = params[:id]
+    @event = Event.find(@id)
+    @orders = Order.where(event_id: @event)
   end
 
   def manage_company
