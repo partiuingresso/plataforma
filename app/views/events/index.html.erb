@@ -5,54 +5,121 @@
 <section class="section">
 	<div class="container">
 		<div class="columns is-centered">
-	        <div class="column is-3">        
-	        	<%= render 'admin/producer_admin_menu' %>
-	        </div>
-	        <div class="column is-8 events-table">
-	        	<p class="title is-size-2">Meus Eventos</p>
+      <div class="column is-3">        
+      	<%= render 'admin/producer_admin_menu' %>
+      </div>
+      <div class="column is-8 events-table">
+      	<p class="title is-size-2">Meus Eventos</p>
+        <div class="tabs">
+          <ul>
+            <li class="tablinks" onclick="openTab(event, 'to_happen')"><a>Ativos</a></li>
+            <li class="tablinks" onclick="openTab(event, 'history')"><a>Histórico</a></li>
+          </ul>
+        </div>
 
-        		<table class="table is-fullwidth is-narrow is-striped is-hoverable">
-        			<thead>
-        				<th>Evento</th>
-        				<th>Quando</th>
-        				<th>Onde</th>
-        				<th>Editar</th>
-        				<th>Ver</th>
-                        <th>Apagar</th>
-        			</thead>
-        			<tbody>
-        				<% @events.each do |event| %>
-        				<tr>
-        					<td><%= event.name %></td>
-        					<td><%= event.start_t.strftime("%d/%m/%Y") %></td>
-                    <td><%= event.address.city %>-<%= event.address.state %></td>
-        					<td>
-								<%= link_to edit_event_path(event) do %>
-							        <span class="icon">
-								        <i class="fas fa-edit"></i>
-		        					</span>
-	        					<% end %>
-        					</td>
-        					<td>
-								<%= link_to event_path(event) do %>
-							        <span class="icon">
-		        						<i class="fas fa-external-link-alt"></i>
-		        					</span>
-	        					<% end %>
-        					</td>
-                            <td>
-                                <%= link_to event, method: :delete, data: { confirm: 'Deseja mesmo apagar este evento?' } do %>
-                                    <span class="icon">
-                                        <i class="far fa-trash-alt"></i>
-                                    </span>
-                                <% end %>
-                            </td>
-        				</tr>
-        				<% end %>
-        			</tbody>
-        		</table>
+        <div id="to_happen" class="tabcontent">
+      		<table class="table is-fullwidth is-narrow is-striped is-hoverable">
+      			<thead>
+      				<th>Evento</th>
+      				<th>Quando</th>
+      				<th>Onde</th>
+      				<th class="has-text-centered">Editar</th>
+      				<th class="has-text-centered">Ver</th>
+              <th class="has-text-centered">Report</th>
+              <th class="has-text-centered">Apagar</th>
+      			</thead>
+      			<tbody>
+      				<% @events.order(created_at: :desc).to_happen.each do |event| %>
+      				<tr>
+      					<td><%= event.name %></td>
+      					<td><%= event.start_t.strftime("%d/%m/%Y") %></td>
+                <td><%= event.address.city %>-<%= event.address.state %></td>
+      					<td class="has-text-centered">
+							    <%= link_to edit_event_path(event) do %>
+						        <span class="icon">
+							        <i class="fas fa-edit"></i>
+	        					</span>
+        					<% end %>
+      					</td>
+      					<td class="has-text-centered">
+							    <%= link_to event_path(event) do %>
+						        <span class="icon">
+	        						<i class="fas fa-external-link-alt"></i>
+	        					</span>
+        					<% end %>
+      					</td>
+                <td class="has-text-centered">
+                  <%= link_to report_path(event) do %>
+                    <span class="icon">
+                        <i class="fas fa-chart-line"></i>
+                    </span>
+                  <% end %>
+                </td>
+                <td class="has-text-centered">
+                  <%= link_to event, method: :delete, data: { confirm: 'Deseja mesmo apagar este evento?' } do %>
+                    <span class="icon trash">
+                        <i class="far fa-trash-alt"></i>
+                    </span>
+                  <% end %>
+                </td>
+      				</tr>
+      				<% end %>
+      			</tbody>
+      		</table>
+        </div>
 
-	        </div>
+        <div id="history" class="tabcontent">
+          <table class="table is-fullwidth is-narrow is-striped is-hoverable">
+            <thead>
+              <th>Evento</th>
+              <th>Quando</th>
+              <th>Onde</th>
+              <th class="has-text-centered">Editar</th>
+              <th class="has-text-centered">Ver</th>
+              <th class="has-text-centered">Report</th>
+              <th class="has-text-centered">Apagar</th>
+            </thead>
+            <tbody>
+              <% @events.order(created_at: :desc).history.each do |event| %>
+              <tr>
+                <td><%= event.name %></td>
+                <td><%= event.start_t.strftime("%d/%m/%Y") %></td>
+                <td><%= event.address.city %>-<%= event.address.state %></td>
+                <td class="has-text-centered">
+                  <%= link_to edit_event_path(event) do %>
+                    <span class="icon">
+                      <i class="fas fa-edit"></i>
+                    </span>
+                  <% end %>
+                </td>
+                <td class="has-text-centered">
+                  <%= link_to event_path(event) do %>
+                    <span class="icon">
+                      <i class="fas fa-external-link-alt"></i>
+                    </span>
+                  <% end %>
+                </td>
+                <td class="has-text-centered">
+                  <%= link_to report_path(event) do %>
+                    <span class="icon">
+                        <i class="fas fa-chart-line"></i>
+                    </span>
+                  <% end %>
+                </td>
+                <td class="has-text-centered">
+                  <%= link_to event, method: :delete, data: { confirm: 'Deseja mesmo apagar este evento?' } do %>
+                    <span class="icon trash">
+                        <i class="far fa-trash-alt"></i>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
 		</div>
 	</div>
 </section>

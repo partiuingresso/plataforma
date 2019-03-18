@@ -82,6 +82,16 @@ svg.fa-play:hover {
   margin-left: 2rem;
 }
 
+// Index
+
+.icon.trash {
+  color: hsl(0, 0%, 48%);
+}
+
+.icon.trash:hover {
+  color: unset;
+}
+
 // Video Modal
 
 .video-background {

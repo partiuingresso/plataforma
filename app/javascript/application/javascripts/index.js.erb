@@ -17,6 +17,7 @@ window.toggle = toggle;
 import { initMap } from './events/maps';
 window.initMap = initMap;
 
+
 var location = window.location.pathname;
 
 if(location.includes("users/signup")) {
@@ -37,6 +38,8 @@ if(location.includes("users/signup")) {
 	import(/* webpackChunkName: "show-companies" */ "./companies/show");
 } else if(location.includes("orders/")) {
 	import(/* webpackChunkName: "companies" */ "./my_orders");
+} else if(location.includes("report/")) {
+	import(/* webpackChunkName: "report" */ "./report");
 }
 
 //= require trix

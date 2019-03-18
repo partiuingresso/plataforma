@@ -1,0 +1,46 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section report">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-3">
+        <%= render 'admin/producer_admin_menu' %>
+      </div>
+      <div class="column is-8">
+        <p><span class="title is-3">Report de </span><em class="thin is-size-3 has-text-primary"><%= @event.name %></em></p>
+        <p class="subtitle is-uppercase is-6"><%= l @event.start_t, format: ("%d de %B de %Y") %> - <%= @event.address.city %>/<%= @event.address.state %></p>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-12">
+            <div class="tile chart box is-child">
+              <p class="title is-5">Vendas em todo o período de atividade</p>
+              <%= Time.zone.now %>
+              <div class="tabs">
+                <ul>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Unidades</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
+                </ul>
+              </div>
+              <div id="chart_sales_count" class="tabcontent">
+                <%= line_chart charts_report_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: "." %>
+              </div>
+              <div id="chart_sales_value" class="tabcontent">
+                <%= column_chart charts_report_value_path,
+                colors: ["#F53237", "#DB3F4B"],
+                label: "Valor",
+                prefix: "R$ ",
+                thousands: ".",
+                decimal: ","
+                %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>

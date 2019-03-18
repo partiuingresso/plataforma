@@ -10,4 +10,14 @@ class ChartsController < ApplicationController
     @orders = Order.where(event_id: @events)
     render json: @orders.approved.group_by_day(:created_at, last: 28, format: "%d %b").sum('subtotal_cents / 100')
   end
+
+  def report_count
+    @orders = Order.where(event_id: params[:id])
+    render json: @orders.approved.group_by_day(:created_at).count
+  end
+
+  def report_value
+    @orders = Order.where(event_id: params[:id])
+    render json: @orders.approved.group_by_day(:created_at, format: "%d %b, %y").sum('subtotal_cents / 100')
+  end
 end

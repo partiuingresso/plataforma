@@ -2,11 +2,8 @@ import { openTab } from "./tabs";
 window.openTab = openTab;
 
 // Show balance
-window.onload = function() {
-  showBalance();
-  var mybtn = document.getElementsByClassName("tablinks")[0];
-  mybtn.click();
-}
+showBalance();
+
 
 function showBalance() {
   var showBtn = document.querySelector(".button.show");

@@ -13,11 +13,13 @@ class AdminController < ApplicationController
     balances = Wirecard::show_balances current_user.company
     total = balances.future.first.amount + balances.unavailable.first.amount + balances.current.first.amount
     @total_balance = Money.new(total).format
-    @events = Event.where(company_id: current_user.company_id)
+    @events = Event.where(company_id: current_user.company_id).order(created_at: :desc).to_happen
   end
 
-  def reports
-    @events = Event.where(company_id: current_user.company_id)
+  def report
+    @id = params[:id]
+    @event = Event.find(@id)
+    @orders = Order.where(event_id: @event)
   end
 
   def manage_company

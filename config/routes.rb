@@ -16,11 +16,14 @@ Rails.application.routes.draw do
 
   get '/backoffice', to: 'admin#admin'
   get '/backstage', to: 'admin#producer_admin'
+  get '/report/:id', to: 'admin#report', as: 'report'
   get '/manage_company/:company_id', to: 'admin#manage_company', as: "manage_company"
 
   namespace :charts do
-    get "sales-count"
-    get "sales-value"
+    get 'sales-count'
+    get 'sales-value'
+    get 'report-count/:id', action: 'report_count', as: 'report-count'
+    get 'report-value/:id', action: 'report_value', as: 'report_value'
   end
 
   resources :events
