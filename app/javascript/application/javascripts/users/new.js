@@ -1,14 +1,14 @@
-//= require utils/validation
+import * as Validation from "../utils/validation";
 
 /*
  * Validations
  */
 
-setValidateStyles('is-danger', 'active');
+Validation.setValidateStyles('is-danger', 'active');
 
 var form = document.getElementsByTagName('form')[0];
 form.addEventListener('submit', function(event) {
-	clearErrorStyles();
+	Validation.clearErrorStyles();
 
 	var validate = validateNameField();
 	validate = validateEmailField() && validate;
@@ -26,15 +26,15 @@ function validateNameField() {
 	var valid = true;
 	var nameInput = document.getElementById('user_name');
 
-	if(inputFilled(nameInput)) {
-		if(!validCompleteName(nameInput.value)) {
+	if(Validation.inputFilled(nameInput)) {
+		if(!Validation.validCompleteName(nameInput.value)) {
 			var invalidNameError = document.getElementById('invalid_name_error');
-			invalidInput(nameInput, invalidNameError);
+			Validation.invalidInput(nameInput, invalidNameError);
 			valid = false;
 		}
 	} else {
 		var blankNameError = document.getElementById('blank_name_error');
-		invalidInput(nameInput, blankNameError);
+		Validation.invalidInput(nameInput, blankNameError);
 		valid = false;
 	}
 
@@ -45,15 +45,15 @@ function validateEmailField() {
 	var valid = true;
 	var emailInput = document.getElementById('user_email');
 
-	if(inputFilled(emailInput)) {
-		if(!validEmail(emailInput.value)) {
+	if(Validation.inputFilled(emailInput)) {
+		if(!Validation.validEmail(emailInput.value)) {
 			var invalidEmailError = document.getElementById('invalid_email_error');
-			invalidInput(emailInput, invalidEmailError);
+			Validation.invalidInput(emailInput, invalidEmailError);
 			valid = false;
 		}
 	} else {
 		var blankEmailError = document.getElementById('blank_email_error');
-		invalidInput(emailInput, blankEmailError);
+		Validation.invalidInput(emailInput, blankEmailError);
 		valid = false;
 	}
 
@@ -64,15 +64,15 @@ function validatePasswordField() {
 	var valid = true;
 	var passwordInput = document.getElementById('user_password');
 
-	if(inputFilled(passwordInput)) {
-		if(!validPassword(passwordInput.value)) {
+	if(Validation.inputFilled(passwordInput)) {
+		if(!Validation.validPassword(passwordInput.value)) {
 			var invalidPasswordError = document.getElementById('invalid_password_error');
-			invalidInput(passwordInput, invalidPasswordError);
+			Validation.invalidInput(passwordInput, invalidPasswordError);
 			valid = false;
 		}
 	} else {
 		var blankPasswordError = document.getElementById('blank_password_error');
-		invalidInput(passwordInput, blankPasswordError);
+		Validation.invalidInput(passwordInput, blankPasswordError);
 		valid = false;
 	}
 

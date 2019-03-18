@@ -1,24 +1,25 @@
-//= require utils/validation
-//= require utils/input_mask
+
+import * as Validation from '../utils/validation';
+import * as InputMask from '../utils/input_mask';
 
 /*
  * Input masks
  */
 
-cpfMask(document.getElementById('user_cpf'));
+InputMask.cpfMask(document.getElementById('user_cpf'));
 
 /*
  * Validations
  */
 
 var cpfInput = document.getElementById('user_cpf');
-cpfExists = inputFilled(cpfInput);
+cpfExists = Validation.inputFilled(cpfInput);
 
-setValidateStyles('is-danger', 'active');
+Validation.setValidateStyles('is-danger', 'active');
 
 var form = document.getElementsByTagName('form')[0];
 form.addEventListener('submit', function(event) {
-	clearErrorStyles();
+	Validation.clearErrorStyles();
 
 
 	var validate = validateNameField();
@@ -41,12 +42,12 @@ function validateNameField() {
 	if(inputFilled(nameInput)) {
 		if(!validCompleteName(nameInput.value)) {
 			var invalidNameError = document.getElementById('invalid_name_error');
-			invalidInput(nameInput, invalidNameError);
+			Validation.invalidInput(nameInput, invalidNameError);
 			valid = false;
 		}
 	} else {
 		var blankNameError = document.getElementById('blank_name_error');
-		invalidInput(nameInput, blankNameError);
+		Validation.invalidInput(nameInput, blankNameError);
 		valid = false;
 	}
 
@@ -57,15 +58,15 @@ function validateEmailField() {
 	var valid = true;
 	var emailInput = document.getElementById('user_email');
 
-	if(inputFilled(emailInput)) {
-		if(!validEmail(emailInput.value)) {
+	if(Validation.inputFilled(emailInput)) {
+		if(!Validation.validEmail(emailInput.value)) {
 			var invalidEmailError = document.getElementById('invalid_email_error');
-			invalidInput(emailInput, invalidEmailError);
+			Validation.invalidInput(emailInput, invalidEmailError);
 			valid = false;
 		}
 	} else {
 		var blankEmailError = document.getElementById('blank_email_error');
-		invalidInput(emailInput, blankEmailError);
+		Validation.invalidInput(emailInput, blankEmailError);
 		valid = false;
 	}
 
@@ -74,16 +75,16 @@ function validateEmailField() {
 
 function validateCpfField() {
 	var valid = true;
-	if(inputFilled(cpfInput)) {
+	if(Validation.inputFilled(cpfInput)) {
 		const expression = /^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/i;
 		if(!expression.test(cpfInput.value)) {
 			var invalidCpfError = document.getElementById('invalid_cpf_error');
-			invalidInput(cpfInput, invalidCpfError);
+			Validation.invalidInput(cpfInput, invalidCpfError);
 			valid = false;
 		}
 	} else if(cpfExists) {
 		var blankCpfError = document.getElementById('blank_cpf_error');
-		invalidInput(cpfInput, blankCpfError);
+		Validation.invalidInput(cpfInput, blankCpfError);
 		valid = false;
 	}
 
@@ -94,8 +95,8 @@ function validatePasswordField() {
 	var passwordInput = document.getElementById('user_current_password');
 	var blankPasswordError = document.getElementById('blank_current_password_error');
 
-	if(!inputFilled(passwordInput)) {
-		invalidInput(passwordInput, blankPasswordError);
+	if(!Validation.inputFilled(passwordInput)) {
+		Validation.invalidInput(passwordInput, blankPasswordError);
 
 		return false;
 	}

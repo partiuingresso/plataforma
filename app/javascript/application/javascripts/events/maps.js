@@ -1,4 +1,4 @@
-function initMap(lat, lng) {
+export function initMap(lat, lng) {
     var myCoords = new google.maps.LatLng(lat, lng);
     var mapOptions = {
     center: myCoords,

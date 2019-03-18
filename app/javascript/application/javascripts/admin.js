@@ -1,9 +1,11 @@
-//= require Chart.bundle
-//= require chartkick
+import { openTab } from "./tabs";
+window.openTab = openTab;
 
 // Show balance
 window.onload = function() {
   showBalance();
+  var mybtn = document.getElementsByClassName("tablinks")[0];
+  mybtn.click();
 }
 
 function showBalance() {

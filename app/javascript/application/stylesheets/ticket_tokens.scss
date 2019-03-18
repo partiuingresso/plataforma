@@ -16,11 +16,11 @@
 }
 
 .object-mask {
-  -webkit-mask-image: image-url('tickets/mask.svg');
+  -webkit-mask-image: url('../images/tickets/mask.svg');
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 320px;
   -webkit-mask-position: center;
-  mask-image: image-url('tickets/mask.svg');
+  mask-image: url('../images/tickets/mask.svg');
   mask-repeat: no-repeat;
   mask-size: 320px;
   mask-position: center;

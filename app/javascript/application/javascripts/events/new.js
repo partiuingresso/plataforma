@@ -1,4 +1,5 @@
-//=require simple-mask-money/lib/simple-mask-money
+import SimpleMaskMoney from 'simple-mask-money';
+
 var html = document.querySelector('html');
 var modal = document.getElementById('offer-modal');
 var table = document.getElementById('offers-table');

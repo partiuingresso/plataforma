@@ -2,12 +2,24 @@
   "name": "plataforma",
   "private": true,
   "dependencies": {
+    "@rails/webpacker": "^4.0.2",
+    "activestorage": "^5.2.2-1",
     "brazilian-values": "^0.3.0",
     "browserify": "^14.0.0",
     "browserify-incremental": "^3.1.0",
+    "bulma": "^0.7.4",
+    "bulma-carousel": "^4.0.2",
     "cep-promise": "^3.0.6",
+    "chart.js": "^2.8.0",
+    "chartkick": "^3.0.2",
     "node-vibrant": "^3.2.0-alpha",
     "payment-formatter": "^1.0.4",
-    "simple-mask-money": "^2.0.1"
+    "rails-erb-loader": "^5.5.2",
+    "rails-ujs": "^5.2.2-1",
+    "simple-mask-money": "^2.0.1",
+    "webpack": "^4.29.6"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.2.1"
   }
 }

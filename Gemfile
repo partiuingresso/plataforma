@@ -13,14 +13,10 @@ gem 'devise'
 gem 'name_of_person'
 # Authorization
 gem 'cancancan', '~> 2.0'
-# Use bulma CSS framework
-gem "bulma-rails", "~> 0.7.2"
 # Use Geocoder to retrieve lat and long addresses
 gem 'geocoder'
 # Use Trix Rich Text Editor
 gem 'trix-rails', require: 'trix'
-# Use browserify (change to Webpacker asap)
-gem 'browserify-rails'
 # Use PG_Search to do simple searches
 gem 'pg_search'
 # Group data to serve dashboard
@@ -63,6 +59,9 @@ gem "moip2"
 
 # Money rails
 gem 'money-rails', '~>1.12'
+
+# Webpacker
+gem 'webpacker', '~> 4.x'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

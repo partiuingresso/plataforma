@@ -1,4 +1,4 @@
-function toggle() {
+export function toggle() {
   let toggles = document.querySelectorAll('.toggle');
   let dismiss = document.querySelectorAll('.dismiss');
   for(let t of toggles) {
