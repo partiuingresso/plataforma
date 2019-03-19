@@ -1,3 +1,4 @@
+import "trix";
 import SimpleMaskMoney from 'simple-mask-money';
 
 var html = document.querySelector('html');
