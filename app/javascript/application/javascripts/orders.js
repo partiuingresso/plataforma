@@ -1,8 +1,8 @@
-//= require moip/moip-sdk-js
-//=require creditcard-warder/creditcard-warder.min
-//=require brazilian-values/dist/brazilian-values
-//=require payment-formatter/umd/index.min
-//=require cep-promise/dist/cep-promise-browser
+import { MoipCreditCard } from 'moip-sdk-js';
+import cep from 'cep-promise';
+import * as brazilValues from 'brazilian-values';
+import paymentFormatter from 'payment-formatter';
+import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
 
 var installmentSelect = document.getElementById('payment_installment_count');
 installmentSelect.addEventListener('change', function() {
@@ -31,7 +31,7 @@ form.addEventListener('submit', function(e) {
 	var expMonthValue = expirationDate[0];
 	var expYearValue = expirationDate[1];
 
-	MoipSdkJs.MoipCreditCard
+	MoipCreditCard
 		.setPubKey(pubKey)
 		.setCreditCard({
 			number: cardNumberValue,
@@ -45,9 +45,6 @@ form.addEventListener('submit', function(e) {
 			hashInput.value = hash;
 		});
 });
-
-var cepPromise = require('cep-promise');
-var brazilValues = require('brazilian-values');
 
 var cardInput = document.getElementById('card-number');
 var cvcInput = document.getElementById('cvc');

@@ -1648,10 +1648,10 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-brazilian-values@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/brazilian-values/-/brazilian-values-0.3.0.tgz#d245361bbf21010c9696e5c4ac0b16f3120fd72c"
-  integrity sha512-nsZ6ZeNjujrEFmKRk8q9ETEun2euutSb2zsLl7mgp1dHD6i08VJ+aMDfRH+Wcp4mzGF6GyDERhADxjJLT1nuLw==
+brazilian-values@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/brazilian-values/-/brazilian-values-0.4.0.tgz#29aeaed4e53064eae8bc8375d8b3f164f69dad5c"
+  integrity sha512-znjWoA90V/geWw1G6wAJFNczG8fibH0T+8zi0e6+6JiF/ht8ayw/Y7ftVKsoRXlutpBDFhNfZfAWf7aR6Z4+Qg==
 
 brorand@^1.0.1:
   version "1.1.0"
@@ -4871,6 +4871,11 @@ module-deps@^4.0.8:
     subarg "^1.0.0"
     through2 "^2.0.0"
     xtend "^4.0.0"
+
+moip-sdk-js@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/moip-sdk-js/-/moip-sdk-js-2.1.1.tgz#822b59911afd4c2f00e9af2c81df4ac09cad0eb1"
+  integrity sha512-/ontlwJcrMNm0yLPsu5aj8AsxeBVVosiR8wbKOZqQDe9fj0iN0P56+UKR9XX9GWuEYmw/PmNSoStrTxu6CbuTQ==
 
 moment@^2.10.2:
   version "2.24.0"
