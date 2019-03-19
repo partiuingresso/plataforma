@@ -11,8 +11,13 @@ class AdminController < ApplicationController
 
   def producer_admin
     balances = Wirecard::show_balances current_user.company
-    total = balances.future.first.amount + balances.unavailable.first.amount + balances.current.first.amount
-    @total_balance = Money.new(total).format
+    if balances.respond_to?(:future) && balances.future.present?
+      total = balances.future.first.amount + balances.unavailable.first.amount + balances.current.first.amount
+      @total_balance = Money.new(total).format
+    else
+      @total_balance = "Not Responding."
+    end
+    
     @events = Event.where(company_id: current_user.company_id).order(created_at: :desc).to_happen
   end
 
