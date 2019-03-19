@@ -17,9 +17,13 @@ class AdminController < ApplicationController
   end
 
   def report
-    @id = params[:id]
-    @event = Event.find(@id)
-    @orders = Order.where(event_id: @event)
+    @event = Event.find(params[:id])
+    if params[:offer].present?
+      @offer = Offer.find(params[:offer])
+      @orders = @offer.orders
+    else
+      @orders = Order.where(event_id: @event)
+    end
   end
 
   def manage_company

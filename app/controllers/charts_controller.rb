@@ -12,12 +12,24 @@ class ChartsController < ApplicationController
   end
 
   def report_count
-    @orders = Order.where(event_id: params[:id])
+    offer = params[:offer]
+    if offer.present?
+      @offer = Offer.find(offer)
+      @orders = @offer.orders
+    else
+      @orders = Order.where(event_id: params[:id])
+    end
     render json: @orders.approved.group_by_day(:created_at).count
   end
 
   def report_value
-    @orders = Order.where(event_id: params[:id])
+    offer = params[:offer]
+    if offer.present?
+      @offer = Offer.find(offer)
+      @orders = @offer.orders
+    else
+      @orders = Order.where(event_id: params[:id])
+    end
     render json: @orders.approved.group_by_day(:created_at, format: "%d %b, %y").sum('subtotal_cents / 100')
   end
 end

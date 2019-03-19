@@ -1,6 +1,7 @@
 class Offer < ApplicationRecord
 	belongs_to :event
 	has_many :order_items
+	has_many :orders, through: :order_items
 
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :description, length: { maximum: 500 }, allow_blank: true
@@ -17,6 +18,10 @@ class Offer < ApplicationRecord
 
 	def price_with_service_fee_cents
 		self.price_cents * (1 + Business::Finance::ServiceFee)
+	end
+
+	def name_with_allotment
+		self.name + " - Lote: " + self.allotment.to_s
 	end
 
 	private

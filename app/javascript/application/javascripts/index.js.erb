@@ -40,6 +40,7 @@ if(location.includes("users/signup")) {
 	import(/* webpackChunkName: "companies" */ "./my_orders");
 } else if(location.includes("report/")) {
 	import(/* webpackChunkName: "report" */ "./report");
+	import(/* webpackChunkName: "companies" */ "./my_orders");
 }
 
 //= require trix
