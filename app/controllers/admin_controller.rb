@@ -29,6 +29,10 @@ class AdminController < ApplicationController
     else
       @orders = Order.where(event_id: @event)
     end
+
+    @total = @orders.approved.present? ? @orders.approved.sum(&:subtotal).format : "R$0,00"
+    @total_pending = @orders.pending.present? ? @orders.pending.sum(&:subtotal).format : "R$0,00"
+
     respond_to do |format|
       format.html
       format.csv { send_data @orders.to_csv, filename: "orders-#{Date.today}.csv" }

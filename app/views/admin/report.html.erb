@@ -54,21 +54,6 @@
         <div class="columns is-centered">
           <div class="column is-4">
             <div class="level box">
-              <div class="level-item has-text-centered">
-                <span class="icon is-large has-text-info">
-                  <i class="fas fa-2x fa-file-invoice-dollar"></i>
-                </span>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="title is-7">TOTAL BRUTO</p>
-                  <%= @orders.approved.sum(&:total).format %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column is-4">
-            <div class="level box">
               <div class="level-item">
                 <span class="icon is-large has-text-success">
                   <i class="fas fa-3x fa-dollar-sign"></i>
@@ -77,7 +62,7 @@
               <div class="level-item has-text-centered">
                 <div>
                   <p class="title is-7">TOTAL LÍQUIDO</p>
-                  <%= @orders.approved.sum(&:subtotal).format %>
+                  <%= @total %>
                 </div>
               </div>
             </div>
@@ -92,14 +77,27 @@
               <div class="level-item has-text-centered">
                 <div>
                   <p class="title is-7">TOTAL PENDENTE</p>
-                  <%= @orders.pending.sum(&:total).format %>
+                  <%= @total_pending %>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <hr />
-        <p><span class="title is-4">Lista dos pedidos</span></p><br />
+        <div class="columns">
+          <div class="column">
+            <p><span class="title is-4">Lista dos pedidos</span></p>
+          </div>
+          <div class="column is-narrow">
+            <%= link_to request.params.merge(format: :csv) do %>
+            <span class="icon is-small has-text-success">
+              <i class="far fa-file-excel"></i>
+            </span>
+            <span class="content is-small">Exportar para CSV</span>
+            <% end %>
+          </div>
+        </div>
+        <br />
         <table class="table orders is-hoverable is-fullwidth">
           <thead>
             <tr>
@@ -107,7 +105,7 @@
               <th>Nome</th>
               <th>Nº do Pedido</th>
               <th class="has-text-centered">Qtd.</th>
-              <th class="has-text-centered">Total</th>
+              <th class="has-text-centered">Receita</th>
               <th class="has-text-centered">Status</th>
             </tr>
           </thead>
@@ -130,7 +128,7 @@
                   <%= order.total_quantity %>
                 </td>
                 <td class="has-text-centered">
-                  <%= order.total.format %>
+                  <%= order.subtotal.format %>
                 </td>
                 <td class="has-text-centered">
                   <% if order.pending? %>
