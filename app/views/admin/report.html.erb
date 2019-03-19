@@ -24,7 +24,7 @@
                 </ul>
               </div>
               <div id="chart_sales_count" class="tabcontent">
-                <%= line_chart charts_report_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: "." %>
+                <%= line_chart charts_report_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
               </div>
               <div id="chart_sales_value" class="tabcontent">
                 <%= column_chart charts_report_value_path,
@@ -32,7 +32,8 @@
                 label: "Valor",
                 prefix: "R$ ",
                 thousands: ".",
-                decimal: ","
+                decimal: ",",
+                defer: true
                 %>
               </div>
             </div>
