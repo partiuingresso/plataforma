@@ -51,6 +51,54 @@
             </div>
           </div>
         </div>
+        <div class="columns is-centered">
+          <div class="column is-4">
+            <div class="level box">
+              <div class="level-item has-text-centered">
+                <span class="icon is-large has-text-info">
+                  <i class="fas fa-2x fa-file-invoice-dollar"></i>
+                </span>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-7">TOTAL BRUTO</p>
+                  <%= @orders.approved.sum(&:total).format %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="level box">
+              <div class="level-item">
+                <span class="icon is-large has-text-success">
+                  <i class="fas fa-3x fa-dollar-sign"></i>
+                </span>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-7">TOTAL LÍQUIDO</p>
+                  <%= @orders.approved.sum(&:subtotal).format %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="level box">
+              <div class="level-item">
+                <span class="icon is-large has-text-warning">
+                  <i class="far fa-2x fa-clock"></i>
+                </span>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-7">TOTAL PENDENTE</p>
+                  <%= @orders.pending.sum(&:total).format %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
         <p><span class="title is-4">Lista dos pedidos</span></p><br />
         <table class="table orders is-hoverable is-fullwidth">
           <thead>

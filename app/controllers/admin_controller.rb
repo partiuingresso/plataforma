@@ -29,6 +29,10 @@ class AdminController < ApplicationController
     else
       @orders = Order.where(event_id: @event)
     end
+    respond_to do |format|
+      format.html
+      format.csv { send_data @orders.to_csv, filename: "orders-#{Date.today}.csv" }
+    end
   end
 
   def manage_company
