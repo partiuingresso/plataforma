@@ -1,17 +1,18 @@
-var cart = document.querySelector('.offers.card');
-var modal = document.querySelector('.modal');
+var cartbtn = document.querySelector('.cart-btn');
+var videobtn = document.querySelector('.video-btn');
+
 var html = document.documentElement;
 
-if(cart) {
+if(cartbtn) {
   cartInit();
 }
 
-if(modal) {
+if(videobtn) {
   modalInit();
 }
 
 function cartInit() {
-  let cartbtn = document.querySelector('.cart-btn');
+  var cart = document.querySelector('.offers.card');
   let hidecart = document.querySelector('.hide-cart');
   let body = document.body;
   let footer = document.querySelector('.footer');
@@ -28,7 +29,7 @@ function cartInit() {
 }
 
 function modalInit() {
-  var videobtn = document.querySelector('.video-btn');
+  var modal = document.querySelector('.modal');
   var modalclose = document.querySelector('.modal-close');
   var video = document.getElementById('video');
   videobtn.addEventListener('click', function() {
