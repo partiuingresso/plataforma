@@ -4,11 +4,14 @@ import * as ActiveStorage from 'activestorage';
 Rails.start();
 ActiveStorage.start();
 
-// TODO: importart chartkick somente na página do dashboard (backstage)
-import Chartkick from "chartkick";
+import * as bulmaToast from 'bulma-toast';
+window.bulmaToast = bulmaToast;
+
+// TODO: importar chartkick somente na página do dashboard (backstage)
+import Chartkick from 'chartkick';
 window.Chartkick = Chartkick;
 
-import Chart from "chart.js";
+import Chart from 'chart.js';
 Chartkick.addAdapter(Chart);
 
 import { toggle } from './toggle';
@@ -20,31 +23,29 @@ window.initMap = initMap;
 
 var location = window.location.pathname;
 
-if(location.includes("users/signup")) {
-	import(/* webpackChunkName: "new-users" */ "./users/new");
+if(location.includes('users/signup')) {
+	import(/* webpackChunkName: "new-users" */ './users/new');
 } else if(location.includes("/users/edit")) {
-	import(/* webpackChunkName: "edit-users" */ "./users/edit");
-} else if(location.includes("/events/new") || location.includes("events/edit")) {
+	import(/* webpackChunkName: "edit-users" */ './users/edit');
+} else if(location.includes('/events/new') || location.includes('events/edit')) {
 	import(/* webpackChunkName: "new&edit-events" */ "./events/new");
-} else if(location.includes("/events/")) {
-	import(/* webpackChunkName: "show-events" */ "./events/show");
-} else if(location.includes("/orders/new")) {
-	import(/* webpackChunkName: "new-orders" */ "./orders");
-} else if(location.includes("/backstage")) {
-	import(/* webpackChunkName: "admin" */ "./admin");
-} else if(location.includes("/companies/new")) {
-	import(/* webpackChunkName: "new-companies" */ "./companies/new");
-} else if(location.includes("/companies")) {
-	import(/* webpackChunkName: "show-companies" */ "./companies/show");
-} else if(location.includes("/orders")) {
-	import(/* webpackChunkName: "orders" */ "./my_orders");
-} else if(location.includes("/report")) {
-	import(/* webpackChunkName: "report" */ "./report");
-	import(/* webpackChunkName: "orders" */ "./my_orders");
-} else if(location.includes("/tickets")) {
-	import(/* webpackChunkName: "tickets" */ "./ticket_tokens");
-} else if(location.includes("tickets/validations/new")) {
-	import(/* webpackChunkName: "new-validations" */ "./validations");
+} else if(location.includes('/events/')) {
+	import(/* webpackChunkName: "show-events" */ './events/show');
+} else if(location.includes('/orders/new')) {
+	import(/* webpackChunkName: "new-orders" */ './orders');
+} else if(location.includes('/backstage')) {
+	import(/* webpackChunkName: "admin" */ './admin');
+} else if(location.includes('/companies/new')) {
+	import(/* webpackChunkName: "new-companies" */ './companies/new');
+} else if(location.includes('/companies/')) {
+	import(/* webpackChunkName: "show-companies" */ './companies/show');
+} else if(location.includes('/orders')) {
+	import(/* webpackChunkName: "orders" */ './my_orders');
+} else if(location.includes('/report')) {
+	import(/* webpackChunkName: "report" */ './report');
+	import(/* webpackChunkName: "orders" */ './my_orders');
+} else if(location.includes('/tickets')) {
+	import(/* webpackChunkName: "tickets" */ './ticket_tokens');
+} else if(location.includes('tickets/validations/new')) {
+	import(/* webpackChunkName: "new-validations" */ './validations');
 }
-
-// import "<%%= File.join(Gem.loaded_specs['trix'].full_gem_path, 'app', 'assets', 'javascripts', 'myfile') %>";

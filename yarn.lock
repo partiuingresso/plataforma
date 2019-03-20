@@ -1864,6 +1864,11 @@ bulma-carousel@^4.0.2:
   resolved "https://registry.yarnpkg.com/bulma-carousel/-/bulma-carousel-4.0.3.tgz#5f283d407443a93f4e1616df0638380089215d4b"
   integrity sha512-60jDQiXa8cbN9EPVOVbifKWpKd7ipci0B4OzzuldACU8xwePzlZwmDyhq1mK6P2KlpfwAU0hUcVYaSehs11REg==
 
+bulma-toast@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-1.5.1.tgz#a88a4c0aee224b6344dfa5dfbcc49f7a25e865d1"
+  integrity sha512-RgJ9jaQmN418PySZSMHk9ukG6gOpmPu5U96ahe21kgaN3jS6FoA1T8RLu3v73GSLGIAfayyVS73hbR71lh7fug==
+
 bulma@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"

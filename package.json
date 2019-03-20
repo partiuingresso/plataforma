@@ -9,6 +9,7 @@
     "browserify-incremental": "^3.1.0",
     "bulma": "^0.7.4",
     "bulma-carousel": "^4.0.2",
+    "bulma-toast": "^1.5.1",
     "cep-promise": "^3.0.6",
     "chart.js": "^2.8.0",
     "chartkick": "^3.0.2",
