@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
   get 'tickets', to: 'ticket_tokens#index'
+  get 'tickets/validations/new', to: 'ticket_tokens#new_validation'
+  post 'tickets/validations', to: 'ticket_tokens#create_validation'
   get 'ticket/:id', to: 'ticket_tokens#show'
 
   resources :company_finances, only: [:new, :create, :edit, :update]

@@ -1,0 +1,17 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+<section class="section">
+	<div class="container">
+		<div class="columns is-centered">
+			<div class="column">
+				<video muted playsinline id="qr-video"></video>
+				<%= form_with(id: "new_validation", model: @ticket_token, url: tickets_validations_path) do |f|%>
+					<%= f.hidden_field :code %>
+				<% end %>
+				<p id="validation-result"></p>
+			</div>
+		</div>
+	</div>
+</section>

@@ -14,6 +14,12 @@ class Ability
         can [:read, :create], Order, user_id: user.id
     end
 
+    unless user.guest? || user.user?
+        can [:new_validation, :create_validation], TicketToken do |ticket_token|
+            ticket_token.event.company == user.company
+        end
+    end
+
     if user.admin?
         can :manage, Company
         can :manage, Event, company_id: user.company_id

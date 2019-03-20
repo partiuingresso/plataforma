@@ -41,6 +41,8 @@ if(location.includes("users/signup")) {
 } else if(location.includes("report/")) {
 	import(/* webpackChunkName: "report" */ "./report");
 	import(/* webpackChunkName: "companies" */ "./my_orders");
+} else if(location.includes("tickets/validations/new")) {
+	import(/* webpackChunkName: "new-validations" */ "./validations");
 }
 
 // import "<%%= File.join(Gem.loaded_specs['trix'].full_gem_path, 'app', 'assets', 'javascripts', 'myfile') %>";

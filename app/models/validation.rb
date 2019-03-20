@@ -1,4 +1,5 @@
 class Validation < ApplicationRecord
   belongs_to :user
-  has_one :ticket_token
+  belongs_to :ticket_token, autosave: true
+
 end
