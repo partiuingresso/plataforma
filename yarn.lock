@@ -6375,6 +6375,11 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
+qr-scanner@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/qr-scanner/-/qr-scanner-1.1.1.tgz#49775d3992733b5198f01a9aa65225962b0cb17d"
+  integrity sha512-vZmtaIpxx4rqnrg4iX62pQJ12bcIpfTEe/hL4Pr5PwQ/fih8W+ErfAZVFnnrdipeDC6L+5BfzMIqs/s6SYi4WA==
+
 qs@6.5.2, qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"

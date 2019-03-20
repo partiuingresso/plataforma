@@ -6,6 +6,7 @@ class TicketToken < ApplicationRecord
 	has_one :order, through: :order_item
 	has_one :user, through: :order_item
 	has_one :offer, through: :order_item
+	has_one :event, through: :offer
 
 	has_secure_token :code
 
@@ -20,6 +21,11 @@ class TicketToken < ApplicationRecord
 
 	def qr
 		RQRCode::QRCode.new(self.code, :size => 3, :level => :h )
+	end
+
+	def validation=(validation)
+		self.status = :authenticated
+		super
 	end
 
 	private
