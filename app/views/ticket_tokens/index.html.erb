@@ -31,7 +31,7 @@
           </div>
         </div>
         <% @ticket_tokens.ready.each do |t| %>
-          <div class="column is-paddingless">
+          <div class="column ticketshow is-paddingless">
             <div class="ticket">
               <div class="qr-box">
                   <i class="fas fa-3x fa-qrcode"></i>
@@ -48,6 +48,24 @@
                     <i class="far fa-user"></i>
                   </span>
                   <span class="ticket-owner"><%= t.owner_name %></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal">
+              <div class="modal-background"></div>
+              <div class="modal-content has-text-centered">
+                <div class="columns is-multiline">
+                  <div class="column is-full">
+                    <p class="title is-6 has-text-primary"><%= t.order_item.event.name %></p>
+                  </div>
+                  <div class="column is-full">
+                    <%= raw t.qr.as_svg(offset: 0, color: 'fff', 
+                        shape_rendering: 'crispEdges', 
+                        module_size: 11) %>
+                  </div>
+                  <div class="column is-6">
+                    <p><%= t.owner_name %></p>
+                  </div>
                 </div>
               </div>
             </div>

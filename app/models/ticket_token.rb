@@ -16,6 +16,12 @@ class TicketToken < ApplicationRecord
 
 	after_initialize :default_values
 
+	require 'rqrcode'
+
+	def qr
+		RQRCode::QRCode.new(self.code, :size => 3, :level => :h )
+	end
+
 	private
 
 		def default_values

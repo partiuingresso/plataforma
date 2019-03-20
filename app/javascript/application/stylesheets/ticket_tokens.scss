@@ -33,10 +33,12 @@
   filter: drop-shadow(3px 5px 6px rgba(0,0,0,0.25));
 }
 
-.ticket:hover {
+.ticket:hover > .overlay {
   cursor: pointer;
-  & img {
-    -webkit-filter: brightness(125%);filter: brightness(125%);
+  background-image: linear-gradient(to bottom left, rgba(245,50,55,0.9), rgba(20,20,25,0.9));
+  .item-down-right {
+    display: flex;
+    transition: .5s ease;
   }
 }
 
@@ -62,7 +64,7 @@
   right: 0;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(to bottom left, rgba(20,20,25,0.7), rgba(20,20,25,0.6), rgba(20,20,25,0.7), rgba(200,208,255,0.2), rgba(255,255,255,0.1) );
+  background-image: linear-gradient(to bottom left, rgba(20,20,25,0.7), rgba(20,20,25,0.6));
 }
 
 .ticket-content {
@@ -86,6 +88,10 @@
     font-size: 0.9rem;
     font-weight: 400;
   }
+}
+
+.ticketshow > .modal > .modal-background {
+  background-color: rgba(20, 20, 25, 0.97);
 }
 
 
