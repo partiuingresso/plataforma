@@ -1,4 +1,4 @@
-//=require simple-mask-money/lib/simple-mask-money
+import SimpleMaskMoney from 'simple-mask-money';
 
 init();
 
@@ -19,7 +19,7 @@ function init() {
 
 	
 	var priceInputList = document.querySelectorAll('.price-input');
-	for(input of priceInputList) {
+	for(let input of priceInputList) {
 		input.value = SimpleMaskMoney.format(input.value);
 		SimpleMaskMoney.setMask(input);
 	}
