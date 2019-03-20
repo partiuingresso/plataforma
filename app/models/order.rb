@@ -70,6 +70,18 @@ class Order < ApplicationRecord
     super
   end
 
+  def self.to_csv 
+    attributes = %w{number total_quantity total status}
+
+    CSV.generate(headers: true) do |csv|
+      csv << ["name"] + attributes
+
+      all.each do |order|
+        csv << [order.user.name] + attributes.map{ |attr| order.send(attr) }
+      end
+    end
+  end
+
   private
 
     def default_values
