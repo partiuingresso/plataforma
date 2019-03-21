@@ -63,9 +63,11 @@
                     <p class="title is-2 has-text-primary"><%= t.order_item.event.name %></p>
                   </div>
                   <div class="column is-full">
-                    <%= raw t.qr.as_svg(offset: 0, color: 'fff', 
-                        shape_rendering: 'crispEdges', 
-                        module_size: 11) %>
+                    <div class="ticket-svg">
+                      <%= raw t.qr.as_svg(offset: 0, color: 'fff', 
+                          shape_rendering: 'crispEdges', 
+                          module_size: 9) %>
+                    </div>
                   </div>
                   <div class="column is-full">
                     <div class="columns is-marginless is-centered has-text-left">
