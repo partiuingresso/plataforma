@@ -1,3 +1,4 @@
+import JSEncrypt from 'jsencrypt';
 import { MoipCreditCard } from 'moip-sdk-js';
 import cep from 'cep-promise';
 import * as brazilValues from 'brazilian-values';
@@ -32,6 +33,7 @@ form.addEventListener('submit', function(e) {
 	var expYearValue = expirationDate[1];
 
 	MoipCreditCard
+    .setEncrypter(JSEncrypt, 'node')
 		.setPubKey(pubKey)
 		.setCreditCard({
 			number: cardNumberValue,
