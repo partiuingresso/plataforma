@@ -108,8 +108,15 @@
   & .columns {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    & .column > .ticket-svg {
+      display: inline-block;
+      padding: 2.25rem;
+      border-radius: 1rem;
+      background-color: rgba(20, 20, 25, 1);
+      box-shadow: -1px 10px 45px -12px rgba(0,0,0,0.75);
+    }
     & .column.box {
-      background-color: rgba(20,20,25,0.55);
+      background-color: rgba(20,20,25, 1);
       box-shadow: -1px 10px 45px -12px rgba(0,0,0,0.75);
       color: #ffffff;
       margin-left: 2rem;
