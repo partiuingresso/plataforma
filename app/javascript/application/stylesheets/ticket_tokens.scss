@@ -90,8 +90,45 @@
   }
 }
 
-.ticketshow > .modal > .modal-background {
-  background-color: rgba(20, 20, 25, 0.97);
+.ticket-show {
+  opacity: 0;
+  transition: all .2s ease;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  font-size: 0.85rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-top: -2rem;
+  background-color: rgba(20, 20, 25, 0.975);
+  & .columns {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    & .column.box {
+      background-color: rgba(20,20,25,0.55);
+      box-shadow: -1px 10px 45px -12px rgba(0,0,0,0.75);
+      color: #ffffff;
+      margin-left: 2rem;
+      margin-right: 2rem;
+    }
+  }
+  & hr {
+    opacity: 0.075;
+    margin-top: -0.75rem;
+  }
+}
+
+.ticket-show.op-1 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.ticket-show > .container > .columns > .column > .columns > .column > p.mt {
+  margin-top: 1rem;
 }
 
 

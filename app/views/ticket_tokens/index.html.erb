@@ -31,7 +31,7 @@
           </div>
         </div>
         <% @ticket_tokens.ready.each do |t| %>
-          <div class="column ticketshow is-paddingless">
+          <div class="column is-paddingless">
             <div class="ticket">
               <div class="qr-box">
                   <i class="fas fa-3x fa-qrcode"></i>
@@ -51,20 +51,47 @@
                 </div>
               </div>
             </div>
-            <div class="modal">
-              <div class="modal-background"></div>
-              <div class="modal-content has-text-centered">
-                <div class="columns is-multiline">
+            <div class="ticket-show">
+              <div class="container">
+                <div class="columns has-text-centered is-multiline">
+                  <div class="column is-4 is-offset-8 has-text-left-desktop has-text-right-touch">
+                    <a class="closeBtn">
+                      <span class="icon is-large has-text-white"><i class="fas fa-2x fa-times"></i></span>
+                    </a>
+                  </div>
                   <div class="column is-full">
-                    <p class="title is-6 has-text-primary"><%= t.order_item.event.name %></p>
+                    <p class="title is-2 has-text-primary"><%= t.order_item.event.name %></p>
                   </div>
                   <div class="column is-full">
                     <%= raw t.qr.as_svg(offset: 0, color: 'fff', 
                         shape_rendering: 'crispEdges', 
                         module_size: 11) %>
                   </div>
-                  <div class="column is-6">
-                    <p><%= t.owner_name %></p>
+                  <div class="column is-full">
+                    <div class="columns is-marginless is-centered has-text-left">
+                      <div class="column box is-3">
+                        <p class="title is-5 has-text-white">Informações:</p>
+                        <hr />
+                        <p>
+                          <span class="icon is-inline-block is-small has-text-primary">
+                            <i class="fas fa-ticket-alt"></i>
+                          </span>
+                          <span class="title is-7">INGRESSO DE:</span>
+                        </p>
+                        <p>
+                          <%= t.owner_name %>  
+                        </p>
+                        <p class="mt">
+                          <span class="icon is-inline-block is-small has-text-primary">
+                            <i class="fas fa-hashtag"></i>
+                          </span>
+                          <span class="title is-7">NÚMERO DO PEDIDO:</span>
+                        </p>
+                        <p>
+                          <%= t.order.number %>  
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
