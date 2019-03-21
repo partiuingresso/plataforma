@@ -11,7 +11,21 @@
 			</div>
 
 			<div class="column is-8">
-				<p class="title is-size-2">Criar Evento</p>
+				<div class="level">
+					<div class="level-left">
+						<div class="level-item">
+							<p class="title is-size-2">Criar Evento</p>
+						</div>
+					</div>
+					<div class="level-right">
+						<div class="level-item">
+							<span class="icon is-inline-block">
+								<i class="far fa-building"></i>
+							</span>
+							<span><%= current_user.company.name %></span>
+						</div>
+					</div>
+				</div>
 				<%= form_for @event do |f|%>
 	       
           <% if @event.errors.any? %>
