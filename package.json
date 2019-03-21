@@ -21,7 +21,8 @@
     "rails-ujs": "^5.2.2-1",
     "simple-mask-money": "^2.0.1",
     "trix": "^1.1.0",
-    "webpack": "^4.29.6"
+    "webpack": "^4.29.6",
+    "worker-loader": "^2.0.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.2.1"

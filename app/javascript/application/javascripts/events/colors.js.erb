@@ -1,11 +1,7 @@
 import * as Vibrant from 'node-vibrant';
 
-
-window.onload = function() {
-  console.log(imgurl);
-  let v = new Vibrant(imgurl);
-  v.getPalette((err, palette) => {
-    console.log(err);
+let v = new Vibrant(imgurl);
+v.getPalette((err, palette) => {
     let darkvibrant = palette.DarkVibrant.getRgb();
     let vibrant = palette.Vibrant.getRgb();
     let muted = palette.Muted.getRgb();
@@ -20,5 +16,4 @@ window.onload = function() {
     style.type = 'text/css';
     style.innerHTML = '.vibrantbg { background-color: rgb('+vibrant+'); } .mutedbg { background-color: rgb('+muted+'); } .darkvibrantbg { background-color: rgb('+darkvibrant+'); } .darkmutedbg { background-color: rgb('+darkmuted+'); } .lightvibrantbg { background-color: rgb('+lightvibrant+'); } .lightmutedbg { background-color: rgba('+lightmuted+', 0.1); } .vibrant { color: rgb('+vibrant+'); } .muted { color: rgb('+muted+'); } .darkvibrant { color: rgb('+darkvibrant+'); } .darkmuted { color: rgb('+darkmuted+'); } .lightvibrant { color: '+lightvibrant+'; } .lightmuted { color: rgb('+lightmuted+'); }';
     document.getElementsByTagName('footer')[0].appendChild(style);
-  });
-}
+});
