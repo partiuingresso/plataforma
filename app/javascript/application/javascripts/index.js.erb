@@ -22,7 +22,6 @@ window.toggle = toggle;
 import { initMap } from './events/maps';
 window.initMap = initMap;
 
-
 var location = window.location.pathname;
 
 if(location.includes('users/signup')) {
@@ -46,8 +45,8 @@ if(location.includes('users/signup')) {
 } else if(location.includes('/report')) {
 	import(/* webpackChunkName: "report" */ './report');
 	import(/* webpackChunkName: "orders" */ './my_orders');
-} else if(location.includes('/tickets')) {
-	import(/* webpackChunkName: "tickets" */ './ticket_tokens');
 } else if(location.includes('tickets/validations/new')) {
 	import(/* webpackChunkName: "new-validations" */ './validations');
+} else if(location.includes('/tickets')) {
+	import(/* webpackChunkName: "tickets" */ './ticket_tokens');
 }

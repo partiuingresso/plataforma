@@ -8,8 +8,9 @@ var form = document.getElementById('new_validation');
 var ticketCodeInput = document.getElementById('ticket_token_code');
 
 var videoElem = document.getElementById('qr-video');
-const qtScanner = new QrScanner(videoElem, result => qrCodeScanned(result));
-qtScanner.start();
+const qrScanner = new QrScanner(videoElem, result => qrCodeScanned(result));
+qrScanner.setInversionMode("both");
+qrScanner.start();
 
 var validated = false;
 var hold = false;
@@ -17,8 +18,10 @@ var hold = false;
 function qrCodeScanned(result) {
 	if(!(validated || hold)) {
 		hold = true;
+		var resultElem = document.getElementById('validation-result');
+		resultElem.innerText = "Validação feita com sucesso: " + result;
 		ticketCodeInput.value = result;
-		Rails.fire(form, 'submit');
+		// Rails.fire(form, 'submit');
 	}
 }
 
@@ -31,5 +34,12 @@ form.addEventListener('ajax:success', function(e) {
 	console.log('xhr: ', xhr);
 	// console.log(e.detail);
 	validated = true;
+	hold = false;
 });
 
+var button = document.getElementById("clean-validation");
+button.addEventListener('click', function() {
+	var resultElem = document.getElementById('validation-result');
+	resultElem.innerText = "";
+	hold = false;
+});
