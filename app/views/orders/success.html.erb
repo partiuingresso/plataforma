@@ -1,0 +1,155 @@
+<% provide(:title, "Pedido realizado") %>
+<% content_for :navbar do %>
+<%= render 'layouts/header_clean' %>
+<% end %>
+
+<section class="section success">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="columns is-multiline">
+          <div class="column is-full has-text-centered">
+            <span class="icon is-large is-inline-block-desktop has-text-success">
+              <i class="far fa-2x fa-check-circle"></i>
+            </span>
+            <span class="title is-3">Pedido realizado com sucesso</span>
+            <p class="subtilte">Obrigado por utilizar a PartiuIngresso.com</p>
+          </div>
+          <div class="column is-full">
+            <div class="tile is-ancestor">
+              <div class="tile is-vertical is-8">
+                <div class="tile is-parent">
+                  <div class="tile is-child notification">
+                    <p class="title is-6">Detalhes do pedido:</p>
+                    <p class="content">
+                      <span class="icon success is-inline-block">
+                        <i class="fas fa-hashtag"></i>
+                      </span>
+                      <span class="title is-7">NÚMERO DO PEDIDO:</span>
+                      <span class="details"><%= @order.number %></span>
+                      <br />
+                      <span class="icon success is-inline-block">
+                        <i class="far fa-calendar-check"></i>
+                      </span>
+                      <span class="title is-7">EVENTO:</span>
+                      <span class="details"><%= @order.event.name %></span>
+                      <br />
+                      <span class="icon success is-inline-block">
+                        <i class="fas fa-map-marker-alt"></i>
+                      </span>
+                      <span class="title is-7">LOCAL:</span>
+                      <span class="details"><%= @order.event.address.name %> - <%= @order.event.address.city %>/<%= @order.event.address.state %></span>
+                    </p>
+                    <div class="columns is-multiline">
+                      <div class="column success ticket-owners is-full">
+                        <p class="title is-6">Participantes:</p>
+                      </div>
+                      <% @order.ticket_tokens.try(:each) do |t| %>
+                        <div class="column is-narrow">
+                          <span class="icon success is-inline-block">
+                            <i class="fas fa-user-tag"></i>
+                          </span>
+                          <span class="title is-7">NOME:</span>
+                          <span class="details"><%= t.owner_name %></span>
+                          <br />
+                          <span class="icon success is-inline-block">
+                            <i class="fas fa-tag"></i>
+                          </span>
+                          <span class="title is-7">TIPO:</span>
+                          <span class="details"><%= t.offer.name %></span>
+                          <br />
+                          <span class="icon success is-inline-block">
+                            <i class="far fa-envelope"></i>
+                          </span>
+                          <span class="title is-7">EMAIL:</span>
+                          <span class="details"><%= t.owner_email %></span>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="tile">
+                  <div class="tile is-parent">
+                    <div class="tile is-child notification">
+                      <article class="media">
+                        <figure class="media-left">
+                          <span class="icon has-text-info">
+                            <i class="far fa-2x fa-paper-plane"></i>
+                          </span>
+                        </figure>
+                        <div class="media-content">
+                          <div class="content">
+                            <p class="title is-6">Fique tranquilo</p>
+                            <span class="details">Todas as informações sobre sua compra serão enviadas por e-mail. Incluindo o status de seu pagamento e ingressos.</span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                  <div class="tile is-parent">
+                    <div class="tile is-child notification">
+                      <article class="media">
+                        <figure class="media-left">
+                          <span class="icon has-text-primary">
+                            <i class="fas fa-2x fa-ticket-alt"></i>
+                          </span>
+                        </figure>
+                        <div class="media-content">
+                          <div class="content">
+                            <p class="title is-6">Seus ingressos</p>
+                            <span class="details">Você e todos os participantes receberão os ingressos por e-mail. Você também poderá acessá-los a qualquer momento aqui no site.</span>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tile is-vertical">
+                <div class="tile is-parent">
+                  <div class="tile is-child success box">
+                    <p class="title is-6">Detalhes do pagamento:</p>
+                    <p class="content">
+                      <span class="is-size-7 is-uppercase">Realizado com o cartão:</span><br />
+                      <span class="is-inline-block"><%= image_tag asset_pack_path("media/application/images/cards/" + @order.payment.card_brand.downcase + ".svg"), alt: @order.payment.card_brand.downcase, width:'36rem', id: @order.payment.card_brand.downcase %></span>
+                      <span class="number is-size-7 has-text-grey"><span>••••</span>&nbsp;<span>••••</span>&nbsp;<span>••••</span>&nbsp;<span class="has-text-black"><%= @order.payment.card_number_last_4 %></span></span>
+                    </p>
+                    <p class="content">
+                      <span class="icon is-inline-block success">
+                        <i class="far fa-file-alt"></i>
+                      </span>
+                      <span class="title is-size-7 is-uppercase">Descrição:</span><br />
+                      <span class="details"><%= "Parcela".pluralize(@order.payment.installment_count) %>: <%= pluralize(@order.payment.installment_count, "vez", "vezes") %></span><br />
+                      <span class="details">Total: <%= @order.total.format %></span>
+                    </p>
+                    <p class="content">
+                      <span class="icon is-inline-block success">
+                        <i class="far fa-credit-card"></i>
+                      </span>
+                      <span class="title is-size-7 is-uppercase">Status:</span><br />
+                      <% if @order.pending? %>
+                        <span class="tag is-warning">
+                          <%= Order.human_attribute_name("status.#{@order.status}") %>
+                        </span>
+                      <% elsif @order.approved? %>
+                        <span class="tag is-success">
+                          <%= Order.human_attribute_name("status.#{@order.status}") %>
+                        </span>
+                      <% else %>
+                        <span class="tag is-danger">
+                          <%= Order.human_attribute_name("status.#{@order.status}") %>
+                        </span>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+                <div class="tile is-parent">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

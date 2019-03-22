@@ -95,6 +95,28 @@ form.new_order {
   }
 }
 
+// Success
+
+.section.success {
+  padding-top: unset;
+  margin-top: -3rem;
+}
+
+.icon.success {
+  font-size: 0.75rem;
+  height: unset;
+  width: unset;
+}
+
+.details {
+  font-size: 0.85rem;
+  color: hsl(0, 0%, 40%);
+}
+
+.success.ticket-owners {
+  padding-bottom: unset;
+}
+
 
 // My Orders
 tr.trhidden {

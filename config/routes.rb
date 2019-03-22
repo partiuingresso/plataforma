@@ -30,7 +30,9 @@ Rails.application.routes.draw do
   resources :companies
   get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
 
-  resources :orders, only: [:index, :new, :create, :show]
+  resources :orders, only: [:index, :new, :create]
+  get '/success/:number', to: 'orders#success', as: 'success'
+  get '/denied/', to: 'orders#denied', as: 'denied'
   
   root to: 'pages#index'
   get 'search', to: 'pages#search'

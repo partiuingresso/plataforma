@@ -218,6 +218,7 @@ document.addEventListener("DOMContentLoaded", function(){
                               </div>
                             </div>
                           <% else %>
+                            <%= order_item_f.hidden_field :quantity, value: 0 %>
                             <span class="tag is-light">ESGOTADO</span>
                           <% end %>
                         <% end %>
