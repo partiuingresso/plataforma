@@ -1,5 +1,5 @@
 
-function cpfMask(inputElement) {
+export function cpfMask(inputElement) {
 
 	inputElement.addEventListener('input', function(event) {
 		const cpfLength = 14;

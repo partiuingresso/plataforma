@@ -13,7 +13,7 @@ InputMask.cpfMask(document.getElementById('user_cpf'));
  */
 
 var cpfInput = document.getElementById('user_cpf');
-cpfExists = Validation.inputFilled(cpfInput);
+var cpfExists = Validation.inputFilled(cpfInput);
 
 Validation.setValidateStyles('is-danger', 'active');
 
@@ -39,7 +39,7 @@ function validateNameField() {
 	var valid = true;
 	var nameInput = document.getElementById('user_name');
 
-	if(inputFilled(nameInput)) {
+	if(Validation.inputFilled(nameInput)) {
 		if(!validCompleteName(nameInput.value)) {
 			var invalidNameError = document.getElementById('invalid_name_error');
 			Validation.invalidInput(nameInput, invalidNameError);

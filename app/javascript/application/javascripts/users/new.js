@@ -4,6 +4,7 @@ import * as Validation from "../utils/validation";
  * Validations
  */
 
+
 Validation.setValidateStyles('is-danger', 'active');
 
 var form = document.getElementsByTagName('form')[0];
