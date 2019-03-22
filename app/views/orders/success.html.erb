@@ -11,7 +11,7 @@
           <div class="column is-full has-text-centered">
             <span class="icon is-large is-inline-block-desktop has-text-success">
               <i class="far fa-2x fa-check-circle"></i>
-            </span>
+            </span><br class="is-hidden-desktop" />
             <span class="title is-3">Pedido realizado com sucesso</span>
             <p class="subtilte">Obrigado por utilizar a PartiuIngresso.com</p>
           </div>
@@ -119,8 +119,8 @@
                         <i class="far fa-file-alt"></i>
                       </span>
                       <span class="title is-size-7 is-uppercase">Descrição:</span><br />
-                      <span class="details"><%= "Parcela".pluralize(@order.payment.installment_count) %>: <%= pluralize(@order.payment.installment_count, "vez", "vezes") %></span><br />
-                      <span class="details">Total: <%= @order.total.format %></span>
+                      <span class="details"><%= "Parcela".pluralize(@order.payment.installment_count) %>: <%= installment_info(@order.payment.installment_count) %></span><br />
+                      <span class="details">Total: <%= price_with_interest(@order.payment.installment_count) %></span>
                     </p>
                     <p class="content">
                       <span class="icon is-inline-block success">
@@ -140,6 +140,13 @@
                           <%= Order.human_attribute_name("status.#{@order.status}") %>
                         </span>
                       <% end %>
+                    </p>
+                    <p class="content">
+                      <span class="icon is-inline-block success">
+                        <i class="fas fa-info-circle"></i>
+                      </span>
+                      <span class="title is-size-7 is-uppercase">INFORMAÇÃO:</span><br />
+                      <span class="help">Você receberá um e-mail assim que seu pagamento for aprovado.</span>
                     </p>
                   </div>
                 </div>

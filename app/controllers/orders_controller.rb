@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
 			payment_info = Payment.new(payment_params)
 			order_payment = Wirecard.process_checkout? @order, payment_info
 			if order_payment && order_payment.save
-				redirect_to success_path(@order)
+				redirect_to success_path(number: @order.number)
 			else
 				@order.destroy
 				render plain: order_payment.inspect
