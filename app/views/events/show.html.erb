@@ -198,37 +198,53 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>
                           <%= order_item_f.hidden_field :offer_id, value: offer.id %>
-                          <div class="level is-mobile">
-                            <div class="level-item">
-                              <span class="icon is-small button minus">
-                                <i class="fas fa-minus"></i>
-                              </span>
+                          <% if offer.available_quantity > 0 %>
+                            <div class="level is-mobile">
+                              <div class="level-item">
+                                <span class="icon is-small button minus">
+                                  <i class="fas fa-minus"></i>
+                                </span>
+                              </div>
+                              <div class="level-item">
+                                <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
+                                <span class="quantity-view">
+                                  0
+                                </span>
+                              </div>
+                              <div class="level-item">
+                                <span class="icon is-small button plus">
+                                  <i class="fas fa-plus"></i>
+                                </span>
+                              </div>
                             </div>
-                            <div class="level-item">
-                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
-                              <span class="quantity-view">
-                                0
-                              </span>
-                            </div>
-                            <div class="level-item">
-                              <span class="icon is-small button plus">
-                                <i class="fas fa-plus"></i>
-                              </span>
-                            </div>
-                          </div>
+                          <% else %>
+                            <span class="tag is-light">ESGOTADO</span>
+                          <% end %>
                         <% end %>
                       </div>
-                      <% if offer.description? %>
-                        <div class="column is-12 offer-info">
-                          <a class="toggle button">Mais info<i class="fas fa-sort-down"></i></a>
-                          <div class="offer-info-content dismiss is-hidden">
-                            <a class="button">ESCONDER<i class="fas fa-sort-up"></i></a>
-                            <div class="has-background-light animated fadeIn fast">
-                              <%= sanitize offer.description %>
-                            </div>
+                      <div class="column is-12 offer-info">
+                        <div class="level">
+                          <div class="level-left">
+                            <% if offer.description? %>
+                              <div class="level-item">
+                                <a class="toggle button">Mais info<i class="fas fa-sort-down"></i></a>
+                                <div class="offer-info-content dismiss is-hidden">
+                                  <a class="button">ESCONDER<i class="fas fa-sort-up"></i></a>
+                                  <div class="has-background-light animated fadeIn fast">
+                                    <%= sanitize offer.description %>
+                                  </div>
+                                </div>
+                              </div>
+                            <% end %>
+                            <% if offer.available_quantity < 50 %>
+                              <div class="level-item">
+                                <span class="icon is-block is-small has-text-danger"><i class="fas fa-fire"></i></span>
+                                <span class="subtitle is-7">&nbsp;POPULAR</span>
+                              </div>
+                            <% end %>
                           </div>
                         </div>
-                      <% end %>
+                      </div>
                     </div>
                   </li>
                 <% end %>
