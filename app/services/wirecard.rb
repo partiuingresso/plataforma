@@ -110,6 +110,7 @@ module Wirecard
 		payment = api.payment.create(order_id,
 			{
 				installmentCount: payment.installment_count,
+				statementDescriptor: "PartiuIngress",
 				fundingInstrument: {
 					method: "CREDIT_CARD",
 					creditCard: {
