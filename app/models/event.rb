@@ -11,6 +11,8 @@ class Event < ApplicationRecord
 	belongs_to :address
 	has_many :offers, dependent: :destroy
 	has_many :orders
+	has_many :order_items, through: :offers
+	has_many :ticket_tokens, through: :order_items
 	has_one_attached :hero_image
 	has_one_attached :content_image
 	has_many_attached :testimonial_images
