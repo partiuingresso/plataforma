@@ -20,8 +20,6 @@
       <%= render 'layouts/header' %>
     <% end %>
 
-    <%= render 'layouts/messages' %>
-
     <%= yield %>
 
     <% if content_for?(:footer) %>
@@ -31,5 +29,6 @@
     <% end %>
 
     <%= javascript_pack_tag "application" %>
+    <%= render 'layouts/messages' %>
   </body>
 </html>
