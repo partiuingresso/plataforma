@@ -7,23 +7,16 @@ QrScanner.WORKER_PATH = QrScannerWorkerPath;
 var form = document.getElementById('new_validation');
 var ticketCodeInput = document.getElementById('ticket_token_code');
 
-var videoElem = document.getElementById('qr-video');
-const qrScanner = new QrScanner(videoElem, result => qrCodeScanned(result));
-qrScanner.setInversionMode("both");
-qrScanner.start();
+var qrScanner;
+initScanner();
 
 var validated = false;
 var hold = false;
 
-function qrCodeScanned(result) {
-	if(!(validated || hold)) {
-		hold = true;
-		var resultElem = document.getElementById('validation-result');
-		resultElem.innerText = "Validação feita com sucesso: " + result;
-		ticketCodeInput.value = result;
-		// Rails.fire(form, 'submit');
-	}
-}
+var button = document.getElementById("open-camera");
+button.addEventListener('click', function() {
+	startScanner();
+});
 
 form.addEventListener('ajax:success', function(e) {
 	var resultElem = document.getElementById('validation-result');
@@ -32,14 +25,35 @@ form.addEventListener('ajax:success', function(e) {
 	console.log('data: ', data);
 	console.log('status: ', status);
 	console.log('xhr: ', xhr);
-	// console.log(e.detail);
 	validated = true;
 	hold = false;
 });
 
-var button = document.getElementById("clean-validation");
-button.addEventListener('click', function() {
-	var resultElem = document.getElementById('validation-result');
-	resultElem.innerText = "";
-	hold = false;
-});
+function initScanner() {
+	var videoElem = document.getElementById('qr-video');
+	qrScanner = new QrScanner(videoElem, result => qrCodeScanned(result));
+	qrScanner.setInversionMode("both");
+}
+
+function resetScanner() {
+	qrScanner.stop();
+	qrScanner._qrWorker.terminate();
+	initScanner();
+}
+
+function startScanner() {
+	qrScanner.start();
+}
+
+function qrCodeScanned(result) {
+	if(!(validated || hold)) {
+		hold = true;
+		var resultElem = document.getElementById('validation-result');
+		resultElem.innerText = "Validação feita com sucesso: " + result + " -> " + Date().toString();
+		ticketCodeInput.value = result;
+		resetScanner();
+		// Rails.fire(form, 'submit');
+		hold = false;
+	}
+}
+
