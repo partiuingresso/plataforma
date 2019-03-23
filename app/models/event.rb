@@ -36,8 +36,8 @@ class Event < ApplicationRecord
 		end
 	end
 
-	def self.to_happen
-		Event.all.select { |event| event.start_t >= DateTime.now }
+	def self.to_happen(margin = 0)
+		Event.all.select { |event| event.start_t >= margin.hours.from_now }
 	end
 
 	def self.history
