@@ -11,6 +11,13 @@
     <div class="columns is-centered ordered-mobile">
       <div class="column is-6 is-offset-1 fl-2">
         <p class="title is-hidden-touch">Confirmar e pagar</p>
+        <% if @order_error.present? %>
+          <article class="message is-danger">
+            <div class="message-body">
+              Não conseguimos processar seu pagamento. Por favor, verifique seus dados e tente novamente.
+            </div>
+          </article>
+        <% end %>
         <%= render 'orders/form' %>
       </div>
       <div class="column is-3 is-forward-1 fl-1">

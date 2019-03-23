@@ -31,12 +31,12 @@
           </div>
         </div>
         <% @ticket_tokens.ready.each do |t| %>
-          <div class="column is-paddingless">
+          <div class="column is-4 is-paddingless">
             <div class="ticket">
               <div class="qr-box">
                   <i class="fas fa-3x fa-qrcode"></i>
               </div>
-              <%= image_tag t.order_item.event.hero_image.variant(resize: "320x320"), class: 'mask object-mask' %>
+              <%= image_tag t.order_item.event.hero_image.variant(resize: "320x320>", extent: "320x160", gravity: "center"), class: 'mask object-mask' %>
               <div class="overlay object-mask">
                 <div class="ticket-content">
                   <span class="event-title"><%= t.order_item.event.name %></span><br />
@@ -82,6 +82,15 @@
                         </p>
                         <p>
                           <%= t.owner_name %>  
+                        </p>
+                        <p class="mt">
+                          <span class="icon is-inline-block is-small has-text-primary">
+                            <i class="fas fa-tag"></i>
+                          </span>
+                          <span class="title is-7">TIPO:</span>
+                        </p>
+                        <p>
+                          <%= t.offer.name %>  
                         </p>
                         <p class="mt">
                           <span class="icon is-inline-block is-small has-text-primary">

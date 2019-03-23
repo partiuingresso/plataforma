@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
 				redirect_to success_path(number: @order.number)
 			else
 				@order.destroy
-				render plain: order_payment.inspect
+				redirect_back(fallback_location: new_order_path) 
 			end
 		else
 			render plain: @order.errors.messages
