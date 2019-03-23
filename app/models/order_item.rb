@@ -14,6 +14,7 @@ class OrderItem < ApplicationRecord
   validate :offer_event_cannot_be_different_to_order_event
   validate :quantity_cannot_be_different_to_ticket_tokens_count
   validate :quantity_cannot_be_greater_than_offer_available_quantity
+  validate :offer_cannot_be_expired, on: :create
 
   before_destroy :cancel
 
@@ -43,6 +44,12 @@ class OrderItem < ApplicationRecord
     def offer_event_cannot_be_different_to_order_event
       if event != order.event
         errors.add(:event, "one order can't have order items related to different events")
+      end
+    end
+
+    def offer_cannot_be_expired
+      if offer.present? && offer.expired?
+        errors.add(:offer, "offer cannot be a expired one.")
       end
     end
 

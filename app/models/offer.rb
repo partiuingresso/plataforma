@@ -3,6 +3,8 @@ class Offer < ApplicationRecord
 	has_many :order_items
 	has_many :orders, through: :order_items
 
+	scope :active, -> { where("end_t IS NULL OR end_t > ?", DateTime.now) }
+
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :description, length: { maximum: 500 }, allow_blank: true
 	validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
@@ -22,6 +24,10 @@ class Offer < ApplicationRecord
 
 	def name_with_allotment
 		self.name + " - Lote: " + self.allotment.to_s
+	end
+
+	def expired?
+		end_t.present? && end_t < DateTime.now
 	end
 
 	private

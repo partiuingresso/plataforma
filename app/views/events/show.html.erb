@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 </div>
               </div>
               <ul>
-                <% @event.offers.each do |offer| %>
+                <% @event.offers.active.each do |offer| %>
                   <li>
                     <hr />
                     <div class="columns is-vcentered is-multiline is-mobile">
