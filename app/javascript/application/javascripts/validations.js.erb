@@ -1,11 +1,5 @@
 import Rails from 'rails-ujs';
-
-/*
- *
- * This module depends on Instascan library, which is included in new_validation.html 
- * template using asset pipeline.
- *
- */
+import "script-loader!<%= Rails.root.join('vendor', 'assets', 'javascript', 'instascan.min.js') %>";
 
 var scanner = new Instascan.Scanner({
 	video: document.getElementById('qr-video'),

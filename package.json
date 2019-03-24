@@ -20,6 +20,7 @@
     "qr-scanner": "^1.1.1",
     "rails-erb-loader": "^5.5.2",
     "rails-ujs": "^5.2.2-1",
+    "script-loader": "^0.7.2",
     "simple-mask-money": "^2.0.1",
     "trix": "^1.1.0",
     "webpack": "^4.29.6",
