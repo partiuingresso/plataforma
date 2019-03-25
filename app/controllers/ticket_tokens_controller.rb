@@ -10,10 +10,12 @@ class TicketTokensController < ApplicationController
 
     if search_params[:q].present?
       @event_tickets = @event.ticket_tokens.search_ticket(search_params[:q])
-      @tickets = @event_tickets.ready + @event_tickets.authenticated
+      @effective_tickets = @event_tickets.ready + @event_tickets.authenticated
+      @tickets = Kaminari.paginate_array(@effective_tickets).page(params[:page]).per(10)
     else
       @event_tickets = @event.ticket_tokens
-      @tickets = @event_tickets.ready + @event_tickets.authenticated
+      @effective_tickets = @event_tickets.ready + @event_tickets.authenticated
+      @tickets = Kaminari.paginate_array(@effective_tickets).page(params[:page]).per(10)
     end
 
 		@ticket_token = TicketToken.new

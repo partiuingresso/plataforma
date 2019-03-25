@@ -239,3 +239,10 @@ pt-BR:
         authenticated: "Autenticado"
         expired: "Expirado"
         cancelled: "Cancelado"
+  views:
+    pagination:
+      first: "&laquo; Primeira"
+      last: "Última &raquo;"
+      previous: "&lsaquo; Anterior"
+      next: "Próxima &rsaquo;"
+      truncate: "&hellip;"

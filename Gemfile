@@ -25,6 +25,8 @@ gem 'groupdate'
 gem 'chartkick'
 # Generates QR Codes
 gem 'rqrcode'
+# Pagination
+gem 'kaminari'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
