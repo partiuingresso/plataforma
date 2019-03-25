@@ -57,9 +57,18 @@
                 <% if current_user.admin? %>
                   <%= link_to backoffice_path, class: "navbar-item" do %>
                     <span class="icon">
-                      <i class="fas fa-atom"></i>
+                      <i class="fas fa-jedi"></i>
                     </span>
                     <span>Admin</span>
+                  <% end %>
+                <% end %>
+
+                <% if current_user.producer_admin? || current_user.producer? %>
+                  <%= link_to check_in_path, class: "navbar-item" do %>
+                    <span class="icon">
+                      <i class="fas fa-camera"></i>
+                    </span>
+                    <span>Check-in</span>
                   <% end %>
                 <% end %>
 
