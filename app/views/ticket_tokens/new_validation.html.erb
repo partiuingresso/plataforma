@@ -5,6 +5,52 @@
 <section class="section validations-new">
 	<div class="container">
 		<div class="columns is-centered">
+			<div class="column is-10">
+				<p class="title is-2">Check-in</p>
+				<p class="subtitle">Evento: <%= @event.name %></p>
+				<div class="check-in-list">
+					<div class="field is-grouped">
+		        <div class="control is-expanded check-in-search">
+		          <input name="q" class="input is-large" type="text" placeholder="Nome do participante ou número do pedido">
+		        </div>
+		        <div class="control">
+						  <a class="button is-large is-primary is-outlined">
+						    <span class="icon is-medium">
+						      <i class="fas fa-camera"></i>
+						    </span>
+						    <span class="title is-5">Ler QR Code</span>
+						  </a>
+		        </div>
+		      </div>
+		      <table class="table is-fullwidth is-narrow is-striped is-hoverable is-responsive events-table">
+	          <thead>
+	            <th>Nome</th>
+	            <th># do Pedido</th>
+	            <th>Status</th>
+	            <th class="has-text-centered">Check-in</th>
+	          </thead>
+	          <tbody>
+	            <% @tickets.each do |t| %>
+	              <tr>
+	                <td><%= t.owner_name %></td>
+	                <td><%= t.order.number %></td>
+	                <td><%= t.status %></td>
+	                <td class="has-text-centered">
+	                  <%= link_to nil do %>
+	                    <span class="icon">
+	                      <i class="far fa-lg fa-check-circle"></i>
+	                    </span>
+	                  <% end %>
+	                </td>
+	              </tr>
+	            <% end %>
+	          </tbody>
+		      </table>
+		    </div>
+			</div>
+		</div>
+
+		<div class="columns is-centered is-hidden">
 			<div class="column">
 				<video muted playsinline id="qr-video"></video>
 				<%= form_with(id: "new_validation", model: @ticket_token, url: tickets_validations_path) do |f|%>
