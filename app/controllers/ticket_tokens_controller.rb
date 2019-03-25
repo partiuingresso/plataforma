@@ -6,6 +6,16 @@ class TicketTokensController < ApplicationController
   end
 
   def new_validation
+    @event = Event.find(params[:id])
+
+    if search_params[:q].present?
+      @event_tickets = @event.ticket_tokens.search_ticket(search_params[:q])
+      @tickets = @event_tickets.ready + @event_tickets.authenticated
+    else
+      @event_tickets = @event.ticket_tokens
+      @tickets = @event_tickets.ready + @event_tickets.authenticated
+    end
+
 		@ticket_token = TicketToken.new
   end
 
@@ -29,4 +39,8 @@ class TicketTokensController < ApplicationController
 		def validation_params
 			params.require(:ticket_token).permit(:code)
 		end
+
+    def search_params
+      params.permit(:q)
+    end
 end

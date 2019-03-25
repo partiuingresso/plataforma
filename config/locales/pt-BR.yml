@@ -229,7 +229,13 @@ pt-BR:
         last_name: "Sobrenome"
         current_password: "Senha atual"
       order/status:
-        pending: "Pendente"
+        pending: "Processando"
         approved: "Aprovado"
         denied: "Negado"
         refunded: "Reembolsado"
+      ticket_token/status:
+        pending: "Pendente"
+        ready: "Pronto"
+        authenticated: "Autenticado"
+        expired: "Expirado"
+        cancelled: "Cancelado"

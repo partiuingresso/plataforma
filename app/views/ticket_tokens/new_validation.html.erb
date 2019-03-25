@@ -7,23 +7,96 @@
 	<div class="container">
 		<div class="columns is-centered">
 			<div class="column is-10">
-				<p class="title is-2">Check-in</p>
-				<p class="subtitle">Evento: <%= @event.name %></p>
-				<div class="check-in-list">
-					<div class="field is-grouped">
-		        <div class="control is-expanded check-in-search">
-		          <input name="q" class="input is-large" type="text" placeholder="Nome do participante ou número do pedido">
-		        </div>
-		        <div class="control">
-						  <a class="button is-large is-primary is-outlined">
+		    <div class="tabcontent" id="check-in-reader">
+		    	<div class="level">
+		    		<div class="level-left">
+		    			<div class="level-item">
+		    				<div>
+									<p class="title is-2">Check-in</p>
+									<p class="subtitle is-size-7 is-marginless">
+										&nbsp;
+										<span class="icon is-small is-inline-block">
+											<i class="fas fa-tag"></i>
+										</span>
+										<span><%= @event.name %></span>
+										<span>&nbsp;&nbsp;</span>
+										<span class="icon is-small is-inline-block">
+											<i class="far fa-calendar-alt"></i>
+										</span>
+										<span><%= @event.start_t.strftime("%d/%m/%Y") %></span>
+										<span>&nbsp;&nbsp;</span>
+										<span class="icon is-small is-inline-block">
+											<i class="fas fa-map-marker-alt"></i>
+										</span>
+										<span><%= @event.address.city %>/<%= @event.address.state %></span>
+									</p>
+								</div>
+							</div>
+		    		</div>
+		    		<div class="level-right">
+						  <a class="tablinks button is-large is-primary is-outlined" onclick="openTab(event, 'check-in-list')">
 						    <span class="icon is-medium">
-						      <i class="fas fa-camera"></i>
+						      <i class="far fa-list-alt"></i>
 						    </span>
-						    <span class="title is-5">Ler QR Code</span>
+						    <span class="title is-5">Ver Lista</span>
 						  </a>
-		        </div>
-		      </div>
-		      <table class="table is-fullwidth is-narrow is-striped is-hoverable is-responsive events-table">
+		    		</div>
+		    	</div>
+					<video id="qr-video"></video>
+					<%= form_with(id: "new_validation", model: @ticket_token, url: tickets_validations_path) do |f|%>
+						<%= f.hidden_field :code %>
+					<% end %>
+					<p id="validation-result"></p>
+					<button id="clean-validation" class="button is-primary">Limpar validações</button>
+		    </div>
+				<div class="tabcontent" id="check-in-list">
+					<div class="level">
+						<div class="level-left">
+							<div class="level-item">
+								<div>
+									<p class="title is-2">Check-in</p>
+									<p class="subtitle is-marginless is-size-7">
+										&nbsp;
+										<span class="icon is-small is-inline-block">
+											<i class="fas fa-tag"></i>
+										</span>
+										<span><%= @event.name %></span>
+										<span>&nbsp;&nbsp;</span>
+										<span class="icon is-small is-inline-block">
+											<i class="far fa-calendar-alt"></i>
+										</span>
+										<span><%= @event.start_t.strftime("%d/%m/%Y") %></span>
+										<span>&nbsp;&nbsp;</span>
+										<span class="icon is-small is-inline-block">
+											<i class="fas fa-map-marker-alt"></i>
+										</span>
+										<span><%= @event.address.city %>/<%= @event.address.state %></span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="level-right">
+							<div class="level-item">
+							  <a class="tablinks button is-large is-primary is-outlined" onclick="openTab(event, 'check-in-reader')">
+							    <span class="icon is-medium">
+							      <i class="fas fa-camera"></i>
+							    </span>
+							    <span class="title is-5">Ler QR Code</span>
+							  </a>
+							</div>
+						</div>
+					</div>
+					<%= form_tag(request.original_url, method: "get") do %>
+						<div class="field is-grouped">
+			        <div class="control is-expanded check-in-search">
+			          <input name="q" class="input is-large" type="text" placeholder="Nome do participante">
+			        </div>
+			        <div class="control search">
+			        	<button class="button is-white is-large"><i class="fas fa-search"></i></button>
+			        </div>
+			      </div>
+		      <% end %>
+		      <table class="table check-in is-fullwidth is-narrow is-striped is-hoverable is-responsive events-table">
 	          <thead>
 	            <th>Nome</th>
 	            <th># do Pedido</th>
@@ -35,30 +108,90 @@
 	              <tr>
 	                <td><%= t.owner_name %></td>
 	                <td><%= t.order.number %></td>
-	                <td><%= t.status %></td>
+	                <td>
+				            <span class="tag">
+				              <%= TicketToken.human_attribute_name("status.#{t.status}") %>
+				            </span>
+	                </td>
 	                <td class="has-text-centered">
-	                  <%= link_to nil do %>
-	                    <span class="icon">
-	                      <i class="far fa-lg fa-check-circle"></i>
+	                	<% if t.status == "ready" %>
+		                  <%= link_to nil do %>
+		                    <span class="icon">
+		                      <i class="far fa-lg fa-check-circle"></i>
+		                    </span>
+		                  <% end %>
+		                 <% elsif t.status == "authenticated" %>
+	                    <span class="icon has-text-success">
+	                      <i class="fas fa-lg fa-check-circle"></i>
 	                    </span>
-	                  <% end %>
+		                 <% else %>
+	                    <span class="icon has-text-grey-light">
+	                      <i class="fas fa-lg fa-times-circle"></i>
+	                    </span>
+		                 <% end %>
 	                </td>
 	              </tr>
 	            <% end %>
 	          </tbody>
 		      </table>
 		    </div>
-			</div>
-		</div>
-
-		<div class="columns is-centered is-hidden">
-			<div class="column">
-				<video id="qr-video"></video>
-				<%= form_with(id: "new_validation", model: @ticket_token, url: tickets_validations_path) do |f|%>
-					<%= f.hidden_field :code %>
-				<% end %>
-				<p id="validation-result"></p>
-				<button id="clean-validation" class="button is-primary">Limpar validações</button>
+		    <div class="validation details is-hidden">
+		    	<div class="columns is-centered">
+		    		<div class="column is-12 box validation">
+		    			<div id="validationConfirm" class="is-hidden">
+		    				<p class="title is-4">Confirmar check-in</p>
+		    				<p class="title is-1 has-text-success has-text-centered"><i class="fas fa-user-check"></i></p>
+		    				<span class="icon is-inline-block is-small">
+		    					<i class="fas fa-user"></i>
+		    				</span>
+		    				<span class="title is-7">NOME:</span>
+		    				<span>Nome Sobrenome</span><br />
+		    				<span class="icon is-inline-block is-small">
+		    					<i class="fas fa-hashtag"></i>
+		    				</span>
+		    				<span class="title is-7">NÚMERO DO PEDIDO:</span>
+		    				<span>13123123123123</span><br /><br /><br /><br />
+		    				<p class="has-text-centered">
+		    					<a class="button is-large is-success title is-5">
+		    						CONFIRMAR
+		    					</a>
+		    					<a class="button is-large title is-5">
+		    						CANCELAR
+		    					</a>
+		    				</p>
+		    			</div>
+		    			<div id="validationConfirmed" class="is-hidden">
+		    				<p class="title is-1 has-text-success has-text-centered"><i class="fas fa-check-circle"></i></p>
+		    				<p class="title is-4 has-text-centered">Check-in realizado</p>
+		    				<span class="icon is-inline-block is-small">
+		    					<i class="fas fa-user"></i>
+		    				</span>
+		    				<span class="title is-7">NOME:</span>
+		    				<span>Nome Sobrenome</span><br />
+		    				<span class="icon is-inline-block is-small">
+		    					<i class="fas fa-hashtag"></i>
+		    				</span>
+		    				<span class="title is-7">NÚMERO DO PEDIDO:</span>
+		    				<span>13123123123123</span><br /><br /><br /><br />
+		    				<p class="has-text-centered">
+		    					<a class="button is-large is-fullwidth is-success title is-5">
+		    						OK
+		    					</a>
+		    				</p>
+		    			</div>
+		    			<div id="validationError" class="is-hidden">
+		    				<p class="title is-1 has-text-danger has-text-centered"><i class="fas fa-times-circle"></i></i></p>
+		    				<p class="title is-4 has-text-centered">Algo deu errado.</p>
+		    				<p class="has-text-centered">Tente novamente.</p><br /><br />
+		    				<p class="has-text-centered">
+		    					<a class="button is-large is-link title is-5">
+		    						Entendi
+		    					</a>
+		    				</p>
+		    			</div>
+		    		</div>
+		    	</div>
+		    </div>
 			</div>
 		</div>
 	</div>
