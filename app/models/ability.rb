@@ -37,6 +37,7 @@ class Ability
     end
 
     if user.producer?
+        can :check_in, :admin
         can :read, Event, company_id: user.company_id
     end
 
