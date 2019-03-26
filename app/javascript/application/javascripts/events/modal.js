@@ -12,7 +12,7 @@ if(videobtn) {
 }
 
 function cartInit() {
-  var cart = document.querySelector('.offers.card');
+  let cart = document.querySelector('.offers.card');
   let hidecart = document.querySelector('.hide-cart');
   let body = document.body;
   let footer = document.querySelector('.footer');
@@ -29,9 +29,9 @@ function cartInit() {
 }
 
 function modalInit() {
-  var modal = document.querySelector('.modal');
-  var modalclose = document.querySelector('.modal-close');
-  var video = document.getElementById('video');
+  let modal = document.querySelector('.modal');
+  let modalclose = document.querySelector('.modal-close');
+  let video = document.getElementById('video');
   videobtn.addEventListener('click', function() {
     html.classList.add("is-clipped");
     modal.classList.add("is-active");
@@ -50,7 +50,8 @@ function modalInit() {
 }
 
 function closeModal() {
-    modal.classList.remove("is-active");
-    html.classList.remove("is-clipped");
-    video.setAttribute('src','');
+  let modal = document.querySelector('.modal');
+  modal.classList.remove("is-active");
+  html.classList.remove("is-clipped");
+  video.setAttribute('src','');
 }
