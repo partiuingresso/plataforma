@@ -4,6 +4,7 @@ import cep from 'cep-promise';
 import * as brazilValues from 'brazilian-values';
 import paymentFormatter from 'payment-formatter';
 import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
+import * as Validation from "./utils/validation";
 
 var installmentSelect = document.getElementById('payment_installment_count');
 installmentSelect.addEventListener('change', function() {
@@ -188,12 +189,58 @@ function validateInputs() {
         input.scrollIntoView({block: "end", behavior: "smooth"});
       } else if(spanHelp.matches('.cpf')) {
         spanHelp.classList.remove('is-hidden');
+        input.classList.add('is-danger');
       }
       valid = false;
     }
   }
 
   return valid
+}
+
+function validateCreateAccount() {
+  let valid = true;
+  let passwordInput = document.getElementById('user_password');
+  let nameInput = document.getElementById('user_name');
+
+  if(!passwordInput) {
+    return valid;
+  }
+
+  if(!Validation.validPassword(passwordInput.value)) {
+    passwordInput.classList.add('is-danger');
+    passwordInput.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">A senha precisa ter pelo menos 8 caracteres.</span>');
+    passwordInput.scrollIntoView({block: "end", behavior: "smooth"});
+    valid = false;
+  } else if(!Validation.validCompleteName(nameInput.value)) {
+      nameInput.classList.add('is-danger');
+      nameInput.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">Digite nome e sobrenome.</span>');
+      nameInput.scrollIntoView({block: "end", behavior: "smooth"});
+      valid = false;
+  }
+
+  return valid;
+}
+
+function validateEmailField() {
+  var valid = true;
+  var emailInput = document.querySelectorAll('.input.email');
+  for(let input of emailInput) {
+    if(!Validation.validEmail(input.value)) {
+      let spanHelp = input.nextElementSibling;
+      if(!spanHelp) {
+        input.classList.add('is-danger');
+        input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">Email inválido.</span>');
+        input.scrollIntoView({block: "end", behavior: "smooth"});
+      } else {
+        input.classList.add('is-danger');
+        spanHelp.classList.remove('is-hidden');
+      }
+      valid = false;
+    }
+  }
+
+  return valid;
 }
 
 // Retira o help ao preencher
@@ -226,7 +273,7 @@ function cleanInputs() {
 
 // Submit
 form.addEventListener('submit', function(e) {
-  if(!validateCC() || !validateInputs()) {
+  if(!validateCC() || !validateInputs() || !validateCreateAccount() || !validateEmailField()) {
     e.preventDefault();
     cleanInputs();
   }

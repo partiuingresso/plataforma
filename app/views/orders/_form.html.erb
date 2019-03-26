@@ -18,7 +18,7 @@
               <div class="field">
                 <label class="label is-inline-block">Email</label>
                 <div class="control">
-                  <%= user.email_field :email, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
+                  <%= user.email_field :email, autocomplete: "email", class: "input email", placeholder: "nome@exemplo.com" %>
                 </div>
               </div>
             </div>
@@ -223,7 +223,7 @@
                 <div class="field">
                   <label class="label">E-mail </label>
                   <div class="control">
-                    <%= ticket_token_f.email_field :owner_email, class: "input" %>
+                    <%= ticket_token_f.email_field :owner_email, class: "input email" %>
                   </div>
                 </div>
               </div>
