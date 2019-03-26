@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+	before_action :register_before_create, only: [:create]	
 	load_and_authorize_resource
 
 	def index
@@ -6,11 +7,13 @@ class OrdersController < ApplicationController
 	end
 
 	def new
-		@order.order_items = @order.order_items.select { |order_item| order_item.quantity > 0 }
-		unless @order.valid? && @order.order_items.present?
+		@order.order_items = @order.order_items.select { |order_item| order_item.quantity > 0 && order_item.valid? }
+		unless @order.order_items.present?
 			redirect_back fallback_location: events_path and return
 		end
-
+		if current_user.nil?
+			@user = User.new
+		end
 		@payment = Payment.new
 		@order.order_items.each do |order_item|
 			order_item.ticket_tokens.build
@@ -43,6 +46,21 @@ class OrdersController < ApplicationController
 	end
 
 	private
+
+	def user_params
+		params.require(:user).permit(:name, :email, :password)
+	end
+
+	def register_before_create
+		if current_user.nil?
+			@user = User.new(user_params)
+			if @user.save
+				sign_in @user
+			else
+				redirect_back(fallback_location: new_order_path)
+			end
+		end
+	end
 
 	def order_params
 		params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity, ticket_tokens_attributes: [:owner_name, :owner_email]])

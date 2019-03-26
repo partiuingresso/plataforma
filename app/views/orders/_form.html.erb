@@ -1,6 +1,39 @@
 <%= form_for @order do |f| %>
   <%= f.hidden_field :event_id, value: @order.event.id %>
   <div class="columns is-multiline">
+    <% if current_user.nil? %>
+      <div class="column is-12">
+        <label class="label is-inline-block">Cadastro&nbsp;</label><span class="is-inline-block"><%= link_to "Já é cadastrado? Faça o login.", login_path(redirect_to: request.url), class: 'help' %></span>
+        <div class="columns is-multiline has-background-light">
+          <%= fields_for @user do |user| %>
+            <div class="column is-12">
+              <div class="field">
+                <label class="label is-inline-block">Nome completo</label>
+                <div class="control">
+                  <%= user.text_field :name, autofocus: true, autocomplete: "name", class: "input", placeholder: "Seu nome" %>
+                </div>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label is-inline-block">Email</label>
+                <div class="control">
+                  <%= user.email_field :email, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
+                </div>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label is-inline-block">Senha</label><span class="help is-inline-block"> Mínimo de 8 caracteres</span>
+                <div class="control">
+                  <%= user.password_field :password, autocomplete: "new-password", class: "input", placeholder: "********" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
     <%= fields_for @payment do |payment_f| %>
       <div class="column is-6">
         <div class="field">
