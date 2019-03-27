@@ -6,6 +6,7 @@ class Ability
     user ||= User.new(role: "guest")
 
     can :show, Event
+    can :new, Order
 
     unless user.guest?
         can :read, TicketToken do |ticket_token|
@@ -37,6 +38,7 @@ class Ability
     end
 
     if user.producer?
+        can :check_in, :admin
         can :read, Event, company_id: user.company_id
     end
 

@@ -1,4 +1,11 @@
 class TicketToken < ApplicationRecord
+	include PgSearch
+	pg_search_scope :search_ticket,
+									against: [:owner_name],
+									using: {
+										tsearch: {any_word: true, prefix: true}
+									}
+
 	enum status: { pending: "pending", ready: "ready",
 		 authenticated: "authenticated", expired: "expired", cancelled: "cancelled" }
 	has_one :validation

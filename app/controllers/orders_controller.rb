@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+	before_action :register_before_create, only: [:create]	
 	authorize_resource
 
 	def index
@@ -9,6 +10,9 @@ class OrdersController < ApplicationController
 		@order = Order.new(params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity]))
 		order_items = params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity])
 		@order_form = OrderForm.new(order_items)
+		if current_user.nil?
+			@user = User.new
+		end
 	end
 
 	def create
@@ -30,6 +34,21 @@ class OrdersController < ApplicationController
 	end
 
 	private
+
+	def user_params
+		params.require(:user).permit(:name, :email, :password)
+	end
+
+	def register_before_create
+		if current_user.nil?
+			@user = User.new(user_params)
+			if @user.save
+				sign_in @user
+			else
+				redirect_back(fallback_location: new_order_path)
+			end
+		end
+	end
 
 	def order_params
 		params.require(:order_form).permit(
