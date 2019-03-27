@@ -5,7 +5,7 @@ import * as brazilValues from 'brazilian-values';
 import paymentFormatter from 'payment-formatter';
 import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
 
-var installmentSelect = document.getElementById('payment_installment_count');
+var installmentSelect = document.getElementById('order_form_payment_attributes_installment_count');
 installmentSelect.addEventListener('change', function() {
 	var selectedOption = installmentSelect.selectedOptions[0];
 	var totalElement = document.getElementById('total');
@@ -22,7 +22,7 @@ const pubKey = `-----BEGIN PUBLIC KEY-----
 			    cwIDAQAB
 			    -----END PUBLIC KEY-----`;
 
-var form = document.getElementById('new_order');
+var form = document.getElementById('new_order_form');
 var expirationDate = document.getElementById('expiration-date').value;
 
 form.addEventListener('submit', function(e) {
@@ -43,7 +43,7 @@ form.addEventListener('submit', function(e) {
 		})
 		.hash()
 		.then(hash => {
-			var hashInput = document.getElementById('payment_hash');
+			var hashInput = document.getElementById('order_form_payment_attributes_hash');
 			hashInput.value = hash;
 		});
 });
@@ -51,19 +51,19 @@ form.addEventListener('submit', function(e) {
 var cardInput = document.getElementById('card-number');
 var cvcInput = document.getElementById('cvc');
 var expInput = document.getElementById('expiration-date');
-var cpfInput = document.getElementById('payment_holder_cpf');
+var cpfInput = document.getElementById('order_form_payment_attributes_holder_document');
 var celInput = document.getElementById('phone');
-var zipInput = document.getElementById('payment_billing_address_zipcode');
+var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode');
 var imagesDiv = document.querySelector('.level-right.cards');
 var images = imagesDiv.querySelectorAll('img');
 var form = document.getElementsByTagName('form')[0];
 var formInputs = form.querySelectorAll('input, select');
-var complement = document.getElementById('payment_billing_address_complement');
-var streetInput = document.getElementById('payment_billing_address_street');
-var districtInput = document.getElementById('payment_billing_address_district');
-var cityInput = document.getElementById('payment_billing_address_city');
-var stateInput = document.getElementById('payment_billing_address_state');
-var numberInput = document.getElementById('payment_billing_address_number');
+var complement = document.getElementById('payment_billing_address_attributes_complement');
+var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address');
+var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district');
+var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city');
+var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state');
+var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
 var addressInput = document.getElementById('address');
 
 // Max length do input do cartão e cvv

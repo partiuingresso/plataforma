@@ -20,7 +20,7 @@ class AddressForm
 	validates :district, presence: true, length: { maximum: 100 }
 	validates :city, presence: true, length: { maximum: 100 }
 	validates :state, presence: true, length: { maximum: 100 }
-	validates :zipcode, presence: true, format: { with: /\A\d{5}-\d{3}\Z/,
+	validates :zipcode, presence: true, format: { with: /\A\d{2}\.?\d{3}-?\d{3}\Z/,
 		message: "only allows cep format" }
 
 	def attributes
@@ -34,5 +34,9 @@ class AddressForm
 			'city' => nil,
 			'state' => nil
 		}
+	end
+
+	def zipcode=(zipcode)
+		@zipcode = zipcode.gsub(/[\.\-]/, "")
 	end
 end

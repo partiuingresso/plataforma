@@ -118,10 +118,10 @@ module Wirecard
 						store: false,
 						holder: {
 							fullname: payment.holder_fullname,
-							birthdate: payment.holder_birthdate,
+							birthdate: payment.holder_birthdate.strftime("%Y-%m-%d"),
 							taxDocument: {
 								type: "CPF",
-								number: payment.holder_cpf
+								number: payment.holder_document
 							},
 							phone: {
 								countryCode: "55",
@@ -129,14 +129,14 @@ module Wirecard
 								number: payment.holder_phone_number
 							},
 							billingAddress: {
-								street: payment.billing_address_street,
-								streetNumber: payment.billing_address_number,
-								complement: payment.billing_address_complement,
-								district: payment.billing_address_district,
-								city: payment.billing_address_city,
-								state: payment.billing_address_state,
+								street: payment.billing_address.address,
+								streetNumber: payment.billing_address.number,
+								complement: payment.billing_address.complement,
+								district: payment.billing_address.district,
+								city: payment.billing_address.city,
+								state: payment.billing_address.state,
 								country: "Brasil",
-								zipCode: payment.billing_address_zipcode
+								zipCode: payment.billing_address.zipcode
 							}
 						}
 					}

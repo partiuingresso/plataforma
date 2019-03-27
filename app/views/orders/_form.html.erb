@@ -1,7 +1,7 @@
-<%= form_for @order do |f| %>
-  <%= f.hidden_field :event_id, value: @order.event.id %>
+<%= form_for @order_form, url: orders_path do |f| %>
+  <%= f.hidden_field :event_id, value: @order_form.event_id %>
   <div class="columns is-multiline">
-    <%= fields_for @payment do |payment_f| %>
+    <%= f.fields_for :payment do |payment_f| %>
       <div class="column is-6">
         <div class="field">
           <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
@@ -82,7 +82,7 @@
         <div class="field">
           <label class="label">CPF</label>
           <div class="control">
-            <%= payment_f.text_field :holder_cpf, class: "input", maxlength: "14" %>
+            <%= payment_f.text_field :holder_document, class: "input", maxlength: "14" %>
           </div>
         </div>
       </div>
@@ -90,7 +90,7 @@
         <div class="field">
           <label class="label">Telefone celular</label>
           <div class="control">
-            <input id="phone" type="text" name="phone" maxlength="16" class="input">
+            <%= payment_f.text_field :holder_phone, id: "phone", class: "input", maxlength: "16" %>
           </div>
         </div>
       </div>
@@ -99,104 +99,105 @@
           <div class="control">
             <label class="label">Data de Nascimento</label>
             <div class="select">
-              <%= select_date(nil, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'}) %>
+              <%= payment_f.date_select :holder_birthdate, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
             </div>
           </div>
         </div>
       </div>
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">CEP</label>
-          <div class="control">
-            <%= payment_f.text_field :billing_address_zipcode, class: "input", maxlength: "9" %>
-          </div>
-        </div>
-      </div>
-
-      <div class="column is-12 is-hidden" id="address">
-        <div class="columns is-multiline">
-          <div class="column is-6">
-            <div class="field">
-              <label class="label">Endereço</label>
-              <div class="control">
-                <%= payment_f.text_field :billing_address_street, class: "input" %>
-              </div>
-            </div>
-          </div>
-          <div class="column is-3">
-            <div class="field">
-              <label class="label">Número</label>
-              <div class="control">
-                <%= payment_f.text_field :billing_address_number, class: "input" %>
-              </div>
-            </div>
-          </div>
-          <div class="column is-3">
-            <div class="field">
-              <label class="label">Complemento</label>
-              <div class="control">
-                <%= payment_f.text_field :billing_address_complement, class: "input", placeholder: "Opcional" %>
-              </div>
-            </div>
-          </div>
-          <div class="column is-4">
-            <label class="label">Bairro</label>
+      <%= payment_f.fields_for :billing_address do |address_f| %>
+        <div class="column is-6">
+          <div class="field">
+            <label class="label">CEP</label>
             <div class="control">
-              <%= payment_f.text_field :billing_address_district, class: "input" %>
+              <%= address_f.text_field :zipcode, class: "input", maxlength: "9" %>
             </div>
           </div>
-          <div class="column is-5">
-            <div class="field">
-              <label class="label">Cidade</label>
-              <div class="control">
-                <%= payment_f.text_field :billing_address_city, class: "input" %>
+        </div>
+
+        <div class="column is-12 is-hidden" id="address">
+          <div class="columns is-multiline">
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">Endereço</label>
+                <div class="control">
+                  <%= address_f.text_field :address, class: "input" %>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="column is-3">
-            <div class="field">
-              <label class="label">Estado</label>
+            <div class="column is-3">
+              <div class="field">
+                <label class="label">Número</label>
+                <div class="control">
+                  <%= address_f.text_field :number, class: "input" %>
+                </div>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div class="field">
+                <label class="label">Complemento</label>
+                <div class="control">
+                  <%= address_f.text_field :complement, class: "input", placeholder: "Opcional" %>
+                </div>
+              </div>
+            </div>
+            <div class="column is-4">
+              <label class="label">Bairro</label>
               <div class="control">
-                <%= payment_f.text_field :billing_address_state, class: "input" %>
+                <%= address_f.text_field :district, class: "input" %>
+              </div>
+            </div>
+            <div class="column is-5">
+              <div class="field">
+                <label class="label">Cidade</label>
+                <div class="control">
+                  <%= address_f.text_field :city, class: "input" %>
+                </div>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div class="field">
+                <label class="label">Estado</label>
+                <div class="control">
+                  <%= address_f.text_field :state, class: "input" %>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
 
     <div class="column is-12 is-paddingless">
       <hr />
     </div>
-    <% index = 0; @order.order_items.each do |order_item| %>
-      <%= f.fields_for :order_items, order_item do |order_item_f| %>
-        <%= order_item_f.hidden_field :offer_id, value: order_item.offer.id %>
-        <%= order_item_f.hidden_field :quantity, value: order_item.quantity %>
-          <% order_item.quantity.times do %>
-            <%= order_item_f.fields_for :ticket_tokens do |ticket_token_f| %>
-              <div class="column is-12 ticket-label">
-                <label class="label is-inline-block">Ingresso n<span class="numr">0</span> <%= index += 1 %></label>
-                <span class="is-inline-block">-> <%= order_item.offer.name %></span>
+    <% index = 0 %>
+    <%= f.fields_for :order_items, f.object.order_items do |order_item_f| %>
+      <%= order_item_f.hidden_field :offer_id, value: order_item_f.object.offer_id %>
+      <%= order_item_f.hidden_field :quantity, value: order_item_f.object.quantity %>
+        <%= order_item_f.fields_for :ticket_tokens, order_item_f.object.ticket_tokens do |ticket_token_f| %>
+          <div class="column is-12 ticket-label">
+            <label class="label is-inline-block">Ingresso n
+              <span class="numr">0</span><%= index += 1 %>
+            </label>
+            <span class="is-inline-block">-> <%= order_item_f.object.offer_name %></span>
+          </div>
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">Quem vai usar?</label>
+              <div class="control">
+                <%= ticket_token_f.text_field :owner_name, class: "input" %>
               </div>
-              <div class="column is-6">
-                <div class="field">
-                  <label class="label">Quem vai usar?</label>
-                  <div class="control">
-                    <%= ticket_token_f.text_field :owner_name, class: "input" %>
-                  </div>
-                </div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">E-mail </label>
+              <div class="control">
+                <%= ticket_token_f.email_field :owner_email, class: "input" %>
               </div>
-              <div class="column is-6">
-                <div class="field">
-                  <label class="label">E-mail </label>
-                  <div class="control">
-                    <%= ticket_token_f.email_field :owner_email, class: "input" %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-      <% end %>
+            </div>
+          </div>
+        <% end %>
     <% end %>
     <div class="column is-12">
       <hr />

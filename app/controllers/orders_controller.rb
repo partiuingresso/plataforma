@@ -1,37 +1,24 @@
 class OrdersController < ApplicationController
-	load_and_authorize_resource
+	authorize_resource
 
 	def index
 		@orders = current_user.orders.order(created_at: :desc)
 	end
 
 	def new
-		@order.order_items = @order.order_items.select { |order_item| order_item.quantity > 0 }
-		unless @order.valid? && @order.order_items.present?
-			redirect_back fallback_location: events_path and return
-		end
-
-		@payment = Payment.new
-		@order.order_items.each do |order_item|
-			order_item.ticket_tokens.build
-		end
+		@order = Order.new(params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity]))
+		order_items = params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity])
+		@order_form = OrderForm.new(order_items)
 	end
 
 	def create
-		@order = Order.new(order_params)
-		@order.user = current_user
+		@order_form = OrderForm.new(order_params)
+		@order_form.user = current_user
 
-		if @order.save
-			payment_info = Payment.new(payment_params)
-			order_payment = Wirecard.process_checkout? @order, payment_info
-			if order_payment && order_payment.save
-				redirect_to success_path(number: @order.number)
-			else
-				@order.destroy
-				redirect_back(fallback_location: new_order_path) 
-			end
+		if @order_form.save
+			redirect_to success_path(number: @order_form.order.number)
 		else
-			render plain: @order.errors.messages
+			render plain: @order_form.errors.messages
 		end
 	end
 
@@ -45,25 +32,20 @@ class OrdersController < ApplicationController
 	private
 
 	def order_params
-		params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity, ticket_tokens_attributes: [:owner_name, :owner_email]])
-	end
-
-	def payment_params
-		p_params = params.require(:payment).permit(
-			:installment_count, :holder_fullname, :holder_cpf, :billing_address_street,
-			:billing_address_number, :billing_address_complement, :billing_address_district,
-			:billing_address_city, :billing_address_state, :billing_address_zipcode, :hash
+		params.require(:order_form).permit(
+			:event_id,
+			payment_attributes: [
+				:installment_count, :hash, :holder_fullname, :holder_birthdate, :holder_document, :holder_phone,
+				billing_address_attributes: [
+					:zipcode, :address, :number, :complement, :district, :city, :state
+				]
+			],
+			order_items_attributes: [
+				:offer_id, :quantity,
+				ticket_tokens_attributes: [
+					:owner_name, :owner_email
+				]
+			]
 		)
-		p_params[:installment_count] = p_params[:installment_count].to_i
-		p_params[:holder_cpf].gsub! /[.-]/, ""
-		date = params.delete(:date)
-		p_params[:holder_birthdate] = date[:year] + "-" + date[:month] + "-" + date[:day]
-		phone = params["phone"]
-		p_params[:holder_phone_area_code] = /(\d\d)/.match(phone).to_s
-		p_params[:holder_phone_number] = /(?:\d\s*)?[0-9]{4}-?[0-9]{4}/.match(phone).to_s.gsub(/\s+/, '').sub(/-/, '')
-		p_params[:billing_address_zipcode] = p_params[:billing_address_zipcode].sub(/-/, '')
-
-		return p_params
 	end
-
 end
