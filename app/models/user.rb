@@ -23,6 +23,10 @@ class User < ApplicationRecord
     self.role ||= :user
   end
 
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
   # Timeout for dev
   def timeout_in
    return 1.year if admin?
