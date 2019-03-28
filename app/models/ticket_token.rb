@@ -27,7 +27,7 @@ class TicketToken < ApplicationRecord
 	require 'rqrcode'
 
 	def qr
-		RQRCode::QRCode.new(self.code, :size => 3, :level => :h )
+		RQRCode::QRCode.new(self.code, :size => 5, :level => :h )
 	end
 
 	def validation=(validation)

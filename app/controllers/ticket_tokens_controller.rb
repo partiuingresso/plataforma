@@ -5,6 +5,22 @@ class TicketTokensController < ApplicationController
 		@ticket_tokens = current_user.ticket_tokens
   end
 
+  def show
+    @ticket_token = current_user.ticket_tokens.find(params[:id])
+
+    respond_to do |format|
+      format.html { render :show }
+
+      format.pdf do
+        pdf = VoucherPdf.new(@ticket_token)
+        send_data pdf.render,
+          filename: "#{@ticket_token.owner_name}-#{@ticket_token.event.name}-PartiuIngresso.pdf",
+          type: "application/pdf",
+          disposition: :inline
+      end
+    end
+  end
+
   def new_validation
     @event = Event.find(params[:id])
 

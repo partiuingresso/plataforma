@@ -27,6 +27,14 @@ gem 'chartkick'
 gem 'rqrcode'
 # Pagination
 gem 'kaminari'
+# Gera PDF
+gem 'prawn', '~> 2.2', '>= 2.2.2'
+# Importa qrcode no PDF
+gem 'prawn-qrcode'
+# Importa SVG no PDF
+gem 'prawn-svg'
+# Possibilita uso de tables no PDF
+gem 'prawn-table'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
