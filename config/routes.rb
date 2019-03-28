@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   get 'tickets/validations/new', to: 'ticket_tokens#new_validation'
   get '/check-in/:id', to: 'ticket_tokens#new_validation', as: 'validation'
   post 'tickets/validations', to: 'ticket_tokens#create_validation'
-  get 'ticket/:id', to: 'ticket_tokens#show'
+  get 'ticket/:id', to: 'ticket_tokens#show', as: 'ticket'
 
   resources :company_finances, only: [:new, :create, :edit, :update]
   resources :transfers, only: [:create]

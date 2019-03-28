@@ -72,7 +72,27 @@
                   <div class="column is-full">
                     <div class="columns is-marginless is-centered has-text-left">
                       <div class="column box is-3">
-                        <p class="title is-5 has-text-white">Informações:</p>
+                        <div class="level is-mobile">
+                          <div class="level-left">
+                            <div class="level-item">
+                              <p class="title is-5 has-text-white">Informações:</p>
+                            </div>
+                          </div>
+                          <div class="level-right">
+                            <div class="level-item">
+                              <div>
+                                <%= link_to ticket_path(t, format: :pdf) do %>
+                                  <span class="help is-inline-block has-text-white">
+                                    Baixar PDF
+                                  </span>
+                                  <span class="icon is-small is-inline-block has-text-primary">
+                                    <i class="far fa-file-pdf"></i>
+                                  </span>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                         <hr />
                         <p>
                           <span class="icon is-inline-block is-small has-text-primary">
