@@ -65,8 +65,7 @@ module Wirecard
 								hash: payment.hash,
 								store: false,
 								holder: {
-									# fullname: payment.holder_fullname,
-									fullname: "CANCELLED",
+									fullname: payment.holder_fullname,
 									birthdate: payment.holder_birthdate.strftime("%Y-%m-%d"),
 									taxDocument: {
 										type: "CPF",
