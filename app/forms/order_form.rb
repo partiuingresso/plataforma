@@ -20,7 +20,6 @@ class OrderForm
 		super
 		@order_items ||= []
 		@payment ||= PaymentForm.new
-		@checkout_error = nil
 	end
 
 	def save
@@ -28,17 +27,17 @@ class OrderForm
 			if valid?
 				persist_order!
 				@checkout = Wirecard::Checkout.new(@order, payment)
-				if @checkout.process?
-					persist_order_payment!
-				else
-					@order.destroy!
-					@success = false
-				end
-			else
-				@success = false
+				@checkout.process!
+				persist_order_payment!
 			end
+		rescue CheckoutErrors::OrderError, CheckoutErrors::PaymentError => e
+			self.errors.add(:checkout, e.message)
+			@order.destroy
+			@success = false
 		rescue => e
 			self.errors.add(:base, e.message)
+			@order_payment.destroy if @order_payment.present? && @order_payment.persisted?
+			@order.destroy if @order.present? && @order.persisted?
 			@success = false
 		end		
 	end
@@ -46,7 +45,7 @@ class OrderForm
 	def order_items_attributes=(order_items_params)
 		@order_items ||= []
 		order_items_params.each do |i, order_item_params|
-			if order_item_params[:quantity].to_i > 0
+			if order_item_params["quantity"].to_i > 0
 				@order_items.push(OrderItemForm.new(order_item_params))
 			end
 		end

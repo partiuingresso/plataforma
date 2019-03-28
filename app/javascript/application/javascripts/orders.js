@@ -91,6 +91,8 @@ paymentFormatter({
   selector: 'input#expiration-date'
 });
 
+cpfInput.value = brazilValues.formatToCPF(cpfInput.value);
+
 // Mask do CPF
 cpfInput.addEventListener('input', function() {
   cpfInput.value = brazilValues.formatToCPF(cpfInput.value);
@@ -100,6 +102,13 @@ cpfInput.addEventListener('input', function() {
 celInput.addEventListener('input', function() {
   celInput.value = brazilValues.formatToPhone(celInput.value);
 });
+
+if(zipInput.value) {
+  addressInput.classList.remove('is-hidden');
+  cardInput.focus();
+}
+
+zipInput.value = brazilValues.formatToCEP(zipInput.value);
 
 // Mask do CEP
 zipInput.addEventListener('input', function() {

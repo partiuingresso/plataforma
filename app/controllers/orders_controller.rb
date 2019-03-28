@@ -7,22 +7,25 @@ class OrdersController < ApplicationController
 	end
 
 	def new
-		@order = Order.new(params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity]))
-		order_items = params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity])
-		@order_form = OrderForm.new(order_items)
+		@order = Order.new(order_params)
+		@order_form = OrderForm.new(order_params)
+
 		if current_user.nil?
 			@user = User.new
 		end
 	end
 
 	def create
-		@order_form = OrderForm.new(order_params)
+		@order_form = OrderForm.new(order_form_params)
 		@order_form.user = current_user
 
 		if @order_form.save
 			redirect_to success_path(number: @order_form.order.number)
-		elsif @order_form.checkout.error.present?
-			render plain: @order_form.checkout.error
+		elsif @order_form.errors.include?(:checkout)
+			@order = Order.new(order_form_params.slice(:event_id.to_s, :order_items_attributes.to_s))
+			@order_form.payment.hash = nil
+			flash.now[:alert] = @order_form.errors[:checkout][0]
+			render :new
 		else
 			render plain: @order_form.errors.messages
 		end
@@ -53,6 +56,10 @@ class OrdersController < ApplicationController
 	end
 
 	def order_params
+		params.require(:order).permit(:event_id, order_items_attributes: [:offer_id, :quantity])
+	end
+
+	def order_form_params
 		params.require(:order_form).permit(
 			:event_id,
 			payment_attributes: [

@@ -1,6 +1,7 @@
 class WebHooksController < ApplicationController
 	skip_before_action :verify_authenticity_token
 	before_action :authenticate
+	layout false
 
 	def webhooks
 		resultado = Wirecard::Webhooks.listen(request) do |hook|

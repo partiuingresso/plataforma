@@ -25,15 +25,15 @@ class PaymentForm
 	def initialize(attributes={})
 		if attributes.present?
 			self.installment_count = attributes[:installment_count]
-			self.hash = attributes[:hash]
-			self.holder_fullname = attributes[:holder_fullname]
+			self.hash = attributes["hash"]
+			self.holder_fullname = attributes["holder_fullname"]
 			year = attributes['holder_birthdate(1i)']
 			month = attributes['holder_birthdate(2i)']
 			day = attributes['holder_birthdate(3i)']
 			self.holder_birthdate = [year, month, day]
-			self.holder_document = attributes[:holder_document]
-			self.holder_phone = attributes[:holder_phone]
-			self.billing_address_attributes = attributes[:billing_address_attributes]
+			self.holder_document = attributes["holder_document"]
+			self.holder_phone = attributes["holder_phone"]
+			self.billing_address_attributes = attributes["billing_address_attributes"]
 		end
 		@billing_address ||= AddressForm.new
 	end
