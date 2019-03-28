@@ -1,19 +1,13 @@
 module Wirecard
-
-	autoload :Webhooks, 'webhooks'
-
-	@@app_id = Rails.application.credentials.dig(:wirecard_app_id)
-	token = Rails.application.credentials.dig(:wirecard_sandbox_api_token)
-	key = Rails.application.credentials.dig(:wirecard_sandbox_api_key)
 	access_token = Rails.application.credentials.dig(:wirecard_sandbox_api_access_token)
 	auth = Moip2::Auth::OAuth.new(access_token)
 	client = Moip2::Client.new(:sandbox, auth)
 
-	@@api = Moip2::Api.new(client)
+	API = Moip2::Api.new(client)
 
 	def self.api(token = nil)
 		if token.nil?
-			@@api
+			API
 		else
 			auth = Moip2::Auth::OAuth.new(token)
 			client = Moip2::Client.new(:sandbox, auth)
@@ -34,6 +28,7 @@ module Wirecard
 		url = "https://moip.partiuingresso.com/webhooks"
 	end
 
+	app_id = Rails.application.credentials.dig(:wirecard_app_id)
 	@@notification = api.notifications.create(
 		{
 			events: [
@@ -43,106 +38,11 @@ module Wirecard
 			target: url,
 			media: "WEBHOOK"
 		},
-		@@app_id
+		app_id
 	)
 
 	def self.notification_token
 		@@notification.token
-	end
-
-	def self.process_checkout? order, payment_data
-		response_order = create_order order, payment_data.installment_count
-		if response_order.respond_to?(:status) && response_order.status.present?
-			payment_response = create_payment response_order.id, payment_data
-			if payment_response.respond_to?(:status) && payment_response.status.present?
-				payment = OrderPayment.new
-				payment.amount_cents = payment_response.amount.total
-				payment.installment_count = payment_response.installment_count
-				payment.interest_rate = Business::Finance::InterestRate[payment.installment_count]
-				payment.card_brand = payment_response.funding_instrument.credit_card.brand
-				payment.card_number_last_4 = payment_response.funding_instrument.credit_card.last4
-				payment.order = order
-
-				return payment
-			end
-		end
-
-		return nil
-	end
-
-	def self.create_order order, installment_count
-		absolute_interest_cents = (Business::Finance::InterestRate[installment_count] * order.total).cents
-		addition = order.absolute_fee_cents + absolute_interest_cents
-		order = api.order.create({
-			own_id: order.number,
-			amount: {
-				currency: "BRL",
-				subtotals: { addition: addition }
-			},
-			items: order.order_items.collect do |order_item|
-				{
-					product: order_item.offer.name,
-					quantity: order_item.quantity,
-					price: order_item.offer.price_cents
-				}
-			end,
-			customer: {
-				ownId: order.user.id,
-				fullname: order.user.name.full,
-				email: order.user.email
-			},
-			receivers: [
-				{
-					type: "SECONDARY",
-					feePayor: false,
-					moipAccount: {
-						id: order.company.moip_id
-					},
-					amount: {
-						fixed: order.subtotal_cents
-					}
-				}
-			]
-		})
-	end
-
-	def self.create_payment order_id, payment
-		payment = api.payment.create(order_id,
-			{
-				installmentCount: payment.installment_count,
-				statementDescriptor: "PartiuIngress",
-				fundingInstrument: {
-					method: "CREDIT_CARD",
-					creditCard: {
-						hash: payment.hash,
-						store: false,
-						holder: {
-							fullname: payment.holder_fullname,
-							birthdate: payment.holder_birthdate.strftime("%Y-%m-%d"),
-							taxDocument: {
-								type: "CPF",
-								number: payment.holder_document
-							},
-							phone: {
-								countryCode: "55",
-								areaCode: payment.holder_phone_area_code,
-								number: payment.holder_phone_number
-							},
-							billingAddress: {
-								street: payment.billing_address.address,
-								streetNumber: payment.billing_address.number,
-								complement: payment.billing_address.complement,
-								district: payment.billing_address.district,
-								city: payment.billing_address.city,
-								state: payment.billing_address.state,
-								country: "Brasil",
-								zipCode: payment.billing_address.zipcode
-							}
-						}
-					}
-				}
-			}
-		)
 	end
 
 	def self.create_account person, company

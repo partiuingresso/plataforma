@@ -15,8 +15,13 @@ class WebHooksController < ApplicationController
 			hook.on(:order, :not_paid) do
 				order_number = hook.resource.ownId.to_i
 				order = Order.find_by(number: order_number)
-				unless order.denied? || order.refunded?
-					order.denied!
+				if order.nil?
+					# Pedidos em que o pagamento é cancelado na criação do pedido.
+					return true
+				else
+					unless order.nil? || order.denied? || order.refunded?
+						order.denied!
+					end
 				end
 			end
 

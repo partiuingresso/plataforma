@@ -21,6 +21,8 @@ class OrdersController < ApplicationController
 
 		if @order_form.save
 			redirect_to success_path(number: @order_form.order.number)
+		elsif @order_form.checkout.error.present?
+			render plain: @order_form.checkout.error
 		else
 			render plain: @order_form.errors.messages
 		end
