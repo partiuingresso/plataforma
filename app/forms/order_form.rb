@@ -28,7 +28,7 @@ class OrderForm
 			if valid?
 				persist_order!
 				@checkout = Wirecard::Checkout.new(@order, payment)
-				if checkout.process?
+				if @checkout.process?
 					persist_order_payment!
 				else
 					@order.destroy!
