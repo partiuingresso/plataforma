@@ -6,6 +6,7 @@ class OrderForm
 		:order, # Order instance
 		:user,
 		:event_id,
+		:checkout,
 		:order_items, # List of Order Item Form
 		:payment # The order payment form
 	)
@@ -19,19 +20,20 @@ class OrderForm
 		super
 		@order_items ||= []
 		@payment ||= PaymentForm.new
+		@checkout_error = nil
 	end
 
 	def save
 		begin
 			if valid?
-				@order = Order.new({
-					event_id: event_id,
-					user: user,
-					order_items_attributes: build_order_items_attributes
-				})
-				@order.save!
-				p = Wirecard::process_checkout? @order, payment
-				p.save!
+				persist_order!
+				@checkout = Wirecard::Checkout.new(@order, payment)
+				if checkout.process?
+					persist_order_payment!
+				else
+					@order.destroy!
+					@success = false
+				end
 			else
 				@success = false
 			end
@@ -55,6 +57,27 @@ class OrderForm
 	end
 
 	private
+
+		def persist_order!
+			@order = Order.new({
+				event_id: event_id,
+				user: user,
+				order_items_attributes: build_order_items_attributes
+			})
+			@order.save!
+		end
+
+		def persist_order_payment!
+			@order_payment = OrderPayment.new({
+				order: @order,
+				amount_cents: @checkout.wirecard_payment.amount.total,
+				installment_count: @checkout.wirecard_payment.installment_count,
+				interest_rate: Business::Finance::InterestRate[@checkout.wirecard_payment.installment_count],
+				card_brand: @checkout.wirecard_payment.funding_instrument.credit_card.brand,
+				card_number_last_4: @checkout.wirecard_payment.funding_instrument.credit_card.last4
+			})
+			@order_payment.save!
+		end
 
 		def build_order_items_attributes
 			order_items.map do |order_item|
