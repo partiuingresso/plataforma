@@ -34,6 +34,7 @@ class OrdersController < ApplicationController
 
 	def success
 		@order = Order.find_by(number: params[:number])
+		authorize! :success, @order
 	end
 
 	def denied

@@ -246,3 +246,18 @@ pt-BR:
       previous: "&lsaquo; Anterior"
       next: "Próxima &rsaquo;"
       truncate: "&hellip;"
+  unauthorized:
+    manage:
+      all: "Você não pode fazer isso!"
+      user: "Você não pode gerenciar a conta de outros usuários!"
+      event: "Você não pode gerenciar o evento de outros organizadores!"
+      validation: "Você não pode gerenciar a validação de um evento que não é seu!"
+    read:
+      all: "Você não pode acessar isso!"
+    create:
+      all: "Você não pode fazer isso!"
+      event: "Você não pode criar um evento que você não seja o organizador!"
+      validation: "Você não pode validar um ingresso de um evento criado por outro organizador!"
+      transfer: "Você não pode fazer essa transferência!"
+    success:
+      order: "Você não possui um pedido com esse número!"
