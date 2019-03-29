@@ -27,6 +27,11 @@ var form = document.getElementById('new_order_form');
 var expirationDate = document.getElementById('expiration-date').value;
 
 form.addEventListener('submit', function(e) {
+  if(!validateCC() || !validateInputs() || !validateCreateAccount() || !validateEmailField()) {
+    e.preventDefault();
+    cleanInputs();
+    return;
+  }
 	var cardNumberValue = document.getElementById('card-number').value;
 	var cvcValue = document.getElementById('cvc').value;
 	var expirationDate = document.getElementById('expiration-date').value.split('/');
@@ -47,6 +52,7 @@ form.addEventListener('submit', function(e) {
 			var hashInput = document.getElementById('order_form_payment_attributes_hash');
 			hashInput.value = hash;
 		});
+    disableSubmitButton();
 });
 
 var cardInput = document.getElementById('card-number');
@@ -280,10 +286,8 @@ function cleanInputs() {
   }
 }
 
-// Submit
-form.addEventListener('submit', function(e) {
-  if(!validateCC() || !validateInputs() || !validateCreateAccount() || !validateEmailField()) {
-    e.preventDefault();
-    cleanInputs();
-  }
-});
+function disableSubmitButton() {
+  var button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Aguarde...";
+}
