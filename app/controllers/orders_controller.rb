@@ -20,6 +20,7 @@ class OrdersController < ApplicationController
 		@order_form.user = current_user
 
 		if @order_form.save
+			NotificationMailer.with(order: @order_form.order).order_received.deliver_later
 			redirect_to success_path(number: @order_form.order.number)
 		elsif @order_form.errors.include?(:checkout)
 			@order = Order.new(order_form_params.slice(:event_id.to_s, :order_items_attributes.to_s))

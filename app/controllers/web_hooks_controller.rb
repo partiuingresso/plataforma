@@ -11,6 +11,12 @@ class WebHooksController < ApplicationController
 				unless order.approved?
 					order.approved!
 				end
+				NotificationMailer.with(order: order).order_confirmed.deliver_later
+				order.ticket_tokens.each do |t|
+					unless t.owner_email == order.user.email
+						NotificationMailer.with(order: order, ticket: t).order_ticket.deliver_later
+					end
+				end
 			end
 
 			hook.on(:order, :not_paid) do
