@@ -1,4 +1,5 @@
 class TicketToken < ApplicationRecord
+	require 'rqrcode'
 	include PgSearch
 	pg_search_scope :search_ticket,
 									against: [:owner_name],
@@ -17,14 +18,13 @@ class TicketToken < ApplicationRecord
 
 	has_secure_token :code
 
-	scope :ready, -> { where(status: :ready) }
-
 	validates :owner_name, presence: true
 	validates :owner_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
 	after_initialize :default_values
 
-	require 'rqrcode'
+
+	scope :not_cancelled, -> { where('status != ?', :cancelled) }
 
 	def qr
 		RQRCode::QRCode.new(self.code, :size => 5, :level => :h )

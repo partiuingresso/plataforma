@@ -36,7 +36,7 @@ class OrderItem < ApplicationRecord
     end
 
     def quantity_cannot_be_different_to_ticket_tokens_count
-      if ticket_tokens.present? && self.quantity != ticket_tokens.length
+      if ticket_tokens.not_cancelled.present? && self.quantity != ticket_tokens.not_cancelled.length
         errors.add(:quantity, "can't mismatch the number of valid and used ticket tokens")
       end
     end
