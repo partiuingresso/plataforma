@@ -35,6 +35,8 @@ gem 'prawn-qrcode'
 gem 'prawn-svg'
 # Possibilita uso de tables no PDF
 gem 'prawn-table'
+# Habilita Sidekiq
+gem 'sidekiq'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
