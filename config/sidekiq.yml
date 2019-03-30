@@ -1,0 +1,10 @@
+:timeout: 30
+
+:queues:
+  - default
+  - mailers
+
+production:
+  :concurrency: 25
+staging:
+  :concurrency: 15
