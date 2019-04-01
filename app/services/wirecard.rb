@@ -24,6 +24,8 @@ module Wirecard
 		current_notifications.each do |notification|
 			api.notifications.delete notification["id"]
 		end
+	elsif Rails.env.staging?
+		url = "https://moip-stage.partiuingresso.com/webhooks"
 	else
 		url = "https://moip.partiuingresso.com/webhooks"
 	end

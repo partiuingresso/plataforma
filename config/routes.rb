@@ -50,7 +50,11 @@ Rails.application.routes.draw do
 
   if Rails.env.development?
     post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
-  elsif Rails.env.production?
+  elsif Rails.env.staging?
+    constraints subdomain: 'moip-stage', defaults: { format: :json } do
+      post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
+    end
+  else
     constraints subdomain: 'moip', defaults: { format: :json } do
       post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
     end
