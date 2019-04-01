@@ -161,7 +161,7 @@
             height="100%"
             valign="top"
             bgcolor="#FAF9F8">
-            <h1 style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-family: helvetica, arial, sans-serif; color: rgb(74, 74, 74); background-color: rgb(250, 249, 248); text-align: center;">Voc&ecirc; recebeu <%= pluralize(@order.total_quantity, "ingresso") %></h1>
+            <h1 style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-family: helvetica, arial, sans-serif; color: rgb(74, 74, 74); background-color: rgb(250, 249, 248); text-align: center;">Voc&ecirc; recebeu <%= pluralize(@order.total_quantity, "ingresso", plural: "ingressos") %></h1>
 
         </td>
       </tr>

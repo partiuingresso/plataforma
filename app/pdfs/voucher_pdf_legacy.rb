@@ -1,7 +1,7 @@
 require 'prawn/qrcode'
 require 'prawn/table'
 
-class VoucherPdfDiscreet
+class VoucherPdfLegacy
   include Prawn::View
 
   def initialize(ticket_token)

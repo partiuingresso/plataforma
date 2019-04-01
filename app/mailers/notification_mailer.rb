@@ -22,7 +22,7 @@ class NotificationMailer < ApplicationMailer
   def legacy_tickets
     @order = params[:order]
     @order.ticket_tokens.each do |t|
-      attachments["#{t.owner_name}-#{t.event.name}-PartiuIngresso.pdf"] = VoucherPdfDiscreet.new(t).render
+      attachments["#{t.owner_name}-#{t.event.name}-PartiuIngresso.pdf"] = VoucherPdfLegacy.new(t).render
     end
     mail(to: @order.user.email, subject: "Ingresso(s) - #{@order.event.name}!")
   end
