@@ -13,6 +13,7 @@ class Order < ApplicationRecord
   after_initialize :default_values
 
   accepts_nested_attributes_for :order_items
+  validates_presence_of :order_items
   validates_associated :order_items
 
   monetize :subtotal_cents
