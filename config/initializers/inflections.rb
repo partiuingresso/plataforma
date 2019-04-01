@@ -14,3 +14,8 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections(:br) do |inflect|
+  inflect.irregular 'está', 'estão'
+  inflect.irregular 'disponível', 'disponíveis'
+end
