@@ -29,8 +29,10 @@ class User < ApplicationRecord
 
   # Timeout for dev
   def timeout_in
-   return 1.year if admin?
-   1.days
+    unless Rails.env.production?
+      return 1.year if admin?
+      1.days
+    end
   end
 
 end
