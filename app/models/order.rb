@@ -94,15 +94,13 @@ class Order < ApplicationRecord
       month = now.month.to_s.rjust(2, "0")
       day = now.day.to_s.rjust(2, "0")
 
-      order_number = year + month + day
+      order_date = year + month + day
 
       loop do
-        order_number += rand(10 ** 6).to_s.rjust(7, "0")
-        order_number = order_number.to_i
-        break unless Order.exists?(number: order_number)
+        random_code = rand(10 ** 6).to_s.rjust(7, "0")
+        self.number = order_date + random_code
+        break unless Order.exists?(number: self.number)
       end
-
-      self.number = order_number
     end
 
     def update_subtotal
