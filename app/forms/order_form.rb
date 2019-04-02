@@ -29,6 +29,7 @@ class OrderForm
 				@checkout = Wirecard::Checkout.new(@order, payment)
 				@checkout.process!
 				persist_order_payment!
+				@success = true
 			end
 		rescue CheckoutErrors::OrderError, CheckoutErrors::PaymentError => e
 			self.errors.add(:checkout, e.message)

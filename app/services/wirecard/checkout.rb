@@ -35,8 +35,28 @@ module Wirecard
 					end,
 					customer: {
 						ownId: order.user.id,
-						fullname: order.user.name.full,
-						email: order.user.email
+						fullname: payment.holder_fullname,
+						email: order.user.email,
+						birthDate: payment.holder_birthdate.strftime("%Y-%m-%d"),
+						taxDocument: {
+							type: "CPF",
+							number: payment.holder_document
+						},
+						phone: {
+							countryCode: "55",
+							areaCode: payment.holder_phone_area_code,
+							number: payment.holder_phone_number
+						},
+						shippingAddress: {
+							street: payment.billing_address.address,
+							streetNumber: payment.billing_address.number,
+							complement: payment.billing_address.complement,
+							district: payment.billing_address.district,
+							city: payment.billing_address.city,
+							state: payment.billing_address.state,
+							country: "Brasil",
+							zipCode: payment.billing_address.zipcode
+						}
 					},
 					receivers: [
 						{
