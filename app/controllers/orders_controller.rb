@@ -10,9 +10,9 @@ class OrdersController < ApplicationController
 		@order = Order.new(order_params)
 		@order.user = current_user
 		@order.order_items = @order.order_items.select { |order_item| order_item.quantity > 0 }
-		unless @order.valid?
-			redirect_back(fallback_location: event_path(@order.event)) and return
-		end
+		# unless @order.valid?
+		# 	redirect_back(fallback_location: event_path(@order.event)) and return
+		# end
 
 		@order_form = OrderForm.new(order_params)
 
