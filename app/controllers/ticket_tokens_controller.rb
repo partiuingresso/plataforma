@@ -2,7 +2,8 @@ class TicketTokensController < ApplicationController
   authorize_resource
 
   def index
-		@ticket_tokens = current_user.ticket_tokens
+    @tickets = current_user.ticket_tokens
+		@ticket_tokens = Kaminari.paginate_array(@tickets.ready).page(params[:page]).per(9)
   end
 
   def show
