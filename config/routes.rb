@@ -35,7 +35,8 @@ Rails.application.routes.draw do
   get '/success/:number', to: 'orders#success', as: 'success'
   get '/denied/', to: 'orders#denied', as: 'denied'
   
-  root to: 'pages#index'
+  root to: 'pages#offline'
+  get 'index', to: 'pages#index'
   get 'search', to: 'pages#search'
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
