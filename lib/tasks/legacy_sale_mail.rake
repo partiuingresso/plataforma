@@ -22,7 +22,7 @@ namespace :legacy_sale do
 			filename = args[:filename]
 			CSV.foreach(filename, { col_sep: ";", headers: true }) do |row|
 				email = row[0].downcase
-				ticket_token = TicketToken.find(owner_email: email)
+				ticket_token = TicketToken.find_by_owner_email!(email)
 				orders[email] ||= ticket_token.order
 			end
 		rescue => e
