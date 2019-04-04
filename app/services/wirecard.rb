@@ -1,9 +1,9 @@
 module Wirecard
-	environment = Rails.env.production? ? :production : :sandbox
+	API_ENV = Rails.env.production? ? :production : :sandbox
 
-	access_token = Rails.application.credentials.dig(:wirecard, environment, :access_token)
+	access_token = Rails.application.credentials.dig(:wirecard, API_ENV, :access_token)
 	auth = Moip2::Auth::OAuth.new(access_token)
-	client = Moip2::Client.new(environment, auth)
+	client = Moip2::Client.new(API_ENV, auth)
 
 	API = Moip2::Api.new(client)
 
@@ -12,7 +12,7 @@ module Wirecard
 			API
 		else
 			auth = Moip2::Auth::OAuth.new(token)
-			client = Moip2::Client.new(environment, auth)
+			client = Moip2::Client.new(API_ENV, auth)
 			Moip2::Api.new(client)
 		end
 	end
@@ -32,7 +32,7 @@ module Wirecard
 		url = "https://moip.partiuingresso.com/webhooks"
 	end
 
-	app_id = Rails.application.credentials.dig(:wirecard, environment, :app_id)
+	app_id = Rails.application.credentials.dig(:wirecard, API_ENV, :app_id)
 	@@notification = api.notifications.create(
 		{
 			events: [
