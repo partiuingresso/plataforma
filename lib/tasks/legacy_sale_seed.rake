@@ -12,6 +12,12 @@ namespace :db do
 	end
 end
 
+def destroy_orders orders
+	orders.each do |order|
+		order.destroy
+	end
+end
+
 def main(filename, args)
 	begin
 		admin_user = User.find(args[:admin_id])
@@ -47,6 +53,8 @@ def main(filename, args)
 		end
 	end
 
+	saved_orders = []
+
 	puts "Seeding data..."
 	sales.each do |email, sale_info|
 		owner_name = sale_info[:name]
@@ -75,10 +83,14 @@ def main(filename, args)
 		end
 
 		unless order.valid?
+			puts "Destroying created orders..."
+			destroy_orders(saved_orders)
 			puts order.errors.messages and return
 		end
 		order.save!
+		saved_orders.push(order)
 	end
 
 	puts "DONE :)"
 end
+
