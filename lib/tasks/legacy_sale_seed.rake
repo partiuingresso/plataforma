@@ -75,7 +75,7 @@ def main(filename, args)
 		end
 
 		unless order.valid?
-			puts order.error.messages and return
+			puts order.errors.messages and return
 		end
 		order.save!
 	end
