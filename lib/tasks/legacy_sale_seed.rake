@@ -21,9 +21,6 @@ def main(filename, args)
 		return
 	end
 
-	puts "Destroying orders..."
-	Order.where(event: event).destroy_all
-
 	name_idx = 0
 	email_idx = 2
 	quantity_idx = 4
