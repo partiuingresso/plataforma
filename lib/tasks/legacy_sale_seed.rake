@@ -54,6 +54,7 @@ def main(filename, args)
 	end
 
 	saved_orders = []
+	offers = {}
 
 	puts "Seeding data..."
 	sales.each do |email, sale_info|
@@ -64,7 +65,7 @@ def main(filename, args)
 			offer_name = item[:offer_name]
 			quantity = item[:quantity]
 
-			offer = Offer.new(
+			offer = offers[offer_name] || Offer.new(
 				name: offer_name,
 				event: event,
 				quantity: 0,
@@ -75,6 +76,7 @@ def main(filename, args)
 			offer.quantity += quantity
 			offer.available_quantity += quantity
 			offer.save!
+			offers[offer_name] ||= offer
 
 			order_item = order.order_items.build(offer: offer.reload, quantity: quantity)
 			quantity.times do
