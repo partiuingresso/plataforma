@@ -64,7 +64,7 @@ def main(filename, args)
 			offer_name = item[:offer_name]
 			quantity = item[:quantity]
 
-			offer = Offer.find_by_name(offer_name) || Offer.new(
+			offer = Offer.new(
 				name: offer_name,
 				event: event,
 				quantity: 0,
