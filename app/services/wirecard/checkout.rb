@@ -105,14 +105,12 @@ module Wirecard
 			end
 
 			def validate_order_creation!
-				Rails.logger.debug @wirecard_order.inspect
 				unless @wirecard_order.respond_to?(:status) && @wirecard_order.status == "CREATED"
 					raise CheckoutErrors::OrderError
 				end
 			end
 
 			def validate_payment_creation!
-				Rails.logger.debug @wirecard_payment.inspect
 				unless @wirecard_payment.respond_to?(:status) && wirecard_payment.status != "CANCELLED"
 					raise CheckoutErrors::PaymentError.new(@wirecard_payment.cancellation_details.code)
 				end

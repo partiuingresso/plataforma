@@ -5,6 +5,7 @@ import * as brazilValues from 'brazilian-values';
 import paymentFormatter from 'payment-formatter';
 import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
 import * as Validation from "./utils/validation";
+import Rails from 'rails-ujs';
 
 var installmentSelect = document.getElementById('order_form_payment_attributes_installment_count');
 installmentSelect.addEventListener('change', function() {
@@ -13,15 +14,27 @@ installmentSelect.addEventListener('change', function() {
 	totalElement.innerText = selectedOption.dataset.price.toString(10);
 });
 
+<% if Rails.env.production? %>
 const pubKey = `-----BEGIN PUBLIC KEY-----
-				MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
-			    mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
-			    02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
-			    srsNWDdCm3LiXH//AL0SYh5kv7C18ccTZdKQVv7NALaQor9Uh6HeMyNCsjZGStqS
-			    Dzl56k3rdMa/gzV+B6YeGkFx6P6k7dEHzHvc6mhY2oFrPBRb0Dg30BwQy12pRKuc
-			    JaCHbICrdX5ks5PQSU6i3HRjfY3sjj035xrNe6BEn0U7yb552X8NMWEAEpeclw2c
-			    cwIDAQAB
-			    -----END PUBLIC KEY-----`;
+                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjo+j1R0PSwiypSntfc+t
+                4oKUkg44O2OAZ+CQtVTMeSOBlJr5+ciIv91syT2klL21a8gscv7cm8e2UODGlhgD
+                NmgrS5RVbrO3g8v3UCC9kvJqCLZIGTflRpsyOabv4/PJyikiQh1aUe5D/c1CL1io
+                VkthTrN70W0RThenNOzi465d47+kq0IX121I1m40e122p//6ZUsqZsH1dNcClyil
+                V8gTJo+p4Ss7zT5shYclFgSvXJPUxM7BafUzWIOm1RKrcMe6OQIKcmoU4rtwD5RQ
+                QnEWX7x0tggpnt8+f3yu09MLDI5Xh8QTVe04KGsvmf6WaHXRiTcH+t9aCEOcGBIU
+                pQIDAQAB
+                -----END PUBLIC KEY-----`;
+<% else %>
+const pubKey = `-----BEGIN PUBLIC KEY-----
+                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
+                mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
+                02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
+                srsNWDdCm3LiXH//AL0SYh5kv7C18ccTZdKQVv7NALaQor9Uh6HeMyNCsjZGStqS
+                Dzl56k3rdMa/gzV+B6YeGkFx6P6k7dEHzHvc6mhY2oFrPBRb0Dg30BwQy12pRKuc
+                JaCHbICrdX5ks5PQSU6i3HRjfY3sjj035xrNe6BEn0U7yb552X8NMWEAEpeclw2c
+                cwIDAQAB
+                -----END PUBLIC KEY-----`;
+<% end %>
 
 var form = document.getElementById('new_order_form');
 var expirationDate = document.getElementById('expiration-date').value;
