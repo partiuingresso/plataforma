@@ -49,9 +49,9 @@ Rails.application.routes.draw do
   resources :company_finances, only: [:new, :create, :edit, :update]
   resources :transfers, only: [:create]
 
-  get '/roupa-nova-montes-claros-1', to: 'pages#index'
-  get '/roupa-nova-curvelo-ads-1', to: 'pages#index'
-  get '/roupa-nova-curvelo-1', to: 'pages#index'
+  get '/roupa-nova-montes-claros-1', to: 'pages#offline'
+  get '/roupa-nova-curvelo-ads-1', to: 'pages#offline'
+  get '/roupa-nova-curvelo-1', to: 'pages#offline'
 
   if Rails.env.development?
     post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
