@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get '/success/:number', to: 'orders#success', as: 'success'
   get '/denied/', to: 'orders#denied', as: 'denied'
   
-  root to: 'pages#index'
+  root to: 'pages#offline'
   # get 'index', to: 'pages#index'
   get 'search', to: 'pages#search'
   get 'terms', to: 'pages#terms'
@@ -49,10 +49,14 @@ Rails.application.routes.draw do
   resources :company_finances, only: [:new, :create, :edit, :update]
   resources :transfers, only: [:create]
 
-  get '/roupa-nova-montes-claros-1', to: redirect('/events/2')
-  get '/roupa-nova-curvelo-ads-1', to: redirect('/events/1')
-  get '/roupa-nova-curvelo-1', to: redirect('/events/1')
+  # get '/roupa-nova-montes-claros-1', to: redirect('/events/2')
+  # get '/roupa-nova-curvelo-ads-1', to: redirect('/events/1')
+  # get '/roupa-nova-curvelo-1', to: redirect('/events/1')
 
+  get '/roupa-nova-montes-claros-1', to: 'pages#offline'
+  get '/roupa-nova-curvelo-ads-1', to: 'pages#offline'
+  get '/roupa-nova-curvelo-1', to: 'pages#offline'
+  
   if Rails.env.development?
     post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
   elsif Rails.env.staging?
