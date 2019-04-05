@@ -10,11 +10,11 @@ class WebHooksController < ApplicationController
 				order = Order.find_by(number: order_number)
 				unless order.approved?
 					order.approved!
-				end
-				NotificationMailer.with(order: order).order_confirmed.deliver_later
-				order.ticket_tokens.each do |t|
-					unless t.owner_email == order.user.email
-						NotificationMailer.with(order: order, ticket: t).order_ticket.deliver_later
+					NotificationMailer.with(order: order).order_confirmed.deliver_later
+					order.ticket_tokens.each do |t|
+						unless t.owner_email == order.user.email
+							NotificationMailer.with(order: order, ticket: t).order_ticket.deliver_later
+						end
 					end
 				end
 			end
