@@ -1,4 +1,22 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :users
+    resources :addresses
+    resources :bank_accounts
+    resources :companies
+    resources :company_finances
+    resources :credit_cards
+    resources :events
+    resources :offers
+    resources :orders
+    resources :order_items
+    resources :order_payments
+    resources :ticket_tokens
+    resources :transfers
+    resources :validations
+
+    root to: "users#index"
+  end
   devise_for :users, controllers: {
   registrations: 'users/registrations',
   sessions: 'users/sessions',
