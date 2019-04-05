@@ -26,24 +26,24 @@ module Wirecard
 		current_notifications.each do |notification|
 			api.notifications.delete notification["id"]
 		end
-	elsif Rails.env.staging?
-		url = "https://moip-stage.partiuingresso.com/webhooks"
+
+		app_id = Rails.application.credentials.dig(:wirecard, API_ENV, :app_id)
+		@@notification = api.notifications.create(
+			{
+				events: [
+					"ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED",
+					"TRANSFER.COMPLETED", "TRANSFER.FAILED"
+				],
+				target: url,
+				media: "WEBHOOK"
+			},
+			app_id
+		)
 	else
-		url = "https://moip.partiuingresso.com/webhooks"
+		notification_id = Rails.application.credentials.dig(:wirecard, API_ENV, :notification_id)
+		@@notification = api.notifications.show(notification_id)
 	end
 
-	app_id = Rails.application.credentials.dig(:wirecard, API_ENV, :app_id)
-	@@notification = api.notifications.create(
-		{
-			events: [
-				"ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED",
-				"TRANSFER.COMPLETED", "TRANSFER.FAILED"
-			],
-			target: url,
-			media: "WEBHOOK"
-		},
-		app_id
-	)
 
 	def self.notification_token
 		@@notification.token
