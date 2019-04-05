@@ -19,6 +19,11 @@ class NotificationMailer < ApplicationMailer
     mail(to: @ticket_token.owner_email, subject: "Seu ingresso - #{@order.event.name}!")
   end
 
+  def order_not_paid
+    @order = params[:order]
+    mail(to: @order.user.email, subject: "Pedido não processado - #{@order.event.name}!")
+  end
+
   def legacy_tickets
     @order = params[:order]
     @order.ticket_tokens.each do |t|

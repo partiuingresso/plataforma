@@ -28,6 +28,7 @@ class WebHooksController < ApplicationController
 				else
 					unless order.nil? || order.denied? || order.refunded?
 						order.denied!
+						NotificationMailer.with(order: order).order_not_paid.deliver_later
 					end
 				end
 			end
