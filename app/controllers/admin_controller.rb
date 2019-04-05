@@ -24,22 +24,16 @@ class AdminController < ApplicationController
   def report
     @event = Event.find(params[:id])
     if params[:offer].present?
-      if search_params[:q].present?
         @offer = Offer.find(params[:offer])
-        @search_order = @offer.orders.search_order(search_params[:q])
-        @orders = Kaminari.paginate_array(@search_order).page(params[:page]).per(10)
-      else
-        @offer = Offer.find(params[:offer])
-        @all_orders = @offer.orders
+        @all_orders = @offer.orders.order(created_at: :desc)
         @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
-      end
     else
       if search_params[:q].present?
-        @all_orders = Order.where(event_id: @event)
+        @all_orders = Order.where(event_id: @event).order(created_at: :desc)
         @search_order = @all_orders.search_order(search_params[:q])
         @orders = Kaminari.paginate_array(@search_order).page(params[:page]).per(10)
       else
-        @all_orders = Order.where(event_id: @event)
+        @all_orders = Order.where(event_id: @event).order(created_at: :desc)
         @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
       end
     end
