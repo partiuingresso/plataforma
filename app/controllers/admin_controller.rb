@@ -24,14 +24,22 @@ class AdminController < ApplicationController
   def report
     @event = Event.find(params[:id])
     if params[:offer].present?
-      @offer = Offer.find(params[:offer])
-      @orders = @offer.orders
+        @offer = Offer.find(params[:offer])
+        @all_orders = @offer.orders.order(created_at: :desc)
+        @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
     else
-      @orders = Order.where(event_id: @event)
+      if search_params[:q].present?
+        @all_orders = Order.where(event_id: @event).order(created_at: :desc)
+        @search_order = @all_orders.search_order(search_params[:q])
+        @orders = Kaminari.paginate_array(@search_order).page(params[:page]).per(10)
+      else
+        @all_orders = Order.where(event_id: @event).order(created_at: :desc)
+        @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
+      end
     end
 
-    @total = @orders.approved.present? ? @orders.approved.sum(&:subtotal).format : "R$0,00"
-    @total_pending = @orders.pending.present? ? @orders.pending.sum(&:subtotal).format : "R$0,00"
+    @total = @all_orders.approved.present? ? @all_orders.approved.sum(&:subtotal).format : "R$0,00"
+    @total_pending = @all_orders.pending.present? ? @all_orders.pending.sum(&:subtotal).format : "R$0,00"
 
     respond_to do |format|
       format.html
@@ -51,5 +59,11 @@ class AdminController < ApplicationController
   def check_in
     @events = Event.where(company_id: current_user.company_id).order(start_t: :desc).to_happen(8)
   end
+
+  private
+
+    def search_params
+      params.permit(:q)
+    end
 
 end
