@@ -22,14 +22,15 @@ module Wirecard
 			Ngrok::Tunnel.start({ port: 300 })
 		end
 		url = Ngrok::Tunnel.ngrok_url_https + "/webhooks"
-		current_notifications = api.notifications.find_all
-		current_notifications.each do |notification|
-			api.notifications.delete notification["id"]
-		end
 	elsif Rails.env.staging?
 		url = "https://moip-stage.partiuingresso.com/webhooks"
 	else
 		url = "https://moip.partiuingresso.com/webhooks"
+	end
+
+	current_notifications = api.notifications.find_all
+	current_notifications.each do |notification|
+		api.notifications.delete notification["id"]
 	end
 
 	app_id = Rails.application.credentials.dig(:wirecard, API_ENV, :app_id)
