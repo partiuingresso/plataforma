@@ -194,22 +194,24 @@
                             <tfoot>
                             </tfoot>
                           </table>
-                          <div>
-                            <% if order.payment.installment_count > 1 %>
-                            <p>
-                              Juros de parcelamento: 
-                              <span class="has-text-weight-semibold">
-                                <%= (order.payment.interest_rate * order.total).format %>
-                              </span>
-                            </p>
-                            <% end %>
-                            <p>
-                              Total: 
-                              <span class="has-text-weight-semibold">
-                                <%= order.payment.amount.format %>
-                              </span>
-                            </p>
-                          </div>
+                          <% if order.payment.present? %>
+                            <div>
+                              <% if order.payment.installment_count > 1 %>
+                              <p>
+                                Juros de parcelamento: 
+                                <span class="has-text-weight-semibold">
+                                  <%= (order.payment.interest_rate * order.total).format %>
+                                </span>
+                              </p>
+                              <% end %>
+                              <p>
+                                Total: 
+                                <span class="has-text-weight-semibold">
+                                  <%= order.payment.amount.format %>
+                                </span>
+                              </p>
+                            </div>
+                          <% end %>
                         </div>
                       </div>
                     </div>
