@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def index
-    @events = Event.to_happen
+    @events = Event.order(created_at: :desc).to_happen
   end
 
   def search
