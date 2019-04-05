@@ -7,6 +7,7 @@ module Wirecard
 
 	API = Moip2::Api.new(client)
 
+	notification_id = Rails.application.credentials.dig(:wirecard, API_ENV, :notification_id)
 	def self.api(token = nil)
 		if token.nil?
 			API
@@ -24,7 +25,7 @@ module Wirecard
 		url = Ngrok::Tunnel.ngrok_url_https + "/webhooks"
 		current_notifications = api.notifications.find_all
 		current_notifications.each do |notification|
-			api.notifications.delete notification["id"]
+			api.notifications.delete notification["id"] unless notification["id"] == notification_id
 		end
 
 		app_id = Rails.application.credentials.dig(:wirecard, API_ENV, :app_id)
@@ -40,7 +41,6 @@ module Wirecard
 			app_id
 		)
 	else
-		notification_id = Rails.application.credentials.dig(:wirecard, API_ENV, :notification_id)
 		@@notification = api.notifications.show(notification_id)
 	end
 
