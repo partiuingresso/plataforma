@@ -25,9 +25,11 @@ class AdminController < ApplicationController
     @event = Event.find(params[:id])
     if params[:offer].present?
       @offer = Offer.find(params[:offer])
-      @orders = @offer.orders
+      @all_orders = @offer.orders
+      @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
     else
-      @orders = Order.where(event_id: @event)
+      @all_orders = Order.where(event_id: @event)
+      @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
     end
 
     @total = @orders.approved.present? ? @orders.approved.sum(&:subtotal).format : "R$0,00"
