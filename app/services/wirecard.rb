@@ -196,4 +196,8 @@ module Wirecard
 			}
 		)
 	end
+
+	def self.show_order order_moip_id
+		api.order.show(order_moip_id)
+	end
 end
