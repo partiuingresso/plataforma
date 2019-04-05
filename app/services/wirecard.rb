@@ -40,10 +40,13 @@ module Wirecard
 			app_id
 		)
 	else
-		notification_id = Rails.application.credentials.dig(:wirecard, API_ENV, :notification_id)
-		@@notification = api.notifications.show(notification_id)
+		begin
+			notification_id = Rails.application.credentials.dig(:wirecard, API_ENV, :notification_id)
+			@@notification = api.notifications.show(notification_id)
+		rescue => e
+			raise StandardError, e.message + " " + notification_id
+		end
 	end
-
 
 	def self.notification_token
 		@@notification.token
