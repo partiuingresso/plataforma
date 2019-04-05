@@ -97,6 +97,20 @@
             <% end %>
           </div>
         </div>
+        <div class="columns">
+          <div class="column">
+            <%= form_tag(request.original_url, method: "get") do %>
+              <div class="field is-grouped">
+                <div class="control is-expanded check-in-search">
+                  <input name="q" class="input is-large" type="text" placeholder="Nome, e-mail ou # do pedido" value="<%= params[:q] %>">
+                </div>
+                <div class="control search">
+                  <button class="button is-white is-large"><i class="fas fa-search"></i></button>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
         <br />
         <table class="table orders is-hoverable is-fullwidth">
           <thead>
@@ -221,7 +235,11 @@
             <% end %>
           </tbody>
         </table>
-        <%= paginate @orders %>
+        <div class="columns is-centered">
+          <div class="column is-6">
+            <%= paginate @orders %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

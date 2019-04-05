@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  include PgSearch
   enum status: { pending: "pending", approved: "approved", denied: "denied", refunded: "refunded" }
   belongs_to :user
   has_many :order_items, dependent: :destroy
@@ -7,6 +8,11 @@ class Order < ApplicationRecord
   has_one :company, through: :event
   has_many :offers, through: :order_items
   has_many :ticket_tokens, through: :order_items
+
+  pg_search_scope :search_order, associated_against: {
+    user: [:first_name, :last_name, :email],
+    ticket_tokens: :owner_email
+  }, against: :number
 
   before_create :generate_order_number
   before_save :update_subtotal
