@@ -78,7 +78,7 @@ class Order < ApplicationRecord
   end
 
   def self.to_csv 
-    attributes = %w{number total_quantity total status}
+    attributes = %w{number total_quantity subtotal status}
 
     CSV.generate(headers: true) do |csv|
       csv << ["name"] + attributes
