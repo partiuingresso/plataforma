@@ -38,6 +38,7 @@ class WebHooksController < ApplicationController
 				order = Order.find_by(number: order_number)
 				unless order.denied? || order.refunded?
 					order.refunded!
+					NotificationMailer.with(order: order).order_reverted.deliver_later
 				end
 			end
 
