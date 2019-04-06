@@ -4,19 +4,13 @@
   </p>
   <ul class="menu-list">
     <li> <%= link_to_in_li "Dashboard", backoffice_path %></li>
+    <li><%= link_to_in_li "Gerenciar Usuários", backoffice_users_path %></li>
+    <li><%= link_to_in_li "Gerenciar Pedidos", backoffice_orders_path %></li>
   </ul>
   <p class="menu-label">
     Empresas
   </p>
   <ul class="menu-list">
     <li><%= link_to_in_li "Criar Empresa", new_company_path %></li>
-  </ul>
-  <p class="menu-label">
-    Backend
-  </p>
-  <ul class="menu-list">
-    <li><%= link_to_in_li "Administrate", admin_root_path %></li>
-    <li><a>Sidekiq</a></li>
-    <li><a>Mascarade</a></li>
   </ul>
 </aside>

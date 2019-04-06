@@ -65,6 +65,30 @@ class OrdersController < ApplicationController
 		end
 	end
 
+	def send_refunded_email
+		@order = Order.find(params[:id])
+		authorize! :send_refunded_email, @order
+
+		if @order.refunded?
+			NotificationMailer.with(order: @order).order_reverted.deliver_later
+		end
+		respond_to do |format|
+			format.json { render json: "ok", status: 200 }
+		end
+	end
+
+	def send_denied_email
+		@order = Order.find(params[:id])
+		authorize! :send_denied_email, @order
+
+		if @order.denied?
+			NotificationMailer.with(order: @order).order_not_paid.deliver_later
+		end
+		respond_to do |format|
+			format.json { render json: "ok", status: 200 }
+		end
+	end
+
 	private
 
 	def user_params

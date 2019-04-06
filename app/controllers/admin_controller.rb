@@ -47,6 +47,28 @@ class AdminController < ApplicationController
     end
   end
 
+  def admin_orders
+    if search_params[:q].present?
+      @all_orders = Order.all.order(created_at: :desc)
+      @search_order = @all_orders.search_order(search_params[:q])
+      @orders = Kaminari.paginate_array(@search_order).page(params[:page]).per(10)
+    else
+      @all_orders = Order.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month)
+      @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
+    end
+  end
+
+  def admin_users
+    if search_params[:q].present?
+      @all_users = User.all.order(created_at: :desc)
+      @search_user = @all_users.search_user(search_params[:q])
+      @users = Kaminari.paginate_array(@search_user).page(params[:page]).per(10)
+    else
+      @all_users = User.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month)
+      @users = Kaminari.paginate_array(@all_users).page(params[:page]).per(10)
+    end
+  end
+
   def manage_company
     @user = current_user
     if @user.update(company_id: params[:company_id])

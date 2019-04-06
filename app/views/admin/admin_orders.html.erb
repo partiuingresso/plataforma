@@ -3,98 +3,16 @@
   </div>
 </section>
 
-<section class="section report">
+<section class="section admin-orders">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-3">
-        <%= render 'admin/producer_admin_menu' %>
+        <%= render 'admin/admin_menu' %>
       </div>
       <div class="column is-8">
         <div class="columns">
           <div class="column">
-            <p><span class="title is-3">Report de </span><em class="thin is-size-3 has-text-primary"><%= @event.name %></em></p>
-            <p class="subtitle is-uppercase is-6"><%= l @event.start_t, format: ("%d de %B de %Y") %> - <%= @event.address.city %>/<%= @event.address.state %></p>
-          </div>
-          <div class="column is-narrow offer-filter">
-            <p>Filtrar por oferta:</p>
-            <%= form_tag(request.url, method: "get") do %>
-              <div class="select is-small">
-                <%= select_tag(:offer, options_from_collection_for_select(@event.offers, :id, :name_with_allotment, params[:offer]), {:include_blank => 'Sem filtro'}) %>
-              </div>
-              <%= submit_tag "Filtrar", class:"button is-small" %>
-            <% end %>
-          </div>
-        </div>
-        <div class="tile is-ancestor">
-          <div class="tile is-parent is-12">
-            <div class="tile chart box is-child">
-              <p class="title is-5">Vendas em todo o período de atividade</p>
-              <div class="tabs">
-                <ul>
-                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Unidades</a></li>
-                  <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
-                </ul>
-              </div>
-              <div id="chart_sales_count" class="tabcontent">
-                <%= line_chart charts_report_count_path(offer: params[:offer]), colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
-              </div>
-              <div id="chart_sales_value" class="tabcontent">
-                <%= column_chart charts_report_value_path(offer: params[:offer]),
-                colors: ["#F53237", "#DB3F4B"],
-                label: "Valor",
-                prefix: "R$ ",
-                thousands: ".",
-                decimal: ",",
-                defer: true
-                %>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="columns is-centered">
-          <div class="column is-4">
-            <div class="level box">
-              <div class="level-item">
-                <span class="icon is-large has-text-success">
-                  <i class="fas fa-3x fa-dollar-sign"></i>
-                </span>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="title is-7">TOTAL LÍQUIDO</p>
-                  <%= @total %>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column is-4">
-            <div class="level box">
-              <div class="level-item">
-                <span class="icon is-large has-text-warning">
-                  <i class="far fa-2x fa-clock"></i>
-                </span>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="title is-7">TOTAL PENDENTE</p>
-                  <%= @total_pending %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div class="columns">
-          <div class="column">
-            <p><span class="title is-4">Lista dos pedidos</span></p>
-          </div>
-          <div class="column is-narrow">
-            <%= link_to request.params.merge(format: :csv) do %>
-            <span class="icon is-small has-text-success">
-              <i class="far fa-file-excel"></i>
-            </span>
-            <span class="content is-small">Exportar para CSV</span>
-            <% end %>
+            <p class="title is-3">Gerenciar Pedidos</p>
           </div>
         </div>
         <div class="columns">
@@ -166,6 +84,10 @@
                     <div class="tile is-ancestor">
                       <div class="tile is-parent">
                         <div class="tile box is-child">
+                          <a class="icon close is-pulled-right has-text-grey">
+                            <i class="fas fa-times"></i>
+                          </a>
+                          <br />
                           <% if order.pending? %>
                             <span style="margin-bottom: 10px;" class="tag is-warning">
                               <%= Order.human_attribute_name("status.#{order.status}") %>
@@ -179,14 +101,15 @@
                               <%= Order.human_attribute_name("status.#{order.status}") %>
                             </span>
                           <% end %>
-                          <a class="icon close is-pulled-right has-text-grey">
-                            <i class="fas fa-times"></i>
-                          </a>
                           <p>
                             Nº do pedido: <span class="is-size-6 has-text-weight-semibold"><%= order.number %></span>
                           </p>
                           <p>
-                            Evento: <span class="has-text-weight-semibold"><%= order.event.name %></span>
+                            Cliente: <span class="is-size-6 has-text-weight-semibold"><%= order.user.name %></span>
+                            <span class="help is-inline-block is-marginless">(<%= order.user.email %>)</span>
+                          </p>
+                          <p>
+                            Evento: <span class="has-text-weight-semibold"><%= order.event.name %> - <%= order.event.address.city %>/<%= order.event.address.state %> - <%= order.event.start_t.strftime("%d/%m/%Y") %></span>
                           </p>
                           <table style="margin-top: 20px;" class="table is-fullwidth">
                             <thead>
@@ -194,6 +117,7 @@
                               <th>Email</th>
                               <th>Tipo</th>
                               <th>Valor</th>
+                              <th>Status</th>
                             </thead>
                             <tbody>
                               <% order.ticket_tokens.each do |ticket_token| %>
@@ -202,6 +126,7 @@
                                   <td><%= ticket_token.owner_email %></td>
                                   <td><%= ticket_token.offer.name %></td>
                                   <td><%= ticket_token.offer.price_with_service_fee.format %></td>
+                                  <td><%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %></td>
                                 </tr>
                               <% end %>
                             </tbody>
@@ -211,6 +136,12 @@
                           <% if order.payment.present? %>
                             <div>
                               <% if order.payment.installment_count > 1 %>
+                              <p>
+                                Parcelas: 
+                                <span class="has-text-weight-semibold">
+                                  <%= order.payment.installment_count %>x
+                                </span>
+                              </p>
                               <p>
                                 Juros de parcelamento: 
                                 <span class="has-text-weight-semibold">
@@ -226,6 +157,29 @@
                               </p>
                             </div>
                           <% end %>
+                          <br />
+                          <div class="level">
+                            <div class="level-left">
+                              <div class="level-item">
+                                <% if order.pending? || order.approved? %>
+                                  <%= button_to "Enviar email de pedido recebido", send_received_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.refunded?  %>
+                                  <%= button_to "Enviar email de pagamento reembolsado", send_refunded_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.denied?  %>
+                                  <%= button_to "Enviar email de pagamento negado", send_denied_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% end %>
+                              </div>
+                              <div class="level-item">
+                                <% if order.approved? %>
+                                  <%= button_to "Enviar email de pedido confirmado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="help has-text-right has-text-grey-light">
+                            Criado em: <span><%= order.created_at.strftime("%d/%m/%y (%H:%M)") %></span><br />
+                            Atualizado em: <span><%= order.updated_at.strftime("%d/%m/%y (%H:%M)") %></span>
+                          </div>
                         </div>
                       </div>
                     </div>

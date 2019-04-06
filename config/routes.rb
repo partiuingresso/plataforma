@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
 
   get '/backoffice', to: 'admin#admin'
+  get '/backoffice/orders', to: 'admin#admin_orders'
+  get '/backoffice/users', to: 'admin#admin_users'
   get '/backstage', to: 'admin#producer_admin'
   get '/report/:id', to: 'admin#report', as: 'report'
   get '/check-in', to: 'admin#check_in'
@@ -54,6 +56,8 @@ Rails.application.routes.draw do
   get '/denied/', to: 'orders#denied', as: 'denied'
   get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
   get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
+  get '/send_refunded_email/:id', to: 'orders#send_refunded_email', as: 'send_refunded_email'
+  get '/send_denied_email/:id', to: 'orders#send_denied_email', as: 'send_denied_email'
   
   root to: 'pages#index'
   get 'index', to: 'pages#offline'
