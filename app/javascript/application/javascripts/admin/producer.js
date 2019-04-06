@@ -1,9 +1,5 @@
-import { openTab } from "./tabs";
-window.openTab = openTab;
-
 // Show balance
 showBalance();
-
 
 function showBalance() {
   var showBtn = document.querySelector(".button.show");

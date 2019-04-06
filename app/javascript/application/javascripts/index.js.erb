@@ -13,6 +13,9 @@ window.bulmaToast = bulmaToast;
 import Chartkick from 'chartkick';
 window.Chartkick = Chartkick;
 
+import { openTab } from "./tabs";
+window.openTab = openTab;
+
 import Chart from 'chart.js';
 Chartkick.addAdapter(Chart);
 
@@ -30,11 +33,10 @@ importPageModule(['events-new', 'events-edit'], './events/new');
 importPageModule('events-show', './events/show');
 importPageModule('events-index', './events/index');
 importPageModule('checkout', './orders.js.erb');
-importPageModule('backstage', './admin');
+importPageModule('backstage', './admin/producer');
 importPageModule('companies-new', './companies/new');
 importPageModule('companies-show', './companies/show');
 importPageModule('orders-index', './my_orders');
-importPageModule('report', './report');
-importPageModule('report', './my_orders');
+importPageModule('report', './admin/event_report');
 importPageModule('validations-new', './validations.js.erb');
 importPageModule('tickets', './ticket_tokens');

@@ -43,6 +43,28 @@ class OrdersController < ApplicationController
 	def denied
 	end
 
+	def send_received_email
+		@order = Order.find(params[:id])
+		authorize! :send_received_email, @order
+
+		NotificationMailer.with(order: @order).order_received.deliver_later
+		respond_to do |format|
+			format.json { render json: "ok", status: 200 }
+		end
+	end
+
+	def send_confirmed_email
+		@order = Order.find(params[:id])
+		authorize! :send_confirmed_email, @order
+
+		if @order.approved?
+			NotificationMailer.with(order: @order).order_confirmed.deliver_later
+		end
+		respond_to do |format|
+			format.json { render json: "ok", status: 200 }
+		end
+	end
+
 	private
 
 	def user_params

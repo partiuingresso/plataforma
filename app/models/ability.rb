@@ -27,6 +27,7 @@ class Ability
         can :manage, CompanyFinance, company_id: user.company_id
         can :manage, :admin
         can :manage, Transfer
+        can [:send_received_email, :send_confirmed_email], Order
     end
 
     if user.producer_admin?

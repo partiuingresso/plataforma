@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   resources :orders, only: [:index, :new, :create]
   get '/success/:number', to: 'orders#success', as: 'success'
   get '/denied/', to: 'orders#denied', as: 'denied'
+  get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
+  get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
   
   root to: 'pages#index'
   get 'index', to: 'pages#offline'

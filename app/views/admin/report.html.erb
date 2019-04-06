@@ -226,6 +226,12 @@
                               </p>
                             </div>
                           <% end %>
+                          <% if can? :send_received_email, order %>
+                          <%= button_to "Enviar email de pedido recebido", send_received_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                            <% if (can? :send_confirmed_email, order) && order.approved? %>
+                              <%= button_to "Enviar email de pedido confirmado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                            <% end %>
+                          <% end %>
                         </div>
                       </div>
                     </div>
