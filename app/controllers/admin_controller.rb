@@ -43,7 +43,7 @@ class AdminController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.csv { send_data @orders.to_csv, filename: "orders-#{Date.today}.csv" }
+      format.csv { send_data @all_orders.to_csv, filename: "orders-#{Date.today}.csv" }
     end
   end
 
