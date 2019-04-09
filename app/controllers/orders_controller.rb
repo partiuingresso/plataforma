@@ -98,6 +98,9 @@ class OrdersController < ApplicationController
 	def register_before_create
 		if current_user.nil?
 			@user = User.new(user_params)
+			if User.exists?(email: @user.email)
+				redirect_back(fallback_location: new_order_path, alert: "Usuário já existe. Faça o login antes de realizar a compra.") and return
+			end
 			if @user.save
 				sign_in @user
 			else
