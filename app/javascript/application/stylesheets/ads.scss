@@ -141,6 +141,14 @@
     background-position: center 60%;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+    & #infobar { 
+      margin-top: 5rem;
+      height: 85px;
+      color: white;
+      padding-top: 1.25rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
   }
 
   .section.hero-event-ads > .container {
@@ -169,7 +177,6 @@
 
   .button.ads-btn {
     font-size: 1rem;
-    padding-top: 0.75rem;
     height: 3rem;
   }
 }
