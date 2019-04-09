@@ -65,6 +65,22 @@ class OrdersController < ApplicationController
 		end
 	end
 
+	def send_ticket_email
+		@order = Order.find(params[:id])
+		authorize! :send_ticket_email, @order
+
+		if @order.approved?
+			@order.ticket_tokens.each do |t|
+				unless t.owner_email == @order.user.email
+					NotificationMailer.with(order: @order, ticket: t).order_ticket.deliver_later
+				end
+			end
+		end
+		respond_to do |format|
+			format.json { render json: "ok", status: 200 }
+		end
+	end
+
 	def send_refunded_email
 		@order = Order.find(params[:id])
 		authorize! :send_refunded_email, @order

@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get '/denied/', to: 'orders#denied', as: 'denied'
   get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
   get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
+  get '/send_ticket_email/:id', to: 'orders#send_ticket_email', as: 'send_ticket_email'
   get '/send_refunded_email/:id', to: 'orders#send_refunded_email', as: 'send_refunded_email'
   get '/send_denied_email/:id', to: 'orders#send_denied_email', as: 'send_denied_email'
   

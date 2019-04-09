@@ -161,17 +161,17 @@
                           <div class="level">
                             <div class="level-left">
                               <div class="level-item">
-                                <% if order.pending? || order.approved? %>
+                                <% if order.pending? %>
                                   <%= button_to "Enviar email de pedido recebido", send_received_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 <% elsif order.refunded?  %>
                                   <%= button_to "Enviar email de pagamento reembolsado", send_refunded_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 <% elsif order.denied?  %>
                                   <%= button_to "Enviar email de pagamento negado", send_denied_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
-                                <% end %>
-                              </div>
-                              <div class="level-item">
-                                <% if order.approved? %>
-                                  <%= button_to "Enviar email de pedido confirmado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.approved? %>
+                                  <%= button_to "Enviar email de pagamento aprovado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                </div>
+                                <div class="level-item">
+                                  <%= button_to "Enviar ingresso aos participantes", send_ticket_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 <% end %>
                               </div>
                             </div>
