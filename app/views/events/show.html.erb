@@ -105,22 +105,8 @@ document.addEventListener("DOMContentLoaded", function(){
     <div class="columns is-centered">
       <div class="column is-6">
         <div class="columns description is-multiline">
-          <% if @event.features.present? %>
-            <div class="column is-full">
-              <p class="title event-content">UM POUCO SOBRE <span class="lightvibrant"><%= @event.name %></span></p>
-              <ul class="features">
-                <%= sanitize @event.features %>
-              </ul>
-            </div>
-            <div class="column is-full">
-              <hr />
-            </div>
-          <% end %>
 
           <div class="column is-full">
-            <% if @event.content_image.attached? %>
-              <%= image_tag @event.content_image %>
-            <% end %>
             <p class="title event-content"><%= sanitize @event.headline %></p>
             <p><%= sanitize @event.description %></p>
           </div>
