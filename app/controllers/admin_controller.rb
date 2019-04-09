@@ -53,7 +53,7 @@ class AdminController < ApplicationController
       @search_order = @all_orders.search_order(search_params[:q])
       @orders = Kaminari.paginate_array(@search_order).page(params[:page]).per(10)
     else
-      @all_orders = Order.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month)
+      @all_orders = Order.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month).order(created_at: :desc)
       @orders = Kaminari.paginate_array(@all_orders).page(params[:page]).per(10)
     end
   end
@@ -64,7 +64,7 @@ class AdminController < ApplicationController
       @search_user = @all_users.search_user(search_params[:q])
       @users = Kaminari.paginate_array(@search_user).page(params[:page]).per(10)
     else
-      @all_users = User.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month)
+      @all_users = User.where(created_at: Time.current.beginning_of_month..Time.current.end_of_month).order(created_at: :desc)
       @users = Kaminari.paginate_array(@all_users).page(params[:page]).per(10)
     end
   end

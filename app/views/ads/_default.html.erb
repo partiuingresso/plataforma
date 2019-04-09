@@ -1,0 +1,372 @@
+<% content_for :footer do %>
+  <%= render 'layouts/footer_ads' %>
+<% end %>
+<% content_for :navbar do %>
+  <%= render 'layouts/header_ads' %>
+<% end %>
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps_api_key %>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    toggle();
+    initMap(<%=@event.address.latitude%>, <%=@event.address.longitude%>);
+});
+</script>
+<script>
+  imgurl = "<%= url_for(@event.hero_image) %>"
+</script>
+<style>
+  .section.hero-event-ads { background-image: linear-gradient(rgba(20,20,25,0.9), rgba(20,20,25,0.75)), url(<%= url_for(@event.hero_image) %>); }
+</style>
+
+<section class="has-background-black">
+  <section class="section hero-event-ads events-ads">
+    <div class="container">
+      <div class="columns is-vcentered is-centered">
+        <div class="column is-6">
+          <p class="details-ads has-text-centered">
+            <span class="date"><%= l @event.start_t, format: ("%d.%m.%y") %></span>
+            <span class="week-day lightvibrant"><%= l @event.start_t, format: ("%A") %></span>
+            <span class="time"><%= l @event.start_t, format: ("%H") %> HORAS</span>
+          </p>
+          <p class="title-ads has-text-centered"><%= @event.name %></p>
+          <p class="subtitle-ads has-text-centered"><%= @event.address.city %>/<%= @event.address.state %></p>
+        </div>
+        <% if @event.video.present? %>
+          <div class="column is-6">
+            <div class="has-text-centered embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" src="<%= @event.video %>" id="video"  allowscriptaccess="always" allow=autoplay></iframe>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <br /><br />
+      <div class="columns">
+        <div class="column has-text-centered">
+          <a class="button ads-btn cart-btn is-uppercase"><span class="has-text-black">Quero Garantir Meu Ingresso</span></a>
+          <br /><br />
+          <div class="columns is-centered">
+            <div class="column is-3">
+              <div class="level is-mobile">
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/visa.svg"), alt:'Visa', width:'36rem', id: 'visa' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/mastercard.svg"), alt:'Visa', width:'36rem', id: 'mastercard' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/amex.svg"), alt:'Visa', width:'36rem', id: 'amex' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/elo.svg"), alt:'Visa', width:'36rem', id: 'elo' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/hiper.svg"), alt:'Visa', width:'36rem', id: 'hiper' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/diners.svg"), alt:'Visa', width:'36rem', id: 'dinersclub' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/hipercard.svg"), alt:'Visa', width:'36rem', id: 'hipercard' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="infobar">
+      <div class="container has-text-centered">
+        <a class="cart-btn has-text-white">Conheça os tipos de ingresso exclusivos para este show!</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ads-block-1">
+    <div class="container">
+      <div class="columns is-centered">
+        <% if @event.features.present? %>
+          <div class="column is-two-fifths">
+            <p class="title is-4 has-text-white is-uppercase">Um pouco sobre <span class="lightvibrant"><%= @event.name %></span></p>
+            <%= sanitize @event.features %>
+          </div>
+        <% end %>
+        <% if @event.testimonial_images.present? %>
+          <div class="column is-two-fifths">
+            <p class="title is-4 has-text-white is-uppercase">O que dizem sobre o show?</p>
+            <div class="carousel carousel-animated carousel-animate-fade" data-autoplay="true" data-delay="4500">
+              <div class="carousel-container">
+                <% @event.testimonial_images.each do |t| %>
+                  <div class="carousel-item">
+                    <%= image_tag t, class: "is-background testimonial", width:"450vw" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ads-block-2">
+    <div class="container">
+      <div class="columns is-centered">
+        <% if @event.content_image.attached? %>
+          <div class="column is-two-fifths">
+            <%= image_tag @event.content_image %>
+          </div>
+        <% end %>
+        <div class="column is-two-fifths">
+          <p class="title is-4 lightvibrant is-uppercase"><%= sanitize @event.headline %></p>
+          <div class="ads-description">
+            <%= sanitize @event.description %>
+          </div>
+        </div>
+      </div>
+      <div class="has-text-centered">
+        <a class="button is-large ads-btn cart-btn is-uppercase"><span class="has-text-black">Quero Meu Ingresso Agora</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ads-block-3">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-two-fifths">
+          <div class="ads-description">
+            <%= sanitize @event.invite_text %>
+          </div>
+        </div>
+        <div class="column is-two-fifths">
+          <p class="title is-4 has-text-white is-uppercase">COMO CHEGAR EM <span class="lightvibrant"><%= @event.address.name %></span></p>
+          <div class="ads-description">
+            <p>
+              <span class="icon">
+                <i class="fas fa-map-marked-alt"></i>
+              </span>
+              <%= @event.address.address %>, <%= @event.address.number %> - <%= @event.address.district %>
+            </p>
+            <p>
+              <span class="icon">
+                <i class="fas fa-globe-americas"></i>
+              </span>
+              <%= @event.address.city %>/<%= @event.address.state %>
+            </p>
+            <p>&nbsp;</p>
+            <p>
+              <div id="map"></div>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="has-text-centered">
+        <a class="button is-large ads-btn cart-btn is-uppercase"><span class="has-text-black">Quero Ver Esse Show</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ads-block-4">
+    <div class="container">
+      <p class="title is-4 has-text-white is-uppercase has-text-centered">PERGUNTAS E RESPOSTAS</p>
+      <div class="columns is-centered">
+        <div class="column is-5">
+          <div class="card">
+            <header class="card-header toggle">
+              <p class="card-header-title">
+                MEU PEDIDO FOI CONCLUÍDO?
+              </p>
+              <span class="card-header-icon">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </header>
+            <div class="dismiss is-hidden">
+            <header class="card-header">
+              <p class="card-header-title lightvibrant">
+                MEU PEDIDO FOI CONCLUÍDO?
+              </p>
+              <span class="card-header-icon lightvibrant">
+                <i class="fas fa-angle-up"></i>
+              </span>
+            </header>
+              <div class="card-content">
+                Ao efetuar uma compra, seu pagamento será processado e assim que for aprovado você receberá em seu e-mail a confirmação junto com o(s) ingresso(s) em anexo.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <header class="card-header toggle">
+              <p class="card-header-title">
+                ONDE ESTÃO MEUS INGRESSOS?
+              </p>
+              <span class="card-header-icon">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </header>
+            <div class="dismiss is-hidden">
+            <header class="card-header">
+              <p class="card-header-title lightvibrant">
+                ONDE ESTÃO MEUS INGRESSOS?
+              </p>
+              <span class="card-header-icon lightvibrant">
+                <i class="fas fa-angle-up"></i>
+              </span>
+            </header>
+              <div class="card-content">
+                <p>Após sua compra ser aprovada você receberá um e-mail com todas as informações sobre sua compra e, inclusive, seu ingresso que estará disponível no formato de PDF em anexo. Todos os seus convidados receberão seus respectivos ingressos por e-mail. Você também pode acessar o menu "Meus Ingressos" aqui no site.</p><br />
+
+                <p><strong>IMPORTANTE:</strong> Leve para o evento seu ingresso impresso, sem dúvida é a forma mais segura para evitar qualquer transtorno. Mas, se preferir, guarde o arquivo PDF de seu ingresso em seu celular e apresente na entrada do evento.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <header class="card-header toggle">
+              <p class="card-header-title">
+                PRECISO IMPRIMIR MEU(S) INGRESSO(S)?
+              </p>
+              <span class="card-header-icon">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </header>
+            <div class="dismiss is-hidden">
+            <header class="card-header">
+              <p class="card-header-title lightvibrant">
+                PRECISO IMPRIMIR MEU(S) INGRESSO(S)?
+              </p>
+              <span class="card-header-icon lightvibrant">
+                <i class="fas fa-angle-up"></i>
+              </span>
+            </header>
+              <div class="card-content">
+                Você pode levar o PDF de seu ingresso, gerado após o pagamento, no celular. Mas a forma mais segura para evitar qualquer imprevisto é imprimir este documento.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <header class="card-header toggle">
+              <p class="card-header-title">
+                OUTRAS DÚVIDAS?
+              </p>
+              <span class="card-header-icon">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </header>
+            <div class="dismiss is-hidden">
+            <header class="card-header">
+              <p class="card-header-title lightvibrant">
+                OUTRAS DÚVIDAS?
+              </p>
+              <span class="card-header-icon lightvibrant">
+                <i class="fas fa-angle-up"></i>
+              </span>
+            </header>
+              <div class="card-content">
+                Se você tiver dúvidas relacionadas especificamente com o evento, entre diretamente em contato com o organizador do evento. O e-mail do organizador se encontra na página do próprio evento e nos e-mails que você receberá ao efetuar uma compra. Caso sua dúvida seja em relação ao processo de compra ou qualquer dúvida em como utilizar o site da PartiuIngresso.com, não hesite em falar com a gente por meio do e-mail suporte@partiuingresso.com. Estamos sempre prontos para ajudar!
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<section class="event offers ads card">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6">
+        <div class="card-content">
+          <%= form_for @order, url: new_order_path, method: "get" do |f| %>
+            <%= f.hidden_field :event_id, value: @order.event.id %>
+            <div class="columns is-mobile">
+              <div class="column is-6">
+                <p class="tickets title">Ingressos</p>
+              </div>
+              <div class="column is-6 has-text-right">
+                <span class="icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+                <span>R$</span><span id="total_price">0,00</span>
+              </div>
+            </div>
+            <ul>
+              <% @event.offers.order(price_cents: :asc).active.each do |offer| %>
+                <li>
+                  <hr />
+                  <div class="columns is-vcentered is-multiline is-mobile">
+                    <div class="column is-5">
+                      <p class="is-size-6"><%= offer.name %></p>
+                    </div>
+                    <div class="column is-3 is-forward-1 is-paddingless">
+                      <p><%= offer.price_with_service_fee.format %></p>
+                    </div>
+                    <div class="column is-3 has-text-centered">
+                      <%= f.fields_for :order_items do |order_item_f| %>
+                        <%= order_item_f.hidden_field :offer_id, value: offer.id %>
+                        <% if offer.available_quantity > 0 %>
+                          <div class="level is-mobile">
+                            <div class="level-item">
+                              <span class="icon is-small button minus">
+                                <i class="fas fa-minus"></i>
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
+                              <span class="quantity-view">
+                                0
+                              </span>
+                            </div>
+                            <div class="level-item">
+                              <span class="icon is-small button plus">
+                                <i class="fas fa-plus"></i>
+                              </span>
+                            </div>
+                          </div>
+                        <% else %>
+                          <%= order_item_f.hidden_field :quantity, value: 0 %>
+                          <span class="tag is-light">ESGOTADO</span>
+                        <% end %>
+                      <% end %>
+                    </div>
+                    <div class="column is-12 offer-info">
+                      <div class="level is-pulled-left">
+                        <div class="level-left">
+                          <% if offer.description? %>
+                            <div class="level-item">
+                              <a class="toggle button">Mais info<i class="fas fa-sort-down"></i></a>
+                              <div class="offer-info-content dismiss is-hidden">
+                                <a class="button">ESCONDER<i class="fas fa-sort-up"></i></a>
+                                <div class="has-background-light animated fadeIn fast">
+                                  <%= sanitize offer.description %>
+                                </div>
+                              </div>
+                            </div>
+                          <% end %>
+                          <% if offer.available_quantity < 50 %>
+                            <div class="level-item is-pulled-left">
+                              <span class="icon is-block is-small has-text-danger"><i class="fas fa-fire"></i></span>
+                              <span class="subtitle is-7">&nbsp;POPULAR</span>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+            <div class="control" style="margin-top: 2.5rem;">
+              <%= f.button "Comprar", class: "button is-primary is-medium is-fullwidth" %>
+            </div>
+          <% end %>
+        </div>
+        <footer class="card-footer">
+          <a class="hide-cart">Voltar</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+</section>
