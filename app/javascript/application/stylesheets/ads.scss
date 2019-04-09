@@ -1,0 +1,175 @@
+.section.hero-event-ads {
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-position: center 60%;
+  border-bottom-right-radius: 80px;
+  border-bottom-left-radius: 80px;
+  & #infobar { 
+    margin-top: 4rem;
+    color: white;
+    padding-top: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+.signup-ads-link:hover {
+  color: white;
+}
+
+.section.hero-event-ads > .container {
+  color: white;
+  margin-top: 5rem;
+  & .title-ads {
+    font-weight: 900;
+    font-size: 4.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.125rem;
+  }
+  & .subtitle-ads {
+    font-weight: 800;
+    font-size: 2rem;
+    text-transform: uppercase;
+    line-height: 0rem;
+  }
+  & .details-ads {
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    line-height: 0rem;
+    & .date { font-weight: 800; }
+    & .time { font-weight: 800; }
+  }
+}
+
+.button.ads-btn {
+    font-weight: 800;
+    font-size: 1.5rem;
+    background-color: unset;
+    border: 0;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2), 0 1px 6px 0 rgba(0,0,0,0.19);
+}
+
+.button.ads-btn:hover {
+    background-color: unset;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2), 0 1px 6px 0 rgba(0,0,0,0.19);
+    border: 0;
+}
+
+.ads-block-1 {
+  margin-top: 2rem;
+}
+
+.ads-description {
+  color: white;
+  & strong { color: white; }
+}
+
+.ads-block-2 {
+  background-color: #000000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 900'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='100%25' y2='0' gradientTransform='rotate(0,960,489)'%3E%3Cstop offset='0' stop-color='%23000000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000000'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='0' y1='0' x2='0' y2='100%25' gradientTransform='rotate(8,960,489)'%3E%3Cstop offset='0' stop-color='%23242426' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23242426'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1600' height='900'/%3E%3Crect fill='url(%23b)' width='1600' height='900'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+}
+
+.ads-block-4 {
+  & > div > div > div > .card { margin-bottom: 0.5rem; }
+  & * > .card-header:hover {
+  color: black;
+  }
+}
+
+.event.offers.ads {
+  opacity: 0;
+  transition: all .2s ease;
+  visibility: hidden;
+  background-color: #141419;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='a' cx='0' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23141419'/%3E%3Cstop offset='1' stop-color='%23141419' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b' cx='1200' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2322222b'/%3E%3Cstop offset='1' stop-color='%2322222b' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='c' cx='600' cy='0' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2322222b'/%3E%3Cstop offset='1' stop-color='%2322222b' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='d' cx='600' cy='800' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23141419'/%3E%3Cstop offset='1' stop-color='%23141419' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='e' cx='0' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23141419'/%3E%3Cstop offset='1' stop-color='%23141419' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='f' cx='1200' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2331313d'/%3E%3Cstop offset='1' stop-color='%2331313d' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' width='1200' height='800'/%3E%3Crect fill='url(%23c)' width='1200' height='800'/%3E%3Crect fill='url(%23d)' width='1200' height='800'/%3E%3Crect fill='url(%23e)' width='1200' height='800'/%3E%3Crect fill='url(%23f)' width='1200' height='800'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  padding-top: 2rem;
+  font-size: 0.85rem;
+  overflow-y: scroll;
+  & * > hr {
+    opacity: 0.2;
+    height: 1px;
+  }
+  & .card-footer {
+    display: flex;
+    align-self: flex-end;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-top: 1rem;
+    border-top: unset;
+  }
+}
+
+.event.offers.ads.op-1 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.footer.ads {
+  background-color: hsl(0, 0%, 4%);
+  position: absolute;
+  height: 350px;
+  width: 100%;
+  bottom: 0;
+  font-size: 0.85rem;
+  hr { height: 3px; opacity: 0.1; }
+  .logo { color: white; opacity: 0.2; }
+  .cnpj { color: white; opacity: 0.5; font-size: 0.7rem; }
+  .copyright { color: white; opacity: 0.5; font-size: 0.75rem; }
+}
+
+// Responsivo
+
+@media screen and (max-width: 600px) {
+  .section.hero-event-ads {
+    background-size: cover;
+    min-height: 45rem;
+    width: 100%;
+    background-position: center 60%;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .section.hero-event-ads > .container {
+    color: white;
+    margin-top: 5rem;
+    & .title-ads {
+      font-weight: 900;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: -0.125rem;
+    }
+    & .subtitle-ads {
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      line-height: 0rem;
+    }
+    & .details-ads {
+      font-size: 1rem;
+      text-transform: uppercase;
+      line-height: 0rem;
+      & .date { font-weight: 800; }
+      & .time { font-weight: 800; }
+    }
+  }
+
+  .button.ads-btn {
+    font-size: 1rem;
+    padding-top: 0.75rem;
+    height: 3rem;
+  }
+}

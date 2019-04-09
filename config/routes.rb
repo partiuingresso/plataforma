@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   end
 
   resources :events
+  get '/ads/:id', to: 'ads#show'
   resources :companies
   get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
 
