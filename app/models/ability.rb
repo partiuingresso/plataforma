@@ -28,7 +28,8 @@ class Ability
         can :manage, :admin
         can :manage, Transfer
         can :manage, TicketToken
-        can [:send_received_email, :send_confirmed_email, :send_ticket_email, :send_refunded_email, :send_denied_email], Order
+        can [:send_received_email, :send_confirmed_email, :send_ticket_email, :send_legacy_email, 
+             :send_refunded_email, :send_denied_email], Order
     end
 
     if user.producer_admin?

@@ -81,6 +81,18 @@ class OrdersController < ApplicationController
 		end
 	end
 
+	def send_legacy_email
+		@order = Order.find(params[:id])
+		authorize! :send_legacy_email, @order
+
+		if @order.approved?
+			NotificationMailer.with(order: @order).legacy_tickets.deliver_later
+		end
+		respond_to do |format|
+			format.json { render json: "ok", status: 200 }
+		end
+	end
+
 	def send_refunded_email
 		@order = Order.find(params[:id])
 		authorize! :send_refunded_email, @order

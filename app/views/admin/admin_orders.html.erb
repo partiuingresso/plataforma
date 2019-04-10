@@ -200,6 +200,8 @@
                                   <%= button_to "Enviar email de pagamento reembolsado", send_refunded_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 <% elsif order.denied?  %>
                                   <%= button_to "Enviar email de pagamento negado", send_denied_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.approved? && order.user.id == 2 %>
+                                  <%= button_to "Enviar ingresso aos participantes", send_legacy_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 <% elsif order.approved? %>
                                   <%= button_to "Enviar email de pagamento aprovado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 </div>
