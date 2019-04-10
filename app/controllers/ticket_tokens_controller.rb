@@ -22,6 +22,17 @@ class TicketTokensController < ApplicationController
     end
   end
 
+  def update
+    @ticket_token = TicketToken.find(params[:id])
+    if @ticket_token.update(update_params)
+      respond_to do |format|
+        format.json { render json: "ok", status: 200 }
+      end
+    else
+      render alert: "Não foi possível salvar as alterações" and return
+    end
+  end
+
   def new_validation
     @event = Event.find(params[:id])
 
@@ -58,6 +69,10 @@ class TicketTokensController < ApplicationController
 		def validation_params
 			params.require(:ticket_token).permit(:code)
 		end
+
+    def update_params
+      params.require(:ticket_token).permit(:owner_name, :owner_email)
+    end
 
     def search_params
       params.permit(:q)

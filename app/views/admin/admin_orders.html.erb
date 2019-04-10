@@ -111,22 +111,55 @@
                           <p>
                             Evento: <span class="has-text-weight-semibold"><%= order.event.name %> - <%= order.event.address.city %>/<%= order.event.address.state %> - <%= order.event.start_t.strftime("%d/%m/%Y") %></span>
                           </p>
-                          <table style="margin-top: 20px;" class="table is-fullwidth">
+                          <table style="margin-top: 20px;" class="table admin-orders details is-fullwidth">
                             <thead>
                               <th>Participante</th>
+                              <th></th>
                               <th>Email</th>
+                              <th></th>
                               <th>Tipo</th>
                               <th>Valor</th>
                               <th>Status</th>
                             </thead>
                             <tbody>
                               <% order.ticket_tokens.each do |ticket_token| %>
-                                <tr>
-                                  <td><%= ticket_token.owner_name %></td>
-                                  <td><%= ticket_token.owner_email %></td>
+                                <tr class="admin-orders">
+                                  <td>
+                                    <%= form_for :ticket_token, url: admin_edit_ticket_path(ticket_token), remote: true do |f| %>
+                                      <%= f.text_field :owner_name, class: "input admin-orders is-small is-static", value: ticket_token.owner_name, readonly: true %>
+                                    <% end %>
+                                  </td>
+                                  <td>
+                                    <span class="icon admin-orders edit is-small is-inline-block">
+                                      <i class="far fa-edit"></i>
+                                    </span>
+                                    <span class="icon admin-orders save is-small is-inline-block is-hidden">
+                                      <i class="far fa-check-square"></i>
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <%= form_for :ticket_token, url: admin_edit_ticket_path(ticket_token), remote: true do |f| %>
+                                      <%= f.email_field :owner_email, class: "input admin-orders is-small is-static", value: ticket_token.owner_email, readonly: true %>
+                                    <% end %>
+                                  </td>
+                                  <td>
+                                    <span class="icon admin-orders edit is-small is-inline-block">
+                                      <i class="far fa-edit"></i>
+                                    </span>
+                                    <span class="icon admin-orders save is-small is-inline-block is-hidden">
+                                      <i class="far fa-check-square"></i>
+                                    </span>
+                                  </td>
                                   <td><%= ticket_token.offer.name %></td>
                                   <td><%= ticket_token.offer.price_with_service_fee.format %></td>
-                                  <td><%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %></td>
+                                  <td>
+                                    <%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %>
+                                    <% if ticket_token.ready? %>
+                                      <%= link_to admin_download_ticket_path(ticket_token, format: :pdf), class: "has-text-black", target: "_blank" do %>
+                                        &nbsp;<span class="icon admin-orders is-small is-inline-block"><i class="far fa-file-pdf"></i></span>
+                                      <% end %>
+                                    <% end %>
+                                  </td>
                                 </tr>
                               <% end %>
                             </tbody>

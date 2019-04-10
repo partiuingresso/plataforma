@@ -58,6 +58,20 @@ class AdminController < ApplicationController
     end
   end
 
+  def admin_download_ticket
+    @ticket_token = TicketToken.find(params[:id])
+
+    respond_to do |format|
+      format.pdf do
+        pdf = VoucherPdfDiscreet.new(@ticket_token)
+        send_data pdf.render,
+          filename: "#{@ticket_token.owner_name}-#{@ticket_token.event.name}-PartiuIngresso.pdf",
+          type: "application/pdf",
+          disposition: :inline
+      end
+    end
+  end
+
   def admin_users
     if search_params[:q].present?
       @all_users = User.all.order(created_at: :desc)

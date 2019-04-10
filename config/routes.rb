@@ -34,6 +34,8 @@ Rails.application.routes.draw do
 
   get '/backoffice', to: 'admin#admin'
   get '/backoffice/orders', to: 'admin#admin_orders'
+  get '/backoffice/ticket/:id', to: 'admin#admin_download_ticket', as: 'admin_download_ticket'
+  post '/backoffice/tickets/:id', to: 'ticket_tokens#update', as: 'admin_edit_ticket'
   get '/backoffice/users', to: 'admin#admin_users'
   get '/backstage', to: 'admin#producer_admin'
   get '/report/:id', to: 'admin#report', as: 'report'
