@@ -26,7 +26,7 @@ function init() {
 }
 
 function editInputOnClick(input, editButton, saveButton) {
-  var currentValue;
+  var currentValue = input.value;
   editButton.addEventListener('click', function(e) {
     currentValue = input.value;
     submit = false;
