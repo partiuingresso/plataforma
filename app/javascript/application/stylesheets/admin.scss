@@ -6,16 +6,21 @@
   margin-top: auto;
 }
 
-.input.admin-orders {
+table.admin-orders .input {
   height: unset;
   padding: unset;
   border: 0;
   font-size: 0.85rem;
 }
 
-.icon.admin-orders:hover {
-  color: $primary;
-  cursor: pointer;
+table.admin-orders .icon {
+	&:hover {
+	  color: $primary;
+	  cursor: pointer;
+	}
+	&:focus {
+		outline: none;
+	}
 }
 
 tr.admin-orders {

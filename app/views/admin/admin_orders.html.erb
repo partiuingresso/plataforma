@@ -126,27 +126,27 @@
                                 <tr class="admin-orders">
                                   <td>
                                     <%= form_for :ticket_token, url: admin_edit_ticket_path(ticket_token), remote: true do |f| %>
-                                      <%= f.text_field :owner_name, class: "input admin-orders is-small is-static", value: ticket_token.owner_name, readonly: true %>
+                                      <%= f.text_field :owner_name, class: "input ticket-owner-name is-small is-static", value: ticket_token.owner_name, readonly: true %>
                                     <% end %>
                                   </td>
                                   <td>
-                                    <span class="icon admin-orders edit is-small is-inline-block">
+                                    <span class="icon ticket-owner-name edit is-small is-inline-block">
                                       <i class="far fa-edit"></i>
                                     </span>
-                                    <span class="icon admin-orders save is-small is-inline-block is-hidden">
+                                    <span tabindex="0" class="icon ticket-owner-name save is-small is-inline-block is-hidden">
                                       <i class="far fa-check-square"></i>
                                     </span>
                                   </td>
                                   <td>
                                     <%= form_for :ticket_token, url: admin_edit_ticket_path(ticket_token), remote: true do |f| %>
-                                      <%= f.email_field :owner_email, class: "input admin-orders is-small is-static", value: ticket_token.owner_email, readonly: true %>
+                                      <%= f.email_field :owner_email, class: "input ticket-owner-email is-small is-static", value: ticket_token.owner_email, readonly: true %>
                                     <% end %>
                                   </td>
                                   <td>
-                                    <span class="icon admin-orders edit is-small is-inline-block">
+                                    <span class="icon ticket-owner-email edit is-small is-inline-block">
                                       <i class="far fa-edit"></i>
                                     </span>
-                                    <span class="icon admin-orders save is-small is-inline-block is-hidden">
+                                    <span tabindex="0" class="icon ticket-owner-email save is-small is-inline-block is-hidden">
                                       <i class="far fa-check-square"></i>
                                     </span>
                                   </td>
