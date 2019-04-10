@@ -41,4 +41,14 @@ class User < ApplicationRecord
     end
   end
 
+  def has_no_password?
+    self.encrypted_password.blank?
+  end
+
+  protected
+
+    def password_required?
+      confirmed? ? super : false
+    end
+
 end
