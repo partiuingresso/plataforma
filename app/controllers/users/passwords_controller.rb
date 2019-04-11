@@ -7,9 +7,16 @@ class Users::PasswordsController < Devise::PasswordsController
   # end
 
   # POST /resource/password
-  # def create
-  #   super
-  # end
+  def create
+    user = User.find_by_email(resource_params["email"])
+    if user.present? && user.has_no_password?
+      self.resource = User.to_adapter.get!(user.id)
+      resource.errors.add(:email, :not_found)
+      respond_with(resource)
+    else
+      super
+    end
+  end
 
   # GET /resource/password/edit?reset_password_token=abcdef
   # def edit
