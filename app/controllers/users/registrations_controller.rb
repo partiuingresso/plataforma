@@ -11,15 +11,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    build_resource(sign_up_params)
-    if User.exists?(email: resource.email) && !resource.confirmed?
-      user = User.find_by_email(resource.email)
-
+    user = User.find_by_email(sign_up_params["email"])
+    if user.present? && !user.confirmed? && user.has_no_password?
       # Change name
       user.update_attributes(name: sign_up_params["name"])
 
-      # Resets password
       self.resource = User.to_adapter.get!(user.id)
+
+      # Resets password
       new_password = new_password_confirmation = sign_up_params["password"]
       resource.skip_password_change_notification!
       resource.reset_password(new_password, new_password_confirmation)
