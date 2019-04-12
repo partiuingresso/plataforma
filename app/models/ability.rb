@@ -6,7 +6,7 @@ class Ability
     user ||= User.new(role: "guest")
 
     can :show, Event
-    can :new, Order
+    can [:create, :success], Order
 
     unless user.guest?
         can :read, TicketToken do |ticket_token|

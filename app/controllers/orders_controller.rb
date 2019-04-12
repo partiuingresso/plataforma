@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-	before_action :register_before_create, only: [:create]	
+	before_action :load_user, only: [:create]
 	authorize_resource
 
 	def index
@@ -20,7 +20,11 @@ class OrdersController < ApplicationController
 
 	def create
 		@order_form = OrderForm.new(order_form_params)
-		@order_form.user = current_user
+		@user.name ||= @order_form.payment.holder_fullname
+		unless @user.persisted?
+			register_user!
+		end
+		@order_form.user = @user
 
 		if @order_form.save
 			NotificationMailer.with(order: @order_form.order).order_received.deliver_later
@@ -119,22 +123,17 @@ class OrdersController < ApplicationController
 
 	private
 
-	def user_params
-		params.require(:user).permit(:name, :email, :password)
+	def register_user!
+		@user.skip_confirmation_notification!
+		@user.save!
 	end
 
-	def register_before_create
-		if current_user.nil?
-			@user = User.new(user_params)
-			if User.exists?(email: @user.email)
-				redirect_back(fallback_location: new_order_path, alert: "Usuário já existe. Faça o login antes de realizar a compra.") and return
-			end
-			if @user.save
-				sign_in @user
-			else
-				redirect_back(fallback_location: new_order_path)
-			end
-		end
+	def load_user
+		@user = current_user || User.find_by_email(user_params["email"]) || User.new(user_params)
+	end
+
+	def user_params
+		params.require(:user).permit(:email)
 	end
 
 	def order_params

@@ -11,7 +11,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super
+    user = User.find_by_email(sign_up_params["email"])
+    if user.present? && !user.confirmed? && user.has_no_password?
+      # Change name
+      user.update_attributes(name: sign_up_params["name"])
+
+      self.resource = User.to_adapter.get!(user.id)
+
+      # Resets password
+      new_password = new_password_confirmation = sign_up_params["password"]
+      resource.skip_password_change_notification!
+      resource.reset_password(new_password, new_password_confirmation)
+
+      # Sends confirmation instructions
+      resource.send_confirmation_instructions
+
+      set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+      expire_data_after_sign_in!
+      respond_with resource, location: after_inactive_sign_up_path_for(resource)
+    else
+      super
+    end
   end
 
   # GET /resource/edit
