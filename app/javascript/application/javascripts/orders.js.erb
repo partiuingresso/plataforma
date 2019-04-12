@@ -86,18 +86,6 @@ var stateInput = document.getElementById('order_form_payment_attributes_billing_
 var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
 var addressInput = document.getElementById('address');
 
-// Max length do input do cartão e cvv
-cardInput.addEventListener('keypress', function(e) {
-  if(cardInput.value.length == 16) {
-    e.preventDefault();
-  }
-});
-cvcInput.addEventListener('keypress', function(e) {
-  if(cvcInput.value.length == 4) {
-    e.preventDefault();
-  }
-});
-
 // Masks e dica Validade do CC
 expInput.addEventListener('focusin', function() {
   expInput.placeholder = "MM/AA";
