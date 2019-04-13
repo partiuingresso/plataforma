@@ -39,6 +39,7 @@ const pubKey = `-----BEGIN PUBLIC KEY-----
 var form = document.getElementById('new_order_form');
 var expirationDate = document.getElementById('expiration-date').value;
 
+form.setAttribute('novalidate', 'true');
 form.addEventListener('submit', function(e) {
   if(!validateCC() || !validateInputs() || !validateCreateAccount() || !validateEmailField()) {
     e.preventDefault();
