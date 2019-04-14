@@ -7,9 +7,16 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   # end
 
   # POST /resource/confirmation
-  # def create
-  #   super
-  # end
+  def create
+    user = User.find_by_email(resource_params["email"])
+    if user.present? && user.has_no_password?
+      self.resource = User.to_adapter.get!(user.id)
+      resource.errors.add(:email, :not_found)
+      respond_with(resource)
+    else
+      super
+    end
+  end
 
   # GET /resource/confirmation?confirmation_token=abcdef
   # def show
