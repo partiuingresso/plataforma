@@ -8,9 +8,9 @@
           <%= fields_for @user do |user| %>
             <div class="column is-12">
               <div class="field">
-                <label class="label is-inline-block">Email</label><span class="is-inline-block"><%= link_to "Já é cadastrado? Faça o login.", login_path(redirect_to: request.url), class: 'help' %></span>
+                <label class="label is-inline-block">Email</label><span class="is-inline-block help"> Já é cadastrado? <%= link_to "Faça o login.", login_path(redirect_to: request.url) %></span>
                 <div class="control">
-                  <%= user.email_field :email, autocomplete: "email", class: "input email required", placeholder: "nome@exemplo.com" %>
+                  <%= user.email_field :email, autofocus: true, autocomplete: "email", class: "input email required", placeholder: "nome@exemplo.com" %>
                   <div class="input-errors">
                     <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
                     <span class="email-error help checkout is-danger is-hidden">Email inválido.</span>
@@ -115,7 +115,7 @@
         <div class="field">
           <label class="label">CPF</label>
           <div class="control">
-            <%= payment_f.text_field :holder_document, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "14" %>
+            <%= payment_f.text_field :holder_document, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "14", placeholder: "___.___.___-__"%>
             <div class="input-errors">
               <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
               <span id="document-error" class="help checkout is-danger is-hidden cpf">CPF inválido.</span>
@@ -127,7 +127,7 @@
         <div class="field">
           <label class="label">Telefone celular</label>
           <div class="control">
-            <%= payment_f.telephone_field :holder_phone, id: "phone", class: "input required", maxlength: "16" %>
+            <%= payment_f.telephone_field :holder_phone, id: "phone", class: "input required", maxlength: "16", placeholder: "(__) _____-____" %>
             <div class="input-errors">
               <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
             </div>
@@ -152,7 +152,7 @@
           <div class="field">
             <label class="label">CEP</label>
             <div class="control">
-              <%= address_f.text_field :zipcode, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "9" %>
+              <%= address_f.text_field :zipcode, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "9", placeholder: "_____-___" %>
               <div class="input-errors">
                 <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
               </div>
@@ -237,27 +237,27 @@
       <%= order_item_f.hidden_field :quantity, value: order_item_f.object.quantity %>
         <%= order_item_f.fields_for :ticket_tokens, order_item_f.object.ticket_tokens do |ticket_token_f| %>
           <div class="column is-12 ticket-label">
-            <label class="label is-inline-block">Ingresso n
-              <span class="numr">0</span><%= index += 1 %>
+            <label class="label is-inline-block">Ingresso
+            n<span class="numr">0</span> <%= index += 1 %>
             </label>
             <span class="is-inline-block">-> <%= order_item_f.object.offer_name %></span>
           </div>
-          <div class="column is-6">
+          <div class="column is-6 no-top-pad">
             <div class="field">
-              <label class="label">Quem vai usar?</label>
+              <label class="label is-inline-block">Quem vai usar? &nbsp;</label><span class="icon has-text-grey is-small is-inline-block tooltip is-tooltip-multiline" data-tooltip="Preencha o nome da pessoa que utilizará o ingresso."><i class="fas help fa-question-circle"></i></span>
               <div class="control">
-                <%= ticket_token_f.text_field :owner_name, class: "input required" %>
+                <%= ticket_token_f.text_field :owner_name, class: "input required", placeholder: "Nome e sobrenome" %>
                 <div class="input-errors">
                   <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="column is-6">
+          <div class="column is-6 no-top-pad">
             <div class="field">
-              <label class="label">E-mail </label>
+              <label class="label is-inline-block">E-mail &nbsp;</label><span class="icon has-text-grey is-small is-inline-block tooltip is-tooltip-multiline" data-tooltip="Caso você não saiba o e-mail da pessoa que utilizará este ingresso, utilize o seu e-mail."><i class="fas help fa-question-circle"></i></span>
               <div class="control">
-                <%= ticket_token_f.email_field :owner_email, class: "input email required" %>
+                <%= ticket_token_f.email_field :owner_email, class: "input email required", placeholder: "nome@exemplo.com" %>
                 <div class="input-errors">
                   <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
                   <span class="email-error help checkout is-danger is-hidden">Email inválido.</span>
@@ -265,6 +265,7 @@
               </div>
             </div>
           </div>
+          <div class="column is-12"></div>
         <% end %>
     <% end %>
     <div class="column is-12">

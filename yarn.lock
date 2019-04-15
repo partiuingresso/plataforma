@@ -1869,6 +1869,11 @@ bulma-toast@^1.5.1:
   resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-1.5.1.tgz#a88a4c0aee224b6344dfa5dfbcc49f7a25e865d1"
   integrity sha512-RgJ9jaQmN418PySZSMHk9ukG6gOpmPu5U96ahe21kgaN3jS6FoA1T8RLu3v73GSLGIAfayyVS73hbR71lh7fug==
 
+bulma-tooltip@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/bulma-tooltip/-/bulma-tooltip-2.0.2.tgz#cf0bf5ad2dc75492cbcbd4816e1a005314dc90ac"
+  integrity sha512-xsqWeWV7tsUn3uH04SqJeP7/CyC1RaDVIyVzr4/sIO3friIIOi7L6jc5g7qUwDxuBQl72yH/yRPuefpXoQ4hWg==
+
 bulma@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.4.tgz#7e74512e9118d9799021339e67e365ee0ac4f3f9"

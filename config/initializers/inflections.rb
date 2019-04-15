@@ -18,4 +18,5 @@
 ActiveSupport::Inflector.inflections(:br) do |inflect|
   inflect.irregular 'está', 'estão'
   inflect.irregular 'disponível', 'disponíveis'
+  inflect.irregular 'utilizará', 'utilizarão'
 end
