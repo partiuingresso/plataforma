@@ -38,7 +38,7 @@ class Ability
         can :check_in, :admin
         can :manage, Company, id: user.company_id
         can :manage, CompanyFinance, company_id: user.company_id
-        can :manage, Event, company_id: user.company_id
+        can [:read, :edit], Event, company_id: user.company_id
         can [:read, :create], Transfer, company_id: user.company_id
     end
 
