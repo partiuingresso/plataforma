@@ -381,3 +381,29 @@ function inputErrorMessages(input) {
     return errorsDiv.children
 }
 
+// Countdown
+
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    var countdown = setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            document.querySelector('.expiredTime').classList.add('active');
+            document.documentElement.classList.add("is-clipped");
+            clearInterval(countdown);
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var limit = 60 * 15,
+    display = document.querySelector('#remainingTime');
+    startTimer(limit, display);
+};
