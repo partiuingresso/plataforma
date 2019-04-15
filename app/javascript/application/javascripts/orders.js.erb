@@ -332,13 +332,13 @@ function creditCardBrandListener(e) {
 function cepToAddress() {
     cep(zipInput.value).then(function(result) {
         zipInput.parentElement.classList.remove('is-loading');
+        addressInputsDiv.classList.remove('is-hidden');
         streetInput.value = result.street;
         districtInput.value = result.neighborhood;
         cityInput.value = result.city;
         stateInput.value = result.state;
-        numberInput.focus();
-        addressInputsDiv.classList.remove('is-hidden');
         setAddressInputsRequired();
+        numberInput.focus();
     }, function() {
         zipInput.parentElement.classList.remove('is-loading');
         addressInputsDiv.classList.remove('is-hidden');
