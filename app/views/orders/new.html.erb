@@ -74,7 +74,7 @@
           </div>
         </div>
         <br />
-        <div class="columns is-vcentered animated slideInDown delay-1s">
+        <div class="columns is-vcentered is-mobile animated slideInDown delay-1s">
           <div class="column is-1 is-offset-1">
             <span class="icon has-text-primary">
               <i class="far fa-2x fa-clock"></i>
@@ -82,7 +82,7 @@
           </div>
           <div class="column is-10 is-forward-1">
             <p class="content is-size-7">
-              <strong>Seu pedido está reservado por <span class="has-text-primary">15:00</span></strong> <br />
+              <strong>Seu pedido está reservado por <span class="has-text-primary" id="remainingTime"></span></strong> <br />
               Por favor, finalize sua compra antes de esgotar o tempo.
             </p>
           </div>
@@ -92,14 +92,14 @@
   </div>
 </section>
 
-<div class="section expiredTime">
+<div class="section expiredTime animated fadeIn">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-6 box">
         <p class="title">Tempo expirado</p>
         <p class="content">Para que você realize sua compra com segurança, nós reservamos o número de ingressos selecionados no período de <strong>15 minutos</strong>.</p>
         <p class="content">Infelizmente este tempo se esgotou. <br />Por favor, refaça sua compra dentro do período indicado.</p>
-        <a class="button is-primary">Tentar novamente</a>
+        <%= link_to "Tentar novamente", event_path(@order.event), class: "button is-primary" %>
       </div>
     </div>
   </div>
