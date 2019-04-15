@@ -1,19 +1,34 @@
 import 'bulma-tooltip';
 import JSEncrypt from 'jsencrypt';
 import { MoipCreditCard } from 'moip-sdk-js';
-import cep from 'cep-promise';
-import * as brazilValues from 'brazilian-values';
 import paymentFormatter from 'payment-formatter';
+import * as brazilValues from 'brazilian-values';
+import cep from 'cep-promise';
 import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
-import * as Validation from "./utils/validation";
-import Rails from 'rails-ujs';
+import { inputFilled, selectFilled, validEmail } from './utils/validation';
 
-var installmentSelect = document.getElementById('order_form_payment_attributes_installment_count');
-installmentSelect.addEventListener('change', function() {
-	var selectedOption = installmentSelect.selectedOptions[0];
-	var totalElement = document.getElementById('total');
-	totalElement.innerText = selectedOption.dataset.price.toString(10);
-});
+var form = document.getElementById('new_order_form');
+var installmentCountSelect = document.getElementById('order_form_payment_attributes_installment_count');
+var cardNumberInput = document.getElementById('card-number');
+var cvcInput = document.getElementById('cvc');
+var expirationDateInput = document.getElementById('expiration-date');
+var hashInput = document.getElementById('order_form_payment_attributes_hash');
+var documentInput = document.getElementById('order_form_payment_attributes_holder_document');
+var celInput = document.getElementById('phone');
+var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode');
+var complement = document.getElementById('order_form_payment_attributes_billing_address_attributes_complement');
+var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address');
+var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district');
+var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city');
+var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state');
+var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
+var addressInputsDiv = document.getElementById('address');
+var submitButton = form.querySelector('button[type="submit"]');
+var imagesDiv = document.querySelector('.level-right.cards');
+var images = imagesDiv.querySelectorAll('img');
+
+var firstInvalidInput = null;
+var formSubmitted = false;
 
 <% if Rails.env.production? %>
 const pubKey = `-----BEGIN PUBLIC KEY-----
@@ -37,260 +52,332 @@ const pubKey = `-----BEGIN PUBLIC KEY-----
                 -----END PUBLIC KEY-----`;
 <% end %>
 
-var form = document.getElementById('new_order_form');
-var expirationDate = document.getElementById('expiration-date').value;
+init();
 
-form.setAttribute('novalidate', 'true');
-form.addEventListener('submit', function(e) {
-  if(!validateCC() || !validateInputs() || !validateCreateAccount() || !validateEmailField()) {
-    e.preventDefault();
-    cleanInputs();
-    return;
-  }
-	var cardNumberValue = document.getElementById('card-number').value;
-	var cvcValue = document.getElementById('cvc').value;
-	var expirationDate = document.getElementById('expiration-date').value.split('/');
-	var expMonthValue = expirationDate[0];
-	var expYearValue = expirationDate[1];
+function init() {
+    form.setAttribute('novalidate', 'true');
+    installmentCountSelect.addEventListener('change', installmentCountListener);
+    // Masks e dica Validade do CC
+    expirationDateInput.addEventListener('focusin', function() {
+        this.placeholder = "MM/AA";
+    });
+    expirationDateInput.addEventListener('focusout', function() {
+        this.placeholder = "Validade";
+    });
+    paymentFormatter({
+        inputType: 'expiry',
+        selector: 'input#expiration-date'
+    });
 
-	MoipCreditCard
-    .setEncrypter(JSEncrypt, 'node')
-		.setPubKey(pubKey)
-		.setCreditCard({
-			number: cardNumberValue,
-			cvc: cvcValue,
-			expirationMonth: expMonthValue,
-			expirationYear: expYearValue
-		})
-		.hash()
-		.then(hash => {
-			var hashInput = document.getElementById('order_form_payment_attributes_hash');
-			hashInput.value = hash;
-		});
+    documentInput.value = brazilValues.formatToCPF(documentInput.value);
+
+    // Mask do CPF
+    documentInput.addEventListener('input', function() {
+        this.value = brazilValues.formatToCPF(this.value);
+    });
+
+    // Mask do Telefone Cel
+    celInput.addEventListener('input', function() {
+        this.value = brazilValues.formatToPhone(this.value);
+    });
+
+    if(zipInput.value) {
+      addressInputsDiv.classList.remove('is-hidden');
+      setAddressInputsRequired();
+      cardNumberInput.focus();
+    }
+
+    zipInput.value = brazilValues.formatToCEP(zipInput.value);
+
+    // Mask do CEP
+    zipInput.addEventListener('input', function() {
+        this.value = brazilValues.formatToCEP(this.value);
+        if(this.value.length == 9) {
+            zipInput.parentElement.classList.add('is-loading');
+            cepToAddress();
+        }
+    });
+
+    cardNumberInput.addEventListener('input', creditCardBrandListener);
+
+    form.addEventListener('submit', formSubmitListener);
+
+}
+
+function setRealTimeValidation() {
+    var formInputs = form.querySelectorAll('input.required');
+    for(let input of formInputs) {
+        input.addEventListener('focusin', function(e) {
+            cleanInputErrors(input);
+        });
+    }
+
+    var formSelects = form.querySelectorAll('select.required');
+    for(let select of formSelects) {
+        select.addEventListener('focusin', function(e) {
+            cleanInputErrors(this.parentElement);
+        });
+        select.addEventListener('focusout', function(e) {
+            selectIsFilled(this.parentElement);
+        });
+    }
+
+    var requiredInputs = form.querySelectorAll('input.required');
+    for(let input of requiredInputs) {
+        input.addEventListener('focusout', function(e) {
+            inputIsFilled(input);
+        });
+    }
+
+    var emailInputs = form.querySelectorAll('input.email');
+    for(let input of emailInputs) {
+        input.addEventListener('focusout', function(e) {
+            inputIsEmail(input);
+        });
+    }
+
+    cardNumberInput.addEventListener('focusout', function(e) {
+        validateCC();
+    });
+
+    documentInput.addEventListener('focusout', function(e) {
+        validateDocument();
+    });
+}
+
+function installmentCountListener(e) {
+    var totalElement = document.getElementById('total');
+
+    var selectedOption = this.selectedOptions[0];
+    totalElement.innerText = selectedOption.dataset.price.toString(10);
+}
+
+function formSubmitListener(e) {
+    if(!formSubmitted) {
+        setRealTimeValidation();
+        formSubmitted = true;
+    }
+    if(!formIsValid()) {
+        e.preventDefault();
+
+        return
+    }
+
+    setCreditCardHash();
     disableSubmitButton();
-});
-
-var cardInput = document.getElementById('card-number');
-var cvcInput = document.getElementById('cvc');
-var expInput = document.getElementById('expiration-date');
-var cpfInput = document.getElementById('order_form_payment_attributes_holder_document');
-var celInput = document.getElementById('phone');
-var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode');
-var imagesDiv = document.querySelector('.level-right.cards');
-var images = imagesDiv.querySelectorAll('img');
-var form = document.getElementsByTagName('form')[0];
-var formInputs = form.querySelectorAll('input, select');
-var complement = document.getElementById('order_form_payment_attributes_billing_address_attributes_complement');
-var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address');
-var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district');
-var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city');
-var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state');
-var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
-var addressInput = document.getElementById('address');
-
-// Masks e dica Validade do CC
-expInput.addEventListener('focusin', function() {
-  expInput.placeholder = "MM/AA";
-});
-expInput.addEventListener('focusout', function() {
-  expInput.placeholder = "Validade";
-});
-paymentFormatter({
-  inputType: 'expiry',
-  selector: 'input#expiration-date'
-});
-
-cpfInput.value = brazilValues.formatToCPF(cpfInput.value);
-
-// Mask do CPF
-cpfInput.addEventListener('input', function() {
-  cpfInput.value = brazilValues.formatToCPF(cpfInput.value);
-});
-
-// Mask do Telefone Cel
-celInput.addEventListener('input', function() {
-  celInput.value = brazilValues.formatToPhone(celInput.value);
-});
-
-if(zipInput.value) {
-  addressInput.classList.remove('is-hidden');
-  cardInput.focus();
 }
 
-zipInput.value = brazilValues.formatToCEP(zipInput.value);
+function formIsValid() {
+    firstInvalidInput = null;
+    var valid = validateRequiredInputs();
+    valid = validateEmailInputs() && valid;
+    valid = validateCC() && valid;
+    valid = validateDocument() && valid;
 
-// Mask do CEP
-zipInput.addEventListener('input', function() {
-  zipInput.value = brazilValues.formatToCEP(zipInput.value);
-  if(zipInput.value.length == 9) {
-    zipInput.parentElement.classList.add('is-loading');
-    cepToAddress();
-  }
-});
-
-// Pega o cep e popula
-function cepToAddress() {
-  cep(zipInput.value).then(function(result) {
-    zipInput.parentElement.classList.remove('is-loading');
-    addressInput.classList.remove('is-hidden');
-    streetInput.value = result.street;
-    districtInput.value = result.neighborhood;
-    cityInput.value = result.city;
-    stateInput.value = result.state;
-    numberInput.focus();
-  }, function() {
-    zipInput.parentElement.classList.remove('is-loading');
-    addressInput.classList.remove('is-hidden');
-    streetInput.focus();
-  });
-}
-
-// Seleciona bandeira do cartão
-cardInput.addEventListener('input', function(e) {
-  for(let img of images) {
-    img.classList.remove("unselected");
-  }
-  var number = cardInput.value;
-  var card = CreditcardWarder(number);
-  var brand = card.getBrand();
-
-  if(cardInput.value) {
-    for(let img of images) {
-      if(img.id != brand) {
-        img.classList.add("unselected");
-      } 
+    if(firstInvalidInput) {
+        firstInvalidInput.scrollIntoView({block: "end", behavior: "smooth"});
     }
-  }
-});
 
-// Valida número do cartão
+    return valid
+}
+
+function validateRequiredInputs() {
+    var valid = true;
+    var requiredInputs = form.querySelectorAll('input.required');
+    for(let input of requiredInputs) {
+        if(!inputIsFilled(input)) {
+            valid = false;
+        }
+    }
+
+    var requiredSelects = form.querySelectorAll('select.required');
+    for(let select of requiredSelects) {
+        if(!selectIsFilled(select.parentElement)) {
+            valid = false;
+        }
+    }
+
+    return valid
+}
+
+function validateEmailInputs() {
+    var valid = true;
+    var emailInputs = form.querySelectorAll('input.email');
+    for(let input of emailInputs) {
+        if(!inputIsEmail(input)) {
+            valid = false;
+        }
+    }
+
+    return valid
+}
+
+function inputIsFilled(input) {
+    if(!inputFilled(input)) {
+        firstInvalidInput = firstInvalidInput || input;
+        var errorSpan = inputErrorMessages(input)[0];
+        errorSpan.classList.remove('is-hidden');
+        input.classList.add('is-danger');
+
+        return false
+    }
+
+    return true
+}
+
+function selectIsFilled(select) {
+    var selectElem = select.querySelector('select');
+    if(!selectFilled(selectElem)) {
+        firstInvalidInput = firstInvalidInput || selectElem;
+        var errorSpan = inputErrorMessages(select)[0];
+        errorSpan.classList.remove('is-hidden');
+        select.classList.add('is-danger');
+
+        return false
+    }
+
+    return true
+}
+
+function inputIsEmail(input) {
+    if(inputFilled(input) && !validEmail(input.value)) {
+        firstInvalidInput = firstInvalidInput || input;
+        for(let errorSpan of inputErrorMessages(input)) {
+            if(errorSpan.classList.contains('email-error')) {
+                errorSpan.classList.remove('is-hidden');
+                input.classList.add('is-danger');
+
+                break
+            }
+        }
+
+        return false
+    }
+
+    return true
+}
+
 function validateCC() {
-  var number = cardInput.value;
-  var card = CreditcardWarder(number);
-  var validate = card.validate();
-  var brand = card.getBrand();
-  var spanHelp = cardInput.nextElementSibling;
+    var card = CreditcardWarder(cardNumberInput.value);
 
-  if(!validate || brand == "other") {
-    cardInput.classList.add('is-danger');
-    spanHelp.classList.remove('is-hidden');
-    cardInput.scrollIntoView({block: "end", behavior: "smooth"});
+    if(inputFilled(cardNumberInput) && (!card.validate() || card.getBrand() == "other")) {
+        firstInvalidInput = firstInvalidInput || input;
+        var errorSpan = document.getElementById('creditcard-error');
+        cardNumberInput.classList.add('is-danger');
+        errorSpan.classList.remove('is-hidden');
 
-    return false
-  }
-
-  return true
-}
-
-// Valida os campos
-function validateInputs() {
-  var valid = true;
-  var cpfValid = brazilValues.isCPF(cpfInput.value);
-  for(let input of formInputs) {
-    if(input.value.length === 0 && input !== complement && input.type !== "hidden" && input !== cardInput) {
-      if(input.matches('select')) {
-        input.parentElement.classList.add('is-danger');
-      } else {
-        input.classList.add('is-danger');
-      }
-      var spanHelp = input.nextElementSibling;
-      if(!spanHelp) {
-        input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger">Este campo é obrigatório.</span>');
-      }
-      input.scrollIntoView({block: "end", behavior: "smooth"});
-      valid = false;
-    } else if((input === cpfInput) && (cpfInput.value.length >= 1) && !cpfValid) {
-      var spanHelp = input.nextElementSibling;
-      if(!spanHelp || !spanHelp.matches('.cpf')) {
-        input.classList.add('is-danger');
-        input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">CPF inválido.</span>');
-        input.scrollIntoView({block: "end", behavior: "smooth"});
-      } else if(spanHelp.matches('.cpf')) {
-        spanHelp.classList.remove('is-hidden');
-        input.classList.add('is-danger');
-      }
-      valid = false;
+        return false
     }
-  }
 
-  return valid
+    return true
 }
 
-function validateCreateAccount() {
-  let valid = true;
-  let passwordInput = document.getElementById('user_password');
-  let nameInput = document.getElementById('user_name');
+function validateDocument() {
+    if(inputFilled(documentInput) && !brazilValues.isCPF(documentInput.value)) {
+        firstInvalidInput = firstInvalidInput || input;
+        var errorSpan = document.getElementById('document-error');
+        documentInput.classList.add('is-danger');
+        errorSpan.classList.remove('is-hidden');
 
-  if(!passwordInput) {
-    return valid;
-  }
-
-  if(!Validation.validPassword(passwordInput.value)) {
-    passwordInput.classList.add('is-danger');
-    passwordInput.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">A senha precisa ter pelo menos 8 caracteres.</span>');
-    passwordInput.scrollIntoView({block: "end", behavior: "smooth"});
-    valid = false;
-  } else if(!Validation.validCompleteName(nameInput.value)) {
-      nameInput.classList.add('is-danger');
-      nameInput.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">Digite nome e sobrenome.</span>');
-      nameInput.scrollIntoView({block: "end", behavior: "smooth"});
-      valid = false;
-  }
-
-  return valid;
-}
-
-function validateEmailField() {
-  var valid = true;
-  var emailInput = document.querySelectorAll('.input.email');
-  for(let input of emailInput) {
-    if(!Validation.validEmail(input.value)) {
-      let spanHelp = input.nextElementSibling;
-      if(!spanHelp) {
-        input.classList.add('is-danger');
-        input.insertAdjacentHTML('afterend', '<span class="help checkout is-danger cpf">Email inválido.</span>');
-        input.scrollIntoView({block: "end", behavior: "smooth"});
-      } else {
-        input.classList.add('is-danger');
-        spanHelp.classList.remove('is-hidden');
-      }
-      valid = false;
+        return false
     }
-  }
 
-  return valid;
+    return true
 }
 
-// Retira o help ao preencher
-function cleanInputs() {
-  for(let input of formInputs) {
-    if(input != complement) {
-      input.addEventListener('focusin', function() {
-        var spanHelp = input.nextElementSibling;
-        spanHelp.classList.add('is-hidden');
-        if(input.matches('select')) {
-          input.parentElement.classList.remove('is-danger');
-        } else {
-          input.classList.remove('is-danger');
-        }
-      });
-      input.addEventListener('focusout', function() {
-        if(input.value.length === 0 && input !== complement) {
-          var spanHelp = input.nextElementSibling;
-          spanHelp.classList.remove('is-hidden');
-          if(input.matches('select')) {
-            input.parentElement.classList.add('is-danger');
-          } else {
-            input.classList.add('is-danger');
-          }
-        }
-      });
-    }
-  }
+function setCreditCardHash() {
+    var cardNumber = cardNumberInput.value;
+    var cardCvc = cvcInput.value;
+    var expirationDate = expirationDateInput.value.split('/');
+    var expMonth = expirationDate[0];
+    var expYear = expirationDate[1];
+
+    MoipCreditCard
+        .setEncrypter(JSEncrypt, 'node')
+        .setPubKey(pubKey)
+        .setCreditCard({
+            number: cardNumber,
+            cvc: cardCvc,
+            expirationMonth: expMonth,
+            expirationYear: expYear
+        })
+        .hash()
+        .then(hash => {
+            hashInput.value = hash;
+        });
 }
 
 function disableSubmitButton() {
-  var button = form.querySelector('button[type="submit"]');
-  button.disabled = true;
-  button.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Aguarde...";
+    submitButton.disabled = true;
+    submitButton.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Aguarde...";
 }
+
+function creditCardBrandListener(e) {
+    for(let img of images) {
+        img.classList.remove("unselected");
+    }
+
+    var card = CreditcardWarder(this.value);
+    var brand = card.getBrand();
+
+    if(this.value) {
+        for(let img of images) {
+            if(img.id != brand) {
+                img.classList.add("unselected");
+            }
+        }
+    }
+}
+
+function cepToAddress() {
+    cep(zipInput.value).then(function(result) {
+        zipInput.parentElement.classList.remove('is-loading');
+        streetInput.value = result.street;
+        districtInput.value = result.neighborhood;
+        cityInput.value = result.city;
+        stateInput.value = result.state;
+        numberInput.focus();
+        addressInputsDiv.classList.remove('is-hidden');
+        setAddressInputsRequired();
+    }, function() {
+        zipInput.parentElement.classList.remove('is-loading');
+        addressInputsDiv.classList.remove('is-hidden');
+        setAddressInputsRequired();
+        streetInput.focus();
+    });
+}
+
+function setAddressInputsRequired() {
+    var addressInputs = form.querySelectorAll('#address input');
+    for(let input of addressInputs) {
+        if(input !== complement) {
+            input.classList.add('required');
+            if(formSubmitted) {
+                inputIsFilled(input);
+                input.addEventListener('focusin', function(e) {
+                    cleanInputErrors(this);
+                });
+                input.addEventListener('focusout', function(e) {
+                    inputIsFilled(this);
+                });
+            }
+        }
+    }
+}
+
+function cleanInputErrors(input) {
+    input.classList.remove('is-danger');
+    for(let errorSpan of inputErrorMessages(input)) {
+        errorSpan.classList.add('is-hidden');
+    }
+}
+
+function inputErrorMessages(input) {
+    var errorsDiv = input.nextElementSibling;
+    while(!errorsDiv.classList.contains('input-errors')) {
+        errorsDiv = errorsDiv.nextElementSibling;
+    }
+
+    return errorsDiv.children
+}
+
