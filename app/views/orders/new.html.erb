@@ -11,10 +11,10 @@
     <div class="columns is-centered ordered-mobile">
       <div class="column is-6 is-offset-1 fl-2">
         <p class="title is-hidden-touch">Confirmar e pagar</p>
-        <% if @order_error.present? %>
+        <% @order_form.errors.messages[:checkout].each do |error_message| %>
           <article class="message is-danger">
             <div class="message-body">
-              Não conseguimos processar seu pagamento. Por favor, verifique seus dados e tente novamente.
+              <%= error_message %>
             </div>
           </article>
         <% end %>

@@ -32,7 +32,6 @@ class OrdersController < ApplicationController
 		elsif @order_form.errors.include?(:checkout)
 			@order = Order.new(order_form_params.slice(:event_id.to_s, :order_items_attributes.to_s))
 			@order_form.payment.hash = nil
-			flash.now[:alert] = @order_form.errors[:checkout][0]
 			render :new
 		else
 			render plain: @order_form.errors.messages
