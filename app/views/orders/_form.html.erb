@@ -10,7 +10,11 @@
               <div class="field">
                 <label class="label is-inline-block">Email</label><span class="is-inline-block"><%= link_to "Já é cadastrado? Faça o login.", login_path(redirect_to: request.url), class: 'help' %></span>
                 <div class="control">
-                  <%= user.email_field :email, autocomplete: "email", class: "input email", placeholder: "nome@exemplo.com" %>
+                  <%= user.email_field :email, autocomplete: "email", class: "input email required", placeholder: "nome@exemplo.com" %>
+                  <div class="input-errors">
+                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                    <span class="email-error help checkout is-danger is-hidden">Email inválido.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -23,7 +27,10 @@
         <div class="field">
           <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
           <div class="control">
-            <%= payment_f.text_field :holder_fullname, autofocus: true, class: "input", autocomplete: "cc-name" %>
+            <%= payment_f.text_field :holder_fullname, autofocus: true, class: "input required", autocomplete: "cc-name" %>
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -79,18 +86,27 @@
         <div class="field">
           <%= payment_f.hidden_field :hash %>
           <div class="control">
-            <input id="card-number" class="input" type="text" maxlength="16" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-number" placeholder="Número do cartão">
-            <span class="help checkout is-danger is-hidden">Número de cartão inválido.</span>
+            <input id="card-number" class="input required" type="text" maxlength="16" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-number" placeholder="Número do cartão">
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+              <span id="creditcard-error" class="help checkout is-danger is-hidden">Número de cartão inválido.</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="column is-6 no-top-pad">
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input id="expiration-date" class="input" type="text" maxlength="5" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-exp" placeholder="Validade">
+            <input id="expiration-date" class="input required" type="text" maxlength="5" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-exp" placeholder="Validade">
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+            </div>
           </div>
           <div class="control">
-            <input id="cvc" class="input" type="number" maxlength="4" pattern="[0-9]*" placeholder="CVV">
+            <input id="cvc" class="input required" type="number" maxlength="4" pattern="[0-9]*" placeholder="CVV">
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -99,7 +115,11 @@
         <div class="field">
           <label class="label">CPF</label>
           <div class="control">
-            <%= payment_f.text_field :holder_document, class: "input", inputmode: "numeric", pattern: "[0-9]*", maxlength: "14" %>
+            <%= payment_f.text_field :holder_document, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "14" %>
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+              <span id="document-error" class="help checkout is-danger is-hidden cpf">CPF inválido.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -107,7 +127,10 @@
         <div class="field">
           <label class="label">Telefone celular</label>
           <div class="control">
-            <%= payment_f.telephone_field :holder_phone, id: "phone", class: "input", maxlength: "16" %>
+            <%= payment_f.telephone_field :holder_phone, id: "phone", class: "input required", maxlength: "16" %>
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -116,7 +139,10 @@
           <div class="control">
             <label class="label">Data de Nascimento</label>
             <div class="select">
-              <%= payment_f.date_select :holder_birthdate, date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'} %>
+              <%= payment_f.date_select :holder_birthdate, {date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'}}, {class: "required"} %>
+            </div>
+            <div class="input-errors">
+              <span class="help checkout is-danger is-hidden">Selecione uma data.</span>
             </div>
           </div>
         </div>
@@ -126,7 +152,10 @@
           <div class="field">
             <label class="label">CEP</label>
             <div class="control">
-              <%= address_f.text_field :zipcode, class: "input", inputmode: "numeric", pattern: "[0-9]*", maxlength: "9" %>
+              <%= address_f.text_field :zipcode, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "9" %>
+              <div class="input-errors">
+                <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+              </div>
             </div>
           </div>
         </div>
@@ -138,6 +167,9 @@
                 <label class="label">Endereço</label>
                 <div class="control">
                   <%= address_f.text_field :address, class: "input" %>
+                  <div class="input-errors">
+                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -146,6 +178,9 @@
                 <label class="label">Número</label>
                 <div class="control">
                   <%= address_f.text_field :number, class: "input" %>
+                  <div class="input-errors">
+                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -161,6 +196,9 @@
               <label class="label">Bairro</label>
               <div class="control">
                 <%= address_f.text_field :district, class: "input" %>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                </div>
               </div>
             </div>
             <div class="column is-5">
@@ -168,6 +206,9 @@
                 <label class="label">Cidade</label>
                 <div class="control">
                   <%= address_f.text_field :city, class: "input" %>
+                  <div class="input-errors">
+                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,6 +217,9 @@
                 <label class="label">Estado</label>
                 <div class="control">
                   <%= address_f.text_field :state, class: "input" %>
+                  <div class="input-errors">
+                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -202,7 +246,10 @@
             <div class="field">
               <label class="label">Quem vai usar?</label>
               <div class="control">
-                <%= ticket_token_f.text_field :owner_name, class: "input" %>
+                <%= ticket_token_f.text_field :owner_name, class: "input required" %>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                </div>
               </div>
             </div>
           </div>
@@ -210,7 +257,11 @@
             <div class="field">
               <label class="label">E-mail </label>
               <div class="control">
-                <%= ticket_token_f.email_field :owner_email, class: "input email" %>
+                <%= ticket_token_f.email_field :owner_email, class: "input email required" %>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  <span class="email-error help checkout is-danger is-hidden">Email inválido.</span>
+                </div>
               </div>
             </div>
           </div>
