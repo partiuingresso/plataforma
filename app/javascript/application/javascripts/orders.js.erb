@@ -5,10 +5,11 @@ import paymentFormatter from 'payment-formatter';
 import * as brazilValues from 'brazilian-values';
 import cep from 'cep-promise';
 import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
-import { inputFilled, selectFilled, validEmail } from './utils/validation';
+import { inputFilled, selectFilled, validEmail, validCompleteName } from './utils/validation';
 
 var form = document.getElementById('new_order_form');
 var installmentCountSelect = document.getElementById('order_form_payment_attributes_installment_count');
+var holderNameInput = document.getElementById('order_form_payment_attributes_holder_fullname');
 var cardNumberInput = document.getElementById('card-number');
 var cvcInput = document.getElementById('cvc');
 var expirationDateInput = document.getElementById('expiration-date');
@@ -136,6 +137,10 @@ function setRealTimeValidation() {
         });
     }
 
+    holderNameInput.addEventListener('focusout', function(e) {
+        validateName();
+    });
+
     cardNumberInput.addEventListener('focusout', function(e) {
         validateCC();
     });
@@ -171,6 +176,7 @@ function formIsValid() {
     firstInvalidInput = null;
     var valid = validateRequiredInputs();
     valid = validateEmailInputs() && valid;
+    valid = validateName() && valid;
     valid = validateCC() && valid;
     valid = validateDocument() && valid;
 
@@ -250,6 +256,19 @@ function inputIsEmail(input) {
                 break
             }
         }
+
+        return false
+    }
+
+    return true
+}
+
+function validateName() {
+    if(inputFilled(holderNameInput) && !validCompleteName(holderNameInput.value)) {
+        firstInvalidInput = firstInvalidInput || holderNameInput;
+        var errorSpan = document.getElementById('name-error');
+        holderNameInput.classList.add('is-danger');
+        errorSpan.classList.remove('is-hidden');
 
         return false
     }

@@ -10,7 +10,7 @@
               <div class="field">
                 <label class="label is-inline-block">Email</label><span class="is-inline-block help"> Já é cadastrado? <%= link_to "Faça o login.", login_path(redirect_to: request.url) %></span>
                 <div class="control">
-                  <%= user.email_field :email, autocomplete: "email", class: "input email required", placeholder: "nome@exemplo.com" %>
+                  <%= user.email_field :email, class: "input email required", placeholder: "nome@exemplo.com" %>
                   <div class="input-errors">
                     <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
                     <span class="email-error help checkout is-danger is-hidden">Email inválido.</span>
@@ -27,9 +27,10 @@
         <div class="field">
           <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
           <div class="control">
-            <%= payment_f.text_field :holder_fullname, class: "input required", autocomplete: "cc-name" %>
+            <%= payment_f.text_field :holder_fullname, class: "input required" %>
             <div class="input-errors">
               <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+              <span id="name-error" class="help checkout is-danger is-hidden">Nome inválido.</span>
             </div>
           </div>
         </div>
@@ -86,7 +87,7 @@
         <div class="field">
           <%= payment_f.hidden_field :hash %>
           <div class="control">
-            <input id="card-number" class="input required" type="text" maxlength="16" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-number" placeholder="Número do cartão">
+            <input id="card-number" class="input required" type="text" maxlength="16" inputmode="numeric" pattern="[0-9]*" placeholder="Número do cartão">
             <div class="input-errors">
               <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
               <span id="creditcard-error" class="help checkout is-danger is-hidden">Número de cartão inválido.</span>
@@ -97,7 +98,7 @@
       <div class="column is-6 no-top-pad">
         <div class="field has-addons">
           <div class="control is-expanded">
-            <input id="expiration-date" class="input required" type="text" maxlength="5" inputmode="numeric" pattern="[0-9]*" autocomplete="cc-exp" placeholder="Validade">
+            <input id="expiration-date" class="input required" type="text" maxlength="5" inputmode="numeric" pattern="[0-9]*" placeholder="Validade">
             <div class="input-errors">
               <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
             </div>
