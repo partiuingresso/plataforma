@@ -108,6 +108,10 @@ p.total {
   }
 }
 
+.tooltip.is-tooltip-multiline::before {
+  max-width: 5rem; 
+}
+
 .expiredTime {
   display: none;
   background-color:rgba(20, 20, 25, 0.95);
