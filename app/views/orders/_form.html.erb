@@ -231,10 +231,13 @@
     <div class="column is-12 is-paddingless">
       <hr />
     </div>
+
     <% index = 0 %>
     <%= f.fields_for :order_items, f.object.order_items do |order_item_f| %>
       <%= order_item_f.hidden_field :offer_id, value: order_item_f.object.offer_id %>
       <%= order_item_f.hidden_field :quantity, value: order_item_f.object.quantity %>
+      <div class="column is-12">
+        <div class="columns is-multiline ticket-form">
         <%= order_item_f.fields_for :ticket_tokens, order_item_f.object.ticket_tokens do |ticket_token_f| %>
           <div class="column is-12 ticket-label">
             <label class="label is-inline-block">Ingresso
@@ -265,8 +268,9 @@
               </div>
             </div>
           </div>
-          <div class="column is-12"></div>
         <% end %>
+        </div>
+      </div>
     <% end %>
     <div class="column is-12">
       <hr />

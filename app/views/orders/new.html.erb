@@ -12,9 +12,23 @@
       <div class="column is-6 is-offset-1 fl-2">
         <p class="title is-hidden-touch">Confirmar e pagar</p>
         <% @order_form.errors.messages[:checkout].each do |error_message| %>
-          <article class="message is-danger">
+          <article class="message is-danger is-hidden-touch">
             <div class="message-body">
-              <%= error_message %>
+              <div class="columns is-vcentered">
+                <div class="column is-1 has-text-centered">
+                  <span class="icon is-large">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-lg fa-times fa-stack-1x"></i>
+                      <i class="far fa-2x fa-circle"></i>
+                    </span>
+                  </span>
+                </div>
+                <div class="column is-11">
+                  <p class="content errors">
+                    <%= error_message %>
+                  </p>
+                </div>
+              </div>
             </div>
           </article>
         <% end %>
@@ -22,6 +36,27 @@
       </div>
       <div class="column is-3 is-forward-1 fl-1">
         <p class="title is-hidden-desktop">Confirmar e pagar</p>
+        <% @order_form.errors.messages[:checkout].each do |error_message| %>
+          <article class="message is-danger is-hidden-desktop">
+            <div class="message-body">
+              <div class="columns is-vcentered">
+                <div class="column is-1 has-text-centered">
+                  <span class="icon is-large">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-lg fa-times fa-stack-1x"></i>
+                      <i class="far fa-2x fa-circle"></i>
+                    </span>
+                  </span>
+                </div>
+                <div class="column is-11">
+                  <p class="content errors">
+                    <%= error_message %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+        <% end %>
         <div class="card z-10">
           <div class="card-content">
             <p class="offer-title"><%= @order.event.name %></p>

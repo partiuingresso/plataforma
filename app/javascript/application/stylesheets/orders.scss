@@ -54,6 +54,10 @@ p.total {
   padding-bottom: unset;
 }
 
+.ticket-form > .column.is-12:not(:first-child) {
+  padding-top: 2rem;
+}
+
 .confirm.button {
   font-weight: 600;
   margin-top: 2rem;
@@ -77,6 +81,10 @@ p.total {
 
 .z-10 {
   z-index: 10;
+}
+
+.content.errors {
+  padding-left: 1.25rem;
 }
 
 .unselected {
