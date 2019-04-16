@@ -120,4 +120,13 @@
     font-size: 0.65rem;
   }
 
+  .tooltip.is-tooltip-multiline.owner-name::before {
+    min-width: 14rem !important;
+    left: 1rem;
+  }
+
+  .tooltip.is-tooltip-multiline.owner-email::before {
+    min-width: 14rem !important;
+    left: 4rem;
+  }
 }
