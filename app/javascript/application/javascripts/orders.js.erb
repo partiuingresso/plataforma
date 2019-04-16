@@ -384,9 +384,13 @@ function inputErrorMessages(input) {
 // Countdown
 
 function startTimer(duration, display) {
+    var startDate = new Date(Date.now());
+    var start = startDate.getMinutes() * 60 + startDate.getSeconds();
+    var expiry = start + duration;
+
     var timer = duration, minutes, seconds;
     var countdown = setInterval(function () {
-        minutes = parseInt(timer / 60, 10)
+        minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
@@ -394,7 +398,12 @@ function startTimer(duration, display) {
 
         display.textContent = minutes + ":" + seconds;
 
-        if (--timer < 0) {
+        var nowDate = new Date(Date.now());
+        var now = nowDate.getMinutes() * 60 + nowDate.getSeconds();
+        var difference = now - start;
+        timer = duration - (now - start);
+
+        if(now > expiry) {
             document.querySelector('.expiredTime').classList.add('active');
             document.documentElement.classList.add("is-clipped");
             clearInterval(countdown);
@@ -403,7 +412,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    var limit = 60 * 15,
-    display = document.querySelector('#remainingTime');
+    var limit = 10;
+    var display = document.querySelector('#remainingTime');
     startTimer(limit, display);
 };
