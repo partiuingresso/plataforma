@@ -1,22 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    resources :users
-    resources :addresses
-    resources :bank_accounts
-    resources :companies
-    resources :company_finances
-    resources :credit_cards
-    resources :events
-    resources :offers
-    resources :orders
-    resources :order_items
-    resources :order_payments
-    resources :ticket_tokens
-    resources :transfers
-    resources :validations
-
-    root to: "users#index"
-  end
   devise_for :users, controllers: {
   registrations: 'users/registrations',
   sessions: 'users/sessions',
@@ -50,7 +32,13 @@ Rails.application.routes.draw do
   end
 
   resources :events
-  get '/ads/:id', to: 'ads#show'
+  get '/ads/:id', to: 'ads#show', as: 'ads'
+  get '/ads-ab/:id', to: 'ads#test_ab', as: 'ads_ab'
+  match "/backoffice/split" => Split::Dashboard, anchor: false, via: [:get, :post, :delete], constraints: -> (request) do
+    request.env['warden'].authenticated?
+    request.env['warden'].authenticate!
+    request.env['warden'].user.admin?
+  end
   resources :companies
   get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
 

@@ -39,6 +39,8 @@ gem 'prawn-table'
 gem 'sidekiq'
 # Adiciona Administate
 gem "administrate"
+# Split
+gem 'split', require: 'split/dashboard'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
