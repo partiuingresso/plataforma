@@ -41,7 +41,7 @@ class OrdersController < ApplicationController
 	def success
 		@order = Order.find_by(number: params[:number])
 		authorize! :success, @order
-		ab_finished(:pdv)
+		ab_finished(:"pdv#{@order.event.id}")
 	end
 
 	def denied
