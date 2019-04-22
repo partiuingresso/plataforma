@@ -59,10 +59,7 @@
 											<label class="label">Tipo de conta</label>
 		                    <div class="control">
 		                    	<div class="select">
-														<%= bank_account_f.select :account_type do %>
-															<%= content_tag :option, "Conta Corrente", value: "CHECKING" %>
-															<%= content_tag :option, "Conta Poupança", value: "SAVING" %>
-			                      <% end %>
+														<%= bank_account_f.select :account_type, options_for_select([["Conta Corrente", "CHECKING"], ["Conta Poupança", "SAVING"]], bank_account_f.object.account_type), {prompt: "Selecione"} %>
 			                    </div>
 		                    </div>
 										</div>
