@@ -11,8 +11,3 @@ export function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " is-active";
 }
-
-window.onload = function() {
-    var tablinks = document.getElementsByClassName("tablinks");
-    tablinks[0].click();
-}

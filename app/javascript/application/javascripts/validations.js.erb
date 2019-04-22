@@ -1,6 +1,3 @@
-import { openTab } from "./tabs";
-window.openTab = openTab;
-
 import Rails from 'rails-ujs';
 import "script-loader!<%= Rails.root.join('vendor', 'assets', 'javascript', 'instascan.min.js') %>";
 
@@ -26,3 +23,8 @@ Instascan.Camera.getCameras().then(function(cameras) {
 }).catch(function(e){
 	console.error(e);
 });
+
+window.onload = function() {
+    var tablinks = document.getElementsByClassName("tablinks");
+    tablinks[0].click();
+}
