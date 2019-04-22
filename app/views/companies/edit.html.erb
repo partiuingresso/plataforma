@@ -45,33 +45,31 @@
             </div>
             <div class="tile is-child box">
               <label class="label is-size-5">Cadastrar Equipe</label>
-              <div class="columns">
-                <div class="column is-9">
-                  <div class="field">
-                    <label class="label">Email do Usuário</label>
-                    <div class="control has-icons-left has-icons-right">
-                      <%= fields_for @user.email do |e| %>
-                      <%= e.email_field :email, class: "input", placeholder: "Email" %>
-                      <% end %>
-                      <span class="icon is-small is-left">
-                        <i class="far fa-envelope"></i>
-                      </span>
+              <%= fields_for :user do |user_f| %>
+                <div class="columns">
+                  <div class="column is-9">
+                    <div class="field">
+                      <label class="label">Email do Usuário</label>
+                      <div class="control has-icons-left has-icons-right">
+                        <%= user_f.email_field :email, class: "input", placeholder: "Email" %>
+                        <span class="icon is-small is-left">
+                          <i class="far fa-envelope"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="column is-3">
-                  <div class="field">
-                    <div class="control">
-                      <label class="label">Função</label>
-                      <div class="select">
-                        <%= fields_for @user.role do |e| %>
-                          <%= e.select :role, options_for_select([['Equipe', 2], ['Gerente', 3]]) %>
-                        <% end %>   
+                  <div class="column is-3">
+                    <div class="field">
+                      <div class="control">
+                        <label class="label">Função</label>
+                        <div class="select">
+                          <%= user_f.select :role, options_for_select([['Equipe', :producer], ['Gerente', :producer_admin]]) %>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              <% end %>
             </div>
             <div class="tile is-child">
               <div class="control has-text-right">

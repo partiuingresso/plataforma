@@ -39,33 +39,30 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    @user = User.find_by(email: params[:email])
-
-    if params[:email].present? && user_params[:role].nil? && @user.nil?
-      redirect_to backstage_path, alert: 'Usuário não encontrado' and return
-    elsif params[:email].present?
-      @user.update(role: user_params[:role].to_i, company_id: @company.id)
+    if user_params[:email].present?
+      @user = User.find_by(email: user_params[:email])
+      if @user.present?
+        @user.company_id = @company.id
+        @user.update(user_params)
+      else
+        redirect_to edit_company_path(@company), alert: "Usuário não encontrado." and return
+      end
     end
 
-    respond_to do |format|
-      if @company.update(company_params)
-        format.html { redirect_to backstage_path, notice: 'Empresa atualizada com sucesso.' } if current_user.producer_admin?
-        format.html { redirect_to backoffice_path, notice: 'Empresa atualizada com sucesso.' } if current_user.admin?
-        format.json { render :show, status: :ok, location: @company }
-      else
-        format.html { render :edit }
-        format.json { render json: @company.errors, status: :unprocessable_entity }
-      end
+    if @company.update(company_params)
+      redirect_to edit_company_path(@company), notice: "Empresa atualizada com sucesso."
+    else
+      redirect_to edit_company_path(@company), alert: "Ops... Algo deu errado! Tente novamente."
     end
   end
 
   def remove_staff
     @user = User.find(params[:user_id])
-    if @user.update(role: 0, company_id: nil)
-      redirect_to backoffice_path, notice: 'Usuário removido' if current_user.admin?
-      redirect_to backstage_path, notice: 'Usuário removido' if current_user.producer_admin?
+    @company = @user.company
+    if @user.update(role: :user, company_id: nil)
+      redirect_to edit_company_path(@company), notice: "Usuário removido."
     else
-      redirect_to backstage_path, alert: 'Erro'
+      redirect_to edit_company_path(@company), alert: "Ops... Algo deu errado! Tente novamente."
     end
   end
 
@@ -83,7 +80,6 @@ private
   end
 
   def user_params
-    params.require(:user).permit(:email, :role, :cpf, :phone, :birthday,
-                                 address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode])
+    params.require(:user).permit(:email, :role)
   end
 end
