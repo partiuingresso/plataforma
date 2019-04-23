@@ -224,7 +224,8 @@ CREATE TABLE public.companies (
     business_name character varying NOT NULL,
     document_number character varying NOT NULL,
     phone_area_code integer NOT NULL,
-    phone_number integer NOT NULL
+    phone_number integer NOT NULL,
+    email character varying
 );
 
 
@@ -1301,6 +1302,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190311215457'),
 ('20190311220541'),
 ('20190312010449'),
-('20190313213945');
+('20190313213945'),
+('20190422235052');
 
 

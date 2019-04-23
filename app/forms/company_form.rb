@@ -6,6 +6,7 @@ class CompanyForm
 		:name,
 		:business_name,
 		:document_number,
+		:email,
 		:phone,
 		:phone_number,
 		:phone_area_code,
@@ -33,6 +34,7 @@ class CompanyForm
 					name: name,
 					business_name: business_name,
 					document_number: document_number,
+					email: email,
 					phone_area_code: phone_area_code,
 					phone_number: phone_number,
 					address_attributes: address.serializable_hash

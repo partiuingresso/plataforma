@@ -73,7 +73,7 @@ private
   end
 
   def permitted_params
-    params.require(:company_form).permit(:name, :business_name, :document_number, :phone,
+    params.require(:company_form).permit(:name, :business_name, :document_number, :email, :phone,
                                     address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode],
                                     person_attributes: [:name, :document_number, :email, :phone, :birthdate,
                                     address: [:address, :number, :complement, :district, :city, :state, :zipcode]])
