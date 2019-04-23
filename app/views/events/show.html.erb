@@ -135,22 +135,51 @@ document.addEventListener("DOMContentLoaded", function(){
           </div>
 
           <% if @event.testimonial_images.present? %>
-              <div class="column is-full">
-                <hr />
-              </div>
-              <div class="column is-full">
-                <p class="title event-content">O QUE DIZEM <span class="lightvibrant">SOBRE O SHOW?</span></p>
-                <div class="carousel carousel-animated carousel-animate-fade" data-autoplay="true" data-delay="4500">
-                  <div class="carousel-container">
-                    <% @event.testimonial_images.each do |t| %>
-                      <div class="carousel-item">
-                        <%= image_tag t, class: "is-background testimonial", width:"450vw" %>
-                      </div>
-                    <% end %>
-                  </div>
+            <div class="column is-full">
+              <hr />
+            </div>
+            <div class="column is-full">
+              <p class="title event-content">O QUE DIZEM <span class="lightvibrant">SOBRE O SHOW?</span></p>
+              <div class="carousel carousel-animated carousel-animate-fade" data-autoplay="true" data-delay="4500">
+                <div class="carousel-container">
+                  <% @event.testimonial_images.each do |t| %>
+                    <div class="carousel-item">
+                      <%= image_tag t, class: "is-background testimonial", width:"450vw" %>
+                    </div>
+                  <% end %>
                 </div>
               </div>
+            </div>
           <% end %>
+
+          <div class="column is-full">
+            <hr />
+          </div>
+
+          <div class="column is-full">
+            <p class="title event-content">DÚVIDAS SOBRE <span class="lightvibrant">O EVENTO?</span></p>
+            <p>
+              Entre em contato direto com o produtor:
+            </p>
+            <p>
+              <span class="icon is-inline-block">
+                <i class="far fa-building"></i>
+              </span>
+              <%= @event.company.name %>
+            </p>
+            <p>
+              <span class="icon is-inline-block">
+                <i class="fas fa-phone"></i>
+              </span>
+              <%= @event.company.phone_area_code %> <%= @event.company.phone_number %>
+            </p>
+            <p>
+              <span class="icon is-inline-block">
+                <i class="far fa-envelope"></i>
+              </span>
+              <%= @event.company.email %>
+            </p>
+          </div>
 
         </div>
       </div>
