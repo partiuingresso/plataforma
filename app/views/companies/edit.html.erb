@@ -44,6 +44,32 @@
               </div>
             </div>
             <div class="tile is-child box">
+              <div class="columns">
+                <div class="column">
+                  <div class="field">
+                    <label class="label">E-mail de Suporte</label>
+                    <div class="control has-icons-left has-icons-right">
+                      <%= f.email_field :email, maxlength: 18, class: "input" %>
+                      <span class="icon is-small is-left">
+                        <i class="far fa-envelope"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="field">
+                    <label class="label">Telefone de Suporte</label>
+                    <div class="control has-icons-left has-icons-right">
+                      <%= f.text_field :phone, maxlength: 16, class: "input phone-input" %>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-phone"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tile is-child box">
               <label class="label is-size-5">Cadastrar Equipe</label>
               <%= fields_for :user do |user_f| %>
                 <div class="columns">
