@@ -34,7 +34,7 @@
 							</div>
 		    		</div>
 		    		<div class="level-right">
-						  <a class="tablinks button is-large is-primary is-outlined" onclick="openTab(event, 'check-in-list')">
+						  <a id="open-list" class="tablinks button is-large is-primary is-outlined" onclick="openTab(event, 'check-in-list')">
 						    <span class="icon is-medium">
 						      <i class="far fa-list-alt"></i>
 						    </span>
@@ -42,12 +42,24 @@
 						  </a>
 		    		</div>
 		    	</div>
-					<video id="qr-video"></video>
+					<div class="columns is-centered">
+						<div class="column is-narrow">
+							<video id="qr-video"></video>
+							<div class="columns">
+								<div class="column is-4">
+									<a id="switch-camera" class="button is-primary is-hidden">
+										<span class="icon">
+											<i class="fas fa-sync-alt"></i>
+										</span>
+										<span>Mudar Câmera</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 					<%= form_with(id: "new_validation", model: @ticket_token, url: tickets_validations_path) do |f|%>
 						<%= f.hidden_field :code %>
 					<% end %>
-					<p id="validation-result"></p>
-					<button id="clean-validation" class="button is-primary">Limpar validações</button>
 		    </div>
 				<div class="tabcontent" id="check-in-list">
 					<div class="level">
@@ -77,7 +89,7 @@
 						</div>
 						<div class="level-right">
 							<div class="level-item">
-							  <a class="tablinks button is-large is-primary is-outlined" onclick="openTab(event, 'check-in-reader')">
+							  <a id="open-camera" class="tablinks button is-large is-primary is-outlined" onclick="openTab(event, 'check-in-reader')">
 							    <span class="icon is-medium">
 							      <i class="fas fa-camera"></i>
 							    </span>
