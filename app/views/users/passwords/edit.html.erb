@@ -1,25 +1,74 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
+<% provide(:title, "Alterar senha") %>
+<% content_for :navbar do %>
+<%= render 'layouts/header_clean' %>
 <% end %>
 
-<%= render "devise/shared/links" %>
+
+
+<section class="section login">
+  <div class="container">
+    <div class="columns is-centered">
+
+      <div class="column is-5">
+        <div class="card">
+          <div class="card-content">
+            <p class="title has-text-centered">Altere sua senha</p>
+            <br />
+
+            <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+            <%= devise_error_messages! %>
+            <%= f.hidden_field :reset_password_token %>
+
+            <div class="field">
+              <label class="label inline">Nova senha</label>
+              <p class="help inline">Mínimo de 8 caracteres</p>
+              <div class="control has-icons-left has-icons-right">
+                <%= f.password_field :password, autofocus: true, class: "input", placeholder: "********" %>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </div>
+              <div class="error-msg-area">
+                <span id="blank_password_error" class="error" aria-alive="polite">O campo "Senha" é obrigatório.</span>
+                <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisa ter pelo menos 8 caracteres.</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label inline">Confirme a nova senha</label>
+              <div class="control has-icons-left has-icons-right">
+                <%= f.password_field :password_confirmation, class: "input", placeholder: "********" %>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </div>
+              <div class="error-msg-area">
+                <span id="blank_password_error" class="error" aria-alive="polite">O campo "Confirme sua senha" é obrigatório.</span>
+                <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisa ter pelo menos 8 caracteres.</span>
+              </div>
+            </div>
+
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <div class="control">
+                    <%= f.button "Alterar senha", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Aguarde..." }, class: "button is-primary is-medium" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <p class="help"><%= render "users/shared/links" %></p>
+                </div>
+              </div>
+            </nav>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
