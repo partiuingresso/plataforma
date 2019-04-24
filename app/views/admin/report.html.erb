@@ -31,9 +31,13 @@
               <p class="title is-5">Vendas em todo o período de atividade</p>
               <div class="tabs">
                 <ul>
-                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Unidades</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_tickets_count')"><a>Ingressos</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Pedidos</a></li>
                   <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
                 </ul>
+              </div>
+              <div id="chart_tickets_count" class="tabcontent">
+                <%= line_chart charts_report_tickets_path(offer: params[:offer]), colors: ["#F53237", "#DB3F4B"], label: "Ingressos", thousands: ".", defer: true %>
               </div>
               <div id="chart_sales_count" class="tabcontent">
                 <%= line_chart charts_report_count_path(offer: params[:offer]), colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
@@ -52,6 +56,21 @@
           </div>
         </div>
         <div class="columns is-centered">
+          <div class="column is-4">
+            <div class="level box">
+              <div class="level-item">
+                <span class="icon is-large has-text-primary">
+                  <i class="fas fa-3x fa-ticket-alt"></i>
+                </span>
+              </div>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="title is-7">PARTICIPANTES</p>
+                  <%= @total_tickets %>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="column is-4">
             <div class="level box">
               <div class="level-item">
@@ -201,7 +220,7 @@
                                   <td><%= ticket_token.owner_name %></td>
                                   <td><%= ticket_token.owner_email %></td>
                                   <td><%= ticket_token.offer.name %></td>
-                                  <td><%= ticket_token.offer.price_with_service_fee.format %></td>
+                                  <td><%= ticket_token.offer.price.format %></td>
                                 </tr>
                               <% end %>
                             </tbody>
@@ -210,18 +229,10 @@
                           </table>
                           <% if order.payment.present? %>
                             <div>
-                              <% if order.payment.installment_count > 1 %>
-                              <p>
-                                Juros de parcelamento: 
-                                <span class="has-text-weight-semibold">
-                                  <%= (order.payment.interest_rate * order.total).format %>
-                                </span>
-                              </p>
-                              <% end %>
                               <p>
                                 Total: 
                                 <span class="has-text-weight-semibold">
-                                  <%= order.payment.amount.format %>
+                                  <%= order.subtotal.format %>
                                 </span>
                               </p>
                             </div>

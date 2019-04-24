@@ -40,6 +40,7 @@ class AdminController < ApplicationController
 
     @total = @all_orders.approved.present? ? @all_orders.approved.sum(&:subtotal).format : "R$0,00"
     @total_pending = @all_orders.pending.present? ? @all_orders.pending.sum(&:subtotal).format : "R$0,00"
+    @total_tickets = OrderItem.where(order_id: @all_orders.approved).sum('quantity')
 
     respond_to do |format|
       format.html

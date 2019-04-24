@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   namespace :charts do
     get 'sales-count'
     get 'sales-value'
+    get 'report-tickets/:id', action: 'report_tickets', as: 'report-tickets'
     get 'report-count/:id', action: 'report_count', as: 'report-count'
     get 'report-value/:id', action: 'report_value', as: 'report_value'
   end

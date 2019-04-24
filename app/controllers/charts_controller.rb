@@ -32,4 +32,17 @@ class ChartsController < ApplicationController
     end
     render json: @orders.approved.group_by_day(:created_at, format: "%d %b, %y").sum('subtotal_cents / 100')
   end
+
+  def report_tickets
+    offer = params[:offer]
+    if offer.present?
+      @offer = Offer.find(offer)
+      @orders = @offer.orders
+      @tickets = OrderItem.where(order_id: @orders.approved)
+    else
+      @orders = Order.where(event_id: params[:id])
+      @tickets = OrderItem.where(order_id: @orders.approved)
+    end
+    render json: @tickets.group_by_day(:created_at).sum('quantity')
+  end
 end
