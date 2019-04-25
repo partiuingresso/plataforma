@@ -122,12 +122,16 @@
               <p class="title is-5">Vendas nos últimos 28 dias</p>
               <div class="tabs">
                 <ul>
-                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Unidades</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Vendas</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_tickets')"><a>Ingressos</a></li>
                   <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
                 </ul>
               </div>
               <div id="chart_sales_count" class="tabcontent">
                 <%= line_chart charts_sales_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
+              </div>
+              <div id="chart_sales_tickets" class="tabcontent">
+                <%= line_chart charts_sales_tickets_path, colors: ["#F53237", "#DB3F4B"], label: "Ingressos", thousands: ".", defer: true %>
               </div>
               <div id="chart_sales_value" class="tabcontent">
                 <%= column_chart charts_sales_value_path,
