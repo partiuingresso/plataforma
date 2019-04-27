@@ -46,7 +46,7 @@
                 <td><%= event.start_t.strftime("%d/%m/%Y") %></td>
                 <td><%= event.address.name %> - <%= event.address.city %>/<%= event.address.state %></td>
                 <td class="has-text-centered">
-                  <%= link_to validation_path(event) do %>
+                  <%= link_to check_in_path(event) do %>
                     <span class="icon">
                       <i class="fas fa-user-check"></i>
                     </span>
