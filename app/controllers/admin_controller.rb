@@ -7,6 +7,14 @@ class AdminController < ApplicationController
 
   def admin
     @companies = Company.all
+    @orders = Order.where(created_at: 28.day.ago..DateTime.now)
+    @income = @orders.approved.sum(&:subtotal).format
+    @tickets = OrderItem.where(order_id: @orders.approved).sum('quantity')
+
+    @all_orders = Order.all
+    @all_income = @all_orders.approved.sum(&:subtotal).format
+    @all_transactions = @all_orders.approved.sum(&:total).format
+    @all_tickets = OrderItem.where(order_id: @all_orders.approved).sum('quantity')
   end
 
   def producer_admin
