@@ -1,6 +1,6 @@
 class ValidationsController < ApplicationController
 	def new
-		@ticket_token = TicketToken.find(params[:ticket_id])
+		@ticket_token = TicketToken.find_by!(code: params[:code])
 		respond_to do |format|
 			format.js
 		end
