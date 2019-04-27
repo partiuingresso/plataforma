@@ -1,0 +1,21 @@
+<p class="title is-4">Confirmar check-in</p>
+<p class="title is-1 has-text-success has-text-centered"><i class="fas fa-user-check"></i></p>
+<span class="icon is-inline-block is-small">
+	<i class="fas fa-user"></i>
+</span>
+<span class="title is-7">NOME:</span>
+<span><%= ticket_token.owner_name %></span><br />
+<span class="icon is-inline-block is-small">
+	<i class="fas fa-hashtag"></i>
+</span>
+<span class="title is-7">NÚMERO DO PEDIDO:</span>
+<span><%= ticket_token.order.number %></span><br /><br /><br /><br />
+<%= form_with(id: "new_validation", model: ticket_token, url: validations_path, method: :create) do |f|%>
+	<%= f.hidden_field :code %>
+	<p class="has-text-centered">
+		<a class="button cancel is-large title is-5">
+			CANCELAR
+		</a>
+		<%= f.submit "CONFIRMAR", class: "button is-large is-success title is-5" %>
+	</p>
+<% end %>

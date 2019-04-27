@@ -1,0 +1,2 @@
+var ticketRow = document.getElementById('<%= @ticket_token.code %>');
+ticketRow.innerHTML = "<%= escape_javascript(render partial: 'check_ins/ticket_token_row', locals: {ticket_token: @ticket_token}) %>";

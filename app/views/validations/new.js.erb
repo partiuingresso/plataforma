@@ -1,0 +1,5 @@
+var validationDetails = document.querySelector('.validation.details');
+var modal = document.getElementById('new-validation');
+modal.innerHTML = "<%= escape_javascript(render partial: 'new', locals: {ticket_token: @ticket_token}) %>";
+modal.classList.remove('is-hidden');
+validationDetails.classList.remove('is-hidden');

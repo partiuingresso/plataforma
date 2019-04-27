@@ -58,8 +58,9 @@ Rails.application.routes.draw do
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
   get 'tickets', to: 'ticket_tokens#index'
-  get 'tickets/validations/new', to: 'ticket_tokens#new_validation'
-  get '/check-in/:id', to: 'ticket_tokens#new_validation', as: 'validation'
+  get '/check-in/:id', to: 'check_ins#show'
+  post 'validations/', to: 'validations#create', as: 'validations'
+  get 'validations/:ticket_id', to: 'validations#new', as: 'new_validation'
   post 'tickets/validations', to: 'ticket_tokens#create_validation'
   get 'ticket/:id', to: 'ticket_tokens#show', as: 'ticket'
 
