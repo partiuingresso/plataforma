@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get '/backoffice/users', to: 'admin#admin_users'
   get '/backstage', to: 'admin#producer_admin'
   get '/report/:id', to: 'admin#report', as: 'report'
-  get '/check-in', to: 'admin#check_in'
+  get '/events-check-in', to: 'admin#events_check_in'
   get '/manage_company/:company_id', to: 'admin#manage_company', as: "manage_company"
 
   namespace :charts do
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
   get 'tickets', to: 'ticket_tokens#index'
-  get '/check-in/:id', to: 'check_ins#show'
+  get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
   post 'validations/', to: 'validations#create', as: 'validations'
   get 'validations/:ticket_id', to: 'validations#new', as: 'new_validation'
   post 'tickets/validations', to: 'ticket_tokens#create_validation'

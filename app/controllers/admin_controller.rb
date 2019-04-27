@@ -101,7 +101,7 @@ class AdminController < ApplicationController
     end
   end
 
-  def check_in
+  def events_check_in
     @events = Event.where(company_id: current_user.company_id).order(start_t: :desc).to_happen(8)
   end
 
