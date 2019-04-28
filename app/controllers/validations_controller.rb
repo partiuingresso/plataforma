@@ -1,25 +1,38 @@
 class ValidationsController < ApplicationController
 	def new
-		@ticket_token = TicketToken.find_by!(code: params[:code])
+		@ticket_token = TicketToken.find_by_code(params[:code])
+		unless @ticket_token.present?
+			render json: "Ingresso não encontrado", status: :unprocessable_entity and return
+		end
+
 		respond_to do |format|
-			format.js
+			if @ticket_token.ready?
+				format.js
+			elsif @ticket_token.authenticated?
+				format.json { render json: "Ingresso já validado.", status: :unprocessable_entity }
+			else
+				format.json { render json: "Ingresso inválido.", status: :unprocessable_entity }
+			end
 		end
 	end
 
 	def create
 		@ticket_token = TicketToken.find_by_code(validation_params[:code])
-		if @ticket_token.present? && @ticket_token.ready?
-			@validation = Validation.new({user: current_user})
-			if @ticket_token.validation = @validation
-				respond_to do |format|
-					format.js
-					format.json { render json: "Validação feita!", status: :created }
-				end
+		unless @ticket_token.present?
+			render json: "Ingresso não encontrado", status: :unprocessable_entity and return
+		end
+
+		@ticket_token.build_validation(user: current_user)
+
+		respond_to do |format|
+			if @ticket_token.ready? && @ticket_token.save
+				format.js
+				format.json { render json: "Validação feita!", status: :created }
+			elsif @ticket_token.authenticated?
+				format.json { render json: "Ingresso já validado.", status: :unprocessable_entity }
 			else
-				render plain: "Algo deu errado!"
+				format.json { render json: "Erro ao validar ingresso.", status: :internal_server_error }
 			end
-		else
-			render plain: "Erro na validação."
 		end
 	end
 

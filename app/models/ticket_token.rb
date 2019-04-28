@@ -25,6 +25,7 @@ class TicketToken < ApplicationRecord
 	validates :owner_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
 	after_initialize :default_values
+	before_save :check_validation
 
 
 	scope :not_cancelled, -> { where('status != ?', :cancelled) }
@@ -33,12 +34,13 @@ class TicketToken < ApplicationRecord
 		RQRCode::QRCode.new(self.code, :size => 5, :level => :h )
 	end
 
-	def validation=(validation)
-		self.status = :authenticated
-		super
-	end
-
 	private
+
+		def check_validation
+			if self.validation.present?
+				self.status = :authenticated
+			end
+		end
 
 		def default_values
 			self.status ||= :pending
