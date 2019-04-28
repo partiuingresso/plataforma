@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   get 'tickets', to: 'ticket_tokens#index'
   get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
   post 'validations/', to: 'validations#create', as: 'validations'
-  get 'validations/:ticket_id', to: 'validations#new', as: 'new_validation'
+  get 'validations/:code', to: 'validations#new', as: 'new_validation'
   post 'tickets/validations', to: 'ticket_tokens#create_validation'
   get 'ticket/:id', to: 'ticket_tokens#show', as: 'ticket'
 

@@ -4,7 +4,6 @@ import "script-loader!<%= Rails.root.join('vendor', 'assets', 'javascript', 'ins
 var openCameraButton = document.getElementById('open-camera');
 var openListButton = document.getElementById('open-list');
 var switchCameraButton = document.getElementById('switch-camera');
-var confirmModal = document.getElementById('validationConfirm');
 var cameraList = null;
 var camIdx = 0;
 
@@ -50,15 +49,54 @@ function init() {
 	});
 
 	scanner.addListener('scan', function(content) {
-		var input = document.getElementById('ticket_token_code');
-		input.value = content;
-		resultElement.innerText = content;
-		confirmModal.classList.remove('is-hidden');
+		Rails.ajax({
+			type: "GET",
+			url: "/validations/" + content,
+			success: function(response) {
+				console.log('ticket found.');
+				initNewValidationModal();
+			},
+			error: function(response) {
+				console.log('ticket not found.');
+			}
+		});
 	});
 
 	openListButton.addEventListener('click', function() {
 		scanner.stop();
 	});
+}
+
+
+var modal = document.getElementById('modal');
+var newValidationBody = document.getElementById('new-validation');
+var successValidationBody = document.getElementById('success-validation');
+var errorValidationBody = document.getElementById('error-validation');
+
+var links = document.querySelectorAll('.validate-link');
+for(let link of links) {
+	link.addEventListener('ajax:success', function(e) {
+		initNewValidationModal();
+	});
+}
+
+function initNewValidationModal() {
+	var form = document.getElementById('new_validation');
+	form.addEventListener('ajax:success', function(e) {
+		closeModal();
+	});
+
+	var cancelButton = newValidationBody.querySelector('.button.cancel');
+	cancelButton.addEventListener('click', function(e) {
+		closeModal();
+	});
+}
+
+function closeModal() {
+	newValidationBody.classList.add('is-hidden');
+	successValidationBody.classList.add('is-hidden');
+	errorValidationBody.classList.add('is-hidden');
+	modal.classList.add('is-hidden');
 }
 
 window.onload = function() {
