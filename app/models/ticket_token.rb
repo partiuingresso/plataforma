@@ -2,7 +2,10 @@ class TicketToken < ApplicationRecord
 	require 'rqrcode'
 	include PgSearch
 	pg_search_scope :search_ticket,
-									against: [:owner_name],
+									associated_against: {
+										order: :number
+									},
+									against: :owner_name,
 									using: {
 										tsearch: {any_word: true, prefix: true}
 									}

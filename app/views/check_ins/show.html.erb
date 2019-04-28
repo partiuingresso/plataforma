@@ -99,7 +99,7 @@
 					<%= form_tag(request.original_url, method: "get") do %>
 						<div class="field is-grouped">
 			        <div class="control is-expanded check-in-search">
-			          <input name="q" class="input is-large" type="text" placeholder="Nome do participante">
+			          <input name="q" class="input is-large" type="text" placeholder="Nome do participante ou número do pedido">
 			        </div>
 			        <% if params[:q].present? %>
 			        <div class="control search">
