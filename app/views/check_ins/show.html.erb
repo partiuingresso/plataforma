@@ -101,6 +101,11 @@
 			        <div class="control is-expanded check-in-search">
 			          <input name="q" class="input is-large" type="text" placeholder="Nome do participante">
 			        </div>
+			        <% if params[:q].present? %>
+			        <div class="control search">
+			        	<button class="button clear is-white is-large">Limpar</button>
+			        </div>
+			        <% end %>
 			        <div class="control search">
 			        	<button class="button is-white is-large"><i class="fas fa-search"></i></button>
 			        </div>
