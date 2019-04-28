@@ -1,24 +1,23 @@
-<td><%= ticket_token.owner_name %></td>
-<td><%= ticket_token.order.number %></td>
 <td>
-        <span class="tag">
-          <%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %>
-        </span>
+  <%= ticket_token.owner_name %>
+  <span class="icon is-inline-block has-text-grey-lighter tooltip" data-tooltip="Pedido #:<%= ticket_token.order.number %>" onclick="">
+    <i class="fas fa-info-circle"></i>
+  </span>  
 </td>
 <td class="has-text-centered">
-	<% if ticket_token.status == "ready" %>
-      <%= link_to new_validation_path(ticket_token.code), remote: true, class: "validate-link" do %>
-        <span class="icon">
-          <i class="far fa-lg fa-check-circle"></i>
-        </span>
-      <% end %>
-     <% elsif ticket_token.status == "authenticated" %>
-    <span class="icon has-text-success">
-      <i class="fas fa-lg fa-check-circle"></i>
-    </span>
-     <% else %>
-    <span class="icon has-text-grey-light">
-      <i class="fas fa-lg fa-times-circle"></i>
-    </span>
-     <% end %>
+  <% if ticket_token.status == "ready" %>
+    <%= link_to new_validation_path(ticket_token.code), remote: true, class: "validate-link" do %>
+      <span class="icon">
+        <i class="far fa-lg fa-check-circle"></i>
+      </span>
+    <% end %>
+   <% elsif ticket_token.status == "authenticated" %>
+  <span class="icon has-text-success tooltip" data-tooltip="Status:<%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %>" onclick="">
+    <i class="fas fa-lg fa-check-circle"></i>
+  </span>
+   <% else %>
+  <span class="icon has-text-grey-light">
+    <i class="fas fa-lg fa-times-circle"></i>
+  </span>
+  <% end %>
 </td>
