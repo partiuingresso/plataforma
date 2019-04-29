@@ -1,6 +1,6 @@
 <td>
   <%= ticket_token.owner_name %>
-  <span class="icon is-inline-block has-text-grey-lighter tooltip" data-tooltip="Pedido #:<%= ticket_token.order.number %>" onclick="">
+  <span class="icon is-inline-block has-text-grey-lighter tooltip is-tooltip-top is-tooltip-right-desktop" data-tooltip="Pedido #:<%= ticket_token.order.number %>" onclick="">
     <i class="fas fa-info-circle"></i>
   </span>  
 </td>
@@ -12,7 +12,7 @@
       </span>
     <% end %>
    <% elsif ticket_token.status == "authenticated" %>
-  <span class="icon has-text-success tooltip" data-tooltip="Status:<%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %>" onclick="">
+  <span class="icon has-text-success tooltip is-tooltip-top is-tooltip-right-desktop" data-tooltip="Status:<%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %>" onclick="">
     <i class="fas fa-lg fa-check-circle"></i>
   </span>
    <% else %>
