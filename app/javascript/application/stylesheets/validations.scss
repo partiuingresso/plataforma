@@ -12,6 +12,9 @@
 
 table.check-in {
   margin-top: 2rem;
+  @media screen and (max-width: 600px) {
+    & * > td { padding: 1.5rem 0.25rem 1.5rem 0.8rem !important; }
+  }
 }
 
 .validation.details {
