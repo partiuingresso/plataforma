@@ -13,7 +13,7 @@ class OrderItem < ApplicationRecord
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :offer_event_cannot_be_different_to_order_event
   validate :quantity_cannot_be_different_to_ticket_tokens_count
-  validate :quantity_cannot_be_greater_than_offer_available_quantity
+  validate :quantity_cannot_be_greater_than_offer_available_quantity, on: :create
   validate :offer_cannot_be_expired, on: :create
 
   before_destroy :cancel
