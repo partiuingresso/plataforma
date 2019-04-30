@@ -54,11 +54,12 @@ function init() {
 			type: "GET",
 			url: "/validations/" + content,
 			success: function(response) {
-				console.log('ticket found.');
 				initNewValidationModal(true);
 			},
-			error: function(response) {
-				console.log('ticket not found.');
+			error: function(response, status, xhr) {
+				if(xhr.status === 422 && response !== "Ingresso não encontrado.") {
+					initErrorValidationModal(false);
+				}
 			}
 		});
 	});
@@ -112,11 +113,13 @@ function initSuccessValidationModal() {
 	});
 }
 
-function initErrorValidationModal() {
+function initErrorValidationModal(refresh=true) {
 	cleanModal(newValidationBody);
 	var button = errorValidationBody.querySelector('.confirm-button');
 	button.addEventListener('click', function(e) {
-		location.reload();
+		if(refresh) {
+			location.reload();
+		}
 		closeModal();
 	});
 
