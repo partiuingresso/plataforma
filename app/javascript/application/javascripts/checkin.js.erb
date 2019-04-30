@@ -55,7 +55,7 @@ function init() {
 			url: "/validations/" + content,
 			success: function(response) {
 				console.log('ticket found.');
-				initNewValidationModal();
+				initNewValidationModal(true);
 			},
 			error: function(response) {
 				console.log('ticket not found.');
@@ -81,16 +81,32 @@ for(let link of links) {
 	});
 }
 
-function initNewValidationModal() {
+function initNewValidationModal(confirmation=false) {
 	var form = document.getElementById('new_validation');
 	form.addEventListener('ajax:success', function(e) {
-		closeModal();
+		if(confirmation) {
+			cleanModal(newValidationBody);
+			initSuccessValidationModal();
+		} else {
+			closeModal();
+		}
 	});
 
 	var cancelButton = newValidationBody.querySelector('.button.cancel');
 	cancelButton.addEventListener('click', function(e) {
 		closeModal();
 	});
+}
+
+function initSuccessValidationModal() {
+	var button = document.getElementById('confirm-button');
+	button.addEventListener('click', function(e) {
+		closeModal();
+	});
+}
+
+function cleanModal(modalBody) {
+	modalBody.classList.add('is-hidden');
 }
 
 function closeModal() {
