@@ -206,7 +206,9 @@
                                   <%= button_to "Enviar email de pagamento aprovado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 </div>
                                 <div class="level-item">
-                                  <%= button_to "Enviar ingresso aos participantes", send_ticket_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                  <% unless order.ticket_tokens.all? { |t| t.owner_email == order.user.email } %>
+                                    <%= button_to "Enviar ingresso aos participantes", send_ticket_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                  <% end %>
                                 <% end %>
                               </div>
                             </div>
