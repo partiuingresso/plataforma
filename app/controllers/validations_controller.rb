@@ -9,9 +9,11 @@ class ValidationsController < ApplicationController
 			if @ticket_token.ready?
 				format.js
 			elsif @ticket_token.authenticated?
-				format.json { render json: "Ingresso já validado.", status: :unprocessable_entity }
+				@error_message = "Ingresso já validado."
+				format.js { render status: :unprocessable_entity }
 			else
-				format.json { render json: "Ingresso inválido.", status: :unprocessable_entity }
+				@error_message = "Algo deu errado."
+				format.js { render status: :unprocessable_entity }
 			end
 		end
 	end
@@ -27,11 +29,12 @@ class ValidationsController < ApplicationController
 		respond_to do |format|
 			if @ticket_token.ready? && @ticket_token.save
 				format.js
-				format.json { render json: "Validação feita!", status: :created }
 			elsif @ticket_token.authenticated?
-				format.json { render json: "Ingresso já validado.", status: :unprocessable_entity }
+				@error_message = "Ingresso já validado."
+				format.js { render status: :unprocessable_entity }
 			else
-				format.json { render json: "Erro ao validar ingresso.", status: :internal_server_error }
+				@error_message = "Algo deu errado."
+				format.js { render status: :unprocessable_entity }
 			end
 		end
 	end

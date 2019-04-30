@@ -1,5 +1,11 @@
 var validationDetails = document.querySelector('.validation.details');
-var modal = document.getElementById('new-validation');
-modal.innerHTML = "<%= escape_javascript(render partial: 'new', locals: {ticket_token: @ticket_token}) %>";
+<% unless @error_message.present? %>
+	var modal = document.getElementById('new-validation');
+	modal.innerHTML = "<%= escape_javascript(render partial: 'new', locals: {ticket_token: @ticket_token}) %>";
+<% else %>
+	var modal = document.getElementById('error-validation');
+	modal.innerHTML = "<%= escape_javascript(render partial: 'error', locals: {message: @error_message}) %>";
+<% end %>
+
 modal.classList.remove('is-hidden');
 validationDetails.classList.remove('is-hidden');

@@ -79,6 +79,9 @@ for(let link of links) {
 	link.addEventListener('ajax:success', function(e) {
 		initNewValidationModal();
 	});
+	link.addEventListener('ajax:error', function(e) {
+		initErrorValidationModal();
+	});
 }
 
 function initNewValidationModal(confirmation=false) {
@@ -92,6 +95,10 @@ function initNewValidationModal(confirmation=false) {
 		}
 	});
 
+	form.addEventListener('ajax:error', function(e) {
+		initErrorValidationModal();
+	});
+
 	var cancelButton = newValidationBody.querySelector('.button.cancel');
 	cancelButton.addEventListener('click', function(e) {
 		closeModal();
@@ -99,10 +106,22 @@ function initNewValidationModal(confirmation=false) {
 }
 
 function initSuccessValidationModal() {
-	var button = document.getElementById('confirm-button');
+	var button = successValidationBody.querySelector('.confirm-button');
 	button.addEventListener('click', function(e) {
 		closeModal();
 	});
+}
+
+function initErrorValidationModal() {
+	cleanModal(newValidationBody);
+	var button = errorValidationBody.querySelector('.confirm-button');
+	button.addEventListener('click', function(e) {
+		location.reload();
+		closeModal();
+	});
+
+	modal.classList.remove('is-hidden');
+	errorValidationBody.classList.remove('is-hidden');
 }
 
 function cleanModal(modalBody) {
