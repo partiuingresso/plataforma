@@ -1,0 +1,25 @@
+<p class="title is-1 has-text-success has-text-centered"><i class="fas fa-check-circle"></i></p>
+<p class="title is-4 has-text-centered">Check-in realizado</p>
+<span class="icon is-inline-block is-small">
+  <i class="fas fa-hashtag"></i>
+</span>
+<span class="title is-7">NÚMERO DO PEDIDO:</span>
+<span><%= ticket_token.order.number %></span>
+<br />
+<span class="icon is-inline-block is-small">
+  <i class="fas fa-user"></i>
+</span>
+<span class="title is-7">NOME:</span>
+<span><%= ticket_token.owner_name %></span>
+<br />
+<span class="icon is-inline-block is-small">
+  <i class="fas fa-tag"></i>
+</span>
+<span class="title is-7">TIPO:</span>
+<span><%= ticket_token.offer.name %></span>
+<br /><br /><br /><br />
+<p class="has-text-centered">
+  <a class="button is-large is-fullwidth is-success title is-5">
+    OK
+  </a>
+</p>
