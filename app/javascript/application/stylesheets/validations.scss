@@ -20,7 +20,7 @@ table.check-in {
 .validation.details {
   display: block;
   position: absolute;
-  top: 70%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
@@ -35,4 +35,23 @@ table.check-in {
 
 .validation > .pagination {
   margin-top: 2rem;
+}
+
+@media screen and (max-width: 600px) {
+  .validation.details {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    padding-top: 2rem;
+    font-size: 0.85rem;
+    overflow: hidden;
+    transform: unset;
+    background-color: white;
+    & * > div {
+      box-shadow: unset;
+    }
+  }
 }
