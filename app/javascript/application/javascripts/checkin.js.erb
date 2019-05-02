@@ -136,6 +136,7 @@ function closeModal() {
 	successValidationBody.classList.add('is-hidden');
 	errorValidationBody.classList.add('is-hidden');
 	modal.classList.add('is-hidden');
+	document.documentElement.classList.remove('is-clipped');
 }
 
 window.onload = function() {

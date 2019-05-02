@@ -64,7 +64,7 @@
                 <% end %>
 
                 <% if current_user.producer_admin? || current_user.producer? %>
-                  <%= link_to check_in_path, class: "navbar-item" do %>
+                  <%= link_to events_check_in_path, class: "navbar-item" do %>
                     <span class="icon">
                       <i class="fas fa-camera"></i>
                     </span>
