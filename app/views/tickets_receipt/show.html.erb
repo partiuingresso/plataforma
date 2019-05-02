@@ -1,1 +1,46 @@
-<h1>Obrigado por confirmar o recebimento dos ingressos.</h1>
+<% content_for :navbar do %>
+<%= render 'layouts/header_checkout' %>
+<% end %>
+<% content_for :footer do %>
+<%= render 'layouts/footer_clear' %>
+<% end %>
+<% provide(:title, "Confirmado!") %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <span class="icon is-large is-inline-block-desktop has-text-success">
+          <i class="far fa-2x fa-check-circle"></i>
+        </span><br class="is-hidden-desktop" />
+        <h1 class="title is-2 is-inline-block">Confirmação realizada</h1>
+        <p class="subtitle">Obrigado por confirmar o recebimento dos ingressos e bom show!</p>
+        <hr />
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-6">
+        <article class="message is-warning">
+          <div class="message-body">
+            <span class="icon is-small is-inline-block">
+              <i class="fas fa-info-circle"></i>
+            </span>
+            <span><strong>Lembrando:</strong></span>
+            <span class="help">
+              <br />
+              Basta você levar o ingresso que você acabou de receber em seu e-mail, impresso ou em seu celular, para realizarmos o credenciamento na entrada do evento.
+              <br />
+              Caso ainda tenha dúvidas, não hesite em entrar em contato através do e-mail: <strong>suporte@partiuingresso.com</strong>
+              <br /><br />
+              Estamos aqui para ajudar!
+            </span>
+          </div>
+        </article>
+        <br />
+        <p class="has-text-centered">
+          <%= link_to "Ir para a página inicial ->", root_path %>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
