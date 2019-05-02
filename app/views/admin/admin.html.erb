@@ -21,7 +21,7 @@
 
               <label class="label is-size-5">Empresas Cadastradas</label>
 
-              <div class="columns">
+              <div class="columns is-mobile">
                 <div class="column is-2 has-text-left">
                   <strong>ID</strong>
                 </div>
@@ -33,7 +33,7 @@
                 </div>
               </div>
 
-              <div class="columns is-multiline">
+              <div class="columns is-multiline is-mobile">
                 <% @companies.each do |company| %>
                   <div class="column is-2">
                     <%= company.id %>
