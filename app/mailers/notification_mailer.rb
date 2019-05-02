@@ -36,4 +36,12 @@ class NotificationMailer < ApplicationMailer
     end
     mail(to: @order.ticket_tokens[0].owner_email, subject: "Ingresso(s) - #{@order.event.name}")
   end
+
+  def legacy_confirmation
+    @order = params[:order]
+    @order.ticket_tokens.each do |t|
+      attachments["#{t.owner_name}-#{t.event.name}-PartiuIngresso.pdf"] = VoucherPdfLegacy.new(t).render
+    end
+    mail(to: @order.ticket_tokens[0].owner_email, subject: "Confirmação de recebimento de ingresso(s)")
+  end
 end
