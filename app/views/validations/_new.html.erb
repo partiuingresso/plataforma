@@ -27,7 +27,7 @@
 			</a>
 		</div>
 		<div class="control">
-			<%= f.submit "CONFIRMAR", class: "button is-large is-success title is-5" %>
+			<%= f.button "CONFIRMAR", class: "button is-large is-success title is-5", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Aguarde..." } %>
 		</div>
 	</div>
 <% end %>
