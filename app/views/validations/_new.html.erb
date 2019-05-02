@@ -1,5 +1,5 @@
 <p class="title is-1 has-text-success has-text-centered"><i class="fas fa-user-check"></i></p>
-<p class="title is-4">Confirmar check-in</p>
+<p class="title is-4 has-text-centered">Confirmar check-in</p>
 <span class="icon is-inline-block is-small">
   <i class="fas fa-hashtag"></i>
 </span>
@@ -20,7 +20,7 @@
 <br /><br /><br /><br />
 <%= form_with(id: "new_validation", model: ticket_token, url: validations_path, method: :create) do |f|%>
 	<%= f.hidden_field :code %>
-	<div class="field is-grouped">
+	<div class="field is-grouped is-grouped-centered">
 		<div class="control">
 			<a class="button cancel is-large title is-5">
 				CANCELAR
