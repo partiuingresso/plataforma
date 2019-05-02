@@ -1,0 +1,2 @@
+module TicketsReceiptHelper
+end

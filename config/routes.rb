@@ -69,6 +69,8 @@ Rails.application.routes.draw do
   post 'tickets/validations', to: 'ticket_tokens#create_validation'
   get 'ticket/:id', to: 'ticket_tokens#show', as: 'ticket'
 
+  get 'tickets_receipt/:number', to: 'tickets_receipt#show'
+
   resources :company_finances, only: [:new, :create, :edit, :update]
   resources :transfers, only: [:create]
 
