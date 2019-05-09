@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+	protect_from_forgery prepend: true
 	before_action :load_user, only: [:create]
 	authorize_resource
 
