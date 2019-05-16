@@ -16,11 +16,18 @@
 	</div>
 	<div class="column is-5">
 		<label class="label">Quantidade</label>
-		<div class="control has-icons-right">
-			<%= field.number_field :quantity, class: "input quantity-input" %>
-			<span class="icon is-right has-text-danger">
-				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-			</span>
+		<div class="field has-addons">
+			<p class="control">
+				<a class="button is-static">
+					<%= field.object.sold %>
+				</a>
+			</p>	
+			<div class="control has-icons-right">
+				<%= field.number_field :quantity, class: "input quantity-input" %>
+				<span class="icon is-right has-text-danger">
+					<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+				</span>
+			</div>
 		</div>
 	</div>
 	<div class="column is-5">
