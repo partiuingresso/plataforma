@@ -26,6 +26,14 @@ class Offer < ApplicationRecord
 		self.name + " - Lote: " + self.allotment.to_s
 	end
 
+	def active?
+		DateTime.now >= start_t && (end_t.nil? || DateTime.now < end_t)
+	end
+
+	def inactive?
+		!self.active?
+	end
+
 	def expired?
 		end_t.present? && end_t < DateTime.now
 	end
