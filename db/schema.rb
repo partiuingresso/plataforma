@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_22_235052) do
+ActiveRecord::Schema.define(version: 2019_05_16_182305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 2019_04_22_235052) do
     t.datetime "end_t"
     t.integer "price_cents", default: 0, null: false
     t.integer "allotment", default: 1
+    t.integer "sold", default: 0, null: false
     t.index ["event_id"], name: "index_offers_on_event_id"
   end
 

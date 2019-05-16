@@ -22,6 +22,7 @@ class OfferDashboard < Administrate::BaseDashboard
     end_t: Field::DateTime,
     price_cents: Field::Number,
     allotment: Field::Number,
+    sold: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -53,6 +54,7 @@ class OfferDashboard < Administrate::BaseDashboard
     :end_t,
     :price_cents,
     :allotment,
+    :sold,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -70,6 +72,7 @@ class OfferDashboard < Administrate::BaseDashboard
     :end_t,
     :price_cents,
     :allotment,
+    :sold,
   ].freeze
 
   # Overwrite this method to customize how offers are displayed

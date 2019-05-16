@@ -19,14 +19,14 @@ class OrderItem < ApplicationRecord
   before_destroy :cancel
 
   def cancel
-    offer.available_quantity += self.quantity
+    offer.sold -= self.quantity
     offer.save
   end
 
   private
 
     def update_offer_quantity
-      offer.available_quantity -= self.quantity
+      offer.sold += self.quantity
     end
 
     def quantity_cannot_be_greater_than_offer_available_quantity

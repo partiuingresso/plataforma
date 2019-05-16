@@ -351,9 +351,11 @@ CREATE TABLE public.offers (
     end_t timestamp without time zone,
     price_cents integer DEFAULT 0 NOT NULL,
     allotment integer DEFAULT 1,
+    sold integer DEFAULT 0 NOT NULL,
     CONSTRAINT allotment_check CHECK ((allotment > 0)),
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t)),
-    CONSTRAINT quantities_check CHECK (((quantity > 0) AND (available_quantity >= 0) AND (available_quantity <= quantity)))
+    CONSTRAINT quantities_check CHECK (((quantity > 0) AND (available_quantity >= 0) AND (available_quantity <= quantity))),
+    CONSTRAINT sold_check CHECK ((sold >= 0))
 );
 
 
@@ -1303,6 +1305,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190311220541'),
 ('20190312010449'),
 ('20190313213945'),
-('20190422235052');
+('20190422235052'),
+('20190516182305');
 
 
