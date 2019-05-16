@@ -40,7 +40,7 @@ function init() {
 	};
 
 	var priceInputList = document.querySelectorAll('.price-input');
-	for(input of priceInputList) {
+	for(let input of priceInputList) {
 		input.value = SimpleMaskMoney.format(input.value);
 		SimpleMaskMoney.setMask(input);
 	}
