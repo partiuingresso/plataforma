@@ -46,7 +46,7 @@ class VoucherPdfLegacy
 
       move_down 50
       text "PartiuIngresso.com", inline_format: true, size: 9, style: :bold
-      text "suporte@partiuingress.com", inline_format: true, size: 9
+      text "suporte@partiuingresso.com", inline_format: true, size: 9
     end
   end
 
