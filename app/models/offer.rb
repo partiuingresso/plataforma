@@ -3,7 +3,7 @@ class Offer < ApplicationRecord
 	has_many :order_items
 	has_many :orders, through: :order_items
 
-	scope :active, -> { where("end_t IS NULL OR end_t > ?", DateTime.now) }
+	scope :active, -> { where("start_t <= :now AND (end_t IS NULL OR end_t > :now)", { now: DateTime.now }) }
 
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :description, length: { maximum: 500 }, allow_blank: true
