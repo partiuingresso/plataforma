@@ -354,8 +354,8 @@ CREATE TABLE public.offers (
     sold integer DEFAULT 0 NOT NULL,
     CONSTRAINT allotment_check CHECK ((allotment > 0)),
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t)),
-    CONSTRAINT quantities_check CHECK (((quantity > 0) AND (available_quantity >= 0) AND (available_quantity <= quantity))),
-    CONSTRAINT sold_check CHECK ((sold >= 0))
+    CONSTRAINT quantity_check CHECK ((quantity > 0)),
+    CONSTRAINT sold_check CHECK (((sold >= 0) AND (sold <= quantity)))
 );
 
 
