@@ -7,7 +7,7 @@ namespace :offers do
 
     ActiveRecord::Base.transaction do
       offers.each do |offer|
-        offer.sold = offer.quantity - offer.available_quantity
+        offer.sold = offer.quantity - offer.read_attribute(:available_quantity)
         offer.save!
         print "."
       end
