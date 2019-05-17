@@ -20,8 +20,8 @@ class AdminController < ApplicationController
   def producer_admin
     balances = Wirecard::show_balances current_user.company
     if balances.respond_to?(:future) && balances.future.present?
-      total = balances.future.first.amount + balances.unavailable.first.amount + balances.current.first.amount
-      @total_balance = Money.new(total).format
+      available = balances.current.first.amount - balances.unavailable.first.amount
+      @total_balance = Money.new(available).format
     else
       @total_balance = "Not Responding."
     end
