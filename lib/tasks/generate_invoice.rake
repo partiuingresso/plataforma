@@ -24,7 +24,7 @@ task :generate_invoice, [:month] => :environment do |task, args|
 	invoice = {}
 	companies.each do |company|
 		orders = company.orders.includes(:payment).approved.where(
-			"orders.updated_at >= :start_date AND orders.updated_at < :end_date",
+			"orders.user_id != 2 AND orders.updated_at >= :start_date AND orders.updated_at < :end_date",
 			{ start_date: start_date, end_date: end_date }
 		)
 		incomes = orders.collect do |order|
