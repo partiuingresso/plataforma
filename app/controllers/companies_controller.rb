@@ -6,12 +6,11 @@ class CompaniesController < ApplicationController
 
   def show
     balances = Wirecard::show_balances @company
-    total = balances.future.first.amount + balances.unavailable.first.amount + balances.current.first.amount
 
-    @total_balance = Money.new(total).format
     @future_balance = Money.new(balances.future.first.amount).format
     @unavailable_balance = Money.new(balances.unavailable.first.amount).format
-    @current_balance = Money.new(balances.current.first.amount).format
+    available = balances.current.first.amount - balances.unavailable.first.amount
+    @available_balance = Money.new(available).format
 
     @new_transfer = @company.transfers.build
   end
