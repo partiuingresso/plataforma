@@ -5,6 +5,7 @@ class Company < ApplicationRecord
     has_many :users
     has_one :bank_account, through: :company_finance
     belongs_to :address
+    has_many :orders, through: :events
 
 	validates :name, presence: true
 	validates :moip_id, presence: true
