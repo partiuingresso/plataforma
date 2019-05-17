@@ -30,6 +30,12 @@ class Event < ApplicationRecord
 
 	after_destroy :destroy_attached_files
 
+	scope :available, -> {
+		joins(:offers)
+		.merge(Offer.available)
+		.where("events.active")
+	}
+
 	def end_date_cannot_be_before_start
 		if end_t.present? && end_t < start_t
 			errors.add(:end_t, "can't be before start date")

@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function(){
               </div>
             </div>
             <ul>
-              <% @event.offers.order(price_cents: :asc).active.each do |offer| %>
+              <% @event.offers.order(price_cents: :asc).available.each do |offer| %>
                 <li>
                   <hr />
                   <div class="columns is-vcentered is-multiline is-mobile">

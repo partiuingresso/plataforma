@@ -3,7 +3,12 @@ class Offer < ApplicationRecord
 	has_many :order_items
 	has_many :orders, through: :order_items
 
-	scope :active, -> { where("start_t <= :now AND (end_t IS NULL OR end_t > :now)", { now: DateTime.now }) }
+	scope :available, -> {
+		where(
+			"offers.active AND offers.start_t <= :now AND (offers.end_t IS NULL OR offers.end_t > :now)",
+			{ now: DateTime.now }
+		)
+	}
 
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :description, length: { maximum: 500 }, allow_blank: true
@@ -28,12 +33,12 @@ class Offer < ApplicationRecord
 		self.quantity - self.sold
 	end
 
-	def active?
-		DateTime.now >= start_t && (end_t.nil? || DateTime.now < end_t)
+	def available?
+		active? && DateTime.now >= start_t && (end_t.nil? || DateTime.now < end_t)
 	end
 
-	def inactive?
-		!self.active?
+	def unavailable?
+		!self.available?
 	end
 
 	def expired?

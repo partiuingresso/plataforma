@@ -311,6 +311,7 @@ CREATE TABLE public.events (
     address_id bigint NOT NULL,
     features text,
     invite_text text,
+    active boolean DEFAULT true NOT NULL,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -352,6 +353,7 @@ CREATE TABLE public.offers (
     price_cents integer DEFAULT 0 NOT NULL,
     allotment integer DEFAULT 1,
     sold integer DEFAULT 0 NOT NULL,
+    active boolean DEFAULT true NOT NULL,
     CONSTRAINT allotment_check CHECK ((allotment > 0)),
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t)),
     CONSTRAINT quantity_check CHECK ((quantity > 0)),
@@ -1306,6 +1308,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190312010449'),
 ('20190313213945'),
 ('20190422235052'),
-('20190516182305');
+('20190516182305'),
+('20190517181953');
 
 

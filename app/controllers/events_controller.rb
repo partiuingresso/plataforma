@@ -60,9 +60,9 @@ class EventsController < ApplicationController
 		def event_params
 			params.require(:event).permit(
 				:name, :video, :headline, :hero_image, :content_image, :start_t, :end_t, :description,
-				:features, :invite_text, address_attributes: [:id, :name, :address, :number, :complement, :district,
+				:features, :invite_text, :active, address_attributes: [:id, :name, :address, :number, :complement, :district,
 				:city, :state, :zipcode], offers_attributes: [:id, :name, :description, :price, :quantity, :allotment,
-				:start_t, :end_t], testimonial_images: []
+				:start_t, :end_t, :active], testimonial_images: []
 			)
 		end
 end

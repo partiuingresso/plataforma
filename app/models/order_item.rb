@@ -14,7 +14,7 @@ class OrderItem < ApplicationRecord
   validate :offer_event_cannot_be_different_to_order_event
   validate :quantity_cannot_be_different_to_ticket_tokens_count
   validate :quantity_cannot_be_greater_than_offer_available_quantity, on: :create
-  validate :offer_cannot_be_inactive, on: :create
+  validate :offer_cannot_be_unavailable, on: :create
 
   before_destroy :cancel
 
@@ -47,9 +47,9 @@ class OrderItem < ApplicationRecord
       end
     end
 
-    def offer_cannot_be_inactive
-      if offer.inactive?
-        errors.add(:offer, "offer cannot be inactive.")
+    def offer_cannot_be_unavailable
+      if offer.unavailable?
+        errors.add(:offer, "offer cannot be unavailable.")
       end
     end
 

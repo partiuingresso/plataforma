@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_16_182305) do
+ActiveRecord::Schema.define(version: 2019_05_17_181953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2019_05_16_182305) do
     t.bigint "address_id", null: false
     t.text "features"
     t.text "invite_text"
+    t.boolean "active", default: true, null: false
     t.index ["address_id"], name: "index_events_on_address_id"
     t.index ["company_id"], name: "index_events_on_company_id"
     t.index ["user_id"], name: "index_events_on_user_id"
@@ -130,6 +131,7 @@ ActiveRecord::Schema.define(version: 2019_05_16_182305) do
     t.integer "price_cents", default: 0, null: false
     t.integer "allotment", default: 1
     t.integer "sold", default: 0, null: false
+    t.boolean "active", default: true, null: false
     t.index ["event_id"], name: "index_offers_on_event_id"
   end
 
