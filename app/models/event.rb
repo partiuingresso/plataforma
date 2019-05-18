@@ -34,6 +34,7 @@ class Event < ApplicationRecord
 		joins(:offers)
 		.merge(Offer.available)
 		.where("events.active")
+		.distinct
 	}
 
 	def end_date_cannot_be_before_start
