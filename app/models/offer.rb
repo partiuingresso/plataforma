@@ -2,6 +2,7 @@ class Offer < ApplicationRecord
 	belongs_to :event
 	has_many :order_items
 	has_many :orders, through: :order_items
+	attr_readonly :price_cents
 
 	scope :available, -> {
 		where(

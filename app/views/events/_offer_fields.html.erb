@@ -33,7 +33,7 @@
 	<div class="column is-5">
 		<label class="label">Preço</label>
 		<div class="control has-icons-right">
-			<%= field.text_field :price, class: "input price-input" %>
+			<%= field.text_field :price, class: "input price-input", disabled: field.object.id.present? %>
 			<span class="icon is-right has-text-danger">
 				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 			</span>
