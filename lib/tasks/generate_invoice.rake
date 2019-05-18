@@ -1,5 +1,6 @@
 desc "Generate invoice csv"
 task :generate_invoice, [:month] => :environment do |task, args|
+	WIRECARD_FIXED_FEE = 69
 	WIRECARD_FEE = {
 		1 => 0.0419,
 		2 => 0.0519,
@@ -30,7 +31,7 @@ task :generate_invoice, [:month] => :environment do |task, args|
 		incomes = orders.collect do |order|
 			payment = order.payment
 			total_amount = payment.amount_cents
-			wirecard_amount = total_amount * WIRECARD_FEE[payment.installment_count]
+			wirecard_amount = WIRECARD_FIXED_FEE + (total_amount * WIRECARD_FEE[payment.installment_count]).round
 			company_amount = order.read_attribute(:subtotal_cents)
 			income_amount = total_amount - (wirecard_amount + company_amount)
 		end
