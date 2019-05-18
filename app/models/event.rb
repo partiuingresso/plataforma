@@ -50,6 +50,14 @@ class Event < ApplicationRecord
 		Event.all.select { |event| event.start_t < DateTime.now }
 	end
 
+	def available?
+		active? && offers.available.exists?
+	end
+
+	def unavailable?
+		!available?
+	end
+
 	private
 
 		def destroy_attached_files
