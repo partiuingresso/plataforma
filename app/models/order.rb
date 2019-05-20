@@ -11,7 +11,7 @@ class Order < ApplicationRecord
 
   pg_search_scope :search_order, associated_against: {
     user: [:first_name, :last_name, :email],
-    ticket_tokens: :owner_email
+    ticket_tokens: [:owner_email, :owner_name]
   }, against: :number
 
   before_create :generate_order_number
