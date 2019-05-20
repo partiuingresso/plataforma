@@ -30,13 +30,7 @@
 				<div class="tile is-ancestor">
 					<div class="tile is-parent is-vertical">
 						<div class="tile is-child box">
-							<div class="level" style="margin-bottom: 10px;">
-								<label class="label" style="margin-bottom: 0;">Nome do evento</label>
-								<div class="field">
-									<%= f.check_box :active, id: "active-switch", class: "switch is-rounded is-success" %>
-									<label for="active-switch">Ativo</label>
-								</div>
-							</div>
+							<label class="label">Nome do evento</label>
 							<div class="control has-icons-right">
 								<%= f.text_field :name, autofocus: true, class: "input", placeholder: "Nome do evento" %>
 								<span class="icon is-right has-text-danger">
