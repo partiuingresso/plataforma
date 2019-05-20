@@ -35,7 +35,7 @@ class Ability
     if user.producer_admin?
         can :producer_admin, :admin
         can :report, :admin
-        can :check_in, :admin
+        can :events_check_in, :admin
         can :manage, Company, id: user.company_id
         can :manage, CompanyFinance, company_id: user.company_id
         can [:read, :edit], Event, company_id: user.company_id
@@ -43,7 +43,7 @@ class Ability
     end
 
     if user.producer?
-        can :check_in, :admin
+        can :events_check_in, :admin
         can :read, Event, company_id: user.company_id
     end
 
