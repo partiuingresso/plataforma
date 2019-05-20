@@ -242,8 +242,8 @@ pt-BR:
         cancelled: "Cancelado"
   views:
     pagination:
-      first: "&laquo; Primeira"
-      last: "Última &raquo;"
+      first: "<- Primeira"
+      last: "Última ->"
       previous: "&lsaquo; Anterior"
       next: "Próxima &rsaquo;"
       truncate: "&hellip;"

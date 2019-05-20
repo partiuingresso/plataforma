@@ -33,8 +33,12 @@ table.check-in {
   min-height: 25rem;
 }
 
-.validation > .pagination {
+.pagination {
   margin-top: 2rem;
+  & span {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -52,6 +56,14 @@ table.check-in {
     background-color: white;
     & * > div {
       box-shadow: unset;
+    }
+  }
+  .validation > .pagination {
+  margin-top: 1rem;
+  & span {
+    margin-top: 1rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
     }
   }
 }
