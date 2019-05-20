@@ -33,7 +33,7 @@ class Event < ApplicationRecord
 	scope :available, -> {
 		joins(:offers)
 		.merge(Offer.available)
-		.where("events.active")
+		.where("events.active AND events.start_t > ?", DateTime.now)
 		.distinct
 	}
 
@@ -52,7 +52,7 @@ class Event < ApplicationRecord
 	end
 
 	def available?
-		active? && offers.available.exists?
+		active? && start_t > DateTime.now && offers.available.exists?
 	end
 
 	def unavailable?
