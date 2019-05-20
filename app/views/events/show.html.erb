@@ -257,6 +257,15 @@ document.addEventListener("DOMContentLoaded", function(){
                       </div>
                     </div>
                   </li>
+                <% end.empty? and begin %>
+                  <div class="has-text-centered">
+                    <p class="is-size-5 has-text-weight-semibold" style="margin: 50px 0px 50px 0px;">
+                      Vendas Encerradas 
+                      <span class="icon">
+                        <i class="fas fa-stopwatch"></i> 
+                      </span>
+                    </p>
+                  </div>
                 <% end %>
               </ul>
               <div class="control" style="margin-top: 2.5rem;">
