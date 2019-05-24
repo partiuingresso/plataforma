@@ -7,6 +7,10 @@
     per_page:      number of items to fetch per page
     remote:        data-remote
 -%>
-<span class="button is-small<%= ' is-primary' if page.current? %>">
-  <%= link_to_unless page.current?, page, url, {remote: remote, rel: page.rel, class:'has-text-black'} %>
-</span>
+
+<%= link_to url, {remote: remote, rel: page.rel, class:'has-text-black'} do %>
+	<span class="button is-small<%= ' is-primary' if page.current? %>">
+		<%= page %>
+	</span>
+<% end %>
+
