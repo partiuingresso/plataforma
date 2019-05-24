@@ -3,8 +3,11 @@ var validationDetails = document.querySelector('.validation.details');
 	var modal = document.getElementById('new-validation');
 	modal.innerHTML = "<%= escape_javascript(render partial: 'new', locals: {ticket_token: @ticket_token}) %>";
 <% else %>
-	var modal = document.getElementById('error-validation');
-	modal.innerHTML = "<%= escape_javascript(render partial: 'error', locals: {message: @error_message}) %>";
+	var successValidationBody = document.getElementById('success-validation');
+	if(successValidationBody.classList.contains('is-hidden')) {
+		var modal = document.getElementById('error-validation');
+		modal.innerHTML = "<%= escape_javascript(render partial: 'error', locals: {message: @error_message}) %>";
+	}
 <% end %>
 
 modal.classList.remove('is-hidden');
