@@ -75,10 +75,13 @@ module Wirecard
 			end
 
 			def create_payment!
+				remaining_time = ((@order.event.start_t - Time.current) / 1.minute).round
+				delay_capture = remaining_time < (72.hours / 1.minute)
 				@wirecard_payment = API.payment.create(order_moip_id,
 					{
 						installmentCount: payment.installment_count,
 						statementDescriptor: "PartiuIngress",
+						delayCapture: delay_capture,
 						fundingInstrument: {
 							method: "CREDIT_CARD",
 							creditCard: {
@@ -102,6 +105,9 @@ module Wirecard
 					}
 				)
 				validate_payment_creation!
+				if delay_capture
+					CancelPendingOrderJob.set(wait: waiting_time(remaining_time)).perform_later(@order.id, @wirecard_payment.id)
+				end
 			end
 
 			def validate_order_creation!
@@ -114,6 +120,10 @@ module Wirecard
 				unless @wirecard_payment.respond_to?(:status) && wirecard_payment.status != "CANCELLED"
 					raise CheckoutErrors::PaymentError.new(@wirecard_payment.cancellation_details.code)
 				end
+			end
+
+			def waiting_time(remaining_time)
+				((1435 / (4320 ** 2)) * remaining_time ** 2 + 5).round.minutes
 			end
 	end
 end

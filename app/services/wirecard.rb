@@ -28,6 +28,7 @@ module Wirecard
 			{
 				events: [
 					"ORDER.PAID", "ORDER.NOT_PAID", "ORDER.REVERTED",
+					"PAYMENT.PRE_AUTHORIZED",
 					"TRANSFER.COMPLETED", "TRANSFER.FAILED"
 				],
 				target: url,
