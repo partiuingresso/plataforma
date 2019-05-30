@@ -4,7 +4,7 @@ class WebHooksController < ApplicationController
 	layout false
 
 	def webhooks
-		resultado = Wirecard::Webhooks.listen(request) do |hook|
+		result = Wirecard::Webhooks.listen(request) do |hook|
 			hook.on(:order, :paid) do
 				order_number = hook.resource.ownId.to_i
 				order = Order.find_by(number: order_number)
@@ -58,7 +58,6 @@ class WebHooksController < ApplicationController
 						end
 					end
 				end
-				return true
 			end
 
 			hook.on(:transfer, :completed) do
@@ -82,7 +81,7 @@ class WebHooksController < ApplicationController
 			end	
 		end
 
-		status = resultado ? :no_content : :bad_request
+		status = result ? :no_content : :bad_request
 		head status
 	end
 
