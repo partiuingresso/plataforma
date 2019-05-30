@@ -191,7 +191,7 @@ GEM
       tty-color (~> 0.4.0)
     pdf-core (0.7.0)
     pg (1.1.4)
-    pg_search (2.1.4)
+    pg_search (2.2.0)
       activerecord (>= 4.2)
       activesupport (>= 4.2)
     prawn (2.2.2)
@@ -363,7 +363,7 @@ DEPENDENCIES
   name_of_person
   ngrok-tunnel
   pg
-  pg_search
+  pg_search (~> 2.2)
   prawn (~> 2.2, >= 2.2.2)
   prawn-qrcode
   prawn-svg
