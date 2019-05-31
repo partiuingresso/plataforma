@@ -42,24 +42,6 @@ class WebHooksController < ApplicationController
 				end
 			end
 
-			hook.on(:payment, :pre_authorized) do
-				payment_id = hook.resource.id
-				Wirecard::api.payment.capture payment_id
-
-				moip_order_id = hook.resource._links.order.title
-				order_number = Wirecard::api.order.show(moip_order_id).own_id
-				order = Order.find_by(number: order_number)
-				unless order.approved?
-					order.approved!
-					NotificationMailer.with(order: order).order_confirmed.deliver_later
-					order.ticket_tokens.each do |t|
-						unless t.owner_email == order.user.email
-							NotificationMailer.with(order: order, ticket: t).order_ticket.deliver_later
-						end
-					end
-				end
-			end
-
 			hook.on(:transfer, :completed) do
 				id = hook.resource.ownId.to_i
 				transfer = Transfer.find(id)
