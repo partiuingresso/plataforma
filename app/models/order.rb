@@ -21,7 +21,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_items
   validates_presence_of :order_items
   validates_associated :order_items
-  validate :event_cannot_be_unavailable
+  validate :event_cannot_be_unavailable, on: :create
 
   monetize :subtotal_cents
   monetize :total_cents
