@@ -42,6 +42,18 @@ class WebHooksController < ApplicationController
 				end
 			end
 
+			hook.on(:payment, :pre_authorized) do
+				payment_id = hook.resource.id
+				moip_order_id = hook.resource._links.order.title
+				order_number = Wirecard::api.order.show(moip_order_id).own_id
+				order = Order.find_by(number: order_number)
+				if order.pending?
+					Wirecard::api.payment.capture payment_id
+				elsif order.denied?
+					Wirecard::api.payment.void payment_id
+				end
+			end
+
 			hook.on(:transfer, :completed) do
 				id = hook.resource.ownId.to_i
 				transfer = Transfer.find(id)
