@@ -36,11 +36,8 @@ class Order < ApplicationRecord
   end
 
   def absolute_fee_cents
-    if payment.present?
-      payment.service_fee * subtotal_cents
-    else
-      Business::Finance::ServiceFee * subtotal_cents
-    end
+    fee = payment.present? ? payment.service_fee : Business::Finance::ServiceFee
+    (fee * subtotal).cents
   end
 
   def total_quantity
