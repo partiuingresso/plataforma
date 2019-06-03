@@ -7,7 +7,7 @@ class TransfersController < ApplicationController
 			moip_transfer = Wirecard::create_transfer @transfer.reload
 			if moip_transfer.respond_to?(:id) && moip_transfer.id.present?
 				@transfer.update(fee_cents: moip_transfer.fee)
-				render plain: "Transferência solicitada com sucesso."
+				redirect_to company_path(@transfer.company), notice: "Transferência solicitada com sucesso."
 			else
 				@transfer.destroy
 				render plain: moip_transfer.inspect
