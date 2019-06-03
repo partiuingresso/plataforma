@@ -7,7 +7,7 @@ class TicketToken < ApplicationRecord
 									},
 									against: :owner_name,
 									using: {
-										tsearch: {any_word: true, prefix: true}
+										tsearch: {any_word: true}
 									}
 
 	enum status: { pending: "pending", ready: "ready",

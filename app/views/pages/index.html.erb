@@ -9,7 +9,7 @@
         <%= form_tag("/search", method: "get") do %>
           <div class="field is-grouped">
             <div class="control is-expanded search">
-              <input name="q" class="input is-large" type="text" placeholder="Busque seu próximo evento e partiu">
+              <input name="q" class="input is-large" type="text" placeholder="Busque seu próximo evento">
             </div>
             <div class="control search">
               <button class="button is-white is-large"><i class="fas fa-search"></i></button>
@@ -74,7 +74,7 @@
             <% end %>
          </div>
         <% end %>
-        <% @events[2..5].try(:each) do |event| %>
+        <% @events[2..9].try(:each) do |event| %>
           <div class="column is-3">
             <%= link_to event_path(event) do %>
               <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">

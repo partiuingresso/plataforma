@@ -20,7 +20,7 @@ gem 'geocoder'
 # Use Trix Rich Text Editor
 gem 'trix-rails', require: 'trix'
 # Use PG_Search to do simple searches
-gem 'pg_search'
+gem 'pg_search', '~> 2.2'
 # Group data to serve dashboard
 gem 'groupdate'
 # Displays charts for dashboards
