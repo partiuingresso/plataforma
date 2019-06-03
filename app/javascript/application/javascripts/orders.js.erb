@@ -280,7 +280,7 @@ function validateCC() {
     var card = CreditcardWarder(cardNumberInput.value);
 
     if(inputFilled(cardNumberInput) && (!card.validate() || card.getBrand() == "other")) {
-        firstInvalidInput = firstInvalidInput || input;
+        firstInvalidInput = firstInvalidInput || cardNumberInput;
         var errorSpan = document.getElementById('creditcard-error');
         cardNumberInput.classList.add('is-danger');
         errorSpan.classList.remove('is-hidden');
@@ -293,7 +293,7 @@ function validateCC() {
 
 function validateDocument() {
     if(inputFilled(documentInput) && !brazilValues.isCPF(documentInput.value)) {
-        firstInvalidInput = firstInvalidInput || input;
+        firstInvalidInput = firstInvalidInput || documentInput;
         var errorSpan = document.getElementById('document-error');
         documentInput.classList.add('is-danger');
         errorSpan.classList.remove('is-hidden');
