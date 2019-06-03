@@ -17,22 +17,28 @@
           <div class="tile is-parent">
            <div class="tile box is-child">
             <div class="columns">
-             <div class="column is-4">
+             <div class="column is-3">
                <div class="has-text-left">
-                 <p class="is-size-7 has-text-weight-semibold">A Receber</p>
-                 <p class="is-size-3 has-text-warning"><%= @future_balance %></p>
+                 <p class="is-size-7 has-text-weight-semibold">Em Conta</p>
+                 <p class="is-size-3"><%= @current_balance %></p>
                </div>
              </div>
-             <div class="column is-4">
+             <div class="column is-3">
+               <div class="has-text-left">
+                 <p class="is-size-7 has-text-weight-semibold">Disponível</p>
+                 <p class="is-size-3 has-text-success"><%= @available_balance %></p>
+               </div>
+             </div>
+             <div class="column is-3">
                <div class="has-text-left">
                  <p class="is-size-7 has-text-weight-semibold">Bloqueado</p>
                  <p class="is-size-3 has-text-danger"><%= @unavailable_balance %></p>
                </div>
              </div>
-             <div class="column is-4">
+             <div class="column is-3">
                <div class="has-text-left">
-                 <p class="is-size-7 has-text-weight-semibold">Disponível</p>
-                 <p class="is-size-3 has-text-success"><%= @available_balance %></p>
+                 <p class="is-size-7 has-text-weight-semibold">A Receber</p>
+                 <p class="is-size-3 has-text-warning"><%= @future_balance %></p>
                </div>
              </div>
             </div>

@@ -9,6 +9,7 @@ class CompaniesController < ApplicationController
 
     @future_balance = Money.new(balances.future.first.amount).format
     @unavailable_balance = Money.new(balances.unavailable.first.amount).format
+    @current_balance = Money.new(balances.current.first.amount).format
     available = [0, (balances.current.first.amount - balances.unavailable.first.amount)].max
     @available_balance = Money.new(available).format
 
