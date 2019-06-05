@@ -15,6 +15,7 @@ class Order < ApplicationRecord
   }, against: :number
 
   before_create :generate_order_number
+  before_save :set_status, if: :new_record?
   before_save :update_subtotal
   after_initialize :default_values
 
@@ -42,6 +43,10 @@ class Order < ApplicationRecord
 
   def total_quantity
     order_items.collect { |order_item| order_item.quantity }.sum
+  end
+
+  def free?
+    subtotal == 0
   end
 
   def approved!
@@ -93,6 +98,10 @@ class Order < ApplicationRecord
       if event.unavailable?
         errors.add(:event, "event cannot be unavailable.")
       end
+    end
+
+    def set_status
+      self.status = self.free? ? :approved : :pending
     end
 
     def default_values
