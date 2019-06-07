@@ -164,6 +164,7 @@ module Wirecard
 
 	def self.create_transfer transfer
 		company = transfer.company
+		bank_account = company.company_finance.bank_account
 		transfer = api(company.moip_access_token).transfer.create(
 			{
 				ownId: transfer.id,
@@ -171,7 +172,19 @@ module Wirecard
 				transferInstrument: {
 					method: "BANK_ACCOUNT",
 					bankAccount: {
-						id: transfer.bank_account.moip_id
+						type: bank_account.account_type,
+						bankNumber: bank_account.bank_code,
+						agencyNumber: bank_account.agency_number.to_i,
+						agencyCheckNumber: bank_account.agency_check_number,
+						accountNumber: bank_account.account_number.to_i,
+						accountCheckNumber: bank_account.account_check_number.to_i,
+						holder: {
+							fullname: bank_account.legal_name,
+							taxDocument: {
+								type: bank_account.document_type,
+								number: bank_account.document_number.gsub(/[.\/-]/, '')
+							}
+						}
 					}
 				}
 			}
