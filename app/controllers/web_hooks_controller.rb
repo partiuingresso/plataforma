@@ -22,11 +22,13 @@ class WebHooksController < ApplicationController
 			hook.on(:order, :not_paid) do
 				order_number = hook.resource.ownId.to_i
 				order = Order.find_by(number: order_number)
-				if order.nil?
+				if order.nil? || order.denied?
 					# Pedidos em que o pagamento é cancelado na criação do pedido.
+					# Ou pedido que é cancelado pelo sistema por conta do tempo em relação ao
+					# início do evento.
 					return true
 				else
-					unless order.nil? || order.denied? || order.refunded?
+					unless order.refunded?
 						order.denied!
 						NotificationMailer.with(order: order).order_not_paid.deliver_later
 					end
