@@ -1,12 +1,41 @@
 ---
 pt-BR:
   activerecord:
+    attributes:
+      user:
+        password: Senha
+        password_confirmation: Confirmação de senha
+        first_name: Nome
+        last_name: Sobrenome
+        current_password: Senha atual
+      order/status:
+        pending: Processando
+        approved: Aprovado
+        denied: Negado
+        refunded: Reembolsado
+      order_items:
+        quantity: Essa quantidade de ingressos
+      ticket_token/status:
+        pending: Pendente
+        ready: Pronto
+        authenticated: Autenticado
+        expired: Expirado
+        cancelled: Cancelado
     errors:
       messages:
-        record_invalid: 'A validação falhou: %{errors}'
+        record_invalid: '%{errors}'
         restrict_dependent_destroy:
-          has_one: Não é possível excluir o registro pois existe um %{record} dependente
-          has_many: Não é possível excluir o registro pois existem %{record} dependentes
+          has_one: 'Não é possível excluir o registro pois existe um %{record} dependente'
+          has_many: 'Não é possível excluir o registro pois existem %{record} dependentes'
+      models:
+        order_item:
+          attributes:
+            quantity:
+              sold_out: não está mais disponível
+  activemodel:
+    errors:
+      messages:
+        record_invalid: '%{errors}'
   date:
     abbr_day_names:
     - Dom
@@ -221,25 +250,6 @@ pt-BR:
       long: "%d de %B de %Y, %H:%M"
       short: "%d de %B, %H:%M"
     pm: ''
-  activerecord:
-    attributes:
-      user:
-        password: "Senha"
-        password_confirmation: "Confirmação de senha"
-        first_name: "Nome"
-        last_name: "Sobrenome"
-        current_password: "Senha atual"
-      order/status:
-        pending: "Processando"
-        approved: "Aprovado"
-        denied: "Negado"
-        refunded: "Reembolsado"
-      ticket_token/status:
-        pending: "Pendente"
-        ready: "Pronto"
-        authenticated: "Autenticado"
-        expired: "Expirado"
-        cancelled: "Cancelado"
   views:
     pagination:
       first: "<- Primeira"

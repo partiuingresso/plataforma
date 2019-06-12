@@ -31,7 +31,7 @@ class OrderItem < ApplicationRecord
 
     def quantity_cannot_be_greater_than_offer_available_quantity
       if offer.present? && self.quantity > offer.available_quantity
-        errors.add(:quantity, "can't be greater than offer available quantity")
+        errors.add(:quantity, :sold_out, message: "can't be greater than offer available quantity")
       end
     end
 

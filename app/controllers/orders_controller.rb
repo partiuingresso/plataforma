@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
 			@order_form.payment.hash = nil
 			render :new
 		else
-			render plain: @order_form.errors.messages
+			redirect_to event_path(@order_form.order.event), alert: @order_form.errors.full_messages.to_sentence
 		end
 	end
 
