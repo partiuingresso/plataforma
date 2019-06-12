@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_28_033921) do
+ActiveRecord::Schema.define(version: 2019_06_12_195056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 2019_05_28_033921) do
     t.datetime "updated_at", null: false
     t.integer "quantity", null: false
     t.datetime "start_t", null: false
-    t.datetime "end_t"
+    t.datetime "end_t", null: false
     t.integer "price_cents", default: 0, null: false
     t.integer "allotment", default: 1
     t.integer "sold", default: 0, null: false

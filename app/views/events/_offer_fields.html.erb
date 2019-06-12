@@ -59,8 +59,11 @@
 	</div>
 	<div class="column is-half">
 		<label class="label">Data de Término</label>
-		<div class="control">
+		<div class="control has-icons-right">
 			<%= field.date_field :end_t, class: "input" %>
+			<span class="icon is-right has-text-danger">
+				<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+			</span>
 		</div>
 	</div>
 	<div class="column is-full">

@@ -347,7 +347,7 @@ CREATE TABLE public.offers (
     updated_at timestamp without time zone NOT NULL,
     quantity integer NOT NULL,
     start_t timestamp without time zone NOT NULL,
-    end_t timestamp without time zone,
+    end_t timestamp without time zone NOT NULL,
     price_cents integer DEFAULT 0 NOT NULL,
     allotment integer DEFAULT 1,
     sold integer DEFAULT 0 NOT NULL,
@@ -1309,6 +1309,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190516182305'),
 ('20190517181953'),
 ('20190520224725'),
-('20190528033921');
+('20190528033921'),
+('20190612195056');
 
 
