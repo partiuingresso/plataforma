@@ -20,7 +20,6 @@ class Order < ApplicationRecord
 
   accepts_nested_attributes_for :order_items
   validates_presence_of :order_items
-  validate :event_cannot_be_unavailable, on: :create
 
   monetize :subtotal_cents
   monetize :total_cents
@@ -87,12 +86,6 @@ class Order < ApplicationRecord
   end
 
   private
-
-    def event_cannot_be_unavailable
-      if event.present? && event.unavailable?
-        errors.add(:event, "event cannot be unavailable.")
-      end
-    end
 
     def default_values
       self.status ||= :pending
