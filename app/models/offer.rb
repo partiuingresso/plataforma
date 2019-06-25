@@ -20,6 +20,7 @@ class Offer < ApplicationRecord
 	validates :sold, presence: true, numericality: { only_integer: true }
 	validate :sold_cannot_be_greater_than_quantity
 	validates :start_t, presence: true
+	validates :end_t, presence: true
 	validate :end_date_cannot_be_before_start
 
 	monetize :price_cents

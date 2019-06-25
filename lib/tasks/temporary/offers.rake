@@ -15,4 +15,19 @@ namespace :offers do
 
     puts " All done now!"
   end
+  desc "Update offers end_t column"
+  task set_end_t_column: :environment do
+    offers = Offer.includes(:event).all
+    puts "Going to update #{offers.count} offers"
+
+    ActiveRecord::Base.transaction do
+      offers.each do |offer|
+        offer.end_t = offer.event.start_t
+        offer.save!
+        print "."
+      end
+    end
+
+    puts " All done now!"
+  end
 end

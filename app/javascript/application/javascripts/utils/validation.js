@@ -21,7 +21,7 @@ export function selectFilled(selectElement) {
 }
 
 export function validCompleteName(completeName) {
-	let expression = /^[a-z\u00C0-\u00FF]{2,}(?:\s+[a-z\u00C0-\u00FF]+\.?)*\s+[a-z\u00C0-\u00FF]{2,}\.?(?:\s+[a-z\u00C0-\u00FF]+\.?)*$/i;
+	let expression = /^\s*[A-zÀ-ú]{2,}(?:\s+[A-zÀ-ú]+\.?)*\s+[A-zÀ-ú]{2,}\.?(?:\s+[A-zÀ-ú]+\.?)*\s*$/i;
 	return expression.test(completeName);
 }
 
