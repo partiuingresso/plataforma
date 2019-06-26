@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   def index
-    @events = Event.order(created_at: :desc).to_happen
+    @nextEvents = Event.where(start_t: 12.hours.ago..15.days.from_now)
+    @events = Event.order(created_at: :desc).to_happen - @nextEvents
   end
 
   def search
