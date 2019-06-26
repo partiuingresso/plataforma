@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
 
 	def create
 		@order_form = OrderForm.new(order_form_params)
-		@user.name ||= @order_form.payment.holder_fullname
+		@user.name ||= @order_form.payment.holder_fullname || "Usuário Temporário"
 		unless @user.persisted?
 			register_user!
 		end

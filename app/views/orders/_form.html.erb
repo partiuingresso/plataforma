@@ -23,210 +23,213 @@
       </div>
     <% end %>
     <%= f.fields_for :payment do |payment_f| %>
-      <div class="column is-6-fullhd is-12">
-        <div class="field">
-          <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
-          <div class="control">
-            <%= payment_f.text_field :holder_fullname, class: "input required" %>
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-              <span id="name-error" class="help checkout is-danger is-hidden">Nome inválido.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-6-fullhd is-12">
-        <div class="field">
-          <label class="label">Opções de pagamento</label>
-          <div class="control is-expanded">
-            <div class="select is-fullwidth">
-              <%= payment_f.select :installment_count do %>
-                <% (1..12).each do |index| %>
-                  <%= content_tag :option, installment_info(index), value: index, data: { price: price_with_interest(index) } %>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-12 cards-label">
-        <label class="label is-hidden-desktop">Informações do cartão</label>
-        <div class="level is-mobile" style="margin-bottom: 0.75rem;">
-          <div class="level-left is-hidden-touch">
-            <div class="level-item">
-              <label class="label">Informações do cartão</label>
-            </div>
-          </div>
-          <div class="level-right cards">
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/visa.svg"), alt:'Visa', width:'36rem', id: 'visa' %>
-            </div>
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/mastercard.svg"), alt:'Visa', width:'36rem', id: 'mastercard' %>
-            </div>
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/amex.svg"), alt:'Visa', width:'36rem', id: 'amex' %>
-            </div>
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/elo.svg"), alt:'Visa', width:'36rem', id: 'elo' %>
-            </div>
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/hiper.svg"), alt:'Visa', width:'36rem', id: 'hiper' %>
-            </div>
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/diners.svg"), alt:'Visa', width:'36rem', id: 'dinersclub' %>
-            </div>
-            <div class="level-item">
-              <%= image_tag asset_pack_path("media/application/images/cards/hipercard.svg"), alt:'Visa', width:'36rem', id: 'hipercard' %>
-            </div>
-          </div>
-        </div>
-      </div>
-        
-      <div class="column is-6 no-top-pad">
-        <div class="field">
-          <%= payment_f.hidden_field :hash %>
-          <div class="control">
-            <input id="card-number" class="input required" type="text" maxlength="16" inputmode="numeric" pattern="[0-9]*" placeholder="Número do cartão">
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-              <span id="creditcard-error" class="help checkout is-danger is-hidden">Número de cartão inválido.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-6 no-top-pad">
-        <div class="field has-addons">
-          <div class="control is-expanded">
-            <input id="expiration-date" class="input required" type="text" maxlength="5" inputmode="numeric" pattern="[0-9]*" placeholder="Validade">
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-            </div>
-          </div>
-          <div class="control">
-            <input id="cvc" class="input required" type="text" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="CVV">
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">CPF</label>
-          <div class="control">
-            <%= payment_f.text_field :holder_document, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "14", placeholder: "___.___.___-__"%>
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-              <span id="document-error" class="help checkout is-danger is-hidden cpf">CPF inválido.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-6">
-        <div class="field">
-          <label class="label">Telefone celular</label>
-          <div class="control">
-            <%= payment_f.telephone_field :holder_phone, id: "phone", class: "input required", maxlength: "16", placeholder: "(__) _____-____" %>
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-6-fullhd is-12">
-        <div class="field is-grouped">
-          <div class="control">
-            <label class="label">Data de Nascimento</label>
-            <div class="select">
-              <%= payment_f.date_select :holder_birthdate, {date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'}}, {class: "required"} %>
-            </div>
-            <div class="input-errors">
-              <span class="help checkout is-danger is-hidden">Selecione uma data.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <%= payment_f.fields_for :billing_address do |address_f| %>
-        <div class="column is-6">
-          <div class="field">
-            <label class="label">CEP</label>
-            <div class="control">
-              <%= address_f.text_field :zipcode, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "9", placeholder: "_____-___" %>
-              <div class="input-errors">
-                <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-12 is-hidden" id="address">
-          <div class="columns is-multiline">
-            <div class="column is-6">
-              <div class="field">
-                <label class="label">Endereço</label>
-                <div class="control">
-                  <%= address_f.text_field :address, class: "input" %>
-                  <div class="input-errors">
-                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-3">
-              <div class="field">
-                <label class="label">Número</label>
-                <div class="control">
-                  <%= address_f.text_field :number, class: "input" %>
-                  <div class="input-errors">
-                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-3">
-              <div class="field">
-                <label class="label">Complemento</label>
-                <div class="control">
-                  <%= address_f.text_field :complement, class: "input", placeholder: "Opcional" %>
-                </div>
-              </div>
-            </div>
-            <div class="column is-4">
-              <label class="label">Bairro</label>
+      <div class="payment-fields column is-12">
+        <div class="columns is-multiline">
+          <div class="column is-6-fullhd is-12">
+            <div class="field">
+              <label class="label is-inline-block">Nome completo</label><span class="help is-inline-block"> Como impresso no cartão</span>
               <div class="control">
-                <%= address_f.text_field :district, class: "input" %>
+                <%= payment_f.text_field :holder_fullname, class: "input required" %>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  <span id="name-error" class="help checkout is-danger is-hidden">Nome inválido.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6-fullhd is-12">
+            <div class="field">
+              <label class="label">Opções de pagamento</label>
+              <div class="control is-expanded">
+                <div class="select is-fullwidth">
+                  <%= payment_f.select :installment_count do %>
+                    <% (1..12).each do |index| %>
+                      <%= content_tag :option, installment_info(index), value: index, data: { price: price_with_interest(index) } %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-12 cards-label">
+            <label class="label is-hidden-desktop">Informações do cartão</label>
+            <div class="level is-mobile" style="margin-bottom: 0.75rem;">
+              <div class="level-left is-hidden-touch">
+                <div class="level-item">
+                  <label class="label">Informações do cartão</label>
+                </div>
+              </div>
+              <div class="level-right cards">
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/visa.svg"), alt:'Visa', width:'36rem', id: 'visa' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/mastercard.svg"), alt:'Visa', width:'36rem', id: 'mastercard' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/amex.svg"), alt:'Visa', width:'36rem', id: 'amex' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/elo.svg"), alt:'Visa', width:'36rem', id: 'elo' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/hiper.svg"), alt:'Visa', width:'36rem', id: 'hiper' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/diners.svg"), alt:'Visa', width:'36rem', id: 'dinersclub' %>
+                </div>
+                <div class="level-item">
+                  <%= image_tag asset_pack_path("media/application/images/cards/hipercard.svg"), alt:'Visa', width:'36rem', id: 'hipercard' %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 no-top-pad">
+            <div class="field">
+              <%= payment_f.hidden_field :hash %>
+              <div class="control">
+                <input id="card-number" class="input required" type="text" maxlength="16" inputmode="numeric" pattern="[0-9]*" placeholder="Número do cartão">
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  <span id="creditcard-error" class="help checkout is-danger is-hidden">Número de cartão inválido.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6 no-top-pad">
+            <div class="field has-addons">
+              <div class="control is-expanded">
+                <input id="expiration-date" class="input required" type="text" maxlength="5" inputmode="numeric" pattern="[0-9]*" placeholder="Validade">
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                </div>
+              </div>
+              <div class="control">
+                <input id="cvc" class="input required" type="text" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="CVV">
                 <div class="input-errors">
                   <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
                 </div>
               </div>
             </div>
-            <div class="column is-5">
-              <div class="field">
-                <label class="label">Cidade</label>
-                <div class="control">
-                  <%= address_f.text_field :city, class: "input" %>
-                  <div class="input-errors">
-                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="column is-3">
-              <div class="field">
-                <label class="label">Estado</label>
-                <div class="control">
-                  <%= address_f.text_field :state, class: "input" %>
-                  <div class="input-errors">
-                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
-                  </div>
+          </div>
+
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">CPF</label>
+              <div class="control">
+                <%= payment_f.text_field :holder_document, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "14", placeholder: "___.___.___-__"%>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  <span id="document-error" class="help checkout is-danger is-hidden cpf">CPF inválido.</span>
                 </div>
               </div>
             </div>
           </div>
+          <div class="column is-6">
+            <div class="field">
+              <label class="label">Telefone celular</label>
+              <div class="control">
+                <%= payment_f.telephone_field :holder_phone, id: "phone", class: "input required", maxlength: "16", placeholder: "(__) _____-____" %>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-6-fullhd is-12">
+            <div class="field is-grouped">
+              <div class="control">
+                <label class="label">Data de Nascimento</label>
+                <div class="select">
+                  <%= payment_f.date_select :holder_birthdate, {date_separator: "</div>&nbsp;<div class='select'>", start_year: Date.today.year, end_year: Date.today.year-100, prompt: {day: 'Dia', month: 'Mês', year: 'Ano'}}, {class: "required"} %>
+                </div>
+                <div class="input-errors">
+                  <span class="help checkout is-danger is-hidden">Selecione uma data.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%= payment_f.fields_for :billing_address do |address_f| %>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">CEP</label>
+                <div class="control">
+                  <%= address_f.text_field :zipcode, class: "input required", inputmode: "numeric", pattern: "[0-9]*", maxlength: "9", placeholder: "_____-___" %>
+                  <div class="input-errors">
+                    <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-12 is-hidden" id="address">
+              <div class="columns is-multiline">
+                <div class="column is-6">
+                  <div class="field">
+                    <label class="label">Endereço</label>
+                    <div class="control">
+                      <%= address_f.text_field :address, class: "input" %>
+                      <div class="input-errors">
+                        <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-3">
+                  <div class="field">
+                    <label class="label">Número</label>
+                    <div class="control">
+                      <%= address_f.text_field :number, class: "input" %>
+                      <div class="input-errors">
+                        <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-3">
+                  <div class="field">
+                    <label class="label">Complemento</label>
+                    <div class="control">
+                      <%= address_f.text_field :complement, class: "input", placeholder: "Opcional" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-4">
+                  <label class="label">Bairro</label>
+                  <div class="control">
+                    <%= address_f.text_field :district, class: "input" %>
+                    <div class="input-errors">
+                      <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-5">
+                  <div class="field">
+                    <label class="label">Cidade</label>
+                    <div class="control">
+                      <%= address_f.text_field :city, class: "input" %>
+                      <div class="input-errors">
+                        <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column is-3">
+                  <div class="field">
+                    <label class="label">Estado</label>
+                    <div class="control">
+                      <%= address_f.text_field :state, class: "input" %>
+                      <div class="input-errors">
+                        <span class="help checkout is-danger is-hidden">Este campo é obrigatório.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
     <% end %>
 
     <div class="column is-12 is-paddingless">
