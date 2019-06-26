@@ -10,7 +10,11 @@
   <div class="container">
     <div class="columns is-centered ordered-mobile">
       <div class="column is-6 is-offset-1 fl-2">
-        <p class="title is-hidden-touch">Confirmar e pagar</p>
+        <% if @order.free? %>
+          <p class="title is-hidden-touch">Confirmar seu pedido</p>
+        <% else %>
+          <p class="title is-hidden-touch">Confirmar e pagar</p>
+        <% end %>
         <% @order_form.errors.messages[:checkout].each do |error_message| %>
           <article class="message is-danger is-hidden-touch animated shake">
             <div class="message-body">
@@ -35,7 +39,11 @@
         <%= render 'orders/form' %>
       </div>
       <div class="column is-3 is-forward-1 fl-1">
-        <p class="title is-hidden-desktop">Confirmar e pagar</p>
+        <% if @order.free? %>
+          <p class="title is-hidden-desktop">Confirmar seu pedido</p>
+        <% else %>
+          <p class="title is-hidden-desktop">Confirmar e pagar</p>
+        <% end %>
         <% @order_form.errors.messages[:checkout].each do |error_message| %>
           <article class="message is-danger is-hidden-desktop animated shake">
             <div class="message-body">

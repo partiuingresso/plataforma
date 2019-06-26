@@ -277,7 +277,11 @@
       <hr />
       <p class="help">Eu concordo com o <%= link_to "Termos de Uso", terms_path, target: "_blank" %>, <%= link_to "Política de Cancelamento", terms_path, target: "_blank" %> e a <%= link_to "Política de Privacidade", privacy_path, target: "_blank" %>. Também concordo em pagar o valor total exibido, que inclui as taxas de serviço.</p>
       <%= f.button :submit, class:"confirm button is-primary" do %>
-        <span>Confirmar e pagar</span>
+        <% if @order.free? %>
+          <span>Confirmar seu pedido</span>
+        <% else %>
+          <span>Confirmar e pagar</span>
+        <% end %>
         <span class="icon is-small">
           <i class="fas fa-lock"></i>
         </span>

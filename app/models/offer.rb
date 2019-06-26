@@ -30,6 +30,10 @@ class Offer < ApplicationRecord
 		self.price_cents * (1 + Business::Finance::ServiceFee)
 	end
 
+	def free?
+		price == 0
+	end
+
 	def name_with_allotment
 		self.name + " - Lote: " + self.allotment.to_s
 	end
