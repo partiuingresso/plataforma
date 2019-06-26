@@ -8,101 +8,105 @@ import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-wa
 import { inputFilled, selectFilled, validEmail, validCompleteName } from './utils/validation';
 
 var form = document.getElementById('new_order_form');
-var installmentCountSelect = document.getElementById('order_form_payment_attributes_installment_count');
-var holderNameInput = document.getElementById('order_form_payment_attributes_holder_fullname');
-var cardNumberInput = document.getElementById('card-number');
-var cvcInput = document.getElementById('cvc');
-var expirationDateInput = document.getElementById('expiration-date');
-var hashInput = document.getElementById('order_form_payment_attributes_hash');
-var documentInput = document.getElementById('order_form_payment_attributes_holder_document');
-var celInput = document.getElementById('phone');
-var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode');
-var complement = document.getElementById('order_form_payment_attributes_billing_address_attributes_complement');
-var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address');
-var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district');
-var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city');
-var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state');
-var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
-var addressInputsDiv = document.getElementById('address');
-var submitButton = form.querySelector('button[type="submit"]');
-var imagesDiv = document.querySelector('.level-right.cards');
-var images = imagesDiv.querySelectorAll('img');
+var paymentFields = document.querySelector('.payment-fields');
+if(paymentFields) {
+    var installmentCountSelect = document.getElementById('order_form_payment_attributes_installment_count');
+    var holderNameInput = document.getElementById('order_form_payment_attributes_holder_fullname');
+    var cardNumberInput = document.getElementById('card-number');
+    var cvcInput = document.getElementById('cvc');
+    var expirationDateInput = document.getElementById('expiration-date');
+    var hashInput = document.getElementById('order_form_payment_attributes_hash');
+    var documentInput = document.getElementById('order_form_payment_attributes_holder_document');
+    var celInput = document.getElementById('phone');
+    var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode');
+    var complement = document.getElementById('order_form_payment_attributes_billing_address_attributes_complement');
+    var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address');
+    var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district');
+    var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city');
+    var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state');
+    var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
+    var addressInputsDiv = document.getElementById('address');
+    var submitButton = form.querySelector('button[type="submit"]');
+    var imagesDiv = document.querySelector('.level-right.cards');
+    var images = imagesDiv.querySelectorAll('img');
+    <% if Rails.env.production? %>
+    const pubKey = `-----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjo+j1R0PSwiypSntfc+t
+                    4oKUkg44O2OAZ+CQtVTMeSOBlJr5+ciIv91syT2klL21a8gscv7cm8e2UODGlhgD
+                    NmgrS5RVbrO3g8v3UCC9kvJqCLZIGTflRpsyOabv4/PJyikiQh1aUe5D/c1CL1io
+                    VkthTrN70W0RThenNOzi465d47+kq0IX121I1m40e122p//6ZUsqZsH1dNcClyil
+                    V8gTJo+p4Ss7zT5shYclFgSvXJPUxM7BafUzWIOm1RKrcMe6OQIKcmoU4rtwD5RQ
+                    QnEWX7x0tggpnt8+f3yu09MLDI5Xh8QTVe04KGsvmf6WaHXRiTcH+t9aCEOcGBIU
+                    pQIDAQAB
+                    -----END PUBLIC KEY-----`;
+    <% else %>
+    const pubKey = `-----BEGIN PUBLIC KEY-----
+                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
+                    mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
+                    02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
+                    srsNWDdCm3LiXH//AL0SYh5kv7C18ccTZdKQVv7NALaQor9Uh6HeMyNCsjZGStqS
+                    Dzl56k3rdMa/gzV+B6YeGkFx6P6k7dEHzHvc6mhY2oFrPBRb0Dg30BwQy12pRKuc
+                    JaCHbICrdX5ks5PQSU6i3HRjfY3sjj035xrNe6BEn0U7yb552X8NMWEAEpeclw2c
+                    cwIDAQAB
+                    -----END PUBLIC KEY-----`;
+    <% end %>
+}
 
 var firstInvalidInput = null;
 var formSubmitted = false;
 
-<% if Rails.env.production? %>
-const pubKey = `-----BEGIN PUBLIC KEY-----
-                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjo+j1R0PSwiypSntfc+t
-                4oKUkg44O2OAZ+CQtVTMeSOBlJr5+ciIv91syT2klL21a8gscv7cm8e2UODGlhgD
-                NmgrS5RVbrO3g8v3UCC9kvJqCLZIGTflRpsyOabv4/PJyikiQh1aUe5D/c1CL1io
-                VkthTrN70W0RThenNOzi465d47+kq0IX121I1m40e122p//6ZUsqZsH1dNcClyil
-                V8gTJo+p4Ss7zT5shYclFgSvXJPUxM7BafUzWIOm1RKrcMe6OQIKcmoU4rtwD5RQ
-                QnEWX7x0tggpnt8+f3yu09MLDI5Xh8QTVe04KGsvmf6WaHXRiTcH+t9aCEOcGBIU
-                pQIDAQAB
-                -----END PUBLIC KEY-----`;
-<% else %>
-const pubKey = `-----BEGIN PUBLIC KEY-----
-                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
-                mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
-                02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
-                srsNWDdCm3LiXH//AL0SYh5kv7C18ccTZdKQVv7NALaQor9Uh6HeMyNCsjZGStqS
-                Dzl56k3rdMa/gzV+B6YeGkFx6P6k7dEHzHvc6mhY2oFrPBRb0Dg30BwQy12pRKuc
-                JaCHbICrdX5ks5PQSU6i3HRjfY3sjj035xrNe6BEn0U7yb552X8NMWEAEpeclw2c
-                cwIDAQAB
-                -----END PUBLIC KEY-----`;
-<% end %>
 
 init();
 
 function init() {
     form.setAttribute('novalidate', 'true');
-    installmentCountSelect.addEventListener('change', installmentCountListener);
-    // Masks e dica Validade do CC
-    expirationDateInput.addEventListener('focusin', function() {
-        this.placeholder = "MM/AA";
-    });
-    expirationDateInput.addEventListener('focusout', function() {
-        this.placeholder = "Validade";
-    });
-    paymentFormatter({
-        inputType: 'expiry',
-        selector: 'input#expiration-date'
-    });
+    if(paymentFields) {
+        installmentCountSelect.addEventListener('change', installmentCountListener);
+        // Masks e dica Validade do CC
+        expirationDateInput.addEventListener('focusin', function() {
+            this.placeholder = "MM/AA";
+        });
+        expirationDateInput.addEventListener('focusout', function() {
+            this.placeholder = "Validade";
+        });
+        paymentFormatter({
+            inputType: 'expiry',
+            selector: 'input#expiration-date'
+        });
 
-    documentInput.value = brazilValues.formatToCPF(documentInput.value);
+        documentInput.value = brazilValues.formatToCPF(documentInput.value);
 
-    // Mask do CPF
-    documentInput.addEventListener('input', function() {
-        this.value = brazilValues.formatToCPF(this.value);
-    });
+        // Mask do CPF
+        documentInput.addEventListener('input', function() {
+            this.value = brazilValues.formatToCPF(this.value);
+        });
 
-    // Mask do Telefone Cel
-    celInput.addEventListener('input', function() {
-        this.value = brazilValues.formatToPhone(this.value);
-    });
+        // Mask do Telefone Cel
+        celInput.addEventListener('input', function() {
+            this.value = brazilValues.formatToPhone(this.value);
+        });
 
-    if(zipInput.value) {
-      addressInputsDiv.classList.remove('is-hidden');
-      setAddressInputsRequired();
-      cardNumberInput.focus();
+        if(zipInput.value) {
+          addressInputsDiv.classList.remove('is-hidden');
+          setAddressInputsRequired();
+          cardNumberInput.focus();
+        }
+
+        zipInput.value = brazilValues.formatToCEP(zipInput.value);
+
+        // Mask do CEP
+        zipInput.addEventListener('input', function() {
+            this.value = brazilValues.formatToCEP(this.value);
+            if(this.value.length == 9) {
+                zipInput.parentElement.classList.add('is-loading');
+                cepToAddress();
+            }
+        });
+
+        cardNumberInput.addEventListener('input', creditCardBrandListener);
     }
 
-    zipInput.value = brazilValues.formatToCEP(zipInput.value);
-
-    // Mask do CEP
-    zipInput.addEventListener('input', function() {
-        this.value = brazilValues.formatToCEP(this.value);
-        if(this.value.length == 9) {
-            zipInput.parentElement.classList.add('is-loading');
-            cepToAddress();
-        }
-    });
-
-    cardNumberInput.addEventListener('input', creditCardBrandListener);
-
     form.addEventListener('submit', formSubmitListener);
-
 }
 
 function setRealTimeValidation() {
@@ -137,17 +141,19 @@ function setRealTimeValidation() {
         });
     }
 
-    holderNameInput.addEventListener('focusout', function(e) {
-        validateName();
-    });
+    if(paymentFields) {
+        holderNameInput.addEventListener('focusout', function(e) {
+            validateName();
+        });
 
-    cardNumberInput.addEventListener('focusout', function(e) {
-        validateCC();
-    });
+        cardNumberInput.addEventListener('focusout', function(e) {
+            validateCC();
+        });
 
-    documentInput.addEventListener('focusout', function(e) {
-        validateDocument();
-    });
+        documentInput.addEventListener('focusout', function(e) {
+            validateDocument();
+        });
+    }
 }
 
 function installmentCountListener(e) {
@@ -168,7 +174,9 @@ function formSubmitListener(e) {
         return
     }
 
-    setCreditCardHash();
+    if(paymentFields) {
+        setCreditCardHash();
+    }
     disableSubmitButton();
 }
 
@@ -176,9 +184,11 @@ function formIsValid() {
     firstInvalidInput = null;
     var valid = validateRequiredInputs();
     valid = validateEmailInputs() && valid;
-    valid = validateName() && valid;
-    valid = validateCC() && valid;
-    valid = validateDocument() && valid;
+    if(paymentFields) {
+        valid = validateName() && valid;
+        valid = validateCC() && valid;
+        valid = validateDocument() && valid;
+    }
 
     if(firstInvalidInput) {
         firstInvalidInput.scrollIntoView({block: "end", behavior: "smooth"});
