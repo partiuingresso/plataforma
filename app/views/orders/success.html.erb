@@ -105,54 +105,56 @@
                   </div>
                 </div>
               </div>
-              <div class="tile is-vertical">
-                <div class="tile is-parent">
-                  <div class="tile is-child success box">
-                    <p class="title is-6">Detalhes do pagamento:</p>
-                    <p class="content">
-                      <span class="is-size-7 is-uppercase">Realizado com o cartão:</span><br />
-                      <span class="is-inline-block"><%= image_tag asset_pack_path("media/application/images/cards/" + @order.payment.card_brand.downcase + ".svg"), alt: @order.payment.card_brand.downcase, width:'36rem', id: @order.payment.card_brand.downcase %></span>
-                      <span class="number is-size-7 has-text-grey"><span>••••</span>&nbsp;<span>••••</span>&nbsp;<span>••••</span>&nbsp;<span class="has-text-black"><%= @order.payment.card_number_last_4 %></span></span>
-                    </p>
-                    <p class="content">
-                      <span class="icon is-inline-block success">
-                        <i class="far fa-file-alt"></i>
-                      </span>
-                      <span class="title is-size-7 is-uppercase">Descrição:</span><br />
-                      <span class="details"><%= "Parcela".pluralize(@order.payment.installment_count) %>: <%= installment_info(@order.payment.installment_count) %></span><br />
-                      <span class="details">Total: <%= price_with_interest(@order.payment.installment_count) %></span>
-                    </p>
-                    <p class="content">
-                      <span class="icon is-inline-block success">
-                        <i class="far fa-credit-card"></i>
-                      </span>
-                      <span class="title is-size-7 is-uppercase">Status:</span><br />
-                      <% if @order.pending? %>
-                        <span class="tag is-warning">
-                          <%= Order.human_attribute_name("status.#{@order.status}") %>
+              <% if @order.payment.present? %>
+                <div class="tile is-vertical">
+                  <div class="tile is-parent">
+                    <div class="tile is-child success box">
+                      <p class="title is-6">Detalhes do pagamento:</p>
+                      <p class="content">
+                        <span class="is-size-7 is-uppercase">Realizado com o cartão:</span><br />
+                        <span class="is-inline-block"><%= image_tag asset_pack_path("media/application/images/cards/" + @order.payment.card_brand.downcase + ".svg"), alt: @order.payment.card_brand.downcase, width:'36rem', id: @order.payment.card_brand.downcase %></span>
+                        <span class="number is-size-7 has-text-grey"><span>••••</span>&nbsp;<span>••••</span>&nbsp;<span>••••</span>&nbsp;<span class="has-text-black"><%= @order.payment.card_number_last_4 %></span></span>
+                      </p>
+                      <p class="content">
+                        <span class="icon is-inline-block success">
+                          <i class="far fa-file-alt"></i>
                         </span>
-                      <% elsif @order.approved? %>
-                        <span class="tag is-success">
-                          <%= Order.human_attribute_name("status.#{@order.status}") %>
+                        <span class="title is-size-7 is-uppercase">Descrição:</span><br />
+                        <span class="details"><%= "Parcela".pluralize(@order.payment.installment_count) %>: <%= installment_info(@order.payment.installment_count) %></span><br />
+                        <span class="details">Total: <%= price_with_interest(@order.payment.installment_count) %></span>
+                      </p>
+                      <p class="content">
+                        <span class="icon is-inline-block success">
+                          <i class="far fa-credit-card"></i>
                         </span>
-                      <% else %>
-                        <span class="tag is-danger">
-                          <%= Order.human_attribute_name("status.#{@order.status}") %>
+                        <span class="title is-size-7 is-uppercase">Status:</span><br />
+                        <% if @order.pending? %>
+                          <span class="tag is-warning">
+                            <%= Order.human_attribute_name("status.#{@order.status}") %>
+                          </span>
+                        <% elsif @order.approved? %>
+                          <span class="tag is-success">
+                            <%= Order.human_attribute_name("status.#{@order.status}") %>
+                          </span>
+                        <% else %>
+                          <span class="tag is-danger">
+                            <%= Order.human_attribute_name("status.#{@order.status}") %>
+                          </span>
+                        <% end %>
+                      </p>
+                      <p class="content">
+                        <span class="icon is-inline-block success">
+                          <i class="fas fa-info-circle"></i>
                         </span>
-                      <% end %>
-                    </p>
-                    <p class="content">
-                      <span class="icon is-inline-block success">
-                        <i class="fas fa-info-circle"></i>
-                      </span>
-                      <span class="title is-size-7 is-uppercase">INFORMAÇÃO:</span><br />
-                      <span class="help">Você receberá um e-mail assim que seu pagamento for aprovado.</span>
-                    </p>
+                        <span class="title is-size-7 is-uppercase">INFORMAÇÃO:</span><br />
+                        <span class="help">Você receberá um e-mail assim que seu pagamento for aprovado.</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="tile is-parent">
                   </div>
                 </div>
-                <div class="tile is-parent">
-                </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>

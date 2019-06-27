@@ -10,6 +10,9 @@ class OrderItem < ApplicationRecord
   accepts_nested_attributes_for :ticket_tokens
   accepts_nested_attributes_for :offer
 
+  scope :free, -> { joins(:offer).merge(Offer.free) }
+  scope :costly, -> { joins(:offer).merge(Offer.costly) }
+
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validate :offer_event_cannot_be_different_to_order_event
   validate :quantity_cannot_be_different_to_ticket_tokens_count

@@ -26,6 +26,7 @@ class TicketToken < ApplicationRecord
 
 	after_initialize :default_values
 	before_save :check_validation
+	before_save :set_status, if: :new_record?
 
 
 	scope :not_cancelled, -> { where('status != ?', :cancelled) }
@@ -40,6 +41,10 @@ class TicketToken < ApplicationRecord
 			if self.validation.present?
 				self.status = :authenticated
 			end
+		end
+
+		def set_status
+			self.status = self.order.free? ? :ready : :pending
 		end
 
 		def default_values

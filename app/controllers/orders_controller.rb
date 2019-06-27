@@ -21,14 +21,19 @@ class OrdersController < ApplicationController
 
 	def create
 		@order_form = OrderForm.new(order_form_params)
-		@user.name ||= @order_form.payment.holder_fullname
+		@user.name ||= @order_form.payment.holder_fullname || "Usuário Temporário"
 		unless @user.persisted?
 			register_user!
 		end
 		@order_form.user = @user
 
 		if @order_form.save
-			NotificationMailer.with(order: @order_form.order).order_received.deliver_later
+			order = @order_form.order
+			if order.free?
+				NotificationMailer.with(order: order).free_order_confirmed.deliver_later
+			else
+				NotificationMailer.with(order: order).order_received.deliver_later
+			end
 			redirect_to success_path(number: @order_form.order.number)
 		elsif @order_form.errors.include?(:checkout)
 			@order = Order.new(order_form_params.slice(:event_id.to_s, :order_items_attributes.to_s))
