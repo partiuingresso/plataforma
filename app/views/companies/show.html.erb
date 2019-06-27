@@ -55,7 +55,7 @@
             <th>Taxa</th>
             <th></th>
           </thead>
-          <% @company.transfers.each do |transfer| %>
+          <% @history_transfers.each do |transfer| %>
             <% if transfer.persisted? %>
               <tr>
                 <td><%= transfer.created_at.strftime("%d/%m/%Y") %></td>
@@ -78,19 +78,26 @@
           <tbody>
           </tbody>
         </table>
-        <% if @company.bank_account.present? %>
-          <%= form_for @new_transfer do |f| %>
-              <%= render partial: 'new_transfer_modal', locals: { field: f } %>
-          <% end %>
-          <div class="has-text-right">
-            <button id="new-transfer-button" class="button is-primary">Sacar</button>
+        <div class="columns is-centered is-vcentered">
+          <div class="column is-6 transferPagination">
+            <%= paginate @history_transfers, window: 2 %>
           </div>
-        <% else %>
-          <div class="has-text-right">
-            <%= link_to "Você precisa cadastrar uma conta bancária.", new_company_finance_path, class: "button is-text has-text-link is-size-7" %>
-            <a class="button is-primary" disabled>Sacar</a>
+          <div class="column">
+            <% if @company.bank_account.present? %>
+              <%= form_for @new_transfer do |f| %>
+                  <%= render partial: 'new_transfer_modal', locals: { field: f } %>
+              <% end %>
+              <div class="has-text-right">
+                <button id="new-transfer-button" class="button is-primary">Sacar</button>
+              </div>
+            <% else %>
+              <div class="has-text-right">
+                <%= link_to "Você precisa cadastrar uma conta bancária.", new_company_finance_path, class: "button is-text has-text-link is-size-7" %>
+                <a class="button is-primary" disabled>Sacar</a>
+              </div>
+            <% end %>
           </div>
-        <% end %>
+        </div>
       </div>
     </div>
   </div>
