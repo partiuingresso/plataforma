@@ -8,6 +8,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function(){
     toggle();
+    toggleCart();
     initMap(<%=@event.address.latitude%>, <%=@event.address.longitude%>);
 });
 </script>
@@ -354,8 +355,8 @@ document.addEventListener("DOMContentLoaded", function(){
                       <div class="columns is-mobile">
                         <% if offer.description? %>
                           <div class="column is-4">
-                            <a class="toggle button">Mais info<i class="fas fa-sort-down"></i></a>
-                            <a class="button dismiss is-hidden">ESCONDER<i class="fas fa-sort-up"></i></a>
+                            <a class="toggleCart button">Mais info<i class="fas fa-sort-down"></i></a>
+                            <a class="button dismissCart is-hidden">ESCONDER<i class="fas fa-sort-up"></i></a>
                           </div>
                         <% end %>
                         <% if offer.available_quantity < 50 %>
