@@ -30,7 +30,7 @@ if(paymentFields) {
     var imagesDiv = document.querySelector('.level-right.cards');
     var images = imagesDiv.querySelectorAll('img');
     <% if Rails.env.production? %>
-    const pubKey = `-----BEGIN PUBLIC KEY-----
+    var pubKey = `-----BEGIN PUBLIC KEY-----
                     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjo+j1R0PSwiypSntfc+t
                     4oKUkg44O2OAZ+CQtVTMeSOBlJr5+ciIv91syT2klL21a8gscv7cm8e2UODGlhgD
                     NmgrS5RVbrO3g8v3UCC9kvJqCLZIGTflRpsyOabv4/PJyikiQh1aUe5D/c1CL1io
@@ -40,7 +40,7 @@ if(paymentFields) {
                     pQIDAQAB
                     -----END PUBLIC KEY-----`;
     <% else %>
-    const pubKey = `-----BEGIN PUBLIC KEY-----
+    var pubKey = `-----BEGIN PUBLIC KEY-----
                     MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
                     mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
                     02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
