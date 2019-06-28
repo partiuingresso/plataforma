@@ -4,7 +4,7 @@ namespace :monitored_orders do
   desc "Run monitored orders jobs"
   task run: :environment do
   	queue = Sidekiq::Queue.new("orders")
-  	inital_size = queue.size
+	count = 0
 
   	queue.each do |job|
   		order_id = job["args"][0]["arguments"][0]
@@ -15,8 +15,13 @@ namespace :monitored_orders do
   			meta = job.args.first
 			klass = meta["job_class"].constantize
 			klass.new(*meta['arguments']).perform_now
+
+			count += 1
   		end
   	end
+
+	puts count.to_s + " pedidos rodados."
+	puts "DONE :)"
   end
 end
 
