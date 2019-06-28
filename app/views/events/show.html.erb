@@ -202,7 +202,11 @@ document.addEventListener("DOMContentLoaded", function(){
                         <p class="is-size-6"><%= offer.name %></p>
                       </div>
                       <div class="column is-3 is-paddingless">
-                        <p><%= offer.price_with_service_fee.format %></p>
+                        <% if offer.free? %>
+                          <p>Gratuito</p>
+                        <% else %>
+                          <p><%= offer.price_with_service_fee.format %></p>
+                        <% end %>
                       </div>
                       <div class="column is-3">
                         <%= f.fields_for :order_items do |order_item_f| %>

@@ -17,7 +17,7 @@
           </div>
           <div class="column is-full">
             <div class="tile is-ancestor">
-              <div class="tile is-vertical is-8">
+              <div class="tile is-vertical <%= @order.payment.present? ? 'is-8' : 'is-12' %>">
                 <div class="tile is-parent">
                   <div class="tile is-child notification">
                     <p class="title is-6">Detalhes do pedido:</p>
@@ -80,7 +80,7 @@
                         <div class="media-content">
                           <div class="content">
                             <p class="title is-6">Fique tranquilo</p>
-                            <span class="details">Todas as informações sobre sua compra serão enviadas por e-mail. Incluindo o status de seu pagamento e ingressos.</span>
+                            <span class="details">Todas as informações sobre seu pedido serão enviadas por e-mail. <%= @order.payment.present? ? 'Incluindo o status de seu pagamento e ingressos.' : '' %></span>
                           </div>
                         </div>
                       </article>

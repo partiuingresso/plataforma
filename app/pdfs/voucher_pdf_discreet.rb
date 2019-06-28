@@ -50,8 +50,8 @@ class VoucherPdfDiscreet
       end
 
       details = [
-        ["Comprado por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"],
-        ["Data da compra",           "#{@ticket.created_at.strftime("%d/%m/%Y")}"],
+        ["Adquirido por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"],
+        ["Data do pedido",           "#{@ticket.created_at.strftime("%d/%m/%Y")}"],
         ["Valor",        "#{@price}"]
       ]
       borders = details.length - 2
