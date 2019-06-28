@@ -111,7 +111,7 @@ module Wirecard
 			end
 
 			def waiting_time(remaining_time)
-				((1435 / (4320 ** 2)) * remaining_time ** 2 + 5).round.minutes
+				((1435.0 / (4320 ** 2)) * remaining_time ** 2 + 5).round.minutes
 			end
 
 			def validate_order_creation!
