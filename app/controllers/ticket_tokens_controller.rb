@@ -13,7 +13,11 @@ class TicketTokensController < ApplicationController
       format.html { render :show }
 
       format.pdf do
-        pdf = VoucherPdf.new(@ticket_token)
+        if @ticket_token.order.payment.present?
+          pdf = VoucherPdf.new(@ticket_token)
+        else
+          pdf = VoucherPdfDiscreet.new(@ticket_token)
+        end
         send_data pdf.render,
           filename: "#{@ticket_token.owner_name}-#{@ticket_token.event.name}-PartiuIngresso.pdf",
           type: "application/pdf",
