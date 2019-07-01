@@ -73,7 +73,11 @@ class OrdersController < ApplicationController
 		authorize! :send_confirmed_email, @order
 
 		if @order.approved?
-			NotificationMailer.with(order: @order).order_confirmed.deliver_later
+			if @order.free?
+				NotificationMailer.with(order: @order).free_order_confirmed.deliver_later
+			else
+				NotificationMailer.with(order: @order).order_confirmed.deliver_later
+			end
 		end
 		respond_to do |format|
 			format.json { render json: "ok", status: 200 }
