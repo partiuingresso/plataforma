@@ -7,7 +7,7 @@ class VoucherPdfDiscreet
   def initialize(ticket_token)
     @ticket = ticket_token
     if @ticket.offer.price_with_service_fee == 0
-      @price = "N/A"
+      @price = "Gratuito"
     else
       @price = @ticket.offer.price_with_service_fee.format
     end
