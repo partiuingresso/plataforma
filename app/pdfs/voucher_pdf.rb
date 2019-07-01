@@ -6,10 +6,10 @@ class VoucherPdf
 
   def initialize(ticket_token)
     @ticket = ticket_token
-    if @ticket.price_with_service_fee == 0
+    if @ticket.offer.price_with_service_fee == 0
       @price = "Gratuito"
     else
-      @price = @ticket.price_with_service_fee.format
+      @price = @ticket.offer.price_with_service_fee.format
     end
     font_setup
     content
