@@ -203,7 +203,7 @@
                                 <% elsif order.approved? && order.user.id == 2 %>
                                   <%= button_to "Enviar ingresso aos participantes", send_legacy_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 <% elsif order.approved? %>
-                                  <%= button_to "Enviar email de pagamento aprovado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                  <%= button_to "Enviar email de pedido aprovado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
                                 </div>
                                 <div class="level-item">
                                   <% unless order.ticket_tokens.all? { |t| t.owner_email == order.user.email } %>

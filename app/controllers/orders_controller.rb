@@ -31,6 +31,11 @@ class OrdersController < ApplicationController
 			order = @order_form.order
 			if order.free?
 				NotificationMailer.with(order: order).free_order_confirmed.deliver_later
+				order.ticket_tokens.each do |t|
+					unless t.owner_email == order.user.email
+						NotificationMailer.with(order: order, ticket: t).order_ticket.deliver_later
+					end
+				end
 			else
 				NotificationMailer.with(order: order).order_received.deliver_later
 			end
@@ -68,7 +73,11 @@ class OrdersController < ApplicationController
 		authorize! :send_confirmed_email, @order
 
 		if @order.approved?
-			NotificationMailer.with(order: @order).order_confirmed.deliver_later
+			if @order.free?
+				NotificationMailer.with(order: @order).free_order_confirmed.deliver_later
+			else
+				NotificationMailer.with(order: @order).order_confirmed.deliver_later
+			end
 		end
 		respond_to do |format|
 			format.json { render json: "ok", status: 200 }
