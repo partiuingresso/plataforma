@@ -568,8 +568,8 @@ ALTER SEQUENCE public.transfers_id_seq OWNED BY public.transfers.id;
 
 CREATE TABLE public.users (
     id bigint NOT NULL,
-    first_name character varying NOT NULL,
-    last_name character varying NOT NULL,
+    first_name character varying,
+    last_name character varying,
     cpf character varying,
     role integer NOT NULL,
     company_id bigint,
@@ -1310,6 +1310,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190517181953'),
 ('20190520224725'),
 ('20190528033921'),
-('20190612195056');
+('20190612195056'),
+('20190701233746');
 
 
