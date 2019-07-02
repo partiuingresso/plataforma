@@ -50,10 +50,14 @@ class VoucherPdfDiscreet
       end
 
       details = [
-        ["Adquirido por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"],
         ["Data do pedido",           "#{@ticket.created_at.strftime("%d/%m/%Y")}"],
         ["Valor",        "#{@price}"]
       ]
+      if @ticket.user.name.present?
+        details.unshift(
+          ["Adquirido por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"]
+        )
+      end
       borders = details.length - 2
       table(details, width: 400, cell_style: { border_color: 'cccccc', size: 11 }) do
         cells.padding = 11
