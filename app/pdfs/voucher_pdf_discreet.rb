@@ -7,7 +7,7 @@ class VoucherPdfDiscreet
   def initialize(ticket_token)
     @ticket = ticket_token
     if @ticket.offer.price_with_service_fee == 0
-      @price = "N/A"
+      @price = "Gratuito"
     else
       @price = @ticket.offer.price_with_service_fee.format
     end
@@ -50,10 +50,14 @@ class VoucherPdfDiscreet
       end
 
       details = [
-        ["Comprado por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"],
-        ["Data da compra",           "#{@ticket.created_at.strftime("%d/%m/%Y")}"],
+        ["Data do pedido",           "#{@ticket.created_at.strftime("%d/%m/%Y")}"],
         ["Valor",        "#{@price}"]
       ]
+      if @ticket.user.name.present?
+        details.unshift(
+          ["Adquirido por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"]
+        )
+      end
       borders = details.length - 2
       table(details, width: 400, cell_style: { border_color: 'cccccc', size: 11 }) do
         cells.padding = 11

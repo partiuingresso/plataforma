@@ -26,7 +26,7 @@ module Wirecard
 						currency: "BRL",
 						subtotals: { addition: addition }
 					},
-					items: order.order_items.collect do |order_item|
+					items: order.order_items.costly.collect do |order_item|
 						{
 							product: order_item.offer.name,
 							quantity: order_item.quantity,

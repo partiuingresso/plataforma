@@ -231,11 +231,6 @@ img.testimonial {
     font-weight: 700;
     color:unset;
   }
-  & svg {
-    font-size: 1rem;
-    margin-bottom: 0.3rem;
-    margin-left: 0.3rem;
-  }
 }
 
 .offer-info-content {
@@ -246,12 +241,18 @@ img.testimonial {
     border-radius: 0.6rem;
     padding: 0.6rem;
   }
+}
 
-  & svg {
-    font-size: 1rem;
-    margin-bottom: -0.2rem;
-    margin-left: 0.3rem;
-  }
+.toggle > svg {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  margin-left: 0.3rem;
+}
+
+.dismiss > svg {
+  font-size: 1rem;
+  margin-bottom: -0.2rem;
+  margin-left: 0.3rem;
 }
 
 

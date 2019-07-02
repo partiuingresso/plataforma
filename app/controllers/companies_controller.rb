@@ -14,6 +14,8 @@ class CompaniesController < ApplicationController
     @available_balance = Money.new(available).format
 
     @new_transfer = @company.transfers.build
+
+    @history_transfers = Kaminari.paginate_array(@company.transfers).page(params[:page]).per(10)
   end
 
   def new

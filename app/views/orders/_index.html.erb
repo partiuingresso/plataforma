@@ -88,7 +88,7 @@
                     </tfoot>
                   </table>
                   <div>
-                    <% if order.payment.installment_count > 1 %>
+                    <% if order.payment.present? and order.payment.installment_count > 1 %>
                     <p>
                       Juros de parcelamento: 
                       <span class="has-text-weight-semibold">
@@ -97,10 +97,12 @@
                     </p>
                     <% end %>
                     <p>
-                      Total: 
-                      <span class="has-text-weight-semibold">
-                        <%= order.payment.amount.format %>
-                      </span>
+                      <% if order.payment.present? %>
+                        Total: 
+                        <span class="has-text-weight-semibold">
+                          <%= order.payment.amount.format %>
+                        </span>
+                      <% end %>
                     </p>
                   </div>
                 </div>

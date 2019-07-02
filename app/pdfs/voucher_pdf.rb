@@ -6,6 +6,11 @@ class VoucherPdf
 
   def initialize(ticket_token)
     @ticket = ticket_token
+    if @ticket.offer.price_with_service_fee == 0
+      @price = "Gratuito"
+    else
+      @price = @ticket.offer.price_with_service_fee.format
+    end
     font_setup
     content
   end
@@ -47,7 +52,7 @@ class VoucherPdf
       details = [
         ["Comprado por", "#{@ticket.user.name.familiar} (#{@ticket.user.email})"],
         ["Data da compra",           "#{@ticket.created_at.strftime("%d/%m/%Y")}"],
-        ["Valor",        "#{@ticket.offer.price_with_service_fee.format}"],
+        ["Valor",        "#{@price}"],
         ["Cartão utilizado",     "#{@ticket.order.payment.card_brand} (•••• •••• •••• #{@ticket.order.payment.card_number_last_4})"]
       ]
       borders = details.length - 2

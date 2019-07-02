@@ -161,25 +161,23 @@
             height="100%"
             valign="top"
             bgcolor="#FAF9F8">
-            <h1 style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-family: helvetica, arial, sans-serif; color: rgb(74, 74, 74); background-color: rgb(250, 249, 248); text-align: center;">Voc&ecirc; recebeu um ingresso</h1>
-
+            <div>
+<h1 style="font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-family: helvetica, arial, sans-serif; color: rgb(74, 74, 74); background-color: rgb(250, 249, 248); text-align: center;">Pedido confirmado</h1>
+</div>
         </td>
       </tr>
     </table>
   
-    <% if @order.user.name.present? %>
     <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
       <tr>
         <td style="background-color:#FAF9F8;padding:0px 48px 018px 48px;line-height:22px;text-align:inherit;"
             height="100%"
             valign="top"
             bgcolor="#FAF9F8">
-            <div style="text-align: center;"><%= @order.user.name.first %> enviou um ingresso pra voc&ecirc;. Partiu <%= @order.event.name %>!</div>
-
+            <div style="text-align: center;">Seu pedido&nbsp;foi aprovado. Partiu <%= @order.event.name %>!</div>
         </td>
       </tr>
     </table>
-    <% end %>
   
     <table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
       <tr>
@@ -323,6 +321,125 @@
       </tr>
     </table>
   
+    <table  border="0"
+            cellpadding="0"
+            cellspacing="0"
+            align="center"
+            width="100%"
+            role="module"
+            data-type="columns"
+            data-version="2"
+            style="padding:0px 48px 0px 48px;box-sizing:border-box;"
+            bgcolor="">
+      <tr role='module-content'>
+        <td height="100%" valign="top">
+            <!--[if (gte mso 9)|(IE)]>
+              <center>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-spacing:0;border-collapse:collapse;table-layout: fixed;" >
+                  <tr>
+            <![endif]-->
+          
+    <!--[if (gte mso 9)|(IE)]>
+      <td width="252.000px" valign="top" style="padding: 0px 0px 0px 0px;border-collapse: collapse;" >
+    <![endif]-->
+
+    <table  width="252.000"
+            style="width:252.000px;border-spacing:0;border-collapse:collapse;margin:0px 0px 0px 0px;"
+            cellpadding="0"
+            cellspacing="0"
+            align="left"
+            border="0"
+            bgcolor=""
+            class="column column-0 of-2
+                  empty"
+      >
+      <tr>
+        <td style="padding:0px;margin:0px;border-spacing:0;">
+            
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+      <tr>
+        <td style="background-color:#FAF9F8;padding:0px 0px 0px 0px;line-height:12px;text-align:inherit;"
+            height="100%"
+            valign="top"
+            bgcolor="#FAF9F8">
+            <h3>Quantidade</h3>
+        </td>
+      </tr>
+    </table>
+  
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+      <tr>
+        <td style="padding:0px 0px 0px 0px;line-height:12px;text-align:inherit;"
+            height="100%"
+            valign="top"
+            bgcolor="">
+            <div><%= @order.total_quantity %> <%= "ingresso".pluralize(@order.total_quantity) %></div>
+        </td>
+      </tr>
+    </table>
+  
+        </td>
+      </tr>
+    </table>
+
+    <!--[if (gte mso 9)|(IE)]>
+      </td>
+    <![endif]-->
+    <!--[if (gte mso 9)|(IE)]>
+      <td width="252.000px" valign="top" style="padding: 0px 0px 0px 0px;border-collapse: collapse;" >
+    <![endif]-->
+
+    <table  width="252.000"
+            style="width:252.000px;border-spacing:0;border-collapse:collapse;margin:0px 0px 0px 0px;"
+            cellpadding="0"
+            cellspacing="0"
+            align="left"
+            border="0"
+            bgcolor=""
+            class="column column-1 of-2
+                  empty"
+      >
+      <tr>
+        <td style="padding:0px;margin:0px;border-spacing:0;">
+            
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+      <tr>
+        <td style="padding:0px 0px 0px 0px;line-height:22px;text-align:inherit;"
+            height="100%"
+            valign="top"
+            bgcolor="">
+            <h3>Valor</h3>
+        </td>
+      </tr>
+    </table>
+  
+    <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+      <tr>
+        <td style="padding:0px 0px 0px 0px;line-height:12px;text-align:inherit;"
+            height="100%"
+            valign="top"
+            bgcolor="">
+            <div>N/A</div>
+        </td>
+      </tr>
+    </table>
+  
+        </td>
+      </tr>
+    </table>
+
+    <!--[if (gte mso 9)|(IE)]>
+      </td>
+    <![endif]-->
+            <!--[if (gte mso 9)|(IE)]>
+                  <tr>
+                </table>
+              </center>
+            <![endif]-->
+        </td>
+      </tr>
+    </table>
+  
     <table class="module"
            role="module"
            data-type="divider"
@@ -371,14 +488,13 @@
             height="100%"
             valign="top"
             bgcolor="">
-            <div><span style="color:hsl(0, 0%, 48%);">Para entrar no evento, guarde em seu celular ou imprima o arquivo em anexo.&nbsp;</span></div>
+            <div><span style="color:hsl(0, 0%, 48%);">Para entrar no evento, guarde em seu celular ou imprima o arquivo em anexo. Você também pode acessar o <em>QR Code</em> acessando sua conta no site do <strong>PartiuIngresso.com</strong> e clicando em "Meus Ingressos".</span></div>
 
 <div>&nbsp;</div>
 
-<div><span style="color:hsl(0, 0%, 48%);">Caso tenha alguma d&uacute;vida n&atilde;o hesite em entrar em contato conosco atrav&eacute;s do e-mail suporte@partiuingresso.com</span></div>
+<div><span style="color:hsl(0, 0%, 48%);">Caso tenha alguma dúvida não hesite em entrar em contato conosco através do e-mail suporte@partiuingresso.com</span></div>
 
 <div><span style="color:hsl(0, 0%, 48%);">Obrigado por utilizar a <strong>PartiuIngresso.com</strong> e bom evento!</span></div>
-
         </td>
       </tr>
     </table>

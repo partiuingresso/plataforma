@@ -11,6 +11,9 @@ class Offer < ApplicationRecord
 		)
 	}
 
+	scope :free, -> { where(price_cents: 0) }
+	scope :costly, -> { where("price_cents > 0") }
+
 	validates :name, presence: true, length: { maximum: 150 }
 	validates :description, length: { maximum: 500 }, allow_blank: true
 	validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
@@ -25,6 +28,10 @@ class Offer < ApplicationRecord
 
 	def price_with_service_fee_cents
 		self.price_cents * (1 + Business::Finance::ServiceFee)
+	end
+
+	def free?
+		price == 0
 	end
 
 	def name_with_allotment

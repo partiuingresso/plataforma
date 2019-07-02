@@ -13,22 +13,27 @@ class OrderForm
 
 	validates :user, presence: true
 	validates :event_id, presence: true
-	validate :payment_valid
+	validate :payment_valid, if: Proc.new { |order_form| !order_form.order.free? }
 	validate :order_items_valid
 
 	def initialize(attributes={})
 		super
 		@order_items ||= []
-		@payment ||= PaymentForm.new
+		@order = Order.new(event_id: event_id, order_items_attributes: build_order_items_attributes)
+		unless @order.free?
+			@payment ||= PaymentForm.new
+		end
 	end
 
 	def save
 		begin
 			if valid?
 				persist_order!
-				@checkout = Wirecard::Checkout.new(@order, payment)
-				@checkout.process!
-				persist_order_payment!
+				unless @order.free?
+					@checkout = Wirecard::Checkout.new(@order, payment)
+					@checkout.process!
+					persist_order_payment!
+				end
 				@success = true
 			end
 		rescue CheckoutErrors::OrderError, CheckoutErrors::PaymentError => e
@@ -59,11 +64,7 @@ class OrderForm
 	private
 
 		def persist_order!
-			@order = Order.new({
-				event_id: event_id,
-				user: user,
-				order_items_attributes: build_order_items_attributes
-			})
+			@order.user = user
 			@order.save!
 		end
 

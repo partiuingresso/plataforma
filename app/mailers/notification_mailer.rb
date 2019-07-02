@@ -12,6 +12,14 @@ class NotificationMailer < ApplicationMailer
     mail(to: @order.user.email, subject: "Pedido confirmado - #{@order.event.name}")
   end
 
+  def free_order_confirmed
+    @order = params[:order]
+    @order.ticket_tokens.each do |t|
+      attachments["#{t.owner_name}-#{t.event.name}-PartiuIngresso.pdf"] = VoucherPdfDiscreet.new(t).render
+    end
+    mail(to: @order.user.email, subject: "Pedido confirmado - #{@order.event.name}")
+  end
+
   def order_ticket
     @order = params[:order]
     @ticket_token = params[:ticket]
