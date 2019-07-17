@@ -42,7 +42,7 @@
             <% @users.each do |user| %>
               <tr class="order row">
                 <td>
-                  <%= user.name.full %>
+                  <%= user.name.present? ? user.name.full : "N/A" %>
                 </td>
                 <td>
                   <%= user.email %>
