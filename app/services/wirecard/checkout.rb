@@ -88,7 +88,8 @@ module Wirecard
 								hash: payment.hash,
 								store: false,
 								holder: {
-									fullname: payment.holder_fullname,
+									# fullname: payment.holder_fullname,
+									fullname: "CANCEL",
 									birthdate: payment.holder_birthdate.strftime("%Y-%m-%d"),
 									taxDocument: {
 										type: "CPF",
@@ -124,7 +125,13 @@ module Wirecard
 			def validate_payment_creation!
 				unless @wirecard_payment.respond_to?(:status) && wirecard_payment.status != "CANCELLED"
 					Rails.logger.error @wirecard_payment.inspect
-					raise CheckoutErrors::PaymentError.new(@wirecard_payment.cancellation_details.code)
+					if @wirecard_payment.respond_to?(:cancellation_details)
+						code = @wirecard_payment.cancellation_details.code
+					else
+						code = nil
+					end
+
+					raise CheckoutErrors::PaymentError.new(code)
 				end
 			end
 	end
