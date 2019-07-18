@@ -7,6 +7,7 @@ class EventsController < ApplicationController
 	def show
 		@order = @event.orders.build
 		@order.order_items.build
+		@address_url = helpers.google_maps_url(@event.address)
 	end
 
 	def new
