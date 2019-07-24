@@ -39,8 +39,6 @@ gem 'prawn-svg'
 gem 'prawn-table'
 # Habilita Sidekiq
 gem 'sidekiq'
-# Adiciona Administate
-gem "administrate"
 # Split
 gem 'split', require: 'split/dashboard'
 # Use Puma as the app server
