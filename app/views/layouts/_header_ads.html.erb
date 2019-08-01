@@ -24,7 +24,7 @@
               <% end %>
             <% end %>
 
-            <%= link_to tickets_path, class: "header button" do %>
+            <%= link_to ticket_tokens_path, class: "header button" do %>
               <span class="icon has-text-danger">
                 <i class="fas fa-ticket-alt"></i>
               </span>
@@ -46,7 +46,7 @@
               <div class="navbar-dropdown is-boxed">
 
                 <% if current_user.producer_admin? %>
-                  <%= link_to backstage_path, class: "navbar-item" do %>
+                  <%= link_to producer_admin_dashboard_path, class: "navbar-item" do %>
                     <span class="icon">
                       <i class="fas fa-dollar-sign"></i>
                     </span>
@@ -55,7 +55,7 @@
                 <% end %>
 
                 <% if current_user.admin? %>
-                  <%= link_to backoffice_path, class: "navbar-item" do %>
+                  <%= link_to admin_dashboard_path, class: "navbar-item" do %>
                     <span class="icon">
                       <i class="fas fa-jedi"></i>
                     </span>
@@ -64,7 +64,7 @@
                 <% end %>
 
                 <% if current_user.producer_admin? || current_user.producer? %>
-                  <%= link_to events_check_in_path, class: "navbar-item" do %>
+                  <%= link_to producer_events_path, class: "navbar-item" do %>
                     <span class="icon">
                       <i class="fas fa-camera"></i>
                     </span>

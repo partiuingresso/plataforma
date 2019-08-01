@@ -1,0 +1,63 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section check-in-dashboard">
+  <div class="container">
+    <div class="columns is-centered">
+      <% unless current_user.producer? %>
+        <div class="column is-3">        
+          <%= render 'producer_admin/menu' %>
+        </div>
+      <% end %>
+
+      <div class="column is-8">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <div>
+                <p class="title is-size-2">Check-in</p>
+                <p class="subtitle is-marginless">Selecione o evento para fazer o credenciamento</p>
+              </div>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <span class="icon is-inline-block">
+                <i class="far fa-building"></i>
+              </span>
+              <span><%= current_user.company.name %></span>
+            </div>
+          </div>
+        </div>
+
+        <table class="table is-fullwidth is-narrow is-striped is-hoverable is-responsive events-table">
+          <thead>
+            <th>Evento</th>
+            <th>Quando</th>
+            <th>Onde</th>
+            <th class="has-text-centered">Check-in</th>
+          </thead>
+          <tbody>
+            <% @events.each do |event| %>
+              <tr>
+                <td><%= event.name %></td>
+                <td><%= event.start_t.strftime("%d/%m/%Y") %></td>
+                <td><%= event.address.name %> - <%= event.address.city %>/<%= event.address.state %></td>
+                <td class="has-text-centered">
+                  <%= link_to check_in_path(event) do %>
+                    <span class="icon">
+                      <i class="fas fa-user-check"></i>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</section>

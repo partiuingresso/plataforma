@@ -1,0 +1,2 @@
+module ProducerAdmin::DashboardHelper
+end

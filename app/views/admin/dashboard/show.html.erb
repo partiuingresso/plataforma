@@ -1,0 +1,105 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section admin-dashboard">
+  <div class="container">
+    <div class="columns is-centered">
+        
+        <div class="column is-3">        
+          <%= render 'admin/menu' %>
+        </div>
+
+
+      <div class="column is-8">
+        <p class="title is-size-2">Dashboard</p>
+
+        <div class="tile is-ancestor">
+          <div class="tile is-7 is-vertical is-parent">
+            <div class="tile box is-child">
+
+              <label class="label is-size-5">Empresas Cadastradas</label>
+
+              <div class="columns is-mobile">
+                <div class="column is-2 has-text-left">
+                  <strong>ID</strong>
+                </div>
+                <div class="column is-5 has-text-left">
+                  <strong>Nome</strong>
+                </div>
+                <div class="column is-5 has-text-left">
+                  <strong>Gerenciar</strong>
+                </div>
+              </div>
+
+              <div class="columns is-multiline is-mobile">
+                <% @companies.each do |company| %>
+                  <div class="column is-2">
+                    <%= company.id %>
+                  </div>
+
+                  <div class="column is-5">
+                    <%= company.name %>
+                  </div>
+
+                  <div class="column is-5">
+                     <%= link_to 'Editar', edit_company_path(company), class: "button is-small" %>
+                     <%= link_to 'Gerenciar', admin_company_path(company), class: "button is-small" %>
+                  </div>
+
+                <% end %>
+              </div>
+            </div>            
+          </div>
+          <div class="tile is-parent is-vertical">
+            <div class="tile is-child box">
+              <label class="label is-size-5 is-inline-block">Resumo</label><span class="help is-inline-block has-text-grey">Últimos 28 dias</span>
+              <div class="content is-small">
+                <p>Ingressos: <%= @tickets %> unidades</p>
+              </div>
+            </div>
+            <div class="tile is-child box">
+              <label class="label is-size-5 is-inline-block">Histórico</label><span class="help is-inline-block has-text-grey">Todo o período de atividade</span>
+              <div class="content is-small">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-12">
+            <div class="tile chart box is-child">
+              <p class="title is-5">Vendas nos últimos 28 dias</p>
+              <div class="tabs">
+                <ul>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Vendas</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_tickets')"><a>Ingressos</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
+                </ul>
+              </div>
+              <div id="chart_sales_count" class="tabcontent">
+                <%= line_chart charts_all_sales_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
+              </div>
+              <div id="chart_sales_tickets" class="tabcontent">
+                <%= line_chart charts_all_sales_tickets_path, colors: ["#F53237", "#DB3F4B"], label: "Ingressos", thousands: ".", defer: true %>
+              </div>
+              <div id="chart_sales_value" class="tabcontent">
+                <%= column_chart charts_all_sales_value_path,
+                colors: ["#F53237", "#DB3F4B"],
+                label: "Valor",
+                prefix: "R$ ",
+                thousands: ".",
+                decimal: ",",
+                defer: true
+                %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

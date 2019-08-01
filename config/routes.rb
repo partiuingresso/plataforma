@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  # ==> Devise routes
+
   devise_for :users, controllers: {
   registrations: 'users/registrations',
   sessions: 'users/sessions',
@@ -6,23 +10,96 @@ Rails.application.routes.draw do
   confirmations: 'users/confirmations',
   unlocks: 'users/unlocks'
   }
+
   devise_scope :user do
     get 'login', to: 'users/sessions#new'
     get 'signup', to: 'users/registrations#new'
     delete 'signout', to: 'users/sessions#destroy'
   end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  # ==> Admin routes
 
-  get '/backoffice', to: 'admin#admin'
-  get '/backoffice/orders', to: 'admin#admin_orders'
-  get '/backoffice/ticket/:id', to: 'admin#admin_download_ticket', as: 'admin_download_ticket'
-  post '/backoffice/tickets/:id', to: 'ticket_tokens#update', as: 'admin_edit_ticket'
-  get '/backoffice/users', to: 'admin#admin_users'
-  get '/backstage', to: 'admin#producer_admin'
-  get '/report/:id', to: 'admin#report', as: 'report'
-  get '/events-check-in', to: 'admin#events_check_in'
-  get '/manage_company/:company_id', to: 'admin#manage_company', as: "manage_company"
+  namespace :admin do
+    resources :orders, only: [:index]
+    resources :users, only: [:index]
+    resources :companies, only: [:show]
+    resources :ticket_tokens, only: [:show, :update]
+  end
+
+  scope module: 'admin', path: '/', as: '' do
+    get 'backoffice', to: 'dashboard#show', as: 'admin_dashboard'
+    resources :companies, only: [:new, :create]
+    get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
+    get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
+    get '/send_ticket_email/:id', to: 'orders#send_ticket_email', as: 'send_ticket_email'
+    get '/send_legacy_email/:id', to: 'orders#send_legacy_email', as: 'send_legacy_email'
+    get '/send_refunded_email/:id', to: 'orders#send_refunded_email', as: 'send_refunded_email'
+    get '/send_denied_email/:id', to: 'orders#send_denied_email', as: 'send_denied_email'
+  end
+
+  match "/backoffice/split" => Split::Dashboard, anchor: false, via: [:get, :post, :delete], constraints: -> (request) do
+    request.env['warden'].authenticated?
+    request.env['warden'].authenticate!
+    request.env['warden'].user.admin?
+  end
+
+  # ==> Producer admin routes
+
+  namespace :producer_admin do
+    resources :events, only: [:index, :show]
+    resources :transfers, only: [:create]
+  end
+
+  scope module: 'producer_admin', path: '/', as: '' do
+    get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
+    resources :companies, only: [:show, :edit, :update]
+    get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
+    resources :events, except: [:index, :show]
+    resources :company_finances, except: [:index, :destroy]
+  end
+
+  # ==> Producer routes
+
+  namespace :producer do
+    resources :events, only: [:index]
+  end
+
+  scope module: 'producer', path: '/', as: '' do
+    get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
+    post 'validations/', to: 'validations#create', as: 'validations'
+    get 'validations/:code', to: 'validations#new', as: 'new_validation'
+  end
+
+  # ==> Events routes
+
+  resources :events, only: [:show]
+
+  get '/ads/:id', to: 'ads#show', as: 'ads'
+  get '/ads-ab/:id', to: 'ads#test_ab', as: 'ads_ab'
+
+  get '/roupa-nova-montes-claros-1', to: redirect('/events/2')
+  get '/roupa-nova-curvelo-ads-1', to: redirect('/events/1')
+  get '/roupa-nova-curvelo-1', to: redirect('/events/1')
+
+  # ==> Orders routes
+
+  resources :orders, only: [:index, :new, :create]
+  resources :orders, only: [:show], param: :number
+
+  # ==> Ticket tokens routes
+
+  resources :ticket_tokens, only: [:index, :show], path: 'tickets'
+  get 'tickets_receipt/:number', to: 'tickets_receipt#show', as: 'tickets_receipt'
+
+  # ==> Pages routes
+
+  root to: 'pages#index'
+  get 'index', to: 'pages#offline'
+  get 'search', to: 'pages#search'
+  get 'terms', to: 'pages#terms'
+  get 'privacy', to: 'pages#privacy'
+
+  # ==> Chart routes
 
   namespace :charts do
     get 'sales-count'
@@ -36,48 +113,8 @@ Rails.application.routes.draw do
     get 'report-value/:id', action: 'report_value', as: 'report_value'
   end
 
-  resources :events
-  get '/ads/:id', to: 'ads#show', as: 'ads'
-  get '/ads-ab/:id', to: 'ads#test_ab', as: 'ads_ab'
-  match "/backoffice/split" => Split::Dashboard, anchor: false, via: [:get, :post, :delete], constraints: -> (request) do
-    request.env['warden'].authenticated?
-    request.env['warden'].authenticate!
-    request.env['warden'].user.admin?
-  end
-  resources :companies
-  get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
+  # ==> Wirecard webhooks routes
 
-  resources :orders, only: [:index, :new, :create]
-  get '/success/:number', to: 'orders#success', as: 'success'
-  get '/denied/', to: 'orders#denied', as: 'denied'
-  get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
-  get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
-  get '/send_ticket_email/:id', to: 'orders#send_ticket_email', as: 'send_ticket_email'
-  get '/send_legacy_email/:id', to: 'orders#send_legacy_email', as: 'send_legacy_email'
-  get '/send_refunded_email/:id', to: 'orders#send_refunded_email', as: 'send_refunded_email'
-  get '/send_denied_email/:id', to: 'orders#send_denied_email', as: 'send_denied_email'
-  
-  root to: 'pages#index'
-  get 'index', to: 'pages#offline'
-  get 'search', to: 'pages#search'
-  get 'terms', to: 'pages#terms'
-  get 'privacy', to: 'pages#privacy'
-  get 'tickets', to: 'ticket_tokens#index'
-  get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
-  post 'validations/', to: 'validations#create', as: 'validations'
-  get 'validations/:code', to: 'validations#new', as: 'new_validation'
-  post 'tickets/validations', to: 'ticket_tokens#create_validation'
-  get 'ticket/:id', to: 'ticket_tokens#show', as: 'ticket'
-
-  get 'tickets_receipt/:number', to: 'tickets_receipt#show', as: 'tickets_receipt'
-
-  resources :company_finances, only: [:new, :create, :edit, :update]
-  resources :transfers, only: [:create]
-
-  get '/roupa-nova-montes-claros-1', to: redirect('/events/2')
-  get '/roupa-nova-curvelo-ads-1', to: redirect('/events/1')
-  get '/roupa-nova-curvelo-1', to: redirect('/events/1')
-  
   if Rails.env.development?
     post '/webhooks' => 'web_hooks#webhooks', as: :webhooks
   elsif Rails.env.staging?

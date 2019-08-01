@@ -26,6 +26,10 @@ class User < ApplicationRecord
     self.role ||= :user
   end
 
+  def role?(base_role)
+    User.roles[base_role] <= User.roles[role]
+  end
+
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end

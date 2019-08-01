@@ -1,0 +1,22 @@
+<aside class="menu">
+  <p class="menu-label">
+    Administração
+  </p>
+  <ul class="menu-list">
+    <li> <%= link_to_in_li "Dashboard", admin_dashboard_path %></li>
+    <li><%= link_to_in_li "Gerenciar Usuários", admin_users_path %></li>
+    <li><%= link_to_in_li "Gerenciar Pedidos", admin_orders_path %></li>
+  </ul>
+  <p class="menu-label">
+    Marketing
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to "Teste A/B", backoffice_split_path, target: "_blank" %></li>
+  </ul>
+  <p class="menu-label">
+    Empresas
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to_in_li "Criar Empresa", new_company_path %></li>
+  </ul>
+</aside>

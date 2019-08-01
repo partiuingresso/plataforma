@@ -1,0 +1,153 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section painel backstage">
+  <div class="container">
+    <div class="columns is-centered">
+        
+      <div class="column is-3">        
+        <%= render 'producer_admin/menu' %>
+      </div>
+
+
+      <div class="column is-8">
+        <p class="title is-size-2">Dashboard</p>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent">
+            <div class="tile box is-child">
+              <div class="level user-data">
+                <div class="level-left">
+                  <div class="level-item">
+                    <span class="icon has-text-primary"><i class="far fa-user"></i></span><span>User: <%= current_user.name.first %></span>
+                  </div>
+                  <div class="level-item">
+                    <span class="icon has-text-primary"><i class="far fa-id-badge"></i></span><span>Função: <%= current_user.role.to_s.humanize %></span>
+                  </div>
+                  <div class="level-item">
+                    <span class="icon has-text-primary"><i class="far fa-building"></i></span><span>Empresa: <%= current_user.company.name %></span>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <%= l Time.now, format: "%d de %B de %Y" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-4">
+            <div class="tile box is-child">
+              <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <p class="title is-5">Valor em conta</p>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <%= link_to "Mais Info", company_path(current_user.company), class: "mais-info" %>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="level report mb mt">
+                <div class="level-item">
+                  <span id="balance" class="blur"><%= @total_balance %></span>
+                </div>
+                <div class="level-item">
+                  <span class="button show is-small is-rounded is-light">MOSTRAR</span>
+                  <span class="button hide is-small is-rounded is-light is-hidden">ESCONDER</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tile is-parent">
+            <div class="tile box is-child">
+              <div class="level report mb">
+                <div class="level-left">
+                  <div class="level-item">
+                    <p class="report mb title is-5">Report por evento</p>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <%= link_to "Ver todos", producer_admin_events_path, class: "mais-info" %>
+                  </div>
+                </div>
+              </div>
+              <% @events[0..1].each do |event| %>
+                <div class="level report events">
+                  <div class="level-left">
+                    <div class="level-item">
+                      <span class="icon">
+                        <i class="fas fa-info-circle"></i>
+                      </span>
+                      <span><%= event.name %></span>
+                    </div>
+                    <div class="level-item">
+                      <span class="icon">
+                        <i class="far fa-calendar-alt"></i>
+                      </span>
+                      <span><%= l event.start_t, format: ("%d de %B de %Y") %></span>
+                    </div>
+                    <div class="level-item">
+                      <span class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                      </span>
+                      <span><%= event.address.city %>/<%= event.address.state %></span>
+                    </div>
+                  </div>
+                  <div class="level-right">
+                    <div class="level-item">
+                      <%= link_to producer_admin_event_path(event) do %>
+                        <span class="icon has-text-link">
+                          <i class="fas fa-chart-line"></i>
+                        </span>
+                        <span>Report Completo</span>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="tile is-ancestor">
+          <div class="tile is-parent is-12">
+            <div class="tile chart box is-child">
+              <p class="title is-5">Vendas nos últimos 28 dias</p>
+              <div class="tabs">
+                <ul>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_count')"><a>Vendas</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_tickets')"><a>Ingressos</a></li>
+                  <li class="tablinks" onclick="openTab(event, 'chart_sales_value')"><a>Valor</a></li>
+                </ul>
+              </div>
+              <div id="chart_sales_count" class="tabcontent">
+                <%= line_chart charts_sales_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
+              </div>
+              <div id="chart_sales_tickets" class="tabcontent">
+                <%= line_chart charts_sales_tickets_path, colors: ["#F53237", "#DB3F4B"], label: "Ingressos", thousands: ".", defer: true %>
+              </div>
+              <div id="chart_sales_value" class="tabcontent">
+                <%= column_chart charts_sales_value_path,
+                colors: ["#F53237", "#DB3F4B"],
+                label: "Valor",
+                prefix: "R$ ",
+                thousands: ".",
+                decimal: ",",
+                defer: true
+                %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

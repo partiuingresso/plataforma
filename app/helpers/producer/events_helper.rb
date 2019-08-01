@@ -1,0 +1,2 @@
+module Producer::EventsHelper
+end

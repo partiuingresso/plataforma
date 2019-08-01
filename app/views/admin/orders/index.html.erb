@@ -1,0 +1,237 @@
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section admin-orders">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-3">
+        <%= render 'admin/menu' %>
+      </div>
+      <div class="column is-8">
+        <div class="columns">
+          <div class="column">
+            <p class="title is-3">Gerenciar Pedidos</p>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <%= form_tag(request.original_url, method: "get") do %>
+              <div class="field is-grouped">
+                <div class="control is-expanded check-in-search">
+                  <input name="q" class="input is-large" type="text" placeholder="Nome, e-mail ou # do pedido" value="<%= params[:q] %>">
+                </div>
+                <div class="control search">
+                  <button class="button is-white is-large"><i class="fas fa-search"></i></button>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <br />
+        <table class="table orders is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Nome</th>
+              <th>Nº do Pedido</th>
+              <th class="has-text-centered">Qtd.</th>
+              <th class="has-text-centered">Receita</th>
+              <th class="has-text-centered">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @orders.each do |order| %>
+              <tr class="order row">
+                <td>
+                  <span class="icon">
+                    <i class="far fa-calendar-alt"></i>
+                  </span>
+                  <%= l order.created_at, format: ("%d/%m/%Y") %>
+                </td>
+                <td>
+                  <%= order.user.name %>
+                </td>
+                <td>
+                  <%= order.number %>
+                </td>
+                <td class="has-text-centered">
+                  <%= order.total_quantity %>
+                </td>
+                <td class="has-text-centered">
+                  <%= order.subtotal.format %>
+                </td>
+                <td class="has-text-centered">
+                  <% if order.pending? %>
+                    <span class="tag is-warning">
+                      <%= Order.human_attribute_name("status.#{order.status}") %>
+                    </span>
+                  <% elsif order.approved? %>
+                    <span class="tag is-success">
+                      <%= Order.human_attribute_name("status.#{order.status}") %>
+                    </span>
+                  <% else %>
+                    <span class="tag is-danger">
+                      <%= Order.human_attribute_name("status.#{order.status}") %>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+              <tr class="trhidden is-hidden">
+                <td class="tdhidden">
+                  <div class="order details">
+                    <div class="tile is-ancestor">
+                      <div class="tile is-parent">
+                        <div class="tile box is-child">
+                          <a class="icon close is-pulled-right has-text-grey">
+                            <i class="fas fa-times"></i>
+                          </a>
+                          <br />
+                          <% if order.pending? %>
+                            <span style="margin-bottom: 10px;" class="tag is-warning">
+                              <%= Order.human_attribute_name("status.#{order.status}") %>
+                            </span>
+                          <% elsif order.approved? %>
+                            <span style="margin-bottom: 10px;" class="tag is-success">
+                              <%= Order.human_attribute_name("status.#{order.status}") %>
+                            </span>
+                          <% else %>
+                            <span style="margin-bottom: 10px;" class="tag is-danger">
+                              <%= Order.human_attribute_name("status.#{order.status}") %>
+                            </span>
+                          <% end %>
+                          <p>
+                            Nº do pedido: <span class="is-size-6 has-text-weight-semibold"><%= order.number %></span>
+                          </p>
+                          <p>
+                            Cliente: <span class="is-size-6 has-text-weight-semibold"><%= order.user.name %></span>
+                            <span class="help is-inline-block is-marginless">(<%= order.user.email %>)</span>
+                          </p>
+                          <p>
+                            Evento: <span class="has-text-weight-semibold"><%= order.event.name %> - <%= order.event.address.city %>/<%= order.event.address.state %> - <%= order.event.start_t.strftime("%d/%m/%Y") %></span>
+                          </p>
+                          <table style="margin-top: 20px;" class="table admin-orders details is-fullwidth">
+                            <thead>
+                              <th>Participante</th>
+                              <th></th>
+                              <th>Email</th>
+                              <th></th>
+                              <th>Tipo</th>
+                              <th>Valor</th>
+                              <th>Status</th>
+                            </thead>
+                            <tbody>
+                              <% order.ticket_tokens.each do |ticket_token| %>
+                                <tr class="admin-orders">
+                                  <td>
+                                    <%= form_for ticket_token, url: admin_ticket_token_path(ticket_token), remote: true do |f| %>
+                                      <%= f.text_field :owner_name, class: "input ticket-owner-name is-small is-static", value: ticket_token.owner_name, readonly: true %>
+                                    <% end %>
+                                  </td>
+                                  <td>
+                                    <span class="icon ticket-owner-name edit is-small is-inline-block">
+                                      <i class="far fa-edit"></i>
+                                    </span>
+                                    <span tabindex="0" class="icon ticket-owner-name save is-small is-inline-block is-hidden">
+                                      <i class="far fa-check-square"></i>
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <%= form_for ticket_token, url: admin_ticket_token_path(ticket_token), remote: true do |f| %>
+                                      <%= f.email_field :owner_email, class: "input ticket-owner-email is-small is-static", value: ticket_token.owner_email, readonly: true %>
+                                    <% end %>
+                                  </td>
+                                  <td>
+                                    <span class="icon ticket-owner-email edit is-small is-inline-block">
+                                      <i class="far fa-edit"></i>
+                                    </span>
+                                    <span tabindex="0" class="icon ticket-owner-email save is-small is-inline-block is-hidden">
+                                      <i class="far fa-check-square"></i>
+                                    </span>
+                                  </td>
+                                  <td><%= ticket_token.offer.name %></td>
+                                  <td><%= ticket_token.offer.price_with_service_fee.format %></td>
+                                  <td>
+                                    <%= TicketToken.human_attribute_name("status.#{ticket_token.status}") %>
+                                    <% if ticket_token.ready? %>
+                                      <%= link_to admin_ticket_token_path(ticket_token, format: :pdf), class: "has-text-black", target: "_blank" do %>
+                                        &nbsp;<span class="icon admin-orders is-small is-inline-block"><i class="far fa-file-pdf"></i></span>
+                                      <% end %>
+                                    <% end %>
+                                  </td>
+                                </tr>
+                              <% end %>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                          </table>
+                          <% if order.payment.present? %>
+                            <div>
+                              <% if order.payment.installment_count > 1 %>
+                              <p>
+                                Parcelas: 
+                                <span class="has-text-weight-semibold">
+                                  <%= order.payment.installment_count %>x
+                                </span>
+                              </p>
+                              <p>
+                                Juros de parcelamento: 
+                                <span class="has-text-weight-semibold">
+                                  <%= (order.payment.interest_rate * order.total).format %>
+                                </span>
+                              </p>
+                              <% end %>
+                              <p>
+                                Total: 
+                                <span class="has-text-weight-semibold">
+                                  <%= order.payment.amount.format %>
+                                </span>
+                              </p>
+                            </div>
+                          <% end %>
+                          <br />
+                          <div class="level">
+                            <div class="level-left">
+                              <div class="level-item">
+                                <% if order.pending? %>
+                                  <%= button_to "Enviar email de pedido recebido", send_received_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.refunded?  %>
+                                  <%= button_to "Enviar email de pagamento reembolsado", send_refunded_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.denied?  %>
+                                  <%= button_to "Enviar email de pagamento negado", send_denied_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.approved? && order.user.id == 2 %>
+                                  <%= button_to "Enviar ingresso aos participantes", send_legacy_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                <% elsif order.approved? %>
+                                  <%= button_to "Enviar email de pedido aprovado", send_confirmed_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                </div>
+                                <div class="level-item">
+                                  <% unless order.ticket_tokens.all? { |t| t.owner_email == order.user.email } %>
+                                    <%= button_to "Enviar ingresso aos participantes", send_ticket_email_path(order), remote: true, class: "button is-light is-small send-email-button", method: 'get' %>
+                                  <% end %>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="help has-text-right has-text-grey-light">
+                            Criado em: <span><%= order.created_at.strftime("%d/%m/%y (%H:%M)") %></span><br />
+                            Atualizado em: <span><%= order.updated_at.strftime("%d/%m/%y (%H:%M)") %></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="columns is-centered">
+          <div class="column is-6">
+            <%= paginate @orders %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

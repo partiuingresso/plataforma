@@ -26,19 +26,9 @@ class TicketTokensController < ApplicationController
     end
   end
 
-  def update
-    @ticket_token = TicketToken.find(params[:id])
-    if @ticket_token.update(update_params)
-      respond_to do |format|
-        format.json { render json: "ok", status: 200 }
-      end
-    else
-      render alert: "Não foi possível salvar as alterações" and return
-    end
-  end
-
   private
-    def update_params
-      params.require(:ticket_token).permit(:owner_name, :owner_email)
+
+    def current_ability
+      @current_ability ||= TicketTokenAbility.new(current_user)
     end
 end
