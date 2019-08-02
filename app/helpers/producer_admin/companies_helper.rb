@@ -1,0 +1,2 @@
+module ProducerAdmin::CompaniesHelper
+end
