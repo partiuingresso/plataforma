@@ -2,6 +2,17 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+// Producer admin index
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.table.table-events td {
+  line-height: 1.846;
+  padding: 0.83em;
+}
+
 // Create and edit view
 
 .prototype-row {

@@ -106,13 +106,4 @@
 	.icon.trash:hover {
 	  color: unset;
 	}
-
-	.clickable-row {
-	  cursor: pointer;
-	}
-
-	.table.table-events td {
-	  line-height: 1.846;
-	  padding: 0.83em;
-	}
 </style>
