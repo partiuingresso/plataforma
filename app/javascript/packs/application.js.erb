@@ -19,3 +19,13 @@
 import '../application/javascripts/index.js.erb';
 import '../application/images/index.js.erb';
 import '../application/stylesheets/index.js.erb';
+import Vue from 'vue/dist/vue.esm'
+import TicketManager from '../application/components/ticket_manager.vue'
+
+Vue.component('ticket_manager', TicketManager)
+
+document.addEventListener('DOMContentLoaded', () => {
+	const app = new Vue({
+		el: '[data-behavior="vue"]'
+	})
+})

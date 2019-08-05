@@ -20,19 +20,21 @@
   <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-57GMS38" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <% if content_for?(:navbar) %>
-      <%= yield(:navbar) %>
-    <% else %>
-      <%= render 'layouts/header' %>
-    <% end %>
+    <div data-behavior="vue">
+      <% if content_for?(:navbar) %>
+        <%= yield(:navbar) %>
+      <% else %>
+        <%= render 'layouts/header' %>
+      <% end %>
 
-    <%= yield %>
+      <%= yield %>
 
-    <% if content_for?(:footer) %>
-      <%= yield(:footer) %>
-    <% else %>
-      <%= render 'layouts/footer' %>
-    <% end %>
+      <% if content_for?(:footer) %>
+        <%= yield(:footer) %>
+      <% else %>
+        <%= render 'layouts/footer' %>
+      <% end %>
+    </div>
 
     <%= javascript_pack_tag "application" %>
     <%= render 'layouts/messages' %>

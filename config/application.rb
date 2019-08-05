@@ -20,6 +20,7 @@ module Plataforma
     # config.autoload_paths += %W( #{config.root}/lib )
     config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('abilities')
+    config.eager_load_paths << Rails.root.join('serializers')
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

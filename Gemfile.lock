@@ -92,6 +92,8 @@ GEM
     execjs (2.7.0)
     faker (1.9.3)
       i18n (>= 0.7)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.10.0)
     geocoder (1.5.1)
     globalid (0.4.2)
@@ -328,6 +330,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   faker
+  fast_jsonapi
   geocoder
   groupdate
   image_processing (~> 1.2)
