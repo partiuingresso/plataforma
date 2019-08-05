@@ -46,7 +46,9 @@ Rails.application.routes.draw do
   # ==> Producer admin routes
 
   namespace :producer_admin do
-    resources :events, only: [:index, :show]
+    resources :events, only: [:index, :show] do
+      resources :offers, only: [:index]
+    end
     resources :transfers, only: [:create]
   end
 

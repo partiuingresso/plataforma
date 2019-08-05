@@ -7,28 +7,29 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-3">
-        <%= render 'producer_admin/menu' %>
+        <%= render 'producer_admin/events/menu' %>
       </div>
       <div class="column is-8">
-        <div class="columns">
-          <div class="column">
-            <p><span class="title is-3">Report de </span><em class="thin is-size-3 has-text-primary"><%= @event.name %></em></p>
-            <p class="subtitle is-uppercase is-6"><%= l @event.start_t, format: ("%d de %B de %Y") %> - <%= @event.address.city %>/<%= @event.address.state %></p>
-          </div>
-          <div class="column is-narrow offer-filter">
-            <p>Filtrar por oferta:</p>
-            <%= form_tag(request.url, method: "get") do %>
-              <div class="select is-small">
-                <%= select_tag(:offer, options_from_collection_for_select(@event.offers, :id, :name_with_allotment, params[:offer]), {:include_blank => 'Sem filtro'}) %>
-              </div>
-              <%= submit_tag "Filtrar", class:"button is-small" %>
-            <% end %>
-          </div>
-        </div>
+        <%= render 'producer_admin/events/header' %>
         <div class="tile is-ancestor">
           <div class="tile is-parent is-12">
             <div class="tile chart box is-child">
-              <p class="title is-5">Vendas em todo o período de atividade</p>
+              <div class="level" style="margin: 0;">
+                <div class="level-left">
+                  <p class="title is-5">Vendas em todo o período de atividade</p>
+                </div>
+                <div class="level-right">
+                  <div class="column is-narrow offer-filter">
+                    <p>Filtrar por oferta:</p>
+                    <%= form_tag(request.url, method: "get") do %>
+                      <div class="select is-small">
+                        <%= select_tag(:offer, options_from_collection_for_select(@event.offers, :id, :name_with_allotment, params[:offer]), {:include_blank => 'Sem filtro'}) %>
+                      </div>
+                      <%= submit_tag "Filtrar", class:"button is-small" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
               <div class="tabs">
                 <ul>
                   <li class="tablinks" onclick="openTab(event, 'chart_tickets_count')"><a>Ingressos</a></li>

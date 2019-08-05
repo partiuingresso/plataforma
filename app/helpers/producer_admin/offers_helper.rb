@@ -1,0 +1,2 @@
+module ProducerAdmin::OffersHelper
+end
