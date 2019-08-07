@@ -21,8 +21,10 @@ import '../application/images/index.js.erb';
 import '../application/stylesheets/index.js.erb';
 import Vue from 'vue/dist/vue.esm'
 import TicketManager from '../application/components/ticket_manager.vue'
+import ConfirmDialog from '../application/components/confirm_dialog.vue'
 
 Vue.component('ticket_manager', TicketManager)
+Vue.component('confirm_dialog', ConfirmDialog)
 
 document.addEventListener('DOMContentLoaded', () => {
 	const app = new Vue({
