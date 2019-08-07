@@ -3,7 +3,7 @@
 	  <div class="modal-background" @click="closeModal()"></div>
 	  <div class="modal-card">
 	    <header class="modal-card-head">
-	      <p class="modal-card-title">{{ title }}</p>
+	      <p class="modal-card-title"><b>{{ title }}</b></p>
 	      <button class="delete" aria-label="close" @click="closeModal()"></button>
 	    </header>
 	    <section class="modal-card-body">
@@ -38,8 +38,14 @@
 	}
 </script>
 
-<style scoped>
-	#confirm-dialog .modal-card-foot {
-		justify-content: flex-end;
+<style lang="scss" scoped>
+	#confirm-dialog {
+		& .modal-card {
+			max-width: 430px;
+		}
+
+		& .modal-card-foot {
+			justify-content: flex-end;
+		}
 	}
 </style>
