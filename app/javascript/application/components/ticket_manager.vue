@@ -13,13 +13,13 @@
 					<p>Qual tipo de ingresso você deseja criar?</p>
 				</div>
 	      <div class="">
-				<a id="offer-button" class="button">
+				<a id="offer-button" class="button" @click="newOffer('costly')">
 					<span class="icon has-text-success">
 					  <i class="fas fa-plus"></i>
 					</span>
 					<span>Ingresso Pago</span>
 				</a>
-				<a id="offer-button" class="button">
+				<a id="offer-button" class="button" @click="newOffer('free')">
 					<span class="icon has-text-success">
 					  <i class="fas fa-plus"></i>
 					</span>
@@ -54,8 +54,8 @@
 						<tr v-for="offer in filteredItems">
 							<td>{{ offer.name }}</td>
 							<td>{{ `${offer.sold}/${offer.quantity}` }}</td>
-							<td>{{ offer.price }}</td>
-							<td>{{ offer.price_with_fee }}</td>
+							<td>{{ offer.price.display }}</td>
+							<td>{{ offer.price_with_fee.display }}</td>
 							<td>
 								<a v-if="offer.sold === 0" @click="confirmOfferDeletion(offer)">
 					        <span class="icon">
@@ -63,7 +63,7 @@
 							    </span>
 								</a>
 								<span class="icon" v-else></span>
-								<a style="margin-right: 8px;" data-target="">
+								<a style="margin-right: 8px;" @click="editOffer(offer)">
 					        <span class="icon">
 						        <i class="fas fa-edit"></i>
 							    </span>
@@ -74,15 +74,21 @@
 				</table>
 			</div>
 		</div>
-		<confirm_dialog
-			v-if="showModal"
+		<confirm-dialog
+			v-if="confirmDialogVisible"
 			title="Remover ingresso"
 			:message="confirmMessage"
 			type="is-danger"
-			@close="showModal = false"
+			@close="confirmDialogClosed()"
 			@confirm="dialogConfirmed()"
 		>
-		</confirm_dialog>
+		</confirm-dialog>
+		<ticket-form
+			v-if="ticketFormVisible"
+			:offer="selectedOffer"
+			:free="ticketFree"
+			@close="ticketFormClosed()"
+		></ticket-form>
 	</div>
 </template>
 
@@ -94,8 +100,10 @@
 			return {
 				offers: [],
 				availableFilter: true,
-				showModal: false,
-				deletionOffer: null
+				ticketFormVisible: false,
+				confirmDialogVisible: false,
+				selectedOffer: null,
+				ticketFree: false
 			}
 		},
 		created() {
@@ -106,18 +114,39 @@
 			setAvailableFilter(available) {
 				this.availableFilter = available
 			},
+			newOffer(type) {
+				if(type === 'costly') {
+					this.ticketFree = false
+					this.setTicketFormVisible()
+				} else {
+					this.ticketFree = true
+					this.setTicketFormVisible()
+				}
+			},
+			editOffer(offer) {
+				this.selectedOffer = offer
+				this.ticketFree = offer.price.amount === 0
+				this.setTicketFormVisible()
+			},
+			ticketFormClosed() {
+				this.setTicketFormVisible(false)
+				this.selectedOffer = null
+			},
 			confirmOfferDeletion(offer) {
-				this.deletionOffer = offer
-				this.showModal = true
+				this.selectedOffer = offer
+				this.setConfirmDialogVisible()
 			},
 			dialogConfirmed() {
-				this.showModal = false
-				console.log(this.deletionOffer)
+				this.setConfirmDialogVisible(false)
 				this.deleteOffer()
 			},
-			deleteOffer() {
+			confirmDialogClosed() {
+				this.setConfirmDialogVisible(false)
+				this.selectedOffer = null
+			},
+			async deleteOffer() {
 				Rails.ajax({
-					url: `/offers/${this.deletionOffer.id}`,
+					url: `/offers/${this.selectedOffer.id}`,
 					type: 'delete',
 					data: '',
 					success: this.successfulOfferDeletion,
@@ -125,7 +154,7 @@
 				})
 			},
 			successfulOfferDeletion() {
-				this.$delete(this.offers, this.offers.indexOf(this.deletionOffer))
+				this.$delete(this.offers, this.offers.indexOf(this.selectedOffer))
 				bulmaToast.toast(
 					{
 						message: 'Ingresso removido com sucesso.',
@@ -136,7 +165,7 @@
 						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
 					}
 				)
-				this.deletionOffer = null
+				this.selectedOffer = null
 			},
 			offerDeletionError() {
 				bulmaToast.toast(
@@ -149,6 +178,13 @@
 						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
 					}
 				)
+				this.selectedOffer = null
+			},
+			setConfirmDialogVisible(visible=true) {
+				this.confirmDialogVisible = visible
+			},
+			setTicketFormVisible(visible=true) {
+				this.ticketFormVisible = visible
 			}
 		},
 		computed: {
@@ -156,7 +192,7 @@
 				return this.offers.filter(item => item.available === this.availableFilter)
 			},
 			confirmMessage() {
-				return `Tem certeza que deseja remover o ingresso <b>${this.deletionOffer.name}</b>?`
+				return `Tem certeza que deseja remover o ingresso <b>${this.selectedOffer.name}</b>?`
 			}
 		}
 	}

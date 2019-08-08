@@ -22,9 +22,11 @@ import '../application/stylesheets/index.js.erb';
 import Vue from 'vue/dist/vue.esm'
 import TicketManager from '../application/components/ticket_manager.vue'
 import ConfirmDialog from '../application/components/confirm_dialog.vue'
+import TicketForm from '../application/components/ticket_form.vue'
 
-Vue.component('ticket_manager', TicketManager)
-Vue.component('confirm_dialog', ConfirmDialog)
+Vue.component('ticket-manager', TicketManager)
+Vue.component('confirm-dialog', ConfirmDialog)
+Vue.component('ticket-form', TicketForm)
 
 document.addEventListener('DOMContentLoaded', () => {
 	const app = new Vue({

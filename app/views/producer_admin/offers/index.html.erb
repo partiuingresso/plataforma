@@ -13,7 +13,7 @@
       <div class="column is-8">
         <%= render 'producer_admin/events/header' %>
         <div data-behavior="vue">
-		      <ticket_manager offers_data="<%= OfferSerializer.new(@offers).serialized_json %>"></ticket_manager>
+		      <ticket-manager offers_data="<%= OfferSerializer.new(@offers).serialized_json %>"></ticket-manager>
 		    </div>
       </div>
     </div>
