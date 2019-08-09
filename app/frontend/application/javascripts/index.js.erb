@@ -25,22 +25,5 @@ window.toggle = toggle;
 import { toggleCart } from './toggle';
 window.toggleCart = toggleCart;
 
-import importPageModule from './page_import';
-
-importPageModule('login', './users/new');
-importPageModule('users-edit', './users/edit');
-importPageModule(['events-new', 'events-edit'], './events/new');
-importPageModule('events-ads', './events/ads');
-importPageModule('events-show', './events/show');
-importPageModule('events-index', './events/index');
-importPageModule('checkout', './orders.js.erb');
-importPageModule('backstage', './admin/producer');
-importPageModule('companies-new', './companies/new');
-importPageModule('companies-show', './companies/show');
-importPageModule('orders-index', './my_orders');
-importPageModule('admin-dashboard', './admin/admin');
-importPageModule('admin-orders', './admin/admin_orders');
-importPageModule('admin-users', './admin/admin_users');
-importPageModule('report', './admin/report');
-importPageModule('checkin', './checkin.js.erb');
-importPageModule('tickets', './ticket_tokens');
+import Router from './router'
+Router.init();
