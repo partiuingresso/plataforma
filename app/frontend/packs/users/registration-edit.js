@@ -1,4 +1,4 @@
-import registrationEdit from '../../application/javascripts/users/edit'
+import registrationEdit from '../../src/users/edit'
 
 document.addEventListener('DOMContentLoaded', () => {
 	registrationEdit.init()

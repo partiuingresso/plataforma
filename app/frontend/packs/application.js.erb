@@ -16,13 +16,14 @@
 // const imagePath = (name) => images(name, true)
 
 
-import '../application/javascripts/index.js.erb';
-import '../application/images/index.js.erb';
-import '../application/stylesheets/index.js.erb';
+import 'src'
+import 'assets/images/index.js.erb'
+import 'assets/scss/index.js.erb'
+
 import Vue from 'vue/dist/vue.esm'
-import TicketManager from '../application/components/ticket_manager.vue'
-import ConfirmDialog from '../application/components/confirm_dialog.vue'
-import TicketForm from '../application/components/ticket_form.vue'
+import TicketManager from 'components/ticket_manager.vue'
+import ConfirmDialog from 'components/confirm_dialog.vue'
+import TicketForm from 'components/ticket_form.vue'
 
 Vue.component('ticket-manager', TicketManager)
 Vue.component('confirm-dialog', ConfirmDialog)

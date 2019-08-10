@@ -1,4 +1,4 @@
-import eventsAdmin from '../../application/javascripts/events/new'
+import eventsAdmin from '../../src/events/new'
 
 document.addEventListener('DOMContentLoaded', () => {
 	eventsAdmin.init()

@@ -112,7 +112,7 @@
                       <p class="title is-6">Detalhes do pagamento:</p>
                       <p class="content">
                         <span class="is-size-7 is-uppercase">Realizado com o cartão:</span><br />
-                        <span class="is-inline-block"><%= image_tag asset_pack_path("media/application/images/cards/" + @order.payment.card_brand.downcase + ".svg"), alt: @order.payment.card_brand.downcase, width:'36rem', id: @order.payment.card_brand.downcase %></span>
+                        <span class="is-inline-block"><%= image_tag asset_pack_path("media/assets/images/cards/" + @order.payment.card_brand.downcase + ".svg"), alt: @order.payment.card_brand.downcase, width:'36rem', id: @order.payment.card_brand.downcase %></span>
                         <span class="number is-size-7 has-text-grey"><span>••••</span>&nbsp;<span>••••</span>&nbsp;<span>••••</span>&nbsp;<span class="has-text-black"><%= @order.payment.card_number_last_4 %></span></span>
                       </p>
                       <p class="content">

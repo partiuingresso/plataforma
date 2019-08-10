@@ -1,4 +1,4 @@
-import ordersIndex from '../../application/javascripts/my_orders'
+import ordersIndex from '../../src/my_orders'
 
 document.addEventListener('DOMContentLoaded', () => {
 	ordersIndex.init()

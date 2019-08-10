@@ -1,1 +1,1 @@
-import '../../application/javascripts/events/ads'
+import '../../src/events/ads'

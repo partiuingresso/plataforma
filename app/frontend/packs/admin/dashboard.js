@@ -1,4 +1,4 @@
-import admin from '../../application/javascripts/admin/admin'
+import admin from '../../src/admin/admin'
 
 document.addEventListener('DOMContentLoaded', () => {
 	admin.init()

@@ -1,4 +1,4 @@
-import companiesNew from '../../application/javascripts/companies/new'
+import companiesNew from '../../src/companies/new'
 
 document.addEventListener('DOMContentLoaded', () => {
 	companiesNew.init()

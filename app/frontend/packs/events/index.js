@@ -1,4 +1,4 @@
-import eventsIndex from '../../application/javascripts/events/index'
+import eventsIndex from '../../src/events/index'
 
 document.addEventListener('DOMContentLoaded', () => {
 	eventsIndex.init()

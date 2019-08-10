@@ -1,4 +1,4 @@
-import adminOrders from '../../application/javascripts/admin/admin_orders'
+import adminOrders from '../../src/admin/admin_orders'
 
 document.addEventListener('DOMContentLoaded', () => {
 	adminOrders.init()

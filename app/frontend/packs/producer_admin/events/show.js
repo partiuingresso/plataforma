@@ -1,4 +1,4 @@
-import report from '../../../application/javascripts/admin/report'
+import report from '../../../src/admin/report'
 
 document.addEventListener('DOMContentLoaded', () => {
 	report.init()

@@ -1,4 +1,4 @@
-import companiesShow from '../../application/javascripts/companies/show'
+import companiesShow from '../../src/companies/show'
 
 document.addEventListener('DOMContentLoaded', () => {
 	companiesShow.init()

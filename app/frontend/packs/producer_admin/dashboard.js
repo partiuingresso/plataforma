@@ -1,4 +1,4 @@
-import producer from '../../application/javascripts/admin/producer'
+import producer from '../../src/admin/producer'
 
 document.addEventListener('DOMContentLoaded', () => {
 	producer.init()
