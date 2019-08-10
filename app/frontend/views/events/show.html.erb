@@ -9,6 +9,7 @@
   .section.hero-event { background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= url_for(@event.hero_image) %>); }
 
 </style>
+<%= javascript_pack_tag "events/show" %>
 
 <section class="section hero-event events-show">
   <div class="hero-content-event">

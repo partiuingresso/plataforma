@@ -1,145 +1,143 @@
-import 'bulma-tooltip';
-import Rails from 'rails-ujs';
-import "script-loader!<%= Rails.root.join('vendor', 'assets', 'javascript', 'instascan.min.js') %>";
+import 'bulma-tooltip'
+import Rails from 'rails-ujs'
+import "script-loader!<%= Rails.root.join('vendor', 'assets', 'javascript', 'instascan.min.js') %>"
 
-var openCameraButton = document.getElementById('open-camera');
-var openListButton = document.getElementById('open-list');
-var switchCameraButton = document.getElementById('switch-camera');
-var cameraList = null;
-var camIdx = 0;
+export default {
+	init() {
+		var openCameraButton = document.getElementById('open-camera')
+		var openListButton = document.getElementById('open-list')
+		var switchCameraButton = document.getElementById('switch-camera')
+		var cameraList = null
+		var camIdx = 0
 
-var resultElement = document.getElementById('qr-result');
+		var resultElement = document.getElementById('qr-result')
 
-var scanner = new Instascan.Scanner({
-	video: document.getElementById('qr-video'),
-	mirror: false,
-	backgroundScan: false
-});
+		var scanner = new Instascan.Scanner({
+			video: document.getElementById('qr-video'),
+			mirror: false,
+			backgroundScan: false
+		})
 
-init();
+		var tablinks = document.getElementsByClassName("tablinks")
+		tablinks[0].click()
 
-function init() {
-	openCameraButton.addEventListener('click', function() {
-		if(cameraList == null) {
-			cameraList = Instascan.Camera.getCameras().then(function(cameras) {
-				cameraList = cameras;
-				if(cameraList.length > 0) {
-					scanner.start(cameraList[0]);
-				} else {
-					console.error('No cameras found.');
-				}
-				if(cameraList.length > 1) {
-					switchCameraButton.classList.remove('is-hidden');
-					switchCameraButton.addEventListener('click', function() {
-						scanner.stop().then(function() {
-							camIdx = (camIdx + 1) % cameraList.length;
-							scanner.start(cameraList[camIdx]);
-						});
-					});
-				}
-			}).catch(function(e){
-				console.error(e);
-			});
-		} else {
-			if(cameraList.length > 0) {
-				scanner.start(cameraList[0]);
+		openCameraButton.addEventListener('click', function() {
+			if(cameraList == null) {
+				cameraList = Instascan.Camera.getCameras().then(function(cameras) {
+					cameraList = cameras
+					if(cameraList.length > 0) {
+						scanner.start(cameraList[0])
+					} else {
+						console.error('No cameras found.')
+					}
+					if(cameraList.length > 1) {
+						switchCameraButton.classList.remove('is-hidden')
+						switchCameraButton.addEventListener('click', function() {
+							scanner.stop().then(function() {
+								camIdx = (camIdx + 1) % cameraList.length
+								scanner.start(cameraList[camIdx])
+							})
+						})
+					}
+				}).catch(function(e){
+					console.error(e)
+				})
 			} else {
-				console.error('No cameras found.');
-			}
-		}
-	});
-
-	scanner.addListener('scan', function(content) {
-		Rails.ajax({
-			type: "GET",
-			url: "/validations/" + content,
-			success: function(response) {
-				initNewValidationModal(true);
-			},
-			error: function(response, status, xhr) {
-				if(xhr.status === 422 && response !== "Ingresso não encontrado.") {
-					initErrorValidationModal(false);
+				if(cameraList.length > 0) {
+					scanner.start(cameraList[0])
+				} else {
+					console.error('No cameras found.')
 				}
 			}
-		});
-	});
+		})
 
-	openListButton.addEventListener('click', function() {
-		scanner.stop();
-	});
-}
+		scanner.addListener('scan', function(content) {
+			Rails.ajax({
+				type: 'GET',
+				url: '/validations/' + content,
+				success: function(response) {
+					initNewValidationModal(true)
+				},
+				error: function(response, status, xhr) {
+					if(xhr.status === 422 && response !== 'Ingresso não encontrado.') {
+						initErrorValidationModal(false)
+					}
+				}
+			})
+		})
 
+		openListButton.addEventListener('click', function() {
+			scanner.stop()
+		})
 
-var modal = document.getElementById('modal');
-var newValidationBody = document.getElementById('new-validation');
-var successValidationBody = document.getElementById('success-validation');
-var errorValidationBody = document.getElementById('error-validation');
+		var modal = document.getElementById('modal')
+		var newValidationBody = document.getElementById('new-validation')
+		var successValidationBody = document.getElementById('success-validation')
+		var errorValidationBody = document.getElementById('error-validation')
 
-var links = document.querySelectorAll('.validate-link');
-for(let link of links) {
-	link.addEventListener('ajax:success', function(e) {
-		initNewValidationModal();
-	});
-	link.addEventListener('ajax:error', function(e) {
-		initErrorValidationModal();
-	});
-}
-
-function initNewValidationModal(confirmation=false) {
-	var form = document.getElementById('new_validation');
-	form.addEventListener('ajax:success', function(e) {
-		if(confirmation) {
-			cleanModal(newValidationBody);
-			initSuccessValidationModal();
-		} else {
-			closeModal();
+		var links = document.querySelectorAll('.validate-link')
+		for(let link of links) {
+			link.addEventListener('ajax:success', function(e) {
+				initNewValidationModal()
+			})
+			link.addEventListener('ajax:error', function(e) {
+				initErrorValidationModal()
+			})
 		}
-	});
 
-	form.addEventListener('ajax:error', function(e) {
-		initErrorValidationModal();
-	});
+		function initNewValidationModal(confirmation=false) {
+			var form = document.getElementById('new_validation')
+			form.addEventListener('ajax:success', function(e) {
+				if(confirmation) {
+					cleanModal(newValidationBody)
+					initSuccessValidationModal()
+				} else {
+					closeModal()
+				}
+			})
 
-	var cancelButton = newValidationBody.querySelector('.button.cancel');
-	cancelButton.addEventListener('click', function(e) {
-		closeModal();
-	});
-}
+			form.addEventListener('ajax:error', function(e) {
+				initErrorValidationModal()
+			})
 
-function initSuccessValidationModal() {
-	var button = successValidationBody.querySelector('.confirm-button');
-	button.addEventListener('click', function(e) {
-		closeModal();
-	});
-}
-
-function initErrorValidationModal(refresh=true) {
-	cleanModal(newValidationBody);
-	var button = errorValidationBody.querySelector('.confirm-button');
-	button.addEventListener('click', function(e) {
-		if(refresh) {
-			location.reload();
+			var cancelButton = newValidationBody.querySelector('.button.cancel')
+			cancelButton.addEventListener('click', function(e) {
+				closeModal()
+			})
 		}
-		closeModal();
-	});
 
-	modal.classList.remove('is-hidden');
-	errorValidationBody.classList.remove('is-hidden');
+		function initSuccessValidationModal() {
+			var button = successValidationBody.querySelector('.confirm-button')
+			button.addEventListener('click', function(e) {
+				closeModal()
+			})
+		}
+
+		function initErrorValidationModal(refresh=true) {
+			cleanModal(newValidationBody)
+			var button = errorValidationBody.querySelector('.confirm-button')
+			button.addEventListener('click', function(e) {
+				if(refresh) {
+					location.reload()
+				}
+				closeModal()
+			})
+
+			modal.classList.remove('is-hidden')
+			errorValidationBody.classList.remove('is-hidden')
+		}
+
+		function cleanModal(modalBody) {
+			modalBody.classList.add('is-hidden')
+		}
+
+		function closeModal() {
+			newValidationBody.classList.add('is-hidden')
+			successValidationBody.classList.add('is-hidden')
+			errorValidationBody.classList.add('is-hidden')
+			modal.classList.add('is-hidden')
+			document.documentElement.classList.remove('is-clipped')
+		}
+	}
 }
 
-function cleanModal(modalBody) {
-	modalBody.classList.add('is-hidden');
-}
-
-function closeModal() {
-	newValidationBody.classList.add('is-hidden');
-	successValidationBody.classList.add('is-hidden');
-	errorValidationBody.classList.add('is-hidden');
-	modal.classList.add('is-hidden');
-	document.documentElement.classList.remove('is-clipped');
-}
-
-window.onload = function() {
-    var tablinks = document.getElementsByClassName("tablinks");
-    tablinks[0].click();
-}

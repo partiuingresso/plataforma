@@ -1,447 +1,444 @@
 import 'bulma-tooltip';
-import JSEncrypt from 'jsencrypt';
-import { MoipCreditCard } from 'moip-sdk-js';
-import paymentFormatter from 'payment-formatter';
-import * as brazilValues from 'brazilian-values';
-import cep from 'cep-promise';
-import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min';
-import { inputFilled, selectFilled, validEmail, validCompleteName } from './utils/validation';
+import JSEncrypt from 'jsencrypt'
+import { MoipCreditCard } from 'moip-sdk-js'
+import paymentFormatter from 'payment-formatter'
+import * as brazilValues from 'brazilian-values'
+import cep from 'cep-promise'
+import CreditcardWarder from '../../../../vendor/assets/javascript/creditcard-warder/creditcard-warder.min'
+  import { inputFilled, selectFilled, validEmail, validCompleteName } from './utils/validation'
 
-var form = document.getElementById('new_order_form');
-var paymentFields = document.querySelector('.payment-fields');
-if(paymentFields) {
-    var installmentCountSelect = document.getElementById('order_form_payment_attributes_installment_count');
-    var holderNameInput = document.getElementById('order_form_payment_attributes_holder_fullname');
-    var cardNumberInput = document.getElementById('card-number');
-    var cvcInput = document.getElementById('cvc');
-    var expirationDateInput = document.getElementById('expiration-date');
-    var hashInput = document.getElementById('order_form_payment_attributes_hash');
-    var documentInput = document.getElementById('order_form_payment_attributes_holder_document');
-    var celInput = document.getElementById('phone');
-    var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode');
-    var complement = document.getElementById('order_form_payment_attributes_billing_address_attributes_complement');
-    var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address');
-    var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district');
-    var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city');
-    var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state');
-    var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number');
-    var addressInputsDiv = document.getElementById('address');
-    var submitButton = form.querySelector('button[type="submit"]');
-    var imagesDiv = document.querySelector('.level-right.cards');
-    var images = imagesDiv.querySelectorAll('img');
-    <% if Rails.env.production? %>
-    var pubKey = `-----BEGIN PUBLIC KEY-----
-                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjo+j1R0PSwiypSntfc+t
-                    4oKUkg44O2OAZ+CQtVTMeSOBlJr5+ciIv91syT2klL21a8gscv7cm8e2UODGlhgD
-                    NmgrS5RVbrO3g8v3UCC9kvJqCLZIGTflRpsyOabv4/PJyikiQh1aUe5D/c1CL1io
-                    VkthTrN70W0RThenNOzi465d47+kq0IX121I1m40e122p//6ZUsqZsH1dNcClyil
-                    V8gTJo+p4Ss7zT5shYclFgSvXJPUxM7BafUzWIOm1RKrcMe6OQIKcmoU4rtwD5RQ
-                    QnEWX7x0tggpnt8+f3yu09MLDI5Xh8QTVe04KGsvmf6WaHXRiTcH+t9aCEOcGBIU
-                    pQIDAQAB
-                    -----END PUBLIC KEY-----`;
-    <% else %>
-    var pubKey = `-----BEGIN PUBLIC KEY-----
-                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
-                    mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
-                    02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
-                    srsNWDdCm3LiXH//AL0SYh5kv7C18ccTZdKQVv7NALaQor9Uh6HeMyNCsjZGStqS
-                    Dzl56k3rdMa/gzV+B6YeGkFx6P6k7dEHzHvc6mhY2oFrPBRb0Dg30BwQy12pRKuc
-                    JaCHbICrdX5ks5PQSU6i3HRjfY3sjj035xrNe6BEn0U7yb552X8NMWEAEpeclw2c
-                    cwIDAQAB
-                    -----END PUBLIC KEY-----`;
-    <% end %>
-}
-
-var firstInvalidInput = null;
-var formSubmitted = false;
-
-
-init();
-
-function init() {
-    form.setAttribute('novalidate', 'true');
+export default {
+  init() {
+    var form = document.getElementById('new_order_form')
+    var paymentFields = document.querySelector('.payment-fields')
     if(paymentFields) {
-        installmentCountSelect.addEventListener('change', installmentCountListener);
+        var installmentCountSelect = document.getElementById('order_form_payment_attributes_installment_count')
+        var holderNameInput = document.getElementById('order_form_payment_attributes_holder_fullname')
+        var cardNumberInput = document.getElementById('card-number')
+        var cvcInput = document.getElementById('cvc')
+        var expirationDateInput = document.getElementById('expiration-date')
+        var hashInput = document.getElementById('order_form_payment_attributes_hash')
+        var documentInput = document.getElementById('order_form_payment_attributes_holder_document')
+        var celInput = document.getElementById('phone')
+        var zipInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_zipcode')
+        var complement = document.getElementById('order_form_payment_attributes_billing_address_attributes_complement')
+        var streetInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_address')
+        var districtInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_district')
+        var cityInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_city')
+        var stateInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_state')
+        var numberInput = document.getElementById('order_form_payment_attributes_billing_address_attributes_number')
+        var addressInputsDiv = document.getElementById('address')
+        var submitButton = form.querySelector('button[type="submit"]')
+        var imagesDiv = document.querySelector('.level-right.cards')
+        var images = imagesDiv.querySelectorAll('img')
+        <% if Rails.env.production? %>
+        var pubKey = `-----BEGIN PUBLIC KEY-----
+                        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjo+j1R0PSwiypSntfc+t
+                        4oKUkg44O2OAZ+CQtVTMeSOBlJr5+ciIv91syT2klL21a8gscv7cm8e2UODGlhgD
+                        NmgrS5RVbrO3g8v3UCC9kvJqCLZIGTflRpsyOabv4/PJyikiQh1aUe5D/c1CL1io
+                        VkthTrN70W0RThenNOzi465d47+kq0IX121I1m40e122p//6ZUsqZsH1dNcClyil
+                        V8gTJo+p4Ss7zT5shYclFgSvXJPUxM7BafUzWIOm1RKrcMe6OQIKcmoU4rtwD5RQ
+                        QnEWX7x0tggpnt8+f3yu09MLDI5Xh8QTVe04KGsvmf6WaHXRiTcH+t9aCEOcGBIU
+                        pQIDAQAB
+                        -----END PUBLIC KEY-----`
+        <% else %>
+        var pubKey = `-----BEGIN PUBLIC KEY-----
+                        MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnofhltO5CDIwLXmAtvaP
+                        mIX++JeopYEWdYaAy5SfOKqniWykWUS70Y9dJq9PuD8PwtXcAMP5hIzVWGx3brel
+                        02HNDQ/ayhkkWtmPrjpWn+zpjC6SSK0taXEfHwTuVtABYfR1ALR3u4nXHjtFG2mj
+                        srsNWDdCm3LiXH//AL0SYh5kv7C18ccTZdKQVv7NALaQor9Uh6HeMyNCsjZGStqS
+                        Dzl56k3rdMa/gzV+B6YeGkFx6P6k7dEHzHvc6mhY2oFrPBRb0Dg30BwQy12pRKuc
+                        JaCHbICrdX5ks5PQSU6i3HRjfY3sjj035xrNe6BEn0U7yb552X8NMWEAEpeclw2c
+                        cwIDAQAB
+                        -----END PUBLIC KEY-----`
+        <% end %>
+    }
+
+    var firstInvalidInput = null
+    var formSubmitted = false
+
+    form.setAttribute('novalidate', 'true')
+    if(paymentFields) {
+        installmentCountSelect.addEventListener('change', installmentCountListener)
         // Masks e dica Validade do CC
         expirationDateInput.addEventListener('focusin', function() {
-            this.placeholder = "MM/AA";
-        });
+            this.placeholder = 'MM/AA'
+        })
         expirationDateInput.addEventListener('focusout', function() {
-            this.placeholder = "Validade";
-        });
+            this.placeholder = 'Validade'
+        })
         paymentFormatter({
             inputType: 'expiry',
             selector: 'input#expiration-date'
-        });
+        })
 
-        documentInput.value = brazilValues.formatToCPF(documentInput.value);
+        documentInput.value = brazilValues.formatToCPF(documentInput.value)
 
         // Mask do CPF
         documentInput.addEventListener('input', function() {
-            this.value = brazilValues.formatToCPF(this.value);
-        });
+            this.value = brazilValues.formatToCPF(this.value)
+        })
 
         // Mask do Telefone Cel
         celInput.addEventListener('input', function() {
-            this.value = brazilValues.formatToPhone(this.value);
-        });
+            this.value = brazilValues.formatToPhone(this.value)
+        })
 
         if(zipInput.value) {
-          addressInputsDiv.classList.remove('is-hidden');
-          setAddressInputsRequired();
-          cardNumberInput.focus();
+          addressInputsDiv.classList.remove('is-hidden')
+          setAddressInputsRequired()
+          cardNumberInput.focus()
         }
 
-        zipInput.value = brazilValues.formatToCEP(zipInput.value);
+        zipInput.value = brazilValues.formatToCEP(zipInput.value)
 
         // Mask do CEP
         zipInput.addEventListener('input', function() {
-            this.value = brazilValues.formatToCEP(this.value);
+            this.value = brazilValues.formatToCEP(this.value)
             if(this.value.length == 9) {
-                zipInput.parentElement.classList.add('is-loading');
-                cepToAddress();
+                zipInput.parentElement.classList.add('is-loading')
+                cepToAddress()
             }
-        });
-
-        cardNumberInput.addEventListener('input', creditCardBrandListener);
-    }
-
-    form.addEventListener('submit', formSubmitListener);
-}
-
-function setRealTimeValidation() {
-    var formInputs = form.querySelectorAll('input.required');
-    for(let input of formInputs) {
-        input.addEventListener('focusin', function(e) {
-            cleanInputErrors(input);
-        });
-    }
-
-    var formSelects = form.querySelectorAll('select.required');
-    for(let select of formSelects) {
-        select.addEventListener('focusin', function(e) {
-            cleanInputErrors(this.parentElement);
-        });
-        select.addEventListener('focusout', function(e) {
-            selectIsFilled(this.parentElement);
-        });
-    }
-
-    var requiredInputs = form.querySelectorAll('input.required');
-    for(let input of requiredInputs) {
-        input.addEventListener('focusout', function(e) {
-            inputIsFilled(input);
-        });
-    }
-
-    var emailInputs = form.querySelectorAll('input.email');
-    for(let input of emailInputs) {
-        input.addEventListener('focusout', function(e) {
-            inputIsEmail(input);
-        });
-    }
-
-    if(paymentFields) {
-        holderNameInput.addEventListener('focusout', function(e) {
-            validateName();
-        });
-
-        cardNumberInput.addEventListener('focusout', function(e) {
-            validateCC();
-        });
-
-        documentInput.addEventListener('focusout', function(e) {
-            validateDocument();
-        });
-    }
-}
-
-function installmentCountListener(e) {
-    var totalElement = document.getElementById('total');
-
-    var selectedOption = this.selectedOptions[0];
-    totalElement.innerText = selectedOption.dataset.price.toString(10);
-}
-
-function formSubmitListener(e) {
-    if(!formSubmitted) {
-        setRealTimeValidation();
-        formSubmitted = true;
-    }
-    if(!formIsValid()) {
-        e.preventDefault();
-
-        return
-    }
-
-    if(paymentFields) {
-        setCreditCardHash();
-    }
-    disableSubmitButton();
-}
-
-function formIsValid() {
-    firstInvalidInput = null;
-    var valid = validateRequiredInputs();
-    valid = validateEmailInputs() && valid;
-    if(paymentFields) {
-        valid = validateName() && valid;
-        valid = validateCC() && valid;
-        valid = validateDocument() && valid;
-    }
-
-    if(firstInvalidInput) {
-        firstInvalidInput.scrollIntoView({block: "end", behavior: "smooth"});
-    }
-
-    return valid
-}
-
-function validateRequiredInputs() {
-    var valid = true;
-    var requiredInputs = form.querySelectorAll('input.required');
-    for(let input of requiredInputs) {
-        if(!inputIsFilled(input)) {
-            valid = false;
-        }
-    }
-
-    var requiredSelects = form.querySelectorAll('select.required');
-    for(let select of requiredSelects) {
-        if(!selectIsFilled(select.parentElement)) {
-            valid = false;
-        }
-    }
-
-    return valid
-}
-
-function validateEmailInputs() {
-    var valid = true;
-    var emailInputs = form.querySelectorAll('input.email');
-    for(let input of emailInputs) {
-        if(!inputIsEmail(input)) {
-            valid = false;
-        }
-    }
-
-    return valid
-}
-
-function inputIsFilled(input) {
-    if(!inputFilled(input)) {
-        firstInvalidInput = firstInvalidInput || input;
-        var errorSpan = inputErrorMessages(input)[0];
-        errorSpan.classList.remove('is-hidden');
-        input.classList.add('is-danger');
-
-        return false
-    }
-
-    return true
-}
-
-function selectIsFilled(select) {
-    var selectElem = select.querySelector('select');
-    if(!selectFilled(selectElem)) {
-        firstInvalidInput = firstInvalidInput || selectElem;
-        var errorSpan = inputErrorMessages(select)[0];
-        errorSpan.classList.remove('is-hidden');
-        select.classList.add('is-danger');
-
-        return false
-    }
-
-    return true
-}
-
-function inputIsEmail(input) {
-    if(inputFilled(input) && !validEmail(input.value)) {
-        firstInvalidInput = firstInvalidInput || input;
-        for(let errorSpan of inputErrorMessages(input)) {
-            if(errorSpan.classList.contains('email-error')) {
-                errorSpan.classList.remove('is-hidden');
-                input.classList.add('is-danger');
-
-                break
-            }
-        }
-
-        return false
-    }
-
-    return true
-}
-
-function validateName() {
-    if(inputFilled(holderNameInput) && !validCompleteName(holderNameInput.value)) {
-        firstInvalidInput = firstInvalidInput || holderNameInput;
-        var errorSpan = document.getElementById('name-error');
-        holderNameInput.classList.add('is-danger');
-        errorSpan.classList.remove('is-hidden');
-
-        return false
-    }
-
-    return true
-}
-
-function validateCC() {
-    var card = CreditcardWarder(cardNumberInput.value);
-
-    if(inputFilled(cardNumberInput) && (!card.validate() || card.getBrand() == "other")) {
-        firstInvalidInput = firstInvalidInput || cardNumberInput;
-        var errorSpan = document.getElementById('creditcard-error');
-        cardNumberInput.classList.add('is-danger');
-        errorSpan.classList.remove('is-hidden');
-
-        return false
-    }
-
-    return true
-}
-
-function validateDocument() {
-    if(inputFilled(documentInput) && !brazilValues.isCPF(documentInput.value)) {
-        firstInvalidInput = firstInvalidInput || documentInput;
-        var errorSpan = document.getElementById('document-error');
-        documentInput.classList.add('is-danger');
-        errorSpan.classList.remove('is-hidden');
-
-        return false
-    }
-
-    return true
-}
-
-function setCreditCardHash() {
-    var cardNumber = cardNumberInput.value;
-    var cardCvc = cvcInput.value;
-    var expirationDate = expirationDateInput.value.split('/');
-    var expMonth = expirationDate[0];
-    var expYear = expirationDate[1];
-
-    MoipCreditCard
-        .setEncrypter(JSEncrypt, 'node')
-        .setPubKey(pubKey)
-        .setCreditCard({
-            number: cardNumber,
-            cvc: cardCvc,
-            expirationMonth: expMonth,
-            expirationYear: expYear
         })
-        .hash()
-        .then(hash => {
-            hashInput.value = hash;
-        });
-}
 
-function disableSubmitButton() {
-    submitButton.disabled = true;
-    submitButton.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Aguarde...";
-}
-
-function creditCardBrandListener(e) {
-    for(let img of images) {
-        img.classList.remove("unselected");
+        cardNumberInput.addEventListener('input', creditCardBrandListener)
     }
 
-    var card = CreditcardWarder(this.value);
-    var brand = card.getBrand();
+    form.addEventListener('submit', formSubmitListener)
 
-    if(this.value) {
+    function setRealTimeValidation() {
+        var formInputs = form.querySelectorAll('input.required')
+        for(let input of formInputs) {
+            input.addEventListener('focusin', function(e) {
+                cleanInputErrors(input)
+            })
+        }
+
+        var formSelects = form.querySelectorAll('select.required')
+        for(let select of formSelects) {
+            select.addEventListener('focusin', function(e) {
+                cleanInputErrors(this.parentElement)
+            });
+            select.addEventListener('focusout', function(e) {
+                selectIsFilled(this.parentElement)
+            })
+        }
+
+        var requiredInputs = form.querySelectorAll('input.required')
+        for(let input of requiredInputs) {
+            input.addEventListener('focusout', function(e) {
+                inputIsFilled(input)
+            })
+        }
+
+        var emailInputs = form.querySelectorAll('input.email')
+        for(let input of emailInputs) {
+            input.addEventListener('focusout', function(e) {
+                inputIsEmail(input)
+            })
+        }
+
+        if(paymentFields) {
+            holderNameInput.addEventListener('focusout', function(e) {
+                validateName()
+            })
+
+            cardNumberInput.addEventListener('focusout', function(e) {
+                validateCC()
+            })
+
+            documentInput.addEventListener('focusout', function(e) {
+                validateDocument()
+            })
+        }
+    }
+
+    function installmentCountListener(e) {
+        var totalElement = document.getElementById('total')
+
+        var selectedOption = this.selectedOptions[0]
+        totalElement.innerText = selectedOption.dataset.price.toString(10)
+    }
+
+    function formSubmitListener(e) {
+        if(!formSubmitted) {
+            setRealTimeValidation()
+            formSubmitted = true
+        }
+        if(!formIsValid()) {
+            e.preventDefault()
+
+            return
+        }
+
+        if(paymentFields) {
+            setCreditCardHash()
+        }
+        disableSubmitButton()
+    }
+
+    function formIsValid() {
+        firstInvalidInput = null
+        var valid = validateRequiredInputs()
+        valid = validateEmailInputs() && valid
+        if(paymentFields) {
+            valid = validateName() && valid
+            valid = validateCC() && valid
+            valid = validateDocument() && valid
+        }
+
+        if(firstInvalidInput) {
+            firstInvalidInput.scrollIntoView({block: 'end', behavior: 'smooth'})
+        }
+
+        return valid
+    }
+
+    function validateRequiredInputs() {
+        var valid = true
+        var requiredInputs = form.querySelectorAll('input.required')
+        for(let input of requiredInputs) {
+            if(!inputIsFilled(input)) {
+                valid = false
+            }
+        }
+
+        var requiredSelects = form.querySelectorAll('select.required')
+        for(let select of requiredSelects) {
+            if(!selectIsFilled(select.parentElement)) {
+                valid = false
+            }
+        }
+
+        return valid
+    }
+
+    function validateEmailInputs() {
+        var valid = true
+        var emailInputs = form.querySelectorAll('input.email')
+        for(let input of emailInputs) {
+            if(!inputIsEmail(input)) {
+                valid = false
+            }
+        }
+
+        return valid
+    }
+
+    function inputIsFilled(input) {
+        if(!inputFilled(input)) {
+            firstInvalidInput = firstInvalidInput || input
+            var errorSpan = inputErrorMessages(input)[0]
+            errorSpan.classList.remove('is-hidden')
+            input.classList.add('is-danger')
+
+            return false
+        }
+
+        return true
+    }
+
+    function selectIsFilled(select) {
+        var selectElem = select.querySelector('select')
+        if(!selectFilled(selectElem)) {
+            firstInvalidInput = firstInvalidInput || selectElem
+            var errorSpan = inputErrorMessages(select)[0]
+            errorSpan.classList.remove('is-hidden')
+            select.classList.add('is-danger')
+
+            return false
+        }
+
+        return true
+    }
+
+    function inputIsEmail(input) {
+        if(inputFilled(input) && !validEmail(input.value)) {
+            firstInvalidInput = firstInvalidInput || input
+            for(let errorSpan of inputErrorMessages(input)) {
+                if(errorSpan.classList.contains('email-error')) {
+                    errorSpan.classList.remove('is-hidden')
+                    input.classList.add('is-danger')
+
+                    break
+                }
+            }
+
+            return false
+        }
+
+        return true
+    }
+
+    function validateName() {
+        if(inputFilled(holderNameInput) && !validCompleteName(holderNameInput.value)) {
+            firstInvalidInput = firstInvalidInput || holderNameInput
+            var errorSpan = document.getElementById('name-error')
+            holderNameInput.classList.add('is-danger')
+            errorSpan.classList.remove('is-hidden')
+
+            return false
+        }
+
+        return true
+    }
+
+    function validateCC() {
+        var card = CreditcardWarder(cardNumberInput.value)
+
+        if(inputFilled(cardNumberInput) && (!card.validate() || card.getBrand() == 'other')) {
+            firstInvalidInput = firstInvalidInput || cardNumberInput
+            var errorSpan = document.getElementById('creditcard-error')
+            cardNumberInput.classList.add('is-danger')
+            errorSpan.classList.remove('is-hidden')
+
+            return false
+        }
+
+        return true
+    }
+
+    function validateDocument() {
+        if(inputFilled(documentInput) && !brazilValues.isCPF(documentInput.value)) {
+            firstInvalidInput = firstInvalidInput || documentInput
+            var errorSpan = document.getElementById('document-error')
+            documentInput.classList.add('is-danger');
+            errorSpan.classList.remove('is-hidden')
+
+            return false
+        }
+
+        return true
+    }
+
+    function setCreditCardHash() {
+        var cardNumber = cardNumberInput.value
+        var cardCvc = cvcInput.value
+        var expirationDate = expirationDateInput.value.split('/')
+        var expMonth = expirationDate[0]
+        var expYear = expirationDate[1]
+
+        MoipCreditCard
+            .setEncrypter(JSEncrypt, 'node')
+            .setPubKey(pubKey)
+            .setCreditCard({
+                number: cardNumber,
+                cvc: cardCvc,
+                expirationMonth: expMonth,
+                expirationYear: expYear
+            })
+            .hash()
+            .then(hash => {
+                hashInput.value = hash;
+            })
+    }
+
+    function disableSubmitButton() {
+        submitButton.disabled = true
+        submitButton.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Aguarde..."
+    }
+
+    function creditCardBrandListener(e) {
         for(let img of images) {
-            if(img.id != brand) {
-                img.classList.add("unselected");
+            img.classList.remove('unselected')
+        }
+
+        var card = CreditcardWarder(this.value)
+        var brand = card.getBrand()
+
+        if(this.value) {
+            for(let img of images) {
+                if(img.id != brand) {
+                    img.classList.add('unselected')
+                }
             }
         }
     }
-}
 
-function cepToAddress() {
-    cep(zipInput.value).then(function(result) {
-        zipInput.parentElement.classList.remove('is-loading');
-        addressInputsDiv.classList.remove('is-hidden');
-        streetInput.value = result.street;
-        districtInput.value = result.neighborhood;
-        cityInput.value = result.city;
-        stateInput.value = result.state;
-        setAddressInputsRequired();
-        numberInput.focus();
-    }, function() {
-        zipInput.parentElement.classList.remove('is-loading');
-        addressInputsDiv.classList.remove('is-hidden');
-        setAddressInputsRequired();
-        streetInput.focus();
-    });
-}
+    function cepToAddress() {
+        cep(zipInput.value).then(function(result) {
+            zipInput.parentElement.classList.remove('is-loading')
+            addressInputsDiv.classList.remove('is-hidden')
+            streetInput.value = result.street
+            districtInput.value = result.neighborhood
+            cityInput.value = result.city
+            stateInput.value = result.state
+            setAddressInputsRequired()
+            numberInput.focus()
+        }, function() {
+            zipInput.parentElement.classList.remove('is-loading')
+            addressInputsDiv.classList.remove('is-hidden')
+            setAddressInputsRequired()
+            streetInput.focus()
+        })
+    }
 
-function setAddressInputsRequired() {
-    var addressInputs = form.querySelectorAll('#address input');
-    for(let input of addressInputs) {
-        if(input !== complement) {
-            input.classList.add('required');
-            if(formSubmitted) {
-                inputIsFilled(input);
-                input.addEventListener('focusin', function(e) {
-                    cleanInputErrors(this);
-                });
-                input.addEventListener('focusout', function(e) {
-                    inputIsFilled(this);
-                });
+    function setAddressInputsRequired() {
+        var addressInputs = form.querySelectorAll('#address input')
+        for(let input of addressInputs) {
+            if(input !== complement) {
+                input.classList.add('required')
+                if(formSubmitted) {
+                    inputIsFilled(input)
+                    input.addEventListener('focusin', function(e) {
+                        cleanInputErrors(this)
+                    })
+                    input.addEventListener('focusout', function(e) {
+                        inputIsFilled(this)
+                    })
+                }
             }
         }
     }
-}
 
-function cleanInputErrors(input) {
-    input.classList.remove('is-danger');
-    for(let errorSpan of inputErrorMessages(input)) {
-        errorSpan.classList.add('is-hidden');
-    }
-}
-
-function inputErrorMessages(input) {
-    var errorsDiv = input.nextElementSibling;
-    while(!errorsDiv.classList.contains('input-errors')) {
-        errorsDiv = errorsDiv.nextElementSibling;
-    }
-
-    return errorsDiv.children
-}
-
-// Countdown
-
-function startTimer(duration, display) {
-    var startDate = new Date(Date.now());
-    var start = startDate.getMinutes() * 60 + startDate.getSeconds();
-    var expiry = start + duration;
-
-    var timer = duration, minutes, seconds;
-    var countdown = setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
-        var nowDate = new Date(Date.now());
-        var now = nowDate.getMinutes() * 60 + nowDate.getSeconds();
-        var difference = now - start;
-        timer = duration - (now - start);
-
-        if(now > expiry) {
-            document.querySelector('.expiredTime').classList.add('active');
-            document.documentElement.classList.add("is-clipped");
-            clearInterval(countdown);
+    function cleanInputErrors(input) {
+        input.classList.remove('is-danger')
+        for(let errorSpan of inputErrorMessages(input)) {
+            errorSpan.classList.add('is-hidden')
         }
-    }, 1000);
-}
+    }
 
-window.onload = function () {
-    var limit = 15 * 60;
-    var display = document.querySelector('#remainingTime');
-    startTimer(limit, display);
-};
+    function inputErrorMessages(input) {
+        var errorsDiv = input.nextElementSibling
+        while(!errorsDiv.classList.contains('input-errors')) {
+            errorsDiv = errorsDiv.nextElementSibling
+        }
+
+        return errorsDiv.children
+    }
+
+    // Countdown
+
+    function startTimer(duration, display) {
+        var startDate = new Date(Date.now())
+        var start = startDate.getMinutes() * 60 + startDate.getSeconds()
+        var expiry = start + duration
+
+        var timer = duration, minutes, seconds
+        var countdown = setInterval(function () {
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10)
+
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            seconds = seconds < 10 ? '0' + seconds : seconds
+
+            display.textContent = minutes + ':' + seconds
+
+            var nowDate = new Date(Date.now())
+            var now = nowDate.getMinutes() * 60 + nowDate.getSeconds()
+            var difference = now - start
+            timer = duration - (now - start)
+
+            if(now > expiry) {
+                document.querySelector('.expiredTime').classList.add('active')
+                document.documentElement.classList.add('is-clipped')
+                clearInterval(countdown)
+            }
+        }, 1000)
+    }
+
+    var limit = 15 * 60
+    var display = document.querySelector('#remainingTime')
+    startTimer(limit, display)
+  }
+}

@@ -1,6 +1,9 @@
-import '../my_orders'
+import adminOrders from '../my_orders'
 
-window.onload = function() {
-    var tablinks = document.getElementsByClassName("tablinks");
-    tablinks[0].click();
+export default {
+	init() {
+	    var tablinks = document.getElementsByClassName("tablinks")
+	    tablinks[0].click()
+	    adminOrders.init()
+	}
 }
