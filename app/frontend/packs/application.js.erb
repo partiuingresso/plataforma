@@ -19,18 +19,3 @@
 import 'src'
 import 'assets/images/index.js.erb'
 import 'assets/scss/index.js.erb'
-
-import Vue from 'vue/dist/vue.esm'
-import TicketManager from 'components/ticket_manager.vue'
-import ConfirmDialog from 'components/confirm_dialog.vue'
-import TicketForm from 'components/ticket_form.vue'
-
-Vue.component('ticket-manager', TicketManager)
-Vue.component('confirm-dialog', ConfirmDialog)
-Vue.component('ticket-form', TicketForm)
-
-document.addEventListener('DOMContentLoaded', () => {
-	const app = new Vue({
-		el: '[data-behavior="vue"]'
-	})
-})

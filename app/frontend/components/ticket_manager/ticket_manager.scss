@@ -1,0 +1,11 @@
+.table {
+	box-shadow: none;
+}
+
+.icon.trash {
+  color: hsl(0, 0%, 48%);
+}
+
+.icon.trash:hover {
+  color: unset;
+}
