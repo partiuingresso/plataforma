@@ -18,13 +18,13 @@
 
 <script >
 	export default {
-	  props: {
-	    offer: {
-	      type: Object,
-	      default() {
-	        return {}
-	      }
-	    },
+		props: {
+			offer: {
+				type: Object,
+				default() {
+					return {}
+				}
+			},
 	    free: {
 	    	type: Boolean
 	    }
