@@ -45,8 +45,11 @@ class VoucherPdfLegacy
       end
 
       move_down 50
-      text "PartiuIngresso.com", inline_format: true, size: 9, style: :bold
-      text "suporte@partiuingresso.com", inline_format: true, size: 9
+      text "<link href='https://partiuingresso.com'>PartiuIngresso.com</link>", inline_format: true, size: 9, style: :bold
+      move_down 5
+      text "<color rgb='a6a6a6'><link href='https://ajuda.partiuingresso.com'>Precisa de ajuda?</link></color>", inline_format: true, size: 8
+      move_down 2
+      text "<color rgb='a6a6a6'><link href='https://ajuda.partiuingresso.com'>Acesse ajuda.partiuingresso.com</link></color>", inline_format: true, size: 8
     end
   end
 
