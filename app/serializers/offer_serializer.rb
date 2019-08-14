@@ -12,17 +12,11 @@ class OfferSerializer
   end
 
   attribute :price do |object|
-    {
-      amount: object.price.to_f,
-      display: object.price.format
-    }
+      object.price.to_f
   end
 
   attribute :price_with_fee do |object|
-    {
-      amount: object.price_with_service_fee.to_f,
-      display: object.price_with_service_fee.format
-    }
+      object.price_with_service_fee.to_f
   end
 
   attribute :available do |object|

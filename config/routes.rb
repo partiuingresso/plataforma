@@ -56,8 +56,10 @@ Rails.application.routes.draw do
     get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
     resources :companies, only: [:show, :edit, :update]
     get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
-    resources :events, except: [:index, :show]
-    resources :offers, only: [:destroy]
+    resources :events, except: [:index, :show] do
+      resources :offers, only: [:create]
+    end
+    resources :offers, only: [:update, :destroy]
     resources :company_finances, except: [:index, :destroy]
   end
 

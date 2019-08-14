@@ -6,112 +6,127 @@
 	      <p class="modal-card-title" v-html="title"></p>
 	      <button class="delete" aria-label="close" @click="closeModal()"></button>
 	    </header>
-	    <section class="modal-card-body">
-	    	<div class="offer-form">
-	    		<div class="columns">
-	    			<div class="column is-8">
-		    			<div class="field is-expanded">
-		    				<label class="label is-small">Nome do ingresso</label>
-		    				<p class="control has-icons-right">
-		    					<input v-model="offer.name" class="input" type="text" placeholder="Ingresso único, Meia-entrada, VIP, etc.">	
-									<span class="icon is-right has-text-danger">
-										<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-									</span>
-		    				</p>
-		    			</div>
+  		<form @submit.prevent="formSubmitted">
+		    <section class="modal-card-body">
+		    	<div class="offer-form">
+		    		<div class="columns">
+		    			<div class="column is-8">
+			    			<div class="field is-expanded">
+			    				<label class="label is-small">Nome do ingresso</label>
+			    				<p class="control has-icons-right">
+			    					<input
+			    						v-model="actionOffer.name"
+			    						class="input"
+			    						type="text"
+			    						placeholder="Ingresso único, Meia-entrada, VIP, etc."
+			    						autofocus
+			    					>	
+										<span class="icon is-right has-text-danger">
+											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+										</span>
+			    				</p>
+			    			</div>
+					    </div>
+					    <div class="column is-4">
+					    	<div class="field is-horizontal">
+					    		<div class="field-body">
+					    			<div class="field is-narrow" style="width: 120px;">
+					    				<label class="label is-small">Lote</label>
+					    				<p class="control is-narrow">
+					    					<input v-model="actionOffer.allotment" class="input" type="text" placeholder="Ex. 1">	
+					    				</p>
+					    			</div>
+					    			<div class="field is-narrow" style="width: 120px;">
+					    				<label class="label is-small">Quantidade</label>
+					    				<p class="control is-narrow has-icons-right">
+					    					<input v-model="actionOffer.quantity" class="input" type="text" placeholder="Ex. 100">	
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
 				    </div>
-				    <div class="column is-4">
-				    	<div class="field is-horizontal">
-				    		<div class="field-body">
-				    			<div class="field is-narrow" style="width: 120px;">
-				    				<label class="label is-small">Lote</label>
-				    				<p class="control is-narrow">
-				    					<input v-model="offer.allotment" class="input" type="text" placeholder="Ex. 1">	
-				    				</p>
-				    			</div>
-				    			<div class="field is-narrow" style="width: 120px;">
-				    				<label class="label is-small">Quantidade</label>
-				    				<p class="control is-narrow has-icons-right">
-				    					<input v-model="offer.quantity" class="input" type="text" placeholder="Ex. 100">	
-											<span class="icon is-right has-text-danger">
-												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-											</span>
-				    				</p>
-				    			</div>
+			    	<div class="columns">
+			    		<div class="column is-8">
+			    			<div class="field is-horizontal">
+			    				<div class="field-body">
+					    			<div class="field is-narrow">
+					    				<label class="label is-small">Data de início das vendas</label>
+					    				<p class="control has-icons-right">
+					    					<input v-model="actionOffer.start_t" class="input" type="datetime-local">	
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    			</div>
+					    			<div class="field is-narrow">
+					    				<label class="label is-small">Data de término das vendas</label>
+					    				<p class="control has-icons-right">
+					    					<input v-model="actionOffer.end_t" class="input" type="datetime-local">	
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    			</div>
+					    		</div>
 				    		</div>
-				    	</div>
-				    </div>
-			    </div>
-		    	<div class="columns">
-		    		<div class="column is-8">
-		    			<div class="field is-horizontal">
-		    				<div class="field-body">
-				    			<div class="field is-narrow">
-				    				<label class="label is-small">Data de início das vendas</label>
-				    				<p class="control has-icons-right">
-				    					<input v-model="offer.start_t" class="input" type="datetime-local">	
-											<span class="icon is-right has-text-danger">
-												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-											</span>
-				    				</p>
-				    			</div>
-				    			<div class="field is-narrow">
-				    				<label class="label is-small">Data de término das vendas</label>
-				    				<p class="control has-icons-right">
-				    					<input v-model="offer.end_t" class="input" type="datetime-local">	
-											<span class="icon is-right has-text-danger">
-												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-											</span>
-				    				</p>
-				    			</div>
+					    </div>
+				    	<div class="column is-4">
+				    		<div class="columns is-vcentered">
+				    			<div class="column is-half">
+					    			<div class="field is-narrow" style="width: 120px;">
+					    				<label class="label is-small">Preço</label>
+					    				<p class="control has-icons-right">
+					    					<money
+					    						id="price-input"
+					    						class="input"
+					    						type="text"
+					    						placeholder="R$"
+					    						v-model.lazy="actionOffer.price"
+					    						v-bind="moneyConfig"
+					    						:disabled="free"
+					    					>	
+						    				</money>
+												<span v-if="!free" class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    			</div>
+					    		</div>
+					    		<div class="column is-half">
+					    			<label class="label is-small">Total comprador</label>
+					    			<p>{{ finalPrice }}</p>
+					    		</div>
 				    		</div>
 			    		</div>
 				    </div>
-			    	<div class="column is-4">
-			    		<div class="columns is-vcentered">
-			    			<div class="column is-half">
-				    			<div class="field is-narrow" style="width: 120px;">
-				    				<label class="label is-small">Preço</label>
-				    				<p class="control has-icons-right">
-				    					<input
-				    						id="price-input"
-				    						@input="offerPriceInput(e)"
-				    						:value="offer.price.display"
-				    						class="input"
-				    						type="text"
-				    						placeholder="R$"
-				    					>	
-											<span class="icon is-right has-text-danger">
-												<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
-											</span>
-				    				</p>
-				    			</div>
-				    		</div>
-				    		<div class="column is-half">
-				    			<label class="label is-small">Total comprador</label>
-				    			<p class="help">{{ 'R$10,00' }}</p>
-				    		</div>
-			    		</div>
-		    		</div>
-			    </div>
-			    <div class="field is-narrow">
-			    	<label class="label is-small">Descriação do ingresso (opcional)</label>
-			    	<p class="control">
-			    		<textarea v-model="offer.description" class="textarea"></textarea>
-			    	</p>
-			    </div>
-	    	</div>
-	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button" @click="closeModal()">Cancelar</button>
-	      <button class="button is-success" @click="closeModal(true)">{{ actionMessage }}</button>
-	    </footer>
+				    <div class="field is-narrow">
+				    	<label class="label is-small">Descriação do ingresso (opcional)</label>
+				    	<p class="control">
+				    		<textarea v-model="actionOffer.description" class="textarea"></textarea>
+				    	</p>
+				    </div>
+		    	</div>
+		    </section>
+		    <footer class="modal-card-foot">
+		      <a class="button" @click="closeModal()">Cancelar</a>
+		      <button type="submit" class="button is-success">{{ actionMessage }}</button>
+		    </footer>
+		  </form>
 	  </div>
 	</div>
 </template>
 
 <script>
+	import Rails from 'rails-ujs'
+	import { Money as VMoney } from 'v-money'
+	import Money from 'src/utils/money'
+	import cloneDeep from 'lodash.clonedeep'
 	export default {
+		components: { money: VMoney },
 		props: {
 			offer: {
 				type: Object,
@@ -121,23 +136,106 @@
 			},
 	    free: {
 	    	type: Boolean
+	    },
+	    event: {
+	    	type: String
 	    }
 	  },
 		data() {
 			return {
 				isActive: true,
+				actionOffer: cloneDeep(this.offer) || {},
+				moneyConfig: {
+					decimal: ',',
+					thousands: '.',
+					prefix: 'R$ ',
+					precision: 2,
+					masked: false
+				}
 			}
 		},
 		methods: {
-			closeModal(confirmation=false) {
+			closeModal() {
 				this.isActive = false
-				if(confirmation) {
-					this.$emit('confirm')
-				} else {
-					this.$emit('close')
-				}
+				this.$emit('close')
 			},
-			offerPriceInput(e) {
+			formSubmitted() {
+				if(this.actionOffer.id) {
+					this.updateOffer()
+				} else {
+					this.createOffer()
+				}
+				this.closeModal()
+			},
+			updateOffer() {
+				Rails.ajax({
+					url: `/offers/${this.actionOffer.id}`,
+					type: 'patch',
+					data: this.formData,
+					success: this.successfulOfferUpdate,
+					error: this.offerUpdateError 
+				})
+			},
+			successfulOfferUpdate() {
+				bulmaToast.toast(
+					{
+						message: 'Ingresso atualizado com sucesso.',
+						type: 'is-success',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
+				this.$root.$emit('edit:offer', this.actionOffer)
+			},
+			offerUpdateError() {
+				bulmaToast.toast(
+					{
+						message: 'Não foi possível atualizar esse ingresso.',
+						type: 'is-danger',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
+			},
+			createOffer() {
+				Rails.ajax({
+					url: `/events/${this.event}/offers`,
+					type: 'post',
+					data: this.formData,
+					success: this.successfulOfferCreation,
+					error: this.offerCreationError
+				})
+			},
+			successfulOfferCreation(response_data) {
+				bulmaToast.toast(
+					{
+						message: 'Ingresso criado com sucesso.',
+						type: 'is-success',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
+				const response = response_data.data
+				const newOffer = Object.assign({id: response.id}, response.attributes)
+				this.$root.$emit('create:offer', newOffer)
+			},
+			offerCreationError() {
+				bulmaToast.toast(
+					{
+						message: 'Não foi possível criar esse ingresso.',
+						type: 'is-danger',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
 			}
 		},
 		computed: {
@@ -146,8 +244,26 @@
 				return `${this.actionMessage} <b>${type}</b>`
 			},
 			actionMessage() {
-				var action = this.offer ? 'Editar' : 'Criar'
+				var action = this.actionOffer.id ? 'Editar' : 'Criar'
 				return `${action} ingresso`
+			},
+			finalPrice() {
+				const price = this.actionOffer.price > 0 ? Math.round(this.actionOffer.price * 100) : 0
+				var priceFormat = Money({amount: price}).multiply(1.1).toFormat()
+
+				return priceFormat
+			},
+			formData() {
+				const formData = new FormData()
+				formData.append('offer[name]', this.actionOffer.name)
+				formData.append('offer[allotment]', this.actionOffer.allotment)
+				formData.append('offer[quantity]', this.actionOffer.quantity)
+				formData.append('offer[start_t]', this.actionOffer.start_t)
+				formData.append('offer[end_t]', this.actionOffer.end_t)
+				formData.append('offer[price_cents]', Math.round(this.actionOffer.price * 100))
+				formData.append('offer[description]', this.actionOffer.description || '')
+
+				return formData
 			}
 		}
 	}
