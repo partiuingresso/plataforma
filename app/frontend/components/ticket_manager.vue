@@ -121,7 +121,7 @@ export default {
 			Object.assign(updatedOffer, $event)
 		})
 		this.$root.$on('create:offer', ($event) => {
-			this.offers.push($event)
+			this.offers.unshift($event)
 		})
 	},
 	methods: {

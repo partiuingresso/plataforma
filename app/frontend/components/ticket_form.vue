@@ -6,7 +6,7 @@
 	      <p class="modal-card-title" v-html="title"></p>
 	      <button class="delete" aria-label="close" @click="closeModal()"></button>
 	    </header>
-  		<form @submit.prevent="formSubmitted">
+  		<form @submit.prevent="submit">
 		    <section class="modal-card-body">
 		    	<div class="offer-form">
 		    		<div class="columns">
@@ -15,16 +15,23 @@
 			    				<label class="label is-small">Nome do ingresso</label>
 			    				<p class="control has-icons-right">
 			    					<input
-			    						v-model="actionOffer.name"
+			    						v-model.trim="$v.actionOffer.name.$model"
+			    						:class="{ 'is-danger': $v.actionOffer.name.$error }"
 			    						class="input"
 			    						type="text"
 			    						placeholder="Ingresso único, Meia-entrada, VIP, etc."
 			    						autofocus
-			    					>	
+			    					/>	
 										<span class="icon is-right has-text-danger">
 											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 										</span>
 			    				</p>
+			    				<div v-if="$v.actionOffer.name.$error">
+				    				<p v-if="!$v.actionOffer.name.required" class="help is-danger">Campo Obrigatório</p>
+				    				<p v-if="!$v.actionOffer.name.maxLength" class="help is-danger">
+					    				Deve ter no máximo {{ $v.actionOffer.name.$params.maxLength.max }} caracteres
+					    			</p>
+					    		</div>
 			    			</div>
 					    </div>
 					    <div class="column is-4">
@@ -33,17 +40,36 @@
 					    			<div class="field is-narrow" style="width: 120px;">
 					    				<label class="label is-small">Lote</label>
 					    				<p class="control is-narrow">
-					    					<input v-model="actionOffer.allotment" class="input" type="text" placeholder="Ex. 1">	
+					    					<input
+					    						v-model.trim="actionOffer.allotment"
+					    						type="text"
+					    						class="input"
+					    						placeholder="Ex. 1"
+					    					/>
 					    				</p>
 					    			</div>
 					    			<div class="field is-narrow" style="width: 120px;">
 					    				<label class="label is-small">Quantidade</label>
 					    				<p class="control is-narrow has-icons-right">
-					    					<input v-model="actionOffer.quantity" class="input" type="text" placeholder="Ex. 100">	
+					    					<input
+					    						v-model.trim="$v.actionOffer.quantity.$model"
+					    						:class="{ 'is-danger': $v.actionOffer.quantity.$error }"
+					    						type="text"
+					    						class="input"
+					    						placeholder="Ex. 100"
+					    					/>
 												<span class="icon is-right has-text-danger">
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
+					    				<div v-if="$v.actionOffer.quantity.$error">
+						    				<p v-if="!$v.actionOffer.quantity.required" class="help is-danger">
+						    					Campo Obrigatório
+						    				</p>
+						    				<p v-else-if="!$v.actionOffer.name.minValue" class="help is-danger">
+							    				Deve ser no mínimo {{ $v.actionOffer.quantity.$params.minValue.min }}
+							    			</p>
+							    		</div>
 					    			</div>
 					    		</div>
 					    	</div>
@@ -56,20 +82,47 @@
 					    			<div class="field is-narrow">
 					    				<label class="label is-small">Data de início das vendas</label>
 					    				<p class="control has-icons-right">
-					    					<input v-model="actionOffer.start_t" class="input" type="datetime-local">	
+					    					<input
+					    						v-model="$v.actionOffer.start_t.$model"
+					    						:class="{ 'is-danger': $v.actionOffer.start_t.$error }"
+					    						type="datetime-local"
+					    						class="input"
+					    						novalidate
+					    					/>
 												<span class="icon is-right has-text-danger">
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
+					    				<div v-if="$v.actionOffer.start_t.$error">
+						    				<p v-if="!$v.actionOffer.start_t.required" class="help is-danger">
+						    					Campo Obrigatório
+						    				</p>
+						    				<p v-else-if="!$v.actionOffer.start_t.maxValue" class="help is-danger">
+							    				Deve ser anterior ao término das vendas
+							    			</p>
+							    		</div>
 					    			</div>
 					    			<div class="field is-narrow">
 					    				<label class="label is-small">Data de término das vendas</label>
 					    				<p class="control has-icons-right">
-					    					<input v-model="actionOffer.end_t" class="input" type="datetime-local">	
+					    					<input
+					    						v-model="$v.actionOffer.end_t.$model"
+					    						:class="{ 'is-danger': $v.actionOffer.end_t.$error }"
+					    						type="datetime-local"
+					    						class="input"
+					    					/>
 												<span class="icon is-right has-text-danger">
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
+					    				<div v-if="$v.actionOffer.end_t.$error">
+						    				<p v-if="!$v.actionOffer.end_t.required" class="help is-danger">
+						    					Campo Obrigatório
+						    				</p>
+						    				<p v-else-if="!$v.actionOffer.end_t.minValue" class="help is-danger">
+							    				Deve ser posterior ao início das vendas
+							    			</p>
+							    		</div>
 					    			</div>
 					    		</div>
 				    		</div>
@@ -81,19 +134,24 @@
 					    				<label class="label is-small">Preço</label>
 					    				<p class="control has-icons-right">
 					    					<money
-					    						id="price-input"
+					    						v-model.lazy="$v.actionOffer.price.$model"
+					    						v-bind="moneyConfig"
+					    						:disabled="free"
+					    						:class="{ 'is-danger': $v.actionOffer.price.$error }"
 					    						class="input"
 					    						type="text"
 					    						placeholder="R$"
-					    						v-model.lazy="actionOffer.price"
-					    						v-bind="moneyConfig"
-					    						:disabled="free"
 					    					>	
 						    				</money>
 												<span v-if="!free" class="icon is-right has-text-danger">
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
+					    				<div v-if="$v.actionOffer.price.$error">
+						    				<p v-if="!$v.actionOffer.price.minValue" class="help is-danger">
+						    					Deve ser positivo
+						    				</p>
+						    			</div>
 					    			</div>
 					    		</div>
 					    		<div class="column is-half">
@@ -106,7 +164,17 @@
 				    <div class="field is-narrow">
 				    	<label class="label is-small">Descriação do ingresso (opcional)</label>
 				    	<p class="control">
-				    		<textarea v-model="actionOffer.description" class="textarea"></textarea>
+				    		<textarea
+				    			v-model="$v.actionOffer.description.$model"
+	    						:class="{ 'is-danger': $v.actionOffer.description.$error }"
+				    			class="textarea"
+				    		>
+				    		</textarea>
+		    				<div v-if="$v.actionOffer.description.$error">
+			    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
+					    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
+			    				</p>
+			    			</div>
 				    	</p>
 				    </div>
 		    	</div>
@@ -125,6 +193,7 @@
 	import { Money as VMoney } from 'v-money'
 	import Money from 'src/utils/money'
 	import cloneDeep from 'lodash.clonedeep'
+	import { required, minValue, maxLength } from 'vuelidate/lib/validators'
 	export default {
 		components: { money: VMoney },
 		props: {
@@ -144,7 +213,14 @@
 		data() {
 			return {
 				isActive: true,
-				actionOffer: cloneDeep(this.offer) || {},
+				actionOffer: cloneDeep(this.offer) || {
+					name: '',
+					quantity: '',
+					start_t: '',
+					end_t: '',
+					price: '',
+					description: ''
+				},
 				moneyConfig: {
 					decimal: ',',
 					thousands: '.',
@@ -154,12 +230,47 @@
 				}
 			}
 		},
+		validations: {
+			actionOffer: {
+				name: {
+					required,
+					maxLength: maxLength(45)
+				},
+				quantity: {
+					required,
+					minValue: minValue(1)
+				},
+				start_t: {
+					required,
+					maxValue: function(value) {
+						return !this.actionOffer.end_t || (new Date(value) < new Date(this.actionOffer.end_t))
+					}
+				},
+				end_t: {
+					required,
+					minValue: function(value) {
+						return (new Date(value) > new Date(this.actionOffer.start_t))
+					}
+				},
+				price: {
+					minValue: minValue(0)
+				},
+				description: {
+					maxLength: maxLength(200)
+				}
+			}
+		},
 		methods: {
 			closeModal() {
 				this.isActive = false
 				this.$emit('close')
 			},
-			formSubmitted() {
+			submit() {
+				if(this.$v.$invalid) {
+					this.$v.$touch()
+					return
+				}
+
 				if(this.actionOffer.id) {
 					this.updateOffer()
 				} else {
@@ -256,7 +367,7 @@
 			formData() {
 				const formData = new FormData()
 				formData.append('offer[name]', this.actionOffer.name)
-				formData.append('offer[allotment]', this.actionOffer.allotment)
+				formData.append('offer[allotment]', this.actionOffer.allotment || '')
 				formData.append('offer[quantity]', this.actionOffer.quantity)
 				formData.append('offer[start_t]', this.actionOffer.start_t)
 				formData.append('offer[end_t]', this.actionOffer.end_t)
