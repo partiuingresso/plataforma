@@ -6,18 +6,196 @@
 	      <p class="modal-card-title" v-html="title"></p>
 	      <button class="delete" aria-label="close" @click="closeModal()"></button>
 	    </header>
-	    <section class="modal-card-body">
-	    </section>
-	    <footer class="modal-card-foot">
-	      <button class="button" @click="closeModal()">Cancelar</button>
-	      <button class="button is-success" @click="closeModal(true)">{{ actionMessage }}</button>
-	    </footer>
+  		<form @submit.prevent="submit">
+		    <section class="modal-card-body">
+		    	<div class="offer-form">
+		    		<div class="columns">
+		    			<div class="column is-8">
+			    			<div class="field is-expanded">
+			    				<label class="label is-small">Nome do ingresso</label>
+			    				<p class="control has-icons-right">
+			    					<input
+			    						v-model.trim="$v.actionOffer.name.$model"
+			    						:class="{ 'is-danger': $v.actionOffer.name.$error }"
+			    						class="input"
+			    						type="text"
+			    						placeholder="Ingresso único, Meia-entrada, VIP, etc."
+			    						autofocus
+			    					/>	
+										<span class="icon is-right has-text-danger">
+											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+										</span>
+			    				</p>
+			    				<div v-if="$v.actionOffer.name.$error">
+				    				<p v-if="!$v.actionOffer.name.required" class="help is-danger">Campo Obrigatório</p>
+				    				<p v-if="!$v.actionOffer.name.maxLength" class="help is-danger">
+					    				Deve ter no máximo {{ $v.actionOffer.name.$params.maxLength.max }} caracteres
+					    			</p>
+					    		</div>
+			    			</div>
+					    </div>
+					    <div class="column is-4">
+					    	<div class="field is-horizontal">
+					    		<div class="field-body">
+					    			<div class="field is-narrow" style="width: 120px;">
+					    				<label class="label is-small">Lote</label>
+					    				<p class="control is-narrow">
+					    					<input
+					    						v-model.trim="actionOffer.allotment"
+					    						type="text"
+					    						class="input"
+					    						placeholder="Ex. 1"
+					    					/>
+					    				</p>
+					    			</div>
+					    			<div class="field is-narrow" style="width: 120px;">
+					    				<label class="label is-small">Quantidade</label>
+					    				<p class="control is-narrow has-icons-right">
+					    					<input
+					    						v-model.trim="$v.actionOffer.quantity.$model"
+					    						:class="{ 'is-danger': $v.actionOffer.quantity.$error }"
+					    						type="text"
+					    						class="input"
+					    						placeholder="Ex. 100"
+					    					/>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    				<div v-if="$v.actionOffer.quantity.$error">
+						    				<p v-if="!$v.actionOffer.quantity.required" class="help is-danger">
+						    					Campo Obrigatório
+						    				</p>
+						    				<p v-else-if="!$v.actionOffer.name.minValue" class="help is-danger">
+							    				Deve ser no mínimo {{ $v.actionOffer.quantity.$params.minValue.min }}
+							    			</p>
+							    		</div>
+					    			</div>
+					    		</div>
+					    	</div>
+					    </div>
+				    </div>
+			    	<div class="columns">
+			    		<div class="column is-8">
+			    			<div class="field is-horizontal">
+			    				<div class="field-body">
+					    			<div class="field is-narrow">
+					    				<label class="label is-small">Data de início das vendas</label>
+					    				<p class="control has-icons-right">
+					    					<input
+					    						v-model="$v.actionOffer.start_t.$model"
+					    						:class="{ 'is-danger': $v.actionOffer.start_t.$error }"
+					    						type="datetime-local"
+					    						class="input"
+					    						novalidate
+					    					/>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    				<div v-if="$v.actionOffer.start_t.$error">
+						    				<p v-if="!$v.actionOffer.start_t.required" class="help is-danger">
+						    					Campo Obrigatório
+						    				</p>
+						    				<p v-else-if="!$v.actionOffer.start_t.maxValue" class="help is-danger">
+							    				Deve ser anterior ao término das vendas
+							    			</p>
+							    		</div>
+					    			</div>
+					    			<div class="field is-narrow">
+					    				<label class="label is-small">Data de término das vendas</label>
+					    				<p class="control has-icons-right">
+					    					<input
+					    						v-model="$v.actionOffer.end_t.$model"
+					    						:class="{ 'is-danger': $v.actionOffer.end_t.$error }"
+					    						type="datetime-local"
+					    						class="input"
+					    					/>
+												<span class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    				<div v-if="$v.actionOffer.end_t.$error">
+						    				<p v-if="!$v.actionOffer.end_t.required" class="help is-danger">
+						    					Campo Obrigatório
+						    				</p>
+						    				<p v-else-if="!$v.actionOffer.end_t.minValue" class="help is-danger">
+							    				Deve ser posterior ao início das vendas
+							    			</p>
+							    		</div>
+					    			</div>
+					    		</div>
+				    		</div>
+					    </div>
+				    	<div class="column is-4">
+				    		<div class="columns is-vcentered">
+				    			<div class="column is-half">
+					    			<div class="field is-narrow" style="width: 120px;">
+					    				<label class="label is-small">Preço</label>
+					    				<p class="control has-icons-right">
+					    					<money
+					    						v-model.lazy="$v.actionOffer.price.$model"
+					    						v-bind="moneyConfig"
+					    						:disabled="free"
+					    						:class="{ 'is-danger': $v.actionOffer.price.$error }"
+					    						class="input"
+					    						type="text"
+					    						placeholder="R$"
+					    					>	
+						    				</money>
+												<span v-if="!free" class="icon is-right has-text-danger">
+													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
+												</span>
+					    				</p>
+					    				<div v-if="$v.actionOffer.price.$error">
+						    				<p v-if="!$v.actionOffer.price.minValue" class="help is-danger">
+						    					Deve ser positivo
+						    				</p>
+						    			</div>
+					    			</div>
+					    		</div>
+					    		<div class="column is-half">
+					    			<label class="label is-small">Total comprador</label>
+					    			<p>{{ finalPrice }}</p>
+					    		</div>
+				    		</div>
+			    		</div>
+				    </div>
+				    <div class="field is-narrow">
+				    	<label class="label is-small">Descriação do ingresso (opcional)</label>
+				    	<p class="control">
+				    		<textarea
+				    			v-model="$v.actionOffer.description.$model"
+	    						:class="{ 'is-danger': $v.actionOffer.description.$error }"
+				    			class="textarea"
+				    		>
+				    		</textarea>
+		    				<div v-if="$v.actionOffer.description.$error">
+			    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
+					    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
+			    				</p>
+			    			</div>
+				    	</p>
+				    </div>
+		    	</div>
+		    </section>
+		    <footer class="modal-card-foot">
+		      <a class="button" @click="closeModal()">Cancelar</a>
+		      <button type="submit" class="button is-success">{{ actionMessage }}</button>
+		    </footer>
+		  </form>
 	  </div>
 	</div>
 </template>
 
-<script >
+<script>
+	import Rails from 'rails-ujs'
+	import { Money as VMoney } from 'v-money'
+	import Money from 'src/utils/money'
+	import cloneDeep from 'lodash.clonedeep'
+	import { required, minValue, maxLength } from 'vuelidate/lib/validators'
 	export default {
+		components: { money: VMoney },
 		props: {
 			offer: {
 				type: Object,
@@ -27,21 +205,148 @@
 			},
 	    free: {
 	    	type: Boolean
+	    },
+	    event: {
+	    	type: String
 	    }
 	  },
 		data() {
 			return {
 				isActive: true,
+				actionOffer: cloneDeep(this.offer) || {
+					name: '',
+					quantity: '',
+					start_t: '',
+					end_t: '',
+					price: '',
+					description: ''
+				},
+				moneyConfig: {
+					decimal: ',',
+					thousands: '.',
+					prefix: 'R$ ',
+					precision: 2,
+					masked: false
+				}
+			}
+		},
+		validations: {
+			actionOffer: {
+				name: {
+					required,
+					maxLength: maxLength(45)
+				},
+				quantity: {
+					required,
+					minValue: minValue(1)
+				},
+				start_t: {
+					required,
+					maxValue: function(value) {
+						return !this.actionOffer.end_t || (new Date(value) < new Date(this.actionOffer.end_t))
+					}
+				},
+				end_t: {
+					required,
+					minValue: function(value) {
+						return (new Date(value) > new Date(this.actionOffer.start_t))
+					}
+				},
+				price: {
+					minValue: minValue(0)
+				},
+				description: {
+					maxLength: maxLength(200)
+				}
 			}
 		},
 		methods: {
-			closeModal(confirmation=false) {
+			closeModal() {
 				this.isActive = false
-				if(confirmation) {
-					this.$emit('confirm')
-				} else {
-					this.$emit('close')
+				this.$emit('close')
+			},
+			submit() {
+				if(this.$v.$invalid) {
+					this.$v.$touch()
+					return
 				}
+
+				if(this.actionOffer.id) {
+					this.updateOffer()
+				} else {
+					this.createOffer()
+				}
+				this.closeModal()
+			},
+			updateOffer() {
+				Rails.ajax({
+					url: `/offers/${this.actionOffer.id}`,
+					type: 'patch',
+					data: this.formData,
+					success: this.successfulOfferUpdate,
+					error: this.offerUpdateError 
+				})
+			},
+			successfulOfferUpdate() {
+				bulmaToast.toast(
+					{
+						message: 'Ingresso atualizado com sucesso.',
+						type: 'is-success',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
+				this.$root.$emit('edit:offer', this.actionOffer)
+			},
+			offerUpdateError() {
+				bulmaToast.toast(
+					{
+						message: 'Não foi possível atualizar esse ingresso.',
+						type: 'is-danger',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
+			},
+			createOffer() {
+				Rails.ajax({
+					url: `/events/${this.event}/offers`,
+					type: 'post',
+					data: this.formData,
+					success: this.successfulOfferCreation,
+					error: this.offerCreationError
+				})
+			},
+			successfulOfferCreation(response_data) {
+				bulmaToast.toast(
+					{
+						message: 'Ingresso criado com sucesso.',
+						type: 'is-success',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
+				const response = response_data.data
+				const newOffer = Object.assign({id: response.id}, response.attributes)
+				this.$root.$emit('create:offer', newOffer)
+			},
+			offerCreationError() {
+				bulmaToast.toast(
+					{
+						message: 'Não foi possível criar esse ingresso.',
+						type: 'is-danger',
+						dismissible: true,
+						duration: 5000,
+						pauseOnHover: true,
+						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
+					}
+				)
 			}
 		},
 		computed: {
@@ -50,15 +355,44 @@
 				return `${this.actionMessage} <b>${type}</b>`
 			},
 			actionMessage() {
-				var action = this.offer ? 'Editar' : 'Criar'
+				var action = this.actionOffer.id ? 'Editar' : 'Criar'
 				return `${action} ingresso`
+			},
+			finalPrice() {
+				const price = this.actionOffer.price > 0 ? Math.round(this.actionOffer.price * 100) : 0
+				var priceFormat = Money({amount: price}).multiply(1.1).toFormat()
+
+				return priceFormat
+			},
+			formData() {
+				const formData = new FormData()
+				formData.append('offer[name]', this.actionOffer.name)
+				formData.append('offer[allotment]', this.actionOffer.allotment || '')
+				formData.append('offer[quantity]', this.actionOffer.quantity)
+				formData.append('offer[start_t]', this.actionOffer.start_t)
+				formData.append('offer[end_t]', this.actionOffer.end_t)
+				formData.append('offer[price_cents]', Math.round(this.actionOffer.price * 100))
+				formData.append('offer[description]', this.actionOffer.description || '')
+
+				return formData
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	#ticket-form-modal .modal-card-foot {
-		justify-content: flex-end;
+	#ticket-form-modal {
+		& .modal-card {
+			max-width: 1000px;
+			width: 100%;
+			padding: 0 10px;
+
+			& .offer-form {
+				padding: 0 50px;
+			}
+		}
+		& .modal-card-foot {
+			justify-content: flex-end;
+		}
 	}	
 </style>
