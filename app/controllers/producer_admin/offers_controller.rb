@@ -43,7 +43,8 @@ class ProducerAdmin::OffersController < ApplicationController
 				:start_t,
 				:end_t,
 				:price_cents,
-				:description
+				:description,
+				:active
 			)
 		end
 end

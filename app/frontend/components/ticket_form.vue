@@ -177,6 +177,15 @@
 		    				</p>
 		    			</div>
 				    </div>
+						<div class="field">
+							<input
+								v-model="actionOffer.active"
+								type="checkbox"
+								id="active-switch-offer"
+								class="switch is-rounded is-success"
+							/>
+							<label for="active-switch-offer">Ativo</label>
+						</div>
 		    	</div>
 		    </section>
 		    <footer class="modal-card-foot">
@@ -380,6 +389,7 @@
 				formData.append('offer[end_t]', this.actionOffer.end_t)
 				formData.append('offer[price_cents]', Math.round(this.actionOffer.price * 100))
 				formData.append('offer[description]', this.actionOffer.description || '')
+				formData.append('offer[active]', this.actionOffer.active)
 
 				return formData
 			}

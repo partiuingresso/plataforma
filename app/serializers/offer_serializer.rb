@@ -1,7 +1,7 @@
 class OfferSerializer
   include FastJsonapi::ObjectSerializer
 
-  attributes :name, :allotment, :quantity, :sold, :description, :start_t, :end_t
+  attributes :name, :allotment, :quantity, :sold, :description, :start_t, :end_t, :active
 
   attribute :start_t do |object|
     object.start_t.strftime("%Y-%m-%dT%H:%M")

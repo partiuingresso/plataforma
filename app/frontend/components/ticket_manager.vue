@@ -211,7 +211,7 @@ export default {
 	},
 	computed: {
 		filteredItems() {
-			return this.offers.filter(item => item.available === this.availableFilter)
+			return this.offers.filter(item => (item.available && item.active) === this.availableFilter)
 		},
 		confirmMessage() {
 			return `Tem certeza que deseja remover o ingresso <b>${this.selectedOffer.name}</b>?`
