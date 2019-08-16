@@ -66,8 +66,8 @@
 						    				<p v-if="!$v.actionOffer.quantity.required" class="help is-danger">
 						    					Campo Obrigatório
 						    				</p>
-						    				<p v-else-if="!$v.actionOffer.name.minValue" class="help is-danger">
-							    				Deve ser no mínimo {{ $v.actionOffer.quantity.$params.minValue.min }}
+						    				<p v-else-if="!$v.actionOffer.quantity.minValue" class="help is-danger">
+							    				Deve ser no mínimo {{ actionOffer.sold || 1 }}
 							    			</p>
 							    		</div>
 					    			</div>
@@ -238,7 +238,10 @@
 				},
 				quantity: {
 					required,
-					minValue: minValue(1)
+					minValue: function(value) {
+						const min = this.actionOffer.hasOwnProperty('sold') ? this.actionOffer.sold : 1
+						return value >= min
+					}
 				},
 				start_t: {
 					required,
