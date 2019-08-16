@@ -164,18 +164,18 @@
 				    <div class="field is-narrow">
 				    	<label class="label is-small">Descriação do ingresso (opcional)</label>
 				    	<p class="control">
-				    		<textarea
+				    		<trix
 				    			v-model="$v.actionOffer.description.$model"
 	    						:class="{ 'is-danger': $v.actionOffer.description.$error }"
-				    			class="textarea"
+	    						@trix-file-accept.prevent
 				    		>
-				    		</textarea>
-		    				<div v-if="$v.actionOffer.description.$error">
-			    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
-					    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
-			    				</p>
-			    			</div>
+				    		</trix>
 				    	</p>
+	    				<div v-if="$v.actionOffer.description.$error">
+		    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
+				    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
+		    				</p>
+		    			</div>
 				    </div>
 		    	</div>
 		    </section>
@@ -192,10 +192,14 @@
 	import Rails from 'rails-ujs'
 	import { Money as VMoney } from 'v-money'
 	import Money from 'src/utils/money'
+	import VueTrix from 'vue-trix'
 	import cloneDeep from 'lodash.clonedeep'
 	import { required, minValue, maxLength } from 'vuelidate/lib/validators'
 	export default {
-		components: { money: VMoney },
+		components: {
+			money: VMoney,
+			trix: VueTrix
+		},
 		props: {
 			offer: {
 				type: Object,
