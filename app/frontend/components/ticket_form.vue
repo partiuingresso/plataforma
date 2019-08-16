@@ -232,7 +232,8 @@
 					start_t: '',
 					end_t: '',
 					price: '',
-					description: ''
+					description: '',
+					active: true
 				},
 				moneyConfig: {
 					decimal: ',',
