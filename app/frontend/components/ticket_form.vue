@@ -66,8 +66,8 @@
 						    				<p v-if="!$v.actionOffer.quantity.required" class="help is-danger">
 						    					Campo Obrigatório
 						    				</p>
-						    				<p v-else-if="!$v.actionOffer.name.minValue" class="help is-danger">
-							    				Deve ser no mínimo {{ $v.actionOffer.quantity.$params.minValue.min }}
+						    				<p v-else-if="!$v.actionOffer.quantity.minValue" class="help is-danger">
+							    				Deve ser no mínimo {{ actionOffer.sold || 1 }}
 							    			</p>
 							    		</div>
 					    			</div>
@@ -164,19 +164,28 @@
 				    <div class="field is-narrow">
 				    	<label class="label is-small">Descriação do ingresso (opcional)</label>
 				    	<p class="control">
-				    		<textarea
+				    		<trix
 				    			v-model="$v.actionOffer.description.$model"
 	    						:class="{ 'is-danger': $v.actionOffer.description.$error }"
-				    			class="textarea"
+	    						@trix-file-accept.prevent
 				    		>
-				    		</textarea>
-		    				<div v-if="$v.actionOffer.description.$error">
-			    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
-					    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
-			    				</p>
-			    			</div>
+				    		</trix>
 				    	</p>
+	    				<div v-if="$v.actionOffer.description.$error">
+		    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
+				    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
+		    				</p>
+		    			</div>
 				    </div>
+						<div class="field">
+							<input
+								v-model="actionOffer.active"
+								type="checkbox"
+								id="active-switch-offer"
+								class="switch is-rounded is-success"
+							/>
+							<label for="active-switch-offer">Ativo</label>
+						</div>
 		    	</div>
 		    </section>
 		    <footer class="modal-card-foot">
@@ -192,10 +201,14 @@
 	import Rails from 'rails-ujs'
 	import { Money as VMoney } from 'v-money'
 	import Money from 'src/utils/money'
+	import VueTrix from 'vue-trix'
 	import cloneDeep from 'lodash.clonedeep'
 	import { required, minValue, maxLength } from 'vuelidate/lib/validators'
 	export default {
-		components: { money: VMoney },
+		components: {
+			money: VMoney,
+			trix: VueTrix
+		},
 		props: {
 			offer: {
 				type: Object,
@@ -219,7 +232,8 @@
 					start_t: '',
 					end_t: '',
 					price: '',
-					description: ''
+					description: '',
+					active: true
 				},
 				moneyConfig: {
 					decimal: ',',
@@ -238,7 +252,10 @@
 				},
 				quantity: {
 					required,
-					minValue: minValue(1)
+					minValue: function(value) {
+						const min = this.actionOffer.hasOwnProperty('sold') ? this.actionOffer.sold : 1
+						return value >= min
+					}
 				},
 				start_t: {
 					required,
@@ -373,6 +390,7 @@
 				formData.append('offer[end_t]', this.actionOffer.end_t)
 				formData.append('offer[price_cents]', Math.round(this.actionOffer.price * 100))
 				formData.append('offer[description]', this.actionOffer.description || '')
+				formData.append('offer[active]', this.actionOffer.active)
 
 				return formData
 			}

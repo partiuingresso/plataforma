@@ -119,9 +119,11 @@ export default {
 		this.$root.$on('edit:offer', ($event) => {
 			let updatedOffer = this.offers.find((element) => element.id === $event.id)
 			Object.assign(updatedOffer, $event)
+			this.availableFilter = this.offerIsAvailable(updatedOffer)
 		})
 		this.$root.$on('create:offer', ($event) => {
 			this.offers.unshift($event)
+			this.availableFilter = this.offerIsAvailable($event)
 		})
 	},
 	methods: {
@@ -135,6 +137,12 @@ export default {
 		},
 		setAvailableFilter(available) {
 			this.availableFilter = available
+		},
+		offerIsAvailable(offer) {
+				const now = new Date()
+				const inPeriod = (now >= (new Date(offer.start_t))) &&
+												(now <= (new Date(offer.end_t)))
+				return inPeriod && offer.active
 		},
 		newOffer(type) {
 			if(type === 'costly') {
@@ -211,7 +219,9 @@ export default {
 	},
 	computed: {
 		filteredItems() {
-			return this.offers.filter(item => item.available === this.availableFilter)
+			return this.offers.filter(item => {
+				return this.offerIsAvailable(item) === this.availableFilter
+			})
 		},
 		confirmMessage() {
 			return `Tem certeza que deseja remover o ingresso <b>${this.selectedOffer.name}</b>?`
