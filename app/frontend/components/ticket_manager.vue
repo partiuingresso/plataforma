@@ -53,7 +53,16 @@
 					<tbody>
 						<tr v-for="offer in filteredItems" :key="offer.id" :offer="offer">
 							<td>{{ offer.name }}</td>
-							<td>{{ `${offer.sold}/${offer.quantity}` }}</td>
+							<td>
+								<div class="columns is-vcentered">
+									<div class="column is-3">
+										{{ `${offer.sold}/${offer.quantity}` }}
+									</div>
+									<div class="column is-6">
+										<progress class="progress" :class="progressAlert(offer)" :value="availableQuantity(offer)" max="100"></progress>
+									</div>
+								</div>
+							</td>
 							<td>{{ format(offer.price) }}</td>
 							<td>{{ format(offer.price_with_fee) }}</td>
 							<td>
@@ -215,6 +224,16 @@ export default {
 		},
 		setTicketFormVisible(visible=true) {
 			this.ticketFormVisible = visible
+		},
+		availableQuantity(offer) {
+			return (offer.quantity-offer.sold)/offer.quantity*100
+		},
+		progressAlert(offer) {
+			return {
+				'is-success': this.availableQuantity(offer) > 40,
+				'is-warning': this.availableQuantity(offer) <= 40 && this.availableQuantity(offer) > 20,
+				'is-danger': this.availableQuantity(offer) <= 20
+			}
 		}
 	},
 	computed: {
