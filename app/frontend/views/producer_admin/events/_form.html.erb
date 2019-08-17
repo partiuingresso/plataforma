@@ -173,11 +173,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="control" style="margin-top: 2.5rem;">
-		<% if event.persisted? %>
-      <%= f.button "Salvar", class: "button is-primary is-medium" %>
-    <% else %>
-      <%= f.button "Publicar evento", class: "button is-primary is-medium" %>
-    <% end %>
-  </div>
+	<div class="field is-grouped" style="justify-content: flex-end;">
+		<p class="control">
+			<%= link_to 'Cancelar', producer_admin_dashboard_path, class: "button" %> 
+	  </p>
+		<p class="control">
+			<% if event.persisted? %>
+	      <%= f.button "Salvar", class: "button is-primary" %>
+	    <% else %>
+	      <%= f.button "Publicar evento", class: "button is-primary" %>
+	    <% end %>
+	  </p>
+	</div>
 <% end %>
