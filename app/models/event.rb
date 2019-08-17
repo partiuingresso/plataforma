@@ -28,7 +28,6 @@ class Event < ApplicationRecord
 	validates_associated :address
 
 	accepts_nested_attributes_for :address
-	accepts_nested_attributes_for :offers
 
 	after_destroy :destroy_attached_files
 

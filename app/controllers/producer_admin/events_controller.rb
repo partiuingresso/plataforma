@@ -31,7 +31,6 @@ class ProducerAdmin::EventsController < ApplicationController
 
 	def new
 		@event.build_address
-		@event.offers.build
 	end
 
 	def create
@@ -39,7 +38,7 @@ class ProducerAdmin::EventsController < ApplicationController
 		set_user_and_company
 	    respond_to do |format|
 	      if @event.save
-	        format.html { redirect_to @event, notice: 'Evento criado com sucesso.' }
+	        format.html { redirect_to producer_admin_event_offers_path(@event), notice: 'Evento criado com sucesso.' }
 	        format.json { render :show, status: :created, location: @event }
 	      else
 	        format.html { render :new }
@@ -48,9 +47,7 @@ class ProducerAdmin::EventsController < ApplicationController
 	    end
 	end
 
-	def edit
-		@event.offers.build
-	end
+	def edit; end
 
 	def update
 		if @event.update_attributes(event_params)
@@ -79,10 +76,9 @@ class ProducerAdmin::EventsController < ApplicationController
 
 		def event_params
 			params.require(:event).permit(
-				:name, :video, :headline, :hero_image, :content_image, :start_t, :end_t, :description,
-				:features, :invite_text, address_attributes: [:id, :name, :address, :number, :complement, :district,
-				:city, :state, :zipcode], offers_attributes: [:id, :name, :description, :price, :quantity, :allotment,
-				:start_t, :end_t, :active], testimonial_images: []
+				:name, :video, :headline, :hero_image, :start_t, :end_t, :description,
+				address_attributes: [:id, :name, :address, :number, :complement, :district,
+				:city, :state, :zipcode]
 			)
 		end
 
