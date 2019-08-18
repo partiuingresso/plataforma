@@ -26,12 +26,14 @@
 											<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 										</span>
 			    				</p>
-			    				<div v-if="$v.actionOffer.name.$error">
-				    				<p v-if="!$v.actionOffer.name.required" class="help is-danger">Campo Obrigatório</p>
-				    				<p v-if="!$v.actionOffer.name.maxLength" class="help is-danger">
-					    				Deve ter no máximo {{ $v.actionOffer.name.$params.maxLength.max }} caracteres
-					    			</p>
-					    		</div>
+						    	<div class="error-wrapper">
+				    				<div v-show="$v.actionOffer.name.$error">
+					    				<p v-if="!$v.actionOffer.name.required" class="help is-danger">Campo Obrigatório</p>
+					    				<p v-if="!$v.actionOffer.name.maxLength" class="help is-danger">
+						    				Deve ter no máximo {{ $v.actionOffer.name.$params.maxLength.max }} caracteres
+						    			</p>
+						    		</div>
+						    	</div>
 			    			</div>
 					    </div>
 					    <div class="column is-4">
@@ -62,14 +64,16 @@
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
-					    				<div v-if="$v.actionOffer.quantity.$error">
-						    				<p v-if="!$v.actionOffer.quantity.required" class="help is-danger">
-						    					Campo Obrigatório
-						    				</p>
-						    				<p v-else-if="!$v.actionOffer.quantity.minValue" class="help is-danger">
-							    				Deve ser no mínimo {{ actionOffer.sold || 1 }}
-							    			</p>
-							    		</div>
+								    	<div class="error-wrapper">
+						    				<div v-show="$v.actionOffer.quantity.$error">
+							    				<p v-if="!$v.actionOffer.quantity.required" class="help is-danger">
+							    					Campo Obrigatório
+							    				</p>
+							    				<p v-else-if="!$v.actionOffer.quantity.minValue" class="help is-danger">
+								    				No mínimo {{ actionOffer.sold || 1 }}
+								    			</p>
+								    		</div>
+								    	</div>
 					    			</div>
 					    		</div>
 					    	</div>
@@ -93,14 +97,16 @@
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
-					    				<div v-if="$v.actionOffer.start_t.$error">
-						    				<p v-if="!$v.actionOffer.start_t.required" class="help is-danger">
-						    					Campo Obrigatório
-						    				</p>
-						    				<p v-else-if="!$v.actionOffer.start_t.maxValue" class="help is-danger">
-							    				Deve ser anterior ao término das vendas
-							    			</p>
-							    		</div>
+								    	<div class="error-wrapper">
+						    				<div v-show="$v.actionOffer.start_t.$error">
+							    				<p v-if="!$v.actionOffer.start_t.required" class="help is-danger">
+							    					Campo Obrigatório
+							    				</p>
+							    				<p v-else-if="!$v.actionOffer.start_t.maxValue" class="help is-danger">
+								    				Deve ser anterior ao término das vendas
+								    			</p>
+								    		</div>
+								    	</div>
 					    			</div>
 					    			<div class="field is-narrow">
 					    				<label class="label is-small">Data de término das vendas</label>
@@ -115,14 +121,16 @@
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
-					    				<div v-if="$v.actionOffer.end_t.$error">
-						    				<p v-if="!$v.actionOffer.end_t.required" class="help is-danger">
-						    					Campo Obrigatório
-						    				</p>
-						    				<p v-else-if="!$v.actionOffer.end_t.minValue" class="help is-danger">
-							    				Deve ser posterior ao início das vendas
-							    			</p>
-							    		</div>
+								    	<div class="error-wrapper">
+						    				<div v-show="$v.actionOffer.end_t.$error">
+							    				<p v-if="!$v.actionOffer.end_t.required" class="help is-danger">
+							    					Campo Obrigatório
+							    				</p>
+							    				<p v-else-if="!$v.actionOffer.end_t.minValue" class="help is-danger">
+								    				Deve ser posterior ao início das vendas
+								    			</p>
+								    		</div>
+								    	</div>
 					    			</div>
 					    		</div>
 				    		</div>
@@ -147,11 +155,13 @@
 													<i class="fas fa-asterisk" style="font-size: 0.5rem;"></i>
 												</span>
 					    				</p>
-					    				<div v-if="$v.actionOffer.price.$error">
-						    				<p v-if="!$v.actionOffer.price.minValue" class="help is-danger">
-						    					Deve ser positivo
-						    				</p>
-						    			</div>
+								    	<div class="error-wrapper">
+						    				<div v-show="$v.actionOffer.price.$error">
+							    				<p v-if="!$v.actionOffer.price.minValue" class="help is-danger">
+							    					Deve ser positivo
+							    				</p>
+							    			</div>
+							    		</div>
 					    			</div>
 					    		</div>
 					    		<div class="column is-half">
@@ -171,11 +181,13 @@
 				    		>
 				    		</trix>
 				    	</p>
-	    				<div v-if="$v.actionOffer.description.$error">
-		    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
-				    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
-		    				</p>
-		    			</div>
+				    	<div class="error-wrapper">
+		    				<div v-show="$v.actionOffer.description.$error">
+			    				<p v-if="!$v.actionOffer.description.maxLength" class="help is-danger">
+					    			Deve ter no máximo {{ $v.actionOffer.description.$params.maxLength.max }} caracteres
+			    				</p>
+			    			</div>
+			    		</div>
 				    </div>
 						<div class="field">
 							<input
@@ -412,5 +424,9 @@
 		& .modal-card-foot {
 			justify-content: flex-end;
 		}
-	}	
+	}
+	.error-wrapper {
+		margin-top: 4px;
+		min-height: 18px;
+	}
 </style>
