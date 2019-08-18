@@ -1,4 +1,7 @@
 class ProducerAdmin::OffersController < ApplicationController
+	load_resource :event
+	load_and_authorize_resource :offer, through: :event
+
 	def index
 		@event = Event.find(params[:event_id])
 		@offers = @event.offers.order(created_at: :desc)
@@ -47,4 +50,8 @@ class ProducerAdmin::OffersController < ApplicationController
 				:active
 			)
 		end
+
+	    def current_ability
+	    	@current_ability ||= ProducerAdmin::OfferAbility.new(current_user)
+	    end
 end
