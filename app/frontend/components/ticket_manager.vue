@@ -54,13 +54,20 @@
 						<tr v-for="offer in filteredItems" :key="offer.id" :offer="offer">
 							<td>{{ offer.name }}</td>
 							<td>
-								<div class="columns is-vcentered">
-									<div class="column is-3">
+								<div class="progress-wrapper">
+									<progress
+										:value="availableQuantity(offer)"
+										:class="progressAlert(offer)"
+										class="progress is-medium"
+										max="100"
+									>
+									</progress>
+									<p v-if="availableQuantity(offer) > 0" class="progress-value">
 										{{ `${offer.sold}/${offer.quantity}` }}
-									</div>
-									<div class="column is-6">
-										<progress class="progress" :class="progressAlert(offer)" :value="availableQuantity(offer)" max="100"></progress>
-									</div>
+									</p>
+									<p v-else class="progress-value">
+										Esgotado
+									</p>
 								</div>
 							</td>
 							<td>{{ format(offer.price) }}</td>
@@ -260,5 +267,38 @@ export default {
 
 .icon.trash:hover {
   color: unset;
+}
+
+
+.progress-wrapper {
+  position: relative;
+	& .progress {
+		margin: 0;
+	}
+}
+
+.progress-value {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: calc(1rem / 1.5);
+  line-height: 1rem;
+  font-weight: 450;
+}
+
+.progress.is-small+.progress-value {
+  font-size: calc(0.75rem / 1.5);
+  line-height: 0.75rem;
+}
+
+.progress.is-medium+.progress-value {
+  font-size: calc(1.25rem / 1.5);
+  line-height: 1.25rem;
+}
+
+.progress.is-large+.progress-value {
+  font-size: calc(1.5rem / 1.5);
+  line-height: 1.5rem;
 }
 </style>
