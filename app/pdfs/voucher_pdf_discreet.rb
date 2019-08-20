@@ -17,9 +17,9 @@ class VoucherPdfDiscreet
 
   def font_setup
     font_families.update("Inter" => {
-      :normal => "#{Rails.root}/app/frontend/application/fonts/Inter-Regular.ttf",
-      :italic => "#{Rails.root}/app/frontend/application/fonts/Inter-Italic.ttf",
-      :bold => "#{Rails.root}/app/frontend/application/fonts/Inter-Bold.ttf"
+      :normal => "#{Rails.root}/app/frontend/assets/fonts/Inter-Regular.ttf",
+      :italic => "#{Rails.root}/app/frontend/assets/fonts/Inter-Italic.ttf",
+      :bold => "#{Rails.root}/app/frontend/assets/fonts/Inter-Bold.ttf"
     })
     font "Inter"
   end
@@ -27,7 +27,7 @@ class VoucherPdfDiscreet
   def content
     move_down 30
     span(400, :position => :center) do
-      svg IO.read("#{Rails.root}/app/frontend/application/images/logo.svg"), width: 130
+      svg IO.read("#{Rails.root}/app/frontend/assets/images/logo.svg"), width: 130
       move_down 8
       text "<color rgb='a6a6a6'>INGRESSO DO PEDIDO ##{@ticket.order.number}</color>", inline_format: true
 
