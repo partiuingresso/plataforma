@@ -10,4 +10,8 @@ class Address < ApplicationRecord
   def full_address
     [name, address, number, city, state, zipcode].compact.join(', ')
   end
+
+  def full_address_without_name
+    [address, number, city, state, zipcode].compact.join(', ')
+  end
 end

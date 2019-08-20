@@ -7,7 +7,7 @@ module EventsHelper
 		url = URI.parse("https://www.google.com/maps/embed/v1/place")
 		url.query = URI.encode_www_form(
 			"key" => Rails.application.credentials.google_maps_api_key,
-			"q" => address.full_address,
+			"q" => address.full_address_without_name,
 			"center" => coordinates
 		)
 
