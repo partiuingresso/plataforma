@@ -37,6 +37,15 @@ class NotificationMailer < ApplicationMailer
     mail(to: @order.user.email, subject: "Pedido reembolsado - #{@order.event.name}")
   end
 
+  def order_event_cancelled
+    @order = params[:order]
+    event = @order.event
+    location = "#{event.address.city}/#{event.address.state.upcase}"
+    date = event.start_t.strftime("%d/%m")
+    subject = "Evento cancelado: #{event.name} - #{location} - #{date}"
+    mail(to: @order.user.email, subject: subject)
+  end
+
   def legacy_tickets
     @order = params[:order]
     @order.ticket_tokens.each do |t|
