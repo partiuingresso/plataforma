@@ -48,6 +48,8 @@ Rails.application.routes.draw do
   namespace :producer_admin do
     resources :events, only: [:index, :show] do
       resources :offers, only: [:index]
+      resources :marketings, only: [:index]
+      patch '/marketings/', to: 'marketings#update', as: 'marketing'
     end
     resources :transfers, only: [:create]
   end

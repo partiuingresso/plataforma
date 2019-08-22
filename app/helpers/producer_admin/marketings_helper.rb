@@ -1,0 +1,2 @@
+module ProducerAdmin::MarketingsHelper
+end

@@ -1,3 +1,6 @@
+<% content_for :head do %>
+  <%= render partial: 'layouts/tags', locals: { fb_pixel: @event.fb_pixel, ga_id: @event.ga_id } %>
+<% end %>
 <script>
   document.addEventListener("DOMContentLoaded", function(){
     toggle();

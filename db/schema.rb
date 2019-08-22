@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_01_233746) do
+ActiveRecord::Schema.define(version: 2019_08_21_023418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 2019_07_01_233746) do
     t.bigint "address_id", null: false
     t.text "features"
     t.text "invite_text"
+    t.string "fb_pixel"
+    t.string "ga_id"
     t.index ["address_id"], name: "index_events_on_address_id"
     t.index ["company_id"], name: "index_events_on_company_id"
     t.index ["user_id"], name: "index_events_on_user_id"
