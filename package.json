@@ -15,6 +15,7 @@
     "cep-promise": "^3.0.6",
     "chart.js": "^2.8.0",
     "chartkick": "^3.0.2",
+    "core-js": "2",
     "dinero.js": "^1.6.0",
     "jsencrypt": "^3.0.0-rc.1",
     "lodash.clonedeep": "^4.5.0",
