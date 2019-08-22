@@ -192,7 +192,7 @@ export default {
 		},
 		async deleteOffer() {
 			Rails.ajax({
-				url: `/offers/${this.selectedOffer.id}`,
+				url: `/events/${this.event}/offers/${this.selectedOffer.id}`,
 				type: 'delete',
 				data: '',
 				success: this.successfulOfferDeletion,

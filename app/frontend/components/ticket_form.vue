@@ -309,7 +309,7 @@
 			},
 			updateOffer() {
 				Rails.ajax({
-					url: `/offers/${this.actionOffer.id}`,
+					url: `/events/${this.event}/offers/${this.actionOffer.id}`,
 					type: 'patch',
 					data: this.formData,
 					success: this.successfulOfferUpdate,

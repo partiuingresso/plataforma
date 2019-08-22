@@ -59,9 +59,8 @@ Rails.application.routes.draw do
     resources :companies, only: [:show, :edit, :update]
     get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
     resources :events, except: [:index, :show] do
-      resources :offers, only: [:create]
+      resources :offers, only: [:create, :update, :destroy]
     end
-    resources :offers, only: [:update, :destroy]
     resources :company_finances, except: [:index, :destroy]
   end
 
