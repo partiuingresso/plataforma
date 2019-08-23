@@ -1,7 +1,9 @@
 class ProducerAdmin::EventsController < ApplicationController
 	load_and_authorize_resource
 
-	def index; end
+	def index
+		@events = Event.accessible_by(current_ability).order(start_t: :asc)
+	end
 
 	def show
 		if params[:offer].present?
