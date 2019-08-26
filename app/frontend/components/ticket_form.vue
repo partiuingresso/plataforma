@@ -159,7 +159,7 @@
 								    	<div class="error-wrapper">
 						    				<div v-show="$v.actionOffer.price.$error">
 							    				<p v-if="!$v.actionOffer.price.minValue" class="help is-danger">
-							    					Mínimo: {{ format($v.actionOffer.price.$params.minValue.min) }}
+							    					Mínimo: {{ format(13.8) }}
 							    				</p>
 							    			</div>
 							    		</div>
@@ -283,7 +283,10 @@
 					}
 				},
 				price: {
-					minValue: minValue(13.8)
+					minValue: function(value) {
+						const min = this.free ? 0 : 13.8
+						return value >= min
+					}
 				},
 				description: {
 					maxLength: maxLength(200)
