@@ -2,7 +2,6 @@ class Offer < ApplicationRecord
 	belongs_to :event
 	has_many :order_items
 	has_many :orders, through: :order_items
-	attr_readonly :price_cents
 
 	scope :available, -> {
 		where(
@@ -22,6 +21,7 @@ class Offer < ApplicationRecord
 	validates :start_t, presence: true
 	validates :end_t, presence: true
 	validate :end_date_cannot_be_before_start
+	validate :price_cannot_change_if_sold, on: :update
 
 	monetize :price_cents
 	monetize :price_with_service_fee_cents
@@ -65,6 +65,12 @@ class Offer < ApplicationRecord
 		def end_date_cannot_be_before_start
 			if end_t.present? && end_t < start_t
 				errors.add(:end_t, "can't be before start date")
+			end
+		end
+
+		def price_cannot_change_if_sold
+			if price_cents_changed? && sold > 0
+				errors.add(:price_cents, "can't change after sold")
 			end
 		end
 end

@@ -145,7 +145,7 @@
 					    						v-model.lazy="actionOffer.price"
 					    						@blur.native="$v.actionOffer.price.$touch()"
 					    						v-bind="moneyConfig"
-					    						:disabled="free"
+					    						:disabled="free || actionOffer.sold > 0"
 					    						:class="{ 'is-danger': $v.actionOffer.price.$error }"
 					    						class="input"
 					    						type="text"
@@ -167,7 +167,7 @@
 					    		</div>
 					    		<div class="column is-half">
 					    			<label class="label is-small">Total comprador</label>
-					    			<p>{{ finalPrice }}</p>
+					    			<p>{{ format(finalPrice) }}</p>
 					    		</div>
 				    		</div>
 			    		</div>
@@ -394,9 +394,9 @@
 			},
 			finalPrice() {
 				const price = this.actionOffer.price > 0 ? Math.round(this.actionOffer.price * 100) : 0
-				var priceFormat = Money({amount: price}).multiply(1.1).toFormat()
+				var final = Money({amount: price}).multiply(1.1).getAmount() / 100
 
-				return priceFormat
+				return final
 			},
 			formData() {
 				const formData = new FormData()
@@ -410,6 +410,11 @@
 				formData.append('offer[active]', this.actionOffer.active)
 
 				return formData
+			}
+		},
+		watch: {
+			finalPrice(value) {
+				this.actionOffer.price_with_fee = value
 			}
 		}
 	}
