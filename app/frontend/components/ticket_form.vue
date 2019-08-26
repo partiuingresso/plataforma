@@ -142,7 +142,8 @@
 					    				<label class="label is-small">Preço</label>
 					    				<p class="control has-icons-right">
 					    					<money
-					    						v-model.lazy="$v.actionOffer.price.$model"
+					    						v-model.lazy="actionOffer.price"
+					    						@blur.native="$v.actionOffer.price.$touch()"
 					    						v-bind="moneyConfig"
 					    						:disabled="free"
 					    						:class="{ 'is-danger': $v.actionOffer.price.$error }"
@@ -158,7 +159,7 @@
 								    	<div class="error-wrapper">
 						    				<div v-show="$v.actionOffer.price.$error">
 							    				<p v-if="!$v.actionOffer.price.minValue" class="help is-danger">
-							    					Deve ser positivo
+							    					Mínimo: {{ format($v.actionOffer.price.$params.minValue.min) }}
 							    				</p>
 							    			</div>
 							    		</div>
@@ -282,7 +283,7 @@
 					}
 				},
 				price: {
-					minValue: minValue(0)
+					minValue: minValue(13.8)
 				},
 				description: {
 					maxLength: maxLength(200)
@@ -290,6 +291,10 @@
 			}
 		},
 		methods: {
+			format(value) {
+				const intValue = Math.round(value * 100)
+				return new Money({amount: intValue}).toFormat()
+			},
 			closeModal() {
 				this.isActive = false
 				this.$emit('close')
