@@ -5,7 +5,7 @@ class Admin::CompaniesController < ApplicationController
     @company = Company.find(params[:id])
     @user = current_user
     if @user.update(company: @company)
-      redirect_to producer_admin_dashboard_path(@company), notice: "Gerenciando #{@company.name}"
+      redirect_to producer_admin_dashboard_path, notice: "Gerenciando #{@company.name}"
     else
       redirect_to backoffice_path, alert: "Ops... algo deu errado! Tente novamente."
     end
