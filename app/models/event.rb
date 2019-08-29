@@ -33,8 +33,15 @@ class Event < ApplicationRecord
 
 	scope :available, -> {
 		joins(:offers)
-		.merge(Offer.available)
+		.merge(Offer.available).order(start_t: :asc)
 		.distinct
+	}
+
+	scope :highlights, -> {
+		(Event.available.where("events.start_t <= ?", 10.days.from_now).limit(5)
+			.union(Event.available.where("offers.sold > 1000")).limit(5)
+			.union(Event.available)).limit(10)
+
 	}
 
 	def end_date_cannot_be_before_start
