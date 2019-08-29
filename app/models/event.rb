@@ -55,6 +55,13 @@ class Event < ApplicationRecord
 		!available?
 	end
 
+	def running_out?
+		total = offers.collect { |offer| offer.quantity }.sum
+		available = offers.collect { |offer| offer.available_quantity }.sum
+
+		available.to_f / total <= 0.1
+	end
+
 	private
 
 		def destroy_attached_files
