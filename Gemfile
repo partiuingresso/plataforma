@@ -41,6 +41,8 @@ gem 'prawn-table'
 gem 'sidekiq'
 # Split
 gem 'split', require: 'split/dashboard'
+# Mobile views
+gem 'browser'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # See https://github.com/rails/execjs#readme for more supported runtimes
