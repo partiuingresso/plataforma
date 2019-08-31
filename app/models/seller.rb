@@ -4,8 +4,10 @@ class Seller < ApplicationRecord
     has_many :transfers, -> { order(created_at: :desc) }
     has_many :users
     has_one :bank_account, through: :finance
-    belongs_to :address
+    belongs_to :address # TODO: Remover essa relação
     has_many :orders, through: :events
+    belongs_to :owner, class_name: :User
+    has_one :company
 
 	validates :name, presence: true
 	validates :moip_id, presence: true

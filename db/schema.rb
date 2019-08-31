@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_31_024457) do
+ActiveRecord::Schema.define(version: 2019_08_31_053641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,20 @@ ActiveRecord::Schema.define(version: 2019_08_31_024457) do
     t.string "account_check_number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "companies", force: :cascade do |t|
+    t.bigint "seller_id", null: false
+    t.bigint "address_id", null: false
+    t.string "name", null: false
+    t.string "business_name", null: false
+    t.string "document_number", null: false
+    t.integer "phone_area_code", null: false
+    t.integer "phone_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_companies_on_address_id"
+    t.index ["seller_id"], name: "index_companies_on_seller_id", unique: true
   end
 
   create_table "credit_cards", force: :cascade do |t|
@@ -147,18 +161,20 @@ ActiveRecord::Schema.define(version: 2019_08_31_024457) do
 #   Unknown type 'order_status' for column 'status'
 
   create_table "sellers", force: :cascade do |t|
-    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "moip_id", null: false
     t.string "moip_access_token", null: false
-    t.bigint "address_id", null: false
-    t.string "business_name", null: false
-    t.string "document_number", null: false
-    t.integer "phone_area_code", null: false
-    t.integer "phone_number", null: false
     t.string "email"
+    t.integer "phone_number"
+    t.integer "phone_area_code"
+    t.string "document_number"
+    t.string "business_name"
+    t.string "name"
+    t.bigint "address_id"
+    t.bigint "owner_id"
     t.index ["address_id"], name: "index_sellers_on_address_id"
+    t.index ["owner_id"], name: "index_sellers_on_owner_id", unique: true
   end
 
 # Could not dump table "ticket_tokens" because of following StandardError
@@ -210,6 +226,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_024457) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "companies", "addresses"
+  add_foreign_key "companies", "sellers"
   add_foreign_key "credit_cards", "users"
   add_foreign_key "events", "addresses"
   add_foreign_key "events", "sellers"
@@ -223,6 +241,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_024457) do
   add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
   add_foreign_key "sellers", "addresses"
+  add_foreign_key "sellers", "users", column: "owner_id"
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "transfers", "bank_accounts"
   add_foreign_key "transfers", "sellers"
