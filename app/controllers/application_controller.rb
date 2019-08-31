@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  require "browser/aliases"
+  Browser::Base.include(Browser::Aliases)
 	prepend_view_path Rails.root.join("app", "frontend", "views")
 	add_flash_types :success, :danger, :info
 	rescue_from CanCan::AccessDenied do |exception|
