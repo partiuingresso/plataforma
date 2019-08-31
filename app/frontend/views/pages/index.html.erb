@@ -1,170 +1,188 @@
+<% content_for :footer do %>
+  &nbsp;
+<% end %>
+
 <style>
-  .section.hero-home { background-image: linear-gradient(rgba(20,20,25,0.5), rgba(20,20,25,0.5)), url(<%= asset_pack_path("media/assets/images/hero/#{rand(29)}.jpg") %>); }
+  .homeHero { 
+    background: url(<%= asset_pack_path("media/assets/images/hero/#{rand(29)}.jpg") %>) no-repeat left/cover;
+  }
+  html {
+    background-color: #171717;
+  }
 </style>
 
-<section class="section hero-home">
-  <div class="container hero-content-home">
-    <div class="columns is-centered">
-      <div class="column is-8 has-text-centered">
-        <%= form_tag("/search", method: "get") do %>
-          <div class="field is-grouped">
-            <div class="control is-expanded search">
-              <input name="q" class="input is-large" type="text" placeholder="Busque seu próximo evento">
-            </div>
-            <div class="control search">
-              <button class="button is-white is-large"><i class="fas fa-search"></i></button>
+<div class="homeHero"></div>
+
+<section class="section home">
+  <div class="container">
+    <h1>
+      A vida é um evento. <br />
+      Nós temos os ingressos.
+    </h1>
+    <%= form_tag("/search", method: "get") do %>
+      <div class="field has-addons">
+        <div class="control is-expanded">
+          <input name="q" class="input" type="text" placeholder="Busque seu próximo evento...">
+        </div>
+        <div class="control">
+          <button class="button is-white is-large"><%= image_tag asset_pack_path("media/assets/images/icons/search.svg") %></button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section class="section featured">
+  <div class="container">
+    <h2>Eventos em destaque</h2>
+    <div class="columns is-multiline <%= @highlights.count.odd? ? 'odd' : 'even' %>">
+      <% @highlights.each do |event| %>
+        <div class="column">
+          
+          <div class="eventCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+            <%= link_to event_path(event) do %>
+              <div class="eventOverlay">
+                <div class="itemsLeft">
+                  <div class="soldTickets">
+                    <% if event.ticket_tokens.count > 1000 %>
+                      <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
+                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.ticket_tokens.count) %></p>
+                    <% end %>
+                  </div>
+                  <div class="info">
+                    <% if event.running_out? %>
+                      <p class="popularTag">Esgotando</p>
+                    <% elsif event.ticket_tokens.count > 500 %>
+                      <p class="popularTag">Popular</p>
+                    <% end %>
+                    <p class="eventName"><%= truncate(event.name, length: 30) %></p>
+                    <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                    <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                  </div>
+                </div>
+                <div class="itemsRight">
+                  <div>
+                    <span class="icon">
+                      <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class="wishList">
+              <a>
+                <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
+              </a>
             </div>
           </div>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </section>
 
-<section class="section home-tickets">
-  <div class="container">
-
-    <% unless @nextEvents.empty? %>
-      <p class="title recents is-4">Próximos eventos</p>
-      <div class="columns is-multiline">
-        <% @nextEvents.each do |event| %>
-          <div class="column <%= @nextEvents.count.odd? ? 'nextEventsOdd' : 'nextEventsEven' %>">
-            <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
-                <div class="event-overlay">
-                  <div class="item-down">
-                    <div>
-                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
-                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
-                    </div>
-                  </div>
-                  <div class="item-down-right">
-                    <div>
-                      <span class="icon">
-                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-      <hr />
-    <% end %>
-
-    <p class="title recents is-4">Novidades</p>   
-    <% if @events.count >= 1 %>
-      <div class="columns is-multiline">
-        <% @events[0..0].try(:each) do |event| %>
-          <div class="column is-5">
-            <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
-                <div class="event-overlay">
-                  <div class="item-down">
-                    <div>
-                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
-                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
-                    </div>
-                  </div>
-                  <div class="item-down-right">
-                    <div>
-                      <span class="icon">
-                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-         </div>
-        <% end %>
-        <% @events[1..1].try(:each) do |event| %>
-          <div class="column is-7">
-            <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
-                <div class="event-overlay">
-                  <div class="item-down">
-                    <div>
-                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
-                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
-                    </div>
-                  </div>
-                  <div class="item-down-right">
-                    <div>
-                      <span class="icon">
-                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-         </div>
-        <% end %>
-        <% @events[2..9].try(:each) do |event| %>
-          <div class="column is-3">
-            <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
-                <div class="event-overlay">
-                  <div class="item-down">
-                    <div>
-                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
-                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
-                    </div>
-                  </div>
-                  <div class="item-down-right">
-                    <div>
-                      <span class="icon">
-                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p> Não há evento listado no momento.</p>
-    <% end %>
-  </div>
-</section>
-
-
 <% unless signed_in? %>
-  <div class="container">
-    <hr />
-  </div>
-
-  <section class="section home-info">
+  <section class="section registerCTA">
     <div class="container">
-      <div class="columns is-vcentered box cta-1 is-marginless">
-        <div class="column is-6">
-          <p class="title-cta">Fique por dentro de quando vão rolar seus eventos favoritos <i class="far fa-heart"></i></p>
-        </div>
-        <div class="column cta-right is-6">
-          <div></div>
-          <div class="is-flex">
-            <%= link_to "Cadastre-se", signup_path, class: "button cta is-white has-text-primary" %><hr class="vertical" />
-            <a href="http://fb.com/partiuingresso/" target="_blank" class="has-text-white">
-              <span class="icon is-medium"><i class="fab fa-lg fa-facebook-f"></i></span>
-            </a>
-            <a href="https://twitter.com/partiuingresso" target="_blank" class="has-text-white">
-              <span class="icon is-medium"><i class="fab fa-lg fa-twitter"></i></span>
-            </a>
-            <a href="https://instagram.com/partiuingresso/" target="_blank" class="has-text-white">
-              <span class="icon is-medium"><i class="fab fa-lg fa-instagram"></i></span>
-            </a>
-          </div>
-        </div>
+      <div>
+        Fique por dentro de quando vão rolar <br />
+        seus eventos favoritos <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
+      </div>
+      <div>
+        <%= link_to "Cadastre-se", signup_path, class: "button" %>
+        <span class="vr"></span>
+        <a href="http://fb.com/partiuingresso/" target="_blank">
+          <%= image_tag asset_pack_path("media/assets/images/icons/fb.svg") %>
+        </a>
+        <a href="https://instagram.com/partiuingresso/" target="_blank">
+          <%= image_tag asset_pack_path("media/assets/images/icons/insta.svg") %>
+        </a>
+        <a href="https://twitter.com/partiuingresso" target="_blank">
+          <%= image_tag asset_pack_path("media/assets/images/icons/twitter.svg") %>
+        </a>
       </div>
     </div>
   </section>
 <% end %>
+
+<div class="ellipse">
+  <div>
+    <%= image_tag asset_pack_path("media/assets/images/elements/ellipse.svg") %>
+  </div>
+</div>
+
+<section class="section filterEvents">
+  <div class="container">
+    <div class="selectCity">
+      <%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %>
+      <%= request.location.city %>, <%= request.location.state %>
+      <%= image_tag asset_pack_path("media/assets/images/icons/down.svg") %>
+    </div>
+    <div class="selectFilter">
+      Quero ir a um evento de <span class="selectCategory">música <%= image_tag asset_pack_path("media/assets/images/icons/down-blue.svg") %></span> <span class="selectWhen">neste final de semana <%= image_tag asset_pack_path("media/assets/images/icons/down-blue.svg") %></span>
+    </div>
+    <div class="tempTitle">
+      Mais eventos
+    </div>
+  </div>
+</section>
+
+<section class="section moreEvents">
+  <div class="container">
+    <div class="columns is-multiline <%= @events.count.odd? ? 'odd' : 'even' %>">
+      <% @events.each do |event| %>
+        <div class="column">
+          <div class="eventCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+            <%= link_to event_path(event) do %>
+              <div class="eventOverlay">
+                <div class="itemsLeft">                  
+                  <div class="soldTickets">
+                    <% if event.ticket_tokens.count > 1000 %>
+                      <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
+                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.ticket_tokens.count) %></p>
+                    <% end %>
+                  </div>
+                  <div class="info">
+                    <% if event.running_out? %>
+                      <p class="popularTag">Esgotando</p>
+                    <% elsif event.ticket_tokens.count > 30 %>
+                      <p class="runningOutTag">Esgotando</p>
+                    <% end %>
+                    <p class="eventName"><%= truncate(event.name, length: 30) %></p>
+                    <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                    <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                  </div>
+                </div>
+                <div class="itemsRight">
+                  <div>
+                    <span class="icon">
+                      <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <div class="wishList">
+              <a>
+                <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
+              </a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="section sellerCTA">
+  <div class="container">
+    <div>
+      Publicar seu evento na Partiu é fácil <br />
+      e grátis!
+    </div>
+    <div>
+      <%= link_to "Comece agora", '#', class: "button" %>
+      <%= link_to "Saiba mais", '#', class: "learnMore" %>
+    </div>
+  </div>
+</section>

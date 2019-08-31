@@ -38,10 +38,9 @@ class Event < ApplicationRecord
 	}
 
 	scope :highlights, -> {
-		(Event.available.where("events.start_t <= ?", 10.days.from_now).limit(5)
-			.union(Event.available.where("offers.sold > 1000")).limit(5)
-			.union(Event.available)).limit(10)
-
+		(Event.available.where("events.start_t >= ? AND events.start_t <= ?", Date.today, 10.days.from_now).limit(4)
+			.union(Event.available.where("offers.sold > 1000")).limit(4)
+			.union(Event.available)).limit(8)
 	}
 
 	def end_date_cannot_be_before_start
