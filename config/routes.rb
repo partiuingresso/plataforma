@@ -28,7 +28,6 @@ Rails.application.routes.draw do
 
   scope module: 'admin', path: '/', as: '' do
     get 'backoffice', to: 'dashboard#show', as: 'admin_dashboard'
-    resources :companies, only: [:new, :create]
     get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
     get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
     get '/send_ticket_email/:id', to: 'orders#send_ticket_email', as: 'send_ticket_email'
@@ -56,7 +55,7 @@ Rails.application.routes.draw do
 
   scope module: 'producer_admin', path: '/', as: '' do
     get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
-    resources :companies, only: [:show, :edit, :update]
+    resources :companies, except: [:destroy]
     get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
     resources :events, except: [:index, :show] do
       resources :offers, only: [:create, :update, :destroy]

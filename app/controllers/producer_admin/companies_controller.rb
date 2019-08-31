@@ -1,5 +1,6 @@
 class ProducerAdmin::CompaniesController < ApplicationController
-  load_and_authorize_resource
+  load_resource except: [:create]
+  authorize_resource
 
   def show
     balances = Wirecard::show_balances @company
@@ -13,6 +14,18 @@ class ProducerAdmin::CompaniesController < ApplicationController
     @new_transfer = @company.transfers.build
 
     @history_transfers = Kaminari.paginate_array(@company.transfers).page(params[:page]).per(10)
+  end
+
+  def new
+    if current_user.company.present?
+      redirect_to producer_admin_dashboard_path
+    end
+  end
+
+  def create
+    puts "*" * 100
+    puts account_params.inspect
+    puts "*" * 100
   end
 
   def edit
@@ -49,6 +62,42 @@ class ProducerAdmin::CompaniesController < ApplicationController
   end
 
 private
+
+  def account_params
+    params.require(:account).permit(
+      :name,
+      :email,
+      :document_number,
+      :birthdate,
+      :phone,
+      :show_phone,
+      :help_email,
+      address: [
+        :zipcode,
+        :address,
+        :number,
+        :complement,
+        :district,
+        :city,
+        :state
+      ],
+      company: [
+        :name,
+        :business_name,
+        :document_number,
+        :phone,
+        address: [
+          :zipcode,
+          :address,
+          :number,
+          :complement,
+          :district,
+          :city,
+          :state
+        ]
+      ]
+    )
+  end
 
   def company_params
     params.require(:company).permit(:name, :email)
