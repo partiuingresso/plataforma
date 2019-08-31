@@ -3,9 +3,9 @@
   </div>
 </section>
 
-<%= javascript_pack_tag "admin/company" %>
+<%= javascript_pack_tag "admin/seller" %>
 
-<section class="section painel companies-new">
+<section class="section painel seller-new">
   <div class="container">
     <div class="columns is-centered">
         
@@ -15,14 +15,14 @@
 
 
       <div class="column is-8">
-        <p class="title is-size-2">Cadastrar Nova Empresa</p>
-        <%= form_for @company_form, url: companies_path do |f| %>
-          <% if @company_form.errors.any? %>
+        <p class="title is-size-2">Cadastrar Novo Produtor</p>
+        <%= form_for @seller_form, url: admin_sellers_path do |f| %>
+          <% if @seller_form.errors.any? %>
             <article class="message is-danger">
               <div class="message-body">
-                <h2><%= pluralize(@company_form.errors.count, "erro", "erros") %>:</h2>
+                <h2><%= pluralize(@seller_form.errors.count, "erro", "erros") %>:</h2>
                 <ul>
-                <% @company_form.errors.full_messages.each do |message| %>
+                <% @seller_form.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
                 </ul>
@@ -148,7 +148,7 @@
                   <% end %>
                 </div>
               <% end %>
-              <p style="margin-top: 60px;" class="title is-5">Dados da Empresa</p>
+              <p style="margin-top: 60px;" class="title is-5">Dados do Empresa</p>
               <div class="box">
                 <div class="field">
                   <label class="label">Nome da Empresa</label>

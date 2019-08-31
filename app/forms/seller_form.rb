@@ -1,4 +1,4 @@
-class CompanyForm
+class SellerForm
 	include ActiveModel::Model
 
 	attr_accessor(
@@ -10,8 +10,8 @@ class CompanyForm
 		:phone,
 		:phone_number,
 		:phone_area_code,
-		:person, # The company person form
-		:address # The company address form
+		:person, # The seller person form
+		:address # The seller address form
 	)
 
     validates :name, presence: true
@@ -30,7 +30,7 @@ class CompanyForm
 	def save
 		begin
 			if valid?
-				@company = Company.new({
+				@seller = Seller.new({
 					name: name,
 					business_name: business_name,
 					document_number: document_number,
@@ -39,10 +39,10 @@ class CompanyForm
 					phone_number: phone_number,
 					address_attributes: address.serializable_hash
 				})
-			    account = Wirecard::create_account person, @company
-			    @company.moip_id = account.id
-			    @company.moip_access_token = account.access_token
-			    @company.save!
+			    account = Wirecard::create_account person, @seller
+			    @seller.moip_id = account.id
+			    @seller.moip_access_token = account.access_token
+			    @seller.save!
 				@success = true
 			else
 				@success = false

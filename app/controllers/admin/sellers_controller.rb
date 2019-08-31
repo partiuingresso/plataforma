@@ -1,29 +1,29 @@
-class Admin::CompaniesController < ApplicationController
+class Admin::SellersController < ApplicationController
   authorize_resource
 
    def show
-    @company = Company.find(params[:id])
+    @seller = Seller.find(params[:id])
     @user = current_user
-    if @user.update(company: @company)
-      redirect_to producer_admin_dashboard_path, notice: "Gerenciando #{@company.name}"
+    if @user.update(seller: @seller)
+      redirect_to producer_admin_dashboard_path, notice: "Gerenciando #{@seller.name}"
     else
       redirect_to backoffice_path, alert: "Ops... algo deu errado! Tente novamente."
     end
   end
 
   def new
-    @company_form = CompanyForm.new
+    @seller_form = SellerForm.new
   end
 
   def create
-    @company_form = CompanyForm.new(permitted_params)
+    @seller_form = SellerForm.new(permitted_params)
     respond_to do |format|
-      if @company_form.save
-        format.html { redirect_to admin_dashboard_path, notice: 'Empresa criada com sucesso.' }
-        format.json { render :show, status: :created, location: @company }
+      if @seller_form.save
+        format.html { redirect_to admin_dashboard_path, notice: 'Vendedor criado com sucesso.' }
+        format.json { render :show, status: :created }
       else
         format.html { render :new }
-        format.json { render json: @company_form.errors, status: :unprocessable_entity }
+        format.json { render json: @seller_form.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -31,7 +31,7 @@ class Admin::CompaniesController < ApplicationController
 private
 
   def permitted_params
-    params.require(:company_form).permit(:name, :business_name, :document_number, :email, :phone,
+    params.require(:seller_form).permit(:name, :business_name, :document_number, :email, :phone,
                                     address_attributes: [:address, :number, :complement, :district, :city, :state, :zipcode],
                                     person_attributes: [:name, :document_number, :email, :phone, :birthdate,
                                     address: [:address, :number, :complement, :district, :city, :state, :zipcode]])

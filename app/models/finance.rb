@@ -1,5 +1,5 @@
-class CompanyFinance < ApplicationRecord
-  belongs_to :company
+class Finance < ApplicationRecord
+  belongs_to :seller
   belongs_to :bank_account
 
   accepts_nested_attributes_for :bank_account

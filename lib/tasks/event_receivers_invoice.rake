@@ -6,7 +6,7 @@ task :event_receivers_invoice, [:event_id] => :environment do |task, args|
 	puts "Informações obtidas..."
 	orders = event.orders.where(status: [:approved])
 	puts "Pedidos aprovados encontrados: #{orders.size} "
-	receivers = Hash[Company.all.map {|c| [c.moip_id, 0]}]
+	receivers = Hash[Seller.all.map {|c| [c.moip_id, 0]}]
 
 	orders.each do |o|
 		moip_id = orders_moip_id[o.number]

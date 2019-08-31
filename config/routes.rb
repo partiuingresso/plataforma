@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :orders, only: [:index]
     resources :users, only: [:index]
-    resources :companies, only: [:show]
+    resources :sellers, only: [:show, :new, :create]
     resources :ticket_tokens, only: [:show, :update]
   end
 
@@ -55,12 +55,12 @@ Rails.application.routes.draw do
 
   scope module: 'producer_admin', path: '/', as: '' do
     get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
-    resources :companies, except: [:destroy]
-    get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
+    resources :sellers, except: [:destroy]
+    get '/sellers/remove_staff/:user_id', to: 'sellers#remove_staff', as: "remove_staff"
     resources :events, except: [:index, :show] do
       resources :offers, only: [:create, :update, :destroy]
     end
-    resources :company_finances, except: [:index, :destroy]
+    resources :finances, except: [:index, :destroy]
   end
 
   # ==> Producer routes

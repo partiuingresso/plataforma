@@ -6,27 +6,27 @@
       <a class="delete close-modal" aria-label="close"></a>
     </header>
     <section class="modal-card-body">
-      <%= field.hidden_field :company_id, value: @company.id %>
+      <%= field.hidden_field :seller_id, value: @seller.id %>
       <p class="is-size-5 has-text-weight-semibold">Conta destino</p>
       <p>
-        <%= @company.bank_account.legal_name %>
+        <%= @seller.bank_account.legal_name %>
         <span class="has-text-weight-semibold">
-          <%= @company.bank_account.document_number %>
+          <%= @seller.bank_account.document_number %>
         </span>
       </p>
-      <%= @company.bank_account.bank_code %>
-      <%= @company.bank_account.account_type %>
+      <%= @seller.bank_account.bank_code %>
+      <%= @seller.bank_account.account_type %>
       <p>
         <span class="has-text-weight-semibold">Agência: </span>
-        <%= @company.bank_account.agency_number %>
-        <% if @company.bank_account.agency_check_number.present? %>
+        <%= @seller.bank_account.agency_number %>
+        <% if @seller.bank_account.agency_check_number.present? %>
           <span>-</span>
-          <%= @company.bank_account.agency_check_number %>
+          <%= @seller.bank_account.agency_check_number %>
         <% end %>
         <span class="has-text-weight-semibold">Conta: </span>
-        <%= @company.bank_account.account_number %>
+        <%= @seller.bank_account.account_number %>
         <span>-</span>
-        <%= @company.bank_account.account_check_number %>
+        <%= @seller.bank_account.account_check_number %>
       </p>
       <div style="margin-top: 10px;" class="columns">
         <div class="column is-4">

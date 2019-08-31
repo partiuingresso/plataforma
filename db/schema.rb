@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_21_023418) do
+ActiveRecord::Schema.define(version: 2019_08_31_024457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,29 +67,6 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "companies", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "moip_id", null: false
-    t.string "moip_access_token", null: false
-    t.bigint "address_id", null: false
-    t.string "business_name", null: false
-    t.string "document_number", null: false
-    t.integer "phone_area_code", null: false
-    t.integer "phone_number", null: false
-    t.string "email"
-    t.index ["address_id"], name: "index_companies_on_address_id"
-  end
-
-  create_table "company_finances", primary_key: "company_id", id: :bigint, default: nil, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "bank_account_id", null: false
-    t.index ["bank_account_id"], name: "index_company_finances_on_bank_account_id", unique: true
-    t.index ["company_id"], name: "index_company_finances_on_company_id"
-  end
-
   create_table "credit_cards", force: :cascade do |t|
     t.string "cardid", null: false
     t.bigint "user_id", null: false
@@ -106,7 +83,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "company_id", null: false
+    t.bigint "seller_id", null: false
     t.string "headline"
     t.string "video"
     t.bigint "address_id", null: false
@@ -115,8 +92,16 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
     t.string "fb_pixel"
     t.string "ga_id"
     t.index ["address_id"], name: "index_events_on_address_id"
-    t.index ["company_id"], name: "index_events_on_company_id"
+    t.index ["seller_id"], name: "index_events_on_seller_id"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "finances", primary_key: "seller_id", id: :bigint, default: nil, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "bank_account_id", null: false
+    t.index ["bank_account_id"], name: "index_finances_on_bank_account_id", unique: true
+    t.index ["seller_id"], name: "index_finances_on_seller_id"
   end
 
   create_table "offers", force: :cascade do |t|
@@ -161,6 +146,21 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
 # Could not dump table "orders" because of following StandardError
 #   Unknown type 'order_status' for column 'status'
 
+  create_table "sellers", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "moip_id", null: false
+    t.string "moip_access_token", null: false
+    t.bigint "address_id", null: false
+    t.string "business_name", null: false
+    t.string "document_number", null: false
+    t.integer "phone_area_code", null: false
+    t.integer "phone_number", null: false
+    t.string "email"
+    t.index ["address_id"], name: "index_sellers_on_address_id"
+  end
+
 # Could not dump table "ticket_tokens" because of following StandardError
 #   Unknown type 'ticket_status' for column 'status'
 
@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
     t.string "last_name"
     t.string "cpf"
     t.integer "role", null: false
-    t.bigint "company_id"
+    t.bigint "seller_id"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -194,10 +194,10 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
     t.datetime "updated_at", null: false
     t.string "gender"
     t.datetime "birthday"
-    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["seller_id"], name: "index_users_on_seller_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
@@ -210,21 +210,21 @@ ActiveRecord::Schema.define(version: 2019_08_21_023418) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "companies", "addresses"
-  add_foreign_key "company_finances", "bank_accounts"
-  add_foreign_key "company_finances", "companies"
   add_foreign_key "credit_cards", "users"
   add_foreign_key "events", "addresses"
-  add_foreign_key "events", "companies"
+  add_foreign_key "events", "sellers"
   add_foreign_key "events", "users"
+  add_foreign_key "finances", "bank_accounts"
+  add_foreign_key "finances", "sellers"
   add_foreign_key "offers", "events"
   add_foreign_key "order_items", "offers"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_payments", "orders"
   add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
+  add_foreign_key "sellers", "addresses"
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "transfers", "bank_accounts"
-  add_foreign_key "transfers", "companies"
-  add_foreign_key "users", "companies"
+  add_foreign_key "transfers", "sellers"
+  add_foreign_key "users", "sellers"
 end

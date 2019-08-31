@@ -5,7 +5,7 @@ class Order < ApplicationRecord
   has_many :order_items, dependent: :destroy
   has_one :payment, class_name: :OrderPayment, dependent: :destroy
   belongs_to :event
-  has_one :company, through: :event
+  has_one :seller, through: :event
   has_many :offers, through: :order_items
   has_many :ticket_tokens, through: :order_items
 

@@ -1,2 +1,0 @@
-module ProducerAdmin::CompanyFinancesHelper
-end

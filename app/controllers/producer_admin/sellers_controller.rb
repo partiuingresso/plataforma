@@ -1,9 +1,9 @@
-class ProducerAdmin::CompaniesController < ApplicationController
+class ProducerAdmin::SellersController < ApplicationController
   load_resource except: [:create]
   authorize_resource
 
   def show
-    balances = Wirecard::show_balances @company
+    balances = Wirecard::show_balances @seller
 
     @future_balance = Money.new(balances.future.first.amount).format
     @unavailable_balance = Money.new(balances.unavailable.first.amount).format
@@ -11,13 +11,13 @@ class ProducerAdmin::CompaniesController < ApplicationController
     available = [0, (balances.current.first.amount - balances.unavailable.first.amount)].max
     @available_balance = Money.new(available).format
 
-    @new_transfer = @company.transfers.build
+    @new_transfer = @seller.transfers.build
 
-    @history_transfers = Kaminari.paginate_array(@company.transfers).page(params[:page]).per(10)
+    @history_transfers = Kaminari.paginate_array(@seller.transfers).page(params[:page]).per(10)
   end
 
   def new
-    if current_user.company.present?
+    if current_user.seller.present?
       redirect_to producer_admin_dashboard_path
     end
   end
@@ -29,7 +29,7 @@ class ProducerAdmin::CompaniesController < ApplicationController
   end
 
   def edit
-    @staff = User.where(company_id: @company.id)
+    @staff = User.where(seller_id: @seller.id)
     @user = User.new
   end
 
@@ -37,27 +37,27 @@ class ProducerAdmin::CompaniesController < ApplicationController
     if user_params[:email].present?
       @user = User.find_by(email: user_params[:email])
       if @user.present?
-        @user.company_id = @company.id
+        @user.seller_id = @seller.id
         @user.update(user_params)
       else
-        redirect_to edit_company_path(@company), alert: "Usuário não encontrado." and return
+        redirect_to edit_seller_path(@seller), alert: "Usuário não encontrado." and return
       end
     end
 
-    if @company.update(company_params)
-      redirect_to edit_company_path(@company), notice: "Empresa atualizada com sucesso."
+    if @seller.update(seller_params)
+      redirect_to edit_seller_path(@seller), notice: "Vendedor atualizado com sucesso."
     else
-      redirect_to edit_company_path(@company), alert: "Ops... Algo deu errado! Tente novamente."
+      redirect_to edit_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
     end
   end
 
   def remove_staff
     @user = User.find(params[:user_id])
-    @company = @user.company
-    if @user.update(role: :user, company_id: nil)
-      redirect_to edit_company_path(@company), notice: "Usuário removido."
+    @seller = @user.seller
+    if @user.update(role: :user, seller_id: nil)
+      redirect_to edit_seller_path(@seller), notice: "Usuário removido."
     else
-      redirect_to edit_company_path(@company), alert: "Ops... Algo deu errado! Tente novamente."
+      redirect_to edit_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
     end
   end
 
@@ -99,8 +99,8 @@ private
     )
   end
 
-  def company_params
-    params.require(:company).permit(:name, :email)
+  def seller_params
+    params.require(:seller).permit(:name, :email)
   end
 
   def user_params
@@ -108,6 +108,6 @@ private
   end
 
   def current_ability
-    @current_ability ||= ProducerAdmin::CompanyAbility.new(current_user)
+    @current_ability ||= ProducerAdmin::SellerAbility.new(current_user)
   end
 end

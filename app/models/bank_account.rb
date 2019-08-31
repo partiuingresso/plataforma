@@ -1,7 +1,7 @@
 class BankAccount < ApplicationRecord
-	has_one :company_finance
+	has_one :finance
 	has_many :transfers
-	has_one :company, through: :company_finance
+	has_one :seller, through: :finance
 
   validates :legal_name, presence: true
   validates :document_type, presence: true

@@ -8,7 +8,7 @@ class Event < ApplicationRecord
 			tsearch: {any_word: true, prefix: true}
 		}
 
-	belongs_to :company
+	belongs_to :seller
 	belongs_to :user
 	belongs_to :address
 	has_many :offers, dependent: :destroy

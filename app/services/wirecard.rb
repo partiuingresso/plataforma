@@ -104,10 +104,10 @@ module Wirecard
 		)
 	end
 
-	def self.create_bank_account company
-		moip_id = company.moip_id
-		bank_account = company.company_finance.bank_account
-		new_bank_account = api(company.moip_access_token).bank_accounts.create(moip_id,
+	def self.create_bank_account seller
+		moip_id = seller.moip_id
+		bank_account = seller.finance.bank_account
+		new_bank_account = api(seller.moip_access_token).bank_accounts.create(moip_id,
 			{
 				type: bank_account.account_type,
 				bankNumber: bank_account.bank_code,
@@ -126,20 +126,20 @@ module Wirecard
 		)
 	end
 
-	def self.delete_bank_account company
-		api(company.moip_access_token).bank_accounts.delete(company.bank_account.moip_id)
+	def self.delete_bank_account seller
+		api(seller.moip_access_token).bank_accounts.delete(seller.bank_account.moip_id)
 	end
 
-	def self.bank_accounts company
-		bank_accounts = api(company.moip_access_token).bank_accounts.find_all(company.moip_id).parsed_response
+	def self.bank_accounts seller
+		bank_accounts = api(seller.moip_access_token).bank_accounts.find_all(seller.moip_id).parsed_response
 		bank_accounts.map do |bank_account_hash|
 			RecursiveOpenStruct.new bank_account_hash
 		end
 	end
 
-	def self.update_bank_account company
-		bank_account = company.company_finance.bank_account
-		new_bank_account = api(company.moip_access_token).bank_accounts.update(bank_account.moip_id,
+	def self.update_bank_account seller
+		bank_account = seller.finance.bank_account
+		new_bank_account = api(seller.moip_access_token).bank_accounts.update(bank_account.moip_id,
 			{
 				type: bank_account.account_type,
 				bankNumber: bank_account.bank_code,
@@ -159,14 +159,14 @@ module Wirecard
 		new_bank_account.respond_to?(:id) && new_bank_account.id.present?
 	end
 
-	def self.show_balances company
-		api(company.moip_access_token).balances.show()
+	def self.show_balances seller
+		api(seller.moip_access_token).balances.show()
 	end
 
 	def self.create_transfer transfer
-		company = transfer.company
-		bank_account = company.company_finance.bank_account
-		transfer = api(company.moip_access_token).transfer.create(
+		seller = transfer.seller
+		bank_account = seller.finance.bank_account
+		transfer = api(seller.moip_access_token).transfer.create(
 			{
 				ownId: transfer.id,
 				amount: transfer.amount_cents,
@@ -192,14 +192,14 @@ module Wirecard
 		)
 	end
 
-	def self.transfer_to company, amount
+	def self.transfer_to seller, amount
 		transfer = api.transfer.create(
 			{
 				amount: amount,
 				transferInstrument: {
 					method: "MOIP_ACCOUNT",
 					moipAccount: {
-						id: company.moip_id
+						id: seller.moip_id
 					}
 				}
 			}

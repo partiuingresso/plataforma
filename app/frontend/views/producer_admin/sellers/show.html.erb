@@ -1,9 +1,9 @@
-<%= javascript_pack_tag "companies/show" %>
+<%= javascript_pack_tag "sellers/show" %>
 <section class="section hero">
   <div class="container hero-content">
   </div>
 </section>
-<section class="section companies-show">
+<section class="section sellers-show">
   <div class="container">
     <div class="columns is-centered">
 
@@ -84,7 +84,7 @@
             <%= paginate @history_transfers, window: 2 %>
           </div>
           <div class="column">
-            <% if @company.bank_account.present? %>
+            <% if @seller.bank_account.present? %>
               <%= form_for @new_transfer, url: producer_admin_transfers_path do |f| %>
                   <%= render partial: 'new_transfer_modal', locals: { field: f } %>
               <% end %>
@@ -93,7 +93,7 @@
               </div>
             <% else %>
               <div class="has-text-right">
-                <%= link_to "Você precisa cadastrar uma conta bancária.", new_company_finance_path, class: "button is-text has-text-link is-size-7" %>
+                <%= link_to "Você precisa cadastrar uma conta bancária.", new_finance_path, class: "button is-text has-text-link is-size-7" %>
                 <a class="button is-primary" disabled>Sacar</a>
               </div>
             <% end %>
