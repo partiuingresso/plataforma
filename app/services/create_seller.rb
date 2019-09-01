@@ -17,12 +17,12 @@ class CreateSeller < ApplicationService
 				account = Wirecard::create_account person, @company
 				# Cancela operação se a conta transparente não for criada com sucesso
 				raise ActiveRecord::Rollback unless account.respond_to?(:id)
-				# Atualizar usuário
-				@user.update!(cpf: account_data[:document_number], birthday: account_data[:birthdate])
 				# Criar seller
 				@seller.moip_id = account.id
 				@seller.moip_access_token = account.access_token
 				@seller.save!
+				# Atualizar usuário
+				@user.update!(cpf: account_data[:document_number], birthday: account_data[:birthdate])
 				# Criar empresa se for necessário
 				@company.save! unless @company.nil?
 				@success = true
