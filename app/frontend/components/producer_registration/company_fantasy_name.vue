@@ -13,6 +13,25 @@
 <script>
 import WizardView from './wizard_view.vue'
 export default {
-	extends: WizardView
+	extends: WizardView,
+	created() {
+		this.data.company = {
+			name: '',
+			business_name: '',
+			document_number: '',
+			phone: '',
+			show_phone: '',
+			help_email: '',
+			address: {
+				zipcode: '',
+				address: '',
+				number: '',
+				complement: '',
+				district: '',
+				city: '',
+				state: ''
+			}
+		}
+	}
 }
 </script>

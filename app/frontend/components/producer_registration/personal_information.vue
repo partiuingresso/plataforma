@@ -8,7 +8,7 @@
 		<input v-model="data.name" class="input" placeholder="Nome" />
 		<input v-model="data.email" class="input" placeholder="Email" />
 		<input v-model="data.document_number" class="input" placeholder="CPF" />
-		<input v-model="data.birthdate" class="input" placeholder="Data de nascimento" />
+		<input v-model="data.birthdate" type="date" class="input" placeholder="Data de nascimento" />
 		<input v-if="type == 'company'" v-model="data.phone" class="input" placeholder="DDD + Telefone" />
 		<input v-model="data.address.zipcode" class="input" placeholder="CEP" />
 		<input v-model="data.address.address" class="input" placeholder="Endereço" />

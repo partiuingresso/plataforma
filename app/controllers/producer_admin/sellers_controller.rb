@@ -23,9 +23,12 @@ class ProducerAdmin::SellersController < ApplicationController
   end
 
   def create
-    puts "*" * 100
-    puts account_params.inspect
-    puts "*" * 100
+    result = CreateSeller.call(current_user, account_params)
+    if result.success?
+      head :no_content
+    else
+      head :bad_request
+    end
   end
 
   def edit

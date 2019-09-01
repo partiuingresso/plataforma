@@ -82,23 +82,6 @@ export default {
 					district: '',
 					city: '',
 					state: ''
-				},
-				company: {
-					name: '',
-					business_name: '',
-					document_number: '',
-					phone: '',
-					show_phone: '',
-					help_email: '',
-					address: {
-						zipcode: '',
-						address: '',
-						number: '',
-						complement: '',
-						district: '',
-						city: '',
-						state: ''
-					}
 				}
 			}
 		}
@@ -110,7 +93,7 @@ export default {
 		submit() {
 			const formData = toFormData({ obj: this.account, namespace: 'account' })
 			Rails.ajax({
-				url: '/companies',
+				url: '/sellers',
 				type: 'post',
 				data: formData
 			})
