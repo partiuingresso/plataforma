@@ -161,17 +161,17 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
 #   Unknown type 'order_status' for column 'status'
 
   create_table "sellers", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "moip_id", null: false
     t.string "moip_access_token", null: false
-    t.string "email"
-    t.integer "phone_number"
-    t.integer "phone_area_code"
-    t.string "document_number"
-    t.string "business_name"
-    t.string "name"
     t.bigint "address_id"
+    t.string "business_name"
+    t.string "document_number"
+    t.integer "phone_area_code"
+    t.integer "phone_number"
+    t.string "email"
     t.bigint "owner_id"
     t.index ["address_id"], name: "index_sellers_on_address_id"
     t.index ["owner_id"], name: "index_sellers_on_owner_id", unique: true
