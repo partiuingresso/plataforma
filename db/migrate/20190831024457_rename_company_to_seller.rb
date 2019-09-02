@@ -14,7 +14,7 @@ class RenameCompanyToSeller < ActiveRecord::Migration[5.2]
   	rename_table :finances, :company_finances
 
   	rename_column :users, :seller_id, :company_id
-  	rename_column :finances, :seller_id, :company_id
+  	rename_column :company_finances, :seller_id, :company_id
   	rename_column :transfers, :seller_id, :company_id
   	rename_column :events, :seller_id, :company_id
   end
