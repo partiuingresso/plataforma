@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :credit_cards
   has_many :orders
   has_many :ticket_tokens, through: :orders
-  belongs_to :company, optional: true
+  belongs_to :seller, optional: true
 
   pg_search_scope :search_user, against: [:first_name, :last_name, :email],
                     using: {

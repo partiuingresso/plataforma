@@ -1,6 +1,6 @@
 class Transfer < ApplicationRecord
 	enum status: { requested: "requested", completed: "completed", failed: "failed", reversed: "reversed" }
-	belongs_to :company
+	belongs_to :seller
 	belongs_to :bank_account
 
 	monetize :fee_cents, numericality: { greater_than_or_equal_to: 0 }

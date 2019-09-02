@@ -25,8 +25,8 @@ task :event_revenue, [:event_id] => :environment do |task, args|
 		if payment.present?
 			total_amount = payment.amount_cents
 			wirecard_amount = WIRECARD_FIXED_FEE + (total_amount * WIRECARD_FEE[payment.installment_count]).round
-			company_amount = order.read_attribute(:subtotal_cents)
-			income_amount = total_amount - (wirecard_amount + company_amount)
+			seller_amount = order.read_attribute(:subtotal_cents)
+			income_amount = total_amount - (wirecard_amount + seller_amount)
 		else
 			0
 		end

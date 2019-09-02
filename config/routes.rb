@@ -22,13 +22,12 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :orders, only: [:index]
     resources :users, only: [:index]
-    resources :companies, only: [:show]
+    resources :sellers, only: [:show, :new, :create]
     resources :ticket_tokens, only: [:show, :update]
   end
 
   scope module: 'admin', path: '/', as: '' do
     get 'backoffice', to: 'dashboard#show', as: 'admin_dashboard'
-    resources :companies, only: [:new, :create]
     get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
     get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
     get '/send_ticket_email/:id', to: 'orders#send_ticket_email', as: 'send_ticket_email'
@@ -56,12 +55,12 @@ Rails.application.routes.draw do
 
   scope module: 'producer_admin', path: '/', as: '' do
     get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
-    resources :companies, only: [:show, :edit, :update]
-    get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
+    resources :sellers, except: [:destroy]
+    get '/sellers/remove_staff/:user_id', to: 'sellers#remove_staff', as: "remove_staff"
     resources :events, except: [:index, :show] do
       resources :offers, only: [:create, :update, :destroy]
     end
-    resources :company_finances, except: [:index, :destroy]
+    resources :finances, except: [:index, :destroy]
   end
 
   # ==> Producer routes

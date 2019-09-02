@@ -63,7 +63,7 @@ module Wirecard
 							type: "SECONDARY",
 							feePayor: false,
 							moipAccount: {
-								id: order.company.moip_id
+								id: order.seller.moip_id
 							},
 							amount: {
 								fixed: order.subtotal_cents

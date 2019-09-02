@@ -21,10 +21,10 @@ task :generate_invoice, [:month] => :environment do |task, args|
 	start_date = DateTime.new(2019, month, 1)
 	end_date = DateTime.new(2019, month + 1, 1)
 
-	companies = Company.all
+	sellers = Seller.all
 	invoice = {}
-	companies.each do |company|
-		orders = company.orders.includes(:payment).approved.where(
+	sellers.each do |seller|
+		orders = seller.orders.includes(:payment).approved.where(
 			"orders.user_id != 2 AND orders.updated_at >= :start_date AND orders.updated_at < :end_date",
 			{ start_date: start_date, end_date: end_date }
 		)
@@ -32,16 +32,16 @@ task :generate_invoice, [:month] => :environment do |task, args|
 			payment = order.payment
 			total_amount = payment.amount_cents
 			wirecard_amount = WIRECARD_FIXED_FEE + (total_amount * WIRECARD_FEE[payment.installment_count]).round
-			company_amount = order.read_attribute(:subtotal_cents)
-			income_amount = total_amount - (wirecard_amount + company_amount)
+			seller_amount = order.read_attribute(:subtotal_cents)
+			income_amount = total_amount - (wirecard_amount + seller_amount)
 		end
-		invoice[company.name] = incomes.sum
+		invoice[seller.company.name] = incomes.sum
 	end
 
 	CSV.open(Rails.root.join("./invoice_19_#{month}.csv"), "w") do |csv|
 		csv << ["Organizador", "Total"]
-		invoice.each do |company_name, income|
-			csv << [company_name, Money.new(income).format]
+		invoice.each do |seller_name, income|
+			csv << [seller_name, Money.new(income).format]
 		end
 	end
 end

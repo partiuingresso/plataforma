@@ -46,68 +46,71 @@ module Wirecard
 	end
 
 	def self.create_account person, company
-		account = api.accounts.create(
-			{
-				email: {
-					address: person.email
+		account_data = {
+			email: {
+				address: person.email
+			},
+			person: {
+				name: person.first_name,
+				lastName: person.last_name,
+				taxDocument: {
+					type: "CPF",
+					number: person.document_number.gsub(/[.\-]/, "")
 				},
-				person: {
-					name: person.first_name,
-					lastName: person.last_name,
-					taxDocument: {
-						type: "CPF",
-						number: person.document_number.gsub(/[.\-]/, "")
-					},
-					birthDate: person.birthdate.strftime("%Y-%m-%d"),
-					phone: {
-						countryCode: "55",
-						areaCode: person.phone_area_code.to_s,
-						number: person.phone_number.to_s
-					},
-					address: {
-						street: person.address.address,
-						streetNumber: person.address.number,
-						complement: person.address.complement,
-						district: person.address.district,
-						zipCode: person.address.zipcode.gsub(/[.\-]/, ""),
-						city: person.address.city,
-						state: person.address.state,
-						country: "BRA"
-					}
+				birthDate: person.birthdate,
+				phone: {
+					countryCode: "55",
+					areaCode: person.phone_area_code.to_s,
+					number: person.phone_number.to_s
 				},
-				company: {
-					name: company.name,
-					businessName: company.business_name,
-					taxDocument: {
-						type: "CNPJ",
-						number: company.document_number.gsub(/[.\-\/]/, "")
-					},
-					phone: {
-						countryCode: "55",
-						areaCode: company.phone_area_code,
-						number: company.phone_number
-					},
-					address: {
-						street: company.address.address,
-						streetNumber: company.address.number,
-						complement: company.address.complement,
-						district: company.address.district,
-						zipCode: company.address.zipcode.gsub(/[.\-]/, ""),
-						city: company.address.city,
-						state: company.address.state,
-						country: "BRA"
-					}
+				address: {
+					street: person.address.address,
+					streetNumber: person.address.number,
+					complement: person.address.complement,
+					district: person.address.district,
+					zipCode: person.address.zipcode.gsub(/[.\-]/, ""),
+					city: person.address.city,
+					state: person.address.state,
+					country: "BRA"
+				}
+			},
+			type: "MERCHANT",
+			transparentAccount: true
+		}
+
+		if company.present?
+			account_data[:company] = {
+				name: company.name,
+				businessName: company.business_name,
+				taxDocument: {
+					type: "CNPJ",
+					number: company.document_number.gsub(/[.\-\/]/, "")
 				},
-				type: "MERCHANT",
-				transparentAccount: true
+				phone: {
+					countryCode: "55",
+					areaCode: company.phone_area_code,
+					number: company.phone_number
+				},
+				address: {
+					street: company.address.address,
+					streetNumber: company.address.number,
+					complement: company.address.complement,
+					district: company.address.district,
+					zipCode: company.address.zipcode.gsub(/[.\-]/, ""),
+					city: company.address.city,
+					state: company.address.state,
+					country: "BRA"
+				}
 			}
-		)
+		end
+
+		account = api.accounts.create account_data
 	end
 
-	def self.create_bank_account company
-		moip_id = company.moip_id
-		bank_account = company.company_finance.bank_account
-		new_bank_account = api(company.moip_access_token).bank_accounts.create(moip_id,
+	def self.create_bank_account seller
+		moip_id = seller.moip_id
+		bank_account = seller.finance.bank_account
+		new_bank_account = api(seller.moip_access_token).bank_accounts.create(moip_id,
 			{
 				type: bank_account.account_type,
 				bankNumber: bank_account.bank_code,
@@ -126,20 +129,20 @@ module Wirecard
 		)
 	end
 
-	def self.delete_bank_account company
-		api(company.moip_access_token).bank_accounts.delete(company.bank_account.moip_id)
+	def self.delete_bank_account seller
+		api(seller.moip_access_token).bank_accounts.delete(seller.bank_account.moip_id)
 	end
 
-	def self.bank_accounts company
-		bank_accounts = api(company.moip_access_token).bank_accounts.find_all(company.moip_id).parsed_response
+	def self.bank_accounts seller
+		bank_accounts = api(seller.moip_access_token).bank_accounts.find_all(seller.moip_id).parsed_response
 		bank_accounts.map do |bank_account_hash|
 			RecursiveOpenStruct.new bank_account_hash
 		end
 	end
 
-	def self.update_bank_account company
-		bank_account = company.company_finance.bank_account
-		new_bank_account = api(company.moip_access_token).bank_accounts.update(bank_account.moip_id,
+	def self.update_bank_account seller
+		bank_account = seller.finance.bank_account
+		new_bank_account = api(seller.moip_access_token).bank_accounts.update(bank_account.moip_id,
 			{
 				type: bank_account.account_type,
 				bankNumber: bank_account.bank_code,
@@ -159,14 +162,14 @@ module Wirecard
 		new_bank_account.respond_to?(:id) && new_bank_account.id.present?
 	end
 
-	def self.show_balances company
-		api(company.moip_access_token).balances.show()
+	def self.show_balances seller
+		api(seller.moip_access_token).balances.show()
 	end
 
 	def self.create_transfer transfer
-		company = transfer.company
-		bank_account = company.company_finance.bank_account
-		transfer = api(company.moip_access_token).transfer.create(
+		seller = transfer.seller
+		bank_account = seller.finance.bank_account
+		transfer = api(seller.moip_access_token).transfer.create(
 			{
 				ownId: transfer.id,
 				amount: transfer.amount_cents,
@@ -192,14 +195,14 @@ module Wirecard
 		)
 	end
 
-	def self.transfer_to company, amount
+	def self.transfer_to seller, amount
 		transfer = api.transfer.create(
 			{
 				amount: amount,
 				transferInstrument: {
 					method: "MOIP_ACCOUNT",
 					moipAccount: {
-						id: company.moip_id
+						id: seller.moip_id
 					}
 				}
 			}
