@@ -30,6 +30,11 @@ $family-primary: 'Inter', sans-serif;
 @import '~bulma/bulma';
 @import '~bulma-switch';
 
+// Redesign
+@import 'home';
+@import 'header';
+
+
 @import 'admin';
 @import 'ads';
 @import 'animate';
@@ -37,7 +42,6 @@ $family-primary: 'Inter', sans-serif;
 @import 'finances';
 @import 'custom';
 @import 'events';
-@import 'home';
 @import 'inter';
 @import 'orders';
 @import 'producer_admin';
