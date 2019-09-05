@@ -41,6 +41,8 @@ gem 'prawn-table'
 gem 'sidekiq'
 # Split
 gem 'split', require: 'split/dashboard'
+# Mobile views
+gem 'browser'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -84,6 +86,8 @@ gem 'active_record_union'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # Seed Dump
+  gem 'seed_dump'
 end
 
 group :development do
