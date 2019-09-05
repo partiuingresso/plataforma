@@ -16,6 +16,8 @@ namespace :companies do
           address_id: seller.address.id
         )
         company.save!
+        owner = User.find_by!(role: :producer_admin, seller_id: seller.id)
+        seller.update!(owner: owner.id)
         print "."
       end
     end
