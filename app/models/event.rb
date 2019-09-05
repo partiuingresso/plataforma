@@ -44,7 +44,7 @@ class Event < ApplicationRecord
 	def self.highlights
 		all = Event.available_to_happen.includes(:offers)
 		closest = all.select { |event| event.start_t <= 10.days.from_now }
-		best_sellers = all.select { |event| event.sold >= 1000 }
+		best_sellers = all.select { |event| event.sold >= 1000 } - closest
 
 		(closest.take(4) + best_sellers.take(4) + all).uniq.take(8)
 	end
