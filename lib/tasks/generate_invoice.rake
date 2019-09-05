@@ -35,7 +35,7 @@ task :generate_invoice, [:month] => :environment do |task, args|
 			seller_amount = order.read_attribute(:subtotal_cents)
 			income_amount = total_amount - (wirecard_amount + seller_amount)
 		end
-		invoice[seller.company.name] = incomes.sum
+		invoice[seller.name] = incomes.sum
 	end
 
 	CSV.open(Rails.root.join("./invoice_19_#{month}.csv"), "w") do |csv|

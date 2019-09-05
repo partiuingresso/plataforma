@@ -11,4 +11,8 @@ class Seller < ApplicationRecord
 
 	validates :moip_id, presence: true
 	validates :moip_access_token, presence: true
+
+    def name
+        company&.name || owner.name.familiar
+    end
 end

@@ -231,6 +231,9 @@ GEM
       ffi (~> 1.9)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
+    seed_dump (3.3.1)
+      activerecord (>= 4)
+      activesupport (>= 4)
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -335,6 +338,7 @@ DEPENDENCIES
   rails (~> 5.2.2)
   rb-readline
   rqrcode
+  seed_dump
   selenium-webdriver
   sidekiq
   split
