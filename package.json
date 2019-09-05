@@ -17,6 +17,7 @@
     "chartkick": "^3.0.2",
     "core-js": "2",
     "dinero.js": "^1.6.0",
+    "file-loader": "^4.2.0",
     "jsencrypt": "^3.0.0-rc.1",
     "lodash.clonedeep": "^4.5.0",
     "moip-sdk-js": "^2.1.1",

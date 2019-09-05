@@ -1,6 +1,11 @@
 const { environment } = require('@rails/webpacker')
 const { VueLoaderPlugin } = require('vue-loader')
 const vue = require('./loaders/vue')
+const fileLoader = {
+  test: /\.webp$/,
+  use: 'file-loader'
+}
+environment.loaders.prepend('webp', fileLoader)
 
 const erb =  require('./loaders/erb')
 const worker = require('./loaders/worker')
