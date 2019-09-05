@@ -16,7 +16,7 @@
       <div class="column is-8">
         <p class="title is-size-2">Editar Negócio</p>
 
-        <%= form_with(model: @seller, local: true) do |f| %>
+        <%= form_with(model: [:producer_admin, @seller], local: true) do |f| %>
           <% if @seller.errors.any? %>
             <article class="message signup is-danger">
               <div class="message-body">

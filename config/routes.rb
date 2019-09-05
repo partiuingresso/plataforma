@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   # ==> Producer admin routes
 
   namespace :producer_admin do
+    resources :sellers, except: [:new, :create, :destroy]
     resources :events, only: [:index, :show] do
       resources :offers, only: [:index]
       resources :marketings, only: [:index]
@@ -55,7 +56,6 @@ Rails.application.routes.draw do
 
   scope module: 'producer_admin', path: '/', as: '' do
     get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
-    resources :sellers, except: [:destroy]
     get '/sellers/remove_staff/:user_id', to: 'sellers#remove_staff', as: "remove_staff"
     resources :events, except: [:index, :show] do
       resources :offers, only: [:create, :update, :destroy]
@@ -74,6 +74,9 @@ Rails.application.routes.draw do
     post 'validations/', to: 'validations#create', as: 'validations'
     get 'validations/:code', to: 'validations#new', as: 'new_validation'
   end
+
+  # ==> Sellers routes
+  resources :sellers, only: [:new, :create]
 
   # ==> Events routes
 
