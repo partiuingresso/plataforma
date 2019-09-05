@@ -22,7 +22,7 @@ class CreateSeller < ApplicationService
 				@seller.moip_access_token = account.access_token
 				@seller.save!
 				# Atualizar usuário
-				@user.update!(cpf: account_data[:document_number], birthday: account_data[:birthdate])
+				@user.update!(cpf: account_data[:document_number], birthday: account_data[:birthdate], role: 3)
 				# Criar empresa se for necessário
 				@company.save! unless @company.nil?
 				@success = true

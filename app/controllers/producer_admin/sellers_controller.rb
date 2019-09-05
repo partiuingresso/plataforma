@@ -16,21 +16,6 @@ class ProducerAdmin::SellersController < ApplicationController
     @history_transfers = Kaminari.paginate_array(@seller.transfers).page(params[:page]).per(10)
   end
 
-  def new
-    if current_user.seller.present?
-      redirect_to producer_admin_dashboard_path
-    end
-  end
-
-  def create
-    result = CreateSeller.call(current_user, account_params)
-    if result.success?
-      head :no_content
-    else
-      head :bad_request
-    end
-  end
-
   def edit
     @staff = User.where(seller_id: @seller.id)
     @user = User.new
@@ -43,14 +28,14 @@ class ProducerAdmin::SellersController < ApplicationController
         @user.seller_id = @seller.id
         @user.update(user_params)
       else
-        redirect_to edit_seller_path(@seller), alert: "Usuário não encontrado." and return
+        redirect_to edit_producer_admin_seller_path(@seller), alert: "Usuário não encontrado." and return
       end
     end
 
     if @seller.update(seller_params)
-      redirect_to edit_seller_path(@seller), notice: "Vendedor atualizado com sucesso."
+      redirect_to edit_producer_admin_seller_path(@seller), notice: "Vendedor atualizado com sucesso."
     else
-      redirect_to edit_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
+      redirect_to edit_producer_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
     end
   end
 
@@ -58,49 +43,13 @@ class ProducerAdmin::SellersController < ApplicationController
     @user = User.find(params[:user_id])
     @seller = @user.seller
     if @user.update(role: :user, seller_id: nil)
-      redirect_to edit_seller_path(@seller), notice: "Usuário removido."
+      redirect_to edit_producer_admin_seller_path(@seller), notice: "Usuário removido."
     else
-      redirect_to edit_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
+      redirect_to edit_producer_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
     end
   end
 
 private
-
-  def account_params
-    params.require(:account).permit(
-      :name,
-      :email,
-      :document_number,
-      :birthdate,
-      :phone,
-      :show_phone,
-      :help_email,
-      address: [
-        :zipcode,
-        :address,
-        :number,
-        :complement,
-        :district,
-        :city,
-        :state
-      ],
-      company: [
-        :name,
-        :business_name,
-        :document_number,
-        :phone,
-        address: [
-          :zipcode,
-          :address,
-          :number,
-          :complement,
-          :district,
-          :city,
-          :state
-        ]
-      ]
-    )
-  end
 
   def seller_params
     params.require(:seller).permit(:name, :email)

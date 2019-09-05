@@ -15,13 +15,13 @@
     Minha Negócio
   </p>
   <ul class="menu-list">
-    <li><%= link_to_in_li "Editar Negócio", edit_seller_path(current_user.seller) %></li>
+    <li><%= link_to_in_li "Editar Negócio", edit_producer_admin_seller_path(current_user.seller) %></li>
   </ul>
   <p class="menu-label">
     Financeiro
   </p>
   <ul class="menu-list">
-    <li><%= link_to_in_li "Visão Geral", seller_path(current_user.seller) %></li>
+    <li><%= link_to_in_li "Visão Geral", producer_admin_seller_path(current_user.seller) %></li>
     <% if current_user.seller.finance.present? %>
       <li><%= link_to_in_li "Conta Bancária", edit_finance_path(current_user.seller.finance) %></li>
     <% else %>
