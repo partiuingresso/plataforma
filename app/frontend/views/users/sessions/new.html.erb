@@ -1,71 +1,63 @@
 <% provide(:title, "Login") %>
 <% content_for :navbar do %>
-<%= render 'layouts/header_clean' %>
+  &nbsp;
+<% end %>
+<% content_for :footer do %>
+  &nbsp;
 <% end %>
 
+<%= javascript_pack_tag "users/session" %>
 
-
-<section class="section login">
-  <div class="container">
-    <div class="columns is-centered">
-
-      <div class="column is-5">
-        <div class="card">
-          <div class="card-content">
-            <p class="title has-text-centered">Faça o login</p>
-            <br />
-
-            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-            <%= devise_error_messages! %>
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control has-icons-left has-icons-right">
-                <%= f.email_field :email, autocomplete: "email", autofocus: true, class: "input", placeholder: "nome@exemplo.com" %>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-                </span>
-              </div>
+<div class="usersBg">
+  <div class="usersCard">
+    <div class="logo">
+      <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'33'), root_path %>
+    </div>
+    <div class="form">
+      <div class="usersTitle">
+        Faça o login
+      </div>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="field">
+          <label class="label">Email</label>
+            <div class="control email">
+              <%= f.email_field :email, autocomplete: "email", autofocus: true, class: "input", placeholder: "nome@exemplo.com" %>
             </div>
+        </div>
 
-            <div class="field">
-              <label class="label">Senha</label>
-              <div class="control has-icons-left has-icons-right">
-                <%= f.password_field :password, autocomplete: "current-password", class: "input", placeholder: "********" %>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </div>
-            </div>
-
-            <% if devise_mapping.rememberable? -%>
-              <div class="field">
-                <%= f.check_box :remember_me, class: "checkbox" %>
-                Lembrar-me
-              </div>
-            <% end -%>
-
-            <nav class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <div class="control">
-                    <%= f.button "Entrar", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Aguarde..." }, class: "button is-primary is-medium" %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <p class="help"><%= render "users/shared/links" %></p>
-                </div>
-              </div>
-            </nav>
-
-
+        <div class="field">
+          <label class="label">Senha</label>
+          <div class="control pass">
+            <%= f.password_field :password, autocomplete: "current-password", class: "input", placeholder: "••••••••" %>
           </div>
         </div>
-      </div>
 
+        <div class="bottomLogin">
+          <% if devise_mapping.rememberable? %>
+            <div class="rememberLogin">
+              <%= f.check_box :remember_me, class: "checkbox" %>
+              Lembrar-me
+            </div>
+            <div class="helpLink">
+              Precisa de ajuda?
+            </div>
+          <% end %>
+        </div>
+
+        <div class="signIn">
+          <%= f.button "Entrar", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>&nbsp;Aguarde" }, class: "button" %>
+          <%= link_to "Ainda não é cadastrado?", new_registration_path(resource_name) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="needHelp">
+      <div class="usersTitle">
+        Precisa de ajuda?
+      </div>
+      <div class="content">
+        <%= render "users/shared/links" %>
+        <a class="goBack"><- Voltar</a>
+      </div>
     </div>
   </div>
-</section>
+</div>

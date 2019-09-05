@@ -1,0 +1,224 @@
+.usersBg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #171717;
+  background: url('../images/elements/bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usersCard {
+  display: block;
+  overflow: hidden;
+  background: rgba(23, 23, 23, 0.94);
+  border-radius: 10px;
+  width: 640px;
+  min-height: 661px;
+  &.registration { 
+    min-height: 849px;
+    .needHelp { bottom: 682px; }
+  }
+  box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.25);
+  .logo {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  .usersTitle {
+    font-weight: 600;
+    font-size: 2rem;
+    color: #ffffff;
+    line-height: 2rem;
+    text-align: center;
+    margin-top: 60px;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+    margin: auto;
+    position: relative;
+    z-index: 100;
+    &.hide { height: 0; }
+    form { margin-top: 40px; }
+    .label {
+      color: #ffffff;
+      font-weight: 500;
+      margin-left: 10px;
+      display: inline-block;
+      ~ .help { display: inline-block; margin-left: 8px; }
+    }
+    .field:not(:first-of-type) { margin-top: 30px; }
+    .field.mb:not(:first-of-type) { margin-top: 8px; }
+    .field.mb ~ .bottomLogin { margin-top: -22px; }
+    .error-msg-area { height: 22px; }
+    .error { color: #C72328; margin-left: 10px; padding-top: 10px; }
+    input.input {
+      background: #292D34;
+      color: #ffffff;
+      border: none;
+      box-shadow: none;
+      border-radius: 10px;
+      height: 60px;
+      padding: 22px 22px 22px 80px;
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.25);
+      }
+      &:focus { background: #3C4046; }
+    }
+    .control {
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        width: 80px;
+        height: 60px;
+        top: -1px;
+        margin-right: 8px;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      &.email:before {
+        background-image: url('../images/icons/email.svg');
+      }
+      &.pass:before {
+        background-image: url('../images/icons/lock.svg');
+      }
+      &.name:before {
+        background-image: url('../images/icons/user.svg');
+      }
+    }
+    .bottomLogin {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 16px 10px 0;
+      font-size: 0.75rem;
+      line-height: 0.75rem;
+      color: #ffffff;
+      .rememberLogin {
+        display: flex;
+        align-items: center;
+        opacity: .65;
+        > input[type="checkbox"] {
+          margin-right: 8px;
+        }
+      }
+      .helpLink {
+        cursor: pointer;
+        opacity: .65;
+        &:hover { opacity: 1; }
+      }
+    }
+    .signIn {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .button {
+        background: #C72328;
+        border-radius: 10px;
+        border: none;
+        color: #ffffff;
+        height: 60px;
+        width: 140px;
+        font-weight: 600;
+        font-size: 1.25rem;
+        &:hover { background: #DB2B2F; }
+      }
+      a {
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.25rem;
+        opacity: .65;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    .terms {
+      margin-top: 30px;
+      color: #333333;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      a {
+        color: #ffffff;
+        opacity: .3;
+        &:hover { opacity: .45; }
+      }
+    }
+  }
+  .needHelp {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+    height: 0;
+    margin: auto;
+    opacity: 0;
+    position: relative;
+    bottom: 494px;
+    &.show { opacity: 1; height: auto; bottom: 0; }
+    .content {
+      margin-top: 40px;
+      margin-left: 74px;
+      line-height: 2rem;
+      a {
+        color: #ffffff;
+        opacity: .65;
+        &:hover { opacity: 1; }
+      }
+      a.goBack {
+        display: block;
+        margin-top: 60px;
+        margin-left: -74px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .usersBg {
+    align-items: flex-start;
+    background: #161616;
+  }
+  .usersCard {
+    background: #161616;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: none;
+    border-radius: unset;
+    .form {
+      width: 100%;
+      .signIn a {
+        margin-left: 10px;
+        text-align: right;
+        line-height: 1.5rem;
+      }
+    }
+    .needHelp {
+      width: 100%;
+      bottom: 495px;
+      .content {
+        margin-left: 30px;
+        a.goBack { margin-left: -30px; }
+      }
+    }
+  }
+}

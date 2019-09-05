@@ -1,54 +1,34 @@
-<% provide(:title, "Recuperar senha") %>
+<% provide(:title, "Login") %>
 <% content_for :navbar do %>
-<%= render 'layouts/header_clean' %>
+  &nbsp;
+<% end %>
+<% content_for :footer do %>
+  &nbsp;
 <% end %>
 
-
-
-<section class="section login">
-  <div class="container">
-    <div class="columns is-centered">
-
-      <div class="column is-5">
-        <div class="card">
-          <div class="card-content">
-            <p class="title has-text-centered">Esqueceu a senha?</p>
-            <br />
-
-            <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-            <%= devise_error_messages! %>
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control has-icons-left has-icons-right">
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-                </span>
-              </div>
-            </div>
-
-            <nav class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <div class="control">
-                    <%= f.button "Enviar instruções por email", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i> Aguarde..." }, class: "button is-primary is-medium" %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <p class="help"><%= render "users/shared/links" %></p>
-                </div>
-              </div>
-            </nav>
-
-
-          </div>
-        </div>
+<div class="usersBg">
+  <div class="usersCard">
+    <div class="logo">
+      <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'33'), root_path %>
+    </div>
+    <div class="form">
+      <div class="usersTitle">
+        Esqueci minha senha
       </div>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= devise_error_messages! %>
+        <div class="field">
+          <label class="label">Email</label>
+            <div class="control email">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
+            </div>
+        </div>
 
+        <div class="signIn">
+          <%= f.button "Recuperar", data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>&nbsp;Aguarde" }, class: "button" %>
+          <%= link_to "<- Voltar", login_path %>
+        </div>
+      <% end %>
     </div>
   </div>
-</section>
+</div>
