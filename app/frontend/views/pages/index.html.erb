@@ -44,15 +44,15 @@
               <div class="eventOverlay">
                 <div class="itemsLeft">
                   <div class="soldTickets">
-                    <% if event.ticket_tokens.count > 1000 %>
+                    <% if event.sold >= 1000 %>
                       <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
-                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.ticket_tokens.count) %></p>
+                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
                     <% end %>
                   </div>
                   <div class="info">
                     <% if event.running_out? %>
                       <p class="popularTag">Esgotando</p>
-                    <% elsif event.ticket_tokens.count > 500 %>
+                    <% elsif event.sold > 500 %>
                       <p class="popularTag">Popular</p>
                     <% end %>
                     <p class="eventName"><%= truncate(event.name, length: 30) %></p>
@@ -137,15 +137,15 @@
               <div class="eventOverlay">
                 <div class="itemsLeft">                  
                   <div class="soldTickets">
-                    <% if event.ticket_tokens.count > 1000 %>
+                    <% if event.sold >= 1000 %>
                       <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
-                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.ticket_tokens.count) %></p>
+                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
                     <% end %>
                   </div>
                   <div class="info">
                     <% if event.running_out? %>
                       <p class="popularTag">Esgotando</p>
-                    <% elsif event.ticket_tokens.count > 30 %>
+                    <% elsif event.sold > 30 %>
                       <p class="runningOutTag">Esgotando</p>
                     <% end %>
                     <p class="eventName"><%= truncate(event.name, length: 30) %></p>

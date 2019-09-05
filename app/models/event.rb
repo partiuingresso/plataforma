@@ -37,16 +37,16 @@ class Event < ApplicationRecord
 		.distinct
 	}
 
-	scope :highlights, -> {
-		(Event.available.where("events.start_t >= ? AND events.start_t <= ?", Date.today, 10.days.from_now).limit(4)
-			.union(Event.available.where("offers.sold > 1000")).limit(4)
-			.union(Event.available)).limit(8)
+	scope :available_to_happen, -> {
+		merge(available).where("events.start_t > ?", Date.today)
 	}
 
-	def end_date_cannot_be_before_start
-		if end_t.present? && end_t < start_t
-			errors.add(:end_t, "can't be before start date")
-		end
+	def self.highlights
+		all = Event.available_to_happen.includes(:offers)
+		closest = all.select { |event| event.start_t <= 10.days.from_now }
+		best_sellers = all.select { |event| event.sold >= 1000 }
+
+		(closest.take(4) + best_sellers.take(4) + all).uniq.take(8)
 	end
 
 	def self.to_happen(margin = 0)
@@ -55,6 +55,16 @@ class Event < ApplicationRecord
 
 	def self.history
 		Event.all.select { |event| event.start_t < DateTime.now }
+	end
+
+	def end_date_cannot_be_before_start
+		if end_t.present? && end_t < start_t
+			errors.add(:end_t, "can't be before start date")
+		end
+	end
+
+	def sold
+		offers.collect { |offer| offer.sold }.sum
 	end
 
 	def unavailable?
