@@ -68,19 +68,20 @@
     }
     .columns {
       margin-top: 40px;
+      flex-basis: auto;
       &.odd {
-        div.column { min-width: 700px; flex-basis: auto; }
-        div.column:nth-child(1) { min-width: 460px; max-width: 40%; flex-basis: auto; }
-        div.column:nth-child(4) { min-width: 460px; max-width: 40%; flex-basis: auto; }
-        div.column:nth-child(5) { min-width: 460px; max-width: 40%; flex-basis: auto; }
-        div.column:nth-last-child(-n+3) { min-width: 33.33%; flex: 1 1 0%; flex-basis: 0; }
+        div.column { width: 58%; flex-basis: auto; }
+        div.column:nth-child(1) { width: 42%; }
+        div.column:nth-child(4) { width: 42%; }
+        div.column:nth-child(5) { width: 42%; }
+        div.column:nth-last-child(-n+3) { width: 33.33%; flex: 1 1 0%; }
       }
       &.even {
-        div.column { min-width: 700px; flex-basis: auto; }
-        div.column:nth-child(1) { min-width: 460px; max-width: 40%; flex-basis: auto; }
-        div.column:nth-child(4) { min-width: 460px; max-width: 40%; flex-basis: auto; }
-        div.column:nth-child(5) { min-width: 460px; max-width: 40%; flex-basis: auto; }
-        div.column:nth-child(8) { min-width: 460px; max-width: 40%; flex-basis: auto; }
+        div.column { width: 58%; flex-basis: auto; }
+        div.column:nth-child(1) { width: 42%; }
+        div.column:nth-child(4) { width: 42%; }
+        div.column:nth-child(5) { width: 42%; }
+        div.column:nth-child(8) { width: 42%; }
       }
     }
   }
@@ -97,6 +98,7 @@
   z-index: 0;
   .eventOverlay {
     display: flex;
+    overflow: hidden;
     padding: 2.5rem;
     height: 100%;
     width: 100%;
@@ -163,6 +165,7 @@
           font-size: 2rem;
           font-weight: bold;
           line-height: 2rem;
+          white-space: nowrap;
         }
         p.eventDate {
           font-size: 1.125rem;
