@@ -4,7 +4,10 @@
       <%= link_to image_tag(asset_pack_path("media/assets/images/logo-light.svg"), alt:'PartiuIngresso.com', width:'140', class:'logo'), root_path %>
     </div>
     <% if signed_in? %>
-    <div class="navMenu">      
+    <div class="navMenu">
+      <div class="newEvent">
+        <%= link_to "Criar Evento", new_event_path %>
+      </div>      
       <div class="navTickets">
         <%= link_to "Meus Ingressos", ticket_tokens_path %>
       </div>

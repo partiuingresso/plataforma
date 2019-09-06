@@ -35,6 +35,14 @@ header.partiuNav {
     margin-left: 20px;
     font-weight: 600;
     color: #ffffff;
+    &.newEvent a {
+      color: #DB2B2F;
+      &:hover {
+        background: linear-gradient(99.35deg, #C72328 -10.07%, #DD2476 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
     a { 
       color: #ffffff;
       opacity: 0.85;
