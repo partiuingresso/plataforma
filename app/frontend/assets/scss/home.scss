@@ -110,7 +110,7 @@
     justify-content: space-between;
     &:hover {
       background: linear-gradient(170.16deg, rgba(28, 183, 244, 0.75) 10.71%, rgba(2, 60, 177, 0.15) 92.58%), linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%);
-      box-shadow: 0 0 30px 2px rgba(28, 183, 244, 0.075);
+      box-shadow: 0 2px 30px rgba(28, 183, 244, 0.13);
       .itemsRight {
         div:last-child {
           display: block;
