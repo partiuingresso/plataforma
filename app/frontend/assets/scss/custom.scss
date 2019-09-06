@@ -31,26 +31,6 @@ body {
   display: inline;
 }
 
-.footer {
-  background-color: unset;
-  position: absolute;
-  height: 350px;
-  width: 100%;
-  bottom: 0;
-  font-size: 0.85rem;
-  strong { color: #5f6177; font-weight: 800; }
-  hr { height: 3px; }
-  ul { margin-top: 1rem; }
-  li { color: #757575; font-weight: 600; line-height: 1.5rem;}
-  .seguro { padding-left: 0.5rem; }
-  .logo { opacity: 0.2; }
-  .cnpj { opacity: 0.5; font-size: 0.7rem; }
-}
-
-.footer a {
-  color: unset;
-}
-
 .footer-clear {
   background-color: unset;
   position: absolute;
