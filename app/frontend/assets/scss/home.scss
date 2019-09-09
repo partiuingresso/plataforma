@@ -382,3 +382,15 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .section > .container > .columns {
+    &.odd {
+      div.column { width: auto !important; }
+    }
+    &.even {
+      div.column { width: auto !important; }
+    }
+  }
+
+}

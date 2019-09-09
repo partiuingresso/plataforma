@@ -150,3 +150,9 @@ header.partiuNav {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  header.partiuNav .container {
+    margin: 0 20px;
+  }
+}
