@@ -17,7 +17,7 @@ export default {
       let cart = document.querySelector('.offers.card')
       let hidecart = document.querySelector('.hide-cart')
       let body = document.body
-      let footer = document.querySelector('.footer')
+      let footer = document.querySelector('footer')
       body.classList.add('mb-footer')
       footer.classList.add('height-footer')
       cartbtn.addEventListener('click', function() {
