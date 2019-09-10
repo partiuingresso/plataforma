@@ -156,3 +156,102 @@ header.partiuNav {
     margin: 0 20px;
   }
 }
+
+// Mobile
+
+header.mobile {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid #202020;
+  div {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px;
+    &:not(:last-of-type) { border-right: 1px solid #202020; }
+  }
+  div > a > img { vertical-align: middle; }
+  div.search {
+    flex: 1 1 auto;
+    color: rgba(255, 255, 255, 0.4);
+    form { display: none; }
+    span:last-of-type { display: none; }
+    &::before {
+      content: '';
+      display: inline-block;
+      background: url('../images/icons/search.svg');
+      width: 22px;
+      height: 22px;
+      opacity: 0.4;
+      margin-right: 18px;
+    }
+    &.active {
+      justify-content: space-between;
+      position: absolute;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background-color: #171717;
+      &::before { background: url('../images/icons/search-grad.svg'); opacity: 1; }
+      form { 
+        display: inline-block;
+        flex: 1 1 auto;
+        padding-right: 20px;
+        margin-left: -8px;
+        input.input {
+          background-color: transparent;
+          border: none;
+          box-shadow: none;
+          color: #ffffff;
+          padding-left: unset;
+          caret-color: rgba(255, 255, 255, 0.4);
+          &::placeholder { color: rgba(255, 255, 255, 0.4); }
+        }
+      }
+      span:first-of-type { display: none; }
+      span:last-of-type { display: inline-block; color: rgba(255, 255, 255, 0.65); }
+    }
+  }
+
+  div.myTickets {
+    flex: 0 1 auto;
+    a {
+      &::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        background: url('../images/icons/tickets-nav.svg');
+        background-repeat: no-repeat;
+        background-size: 22px 22px;
+        width: 22px;
+        height: 22px;
+      }
+      &.active {
+        &::before { background: url('../images/icons/tickets-nav-grad.svg'); }
+      }
+    }
+  }
+  div.myAccount {
+    flex: 0 1 auto;
+    a {
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        background: url('../images/icons/user.svg');
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        width: 16px;
+        height: 16px;
+      }
+      &.active {
+        &::before { background: url('../images/icons/user-grad.svg'); }
+      }
+    }
+  }
+}

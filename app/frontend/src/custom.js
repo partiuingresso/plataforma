@@ -24,3 +24,18 @@ if(dropdownLink) {
   dropdownLink.addEventListener('click', toggleDropdown)
   document.addEventListener('click', hideDropdown)
 }
+
+var searchMobile = document.querySelector('header.mobile > .search')
+
+if(searchMobile) {
+  var closeBtn = searchMobile.querySelector('span:last-of-type')
+  searchMobile.addEventListener('click', function(e) {
+    if(e.target != closeBtn) {
+      searchMobile.classList.add('active')
+      searchMobile.querySelector('.input').focus()
+    }
+  })
+  closeBtn.addEventListener('click', function() {
+    searchMobile.classList.remove('active')
+  })
+}

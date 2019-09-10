@@ -1,0 +1,18 @@
+<header class="mobile">
+  <div class="logo">
+    <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'16'), root_path %>
+  </div>
+  <div class="search">
+    <span>Buscar...</span>
+    <%= form_tag("/search", method: "get") do %>
+      <input name="q" class="input" type="text" placeholder="Busque seu próximo evento...">
+    <% end %>
+    <span>Fechar</span>
+  </div>
+  <div class="myTickets">
+    <%= link_to '', ticket_tokens_path, class: "#{current_page?(ticket_tokens_path) ? 'active' : ''}" %>
+  </div>
+  <div class="myAccount">
+    <%= link_to '', edit_user_registration_path, class: "#{current_page?(edit_user_registration_path) ? 'active' : ''}" %>
+  </div>
+</header>
