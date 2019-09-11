@@ -67,18 +67,21 @@ footer.default {
 
 @media screen and (max-width: 967px) {
   footer.default {
+    padding-top: 50px;
     .footerWrapper {
       flex-direction: column-reverse;
+      margin-bottom: 20px;
     }
     .logowrapper {
-      margin-top: 60px;
+      margin-top: 50px;
       width: 100%;
-      padding: 0 2.5rem;
+      padding: 0 20px;
     }
     .infowrapper {
       width: 100%;
-      padding: 0 2.5rem;
+      padding: 0 20px;
       .column { padding: 1.05rem; }
+      .socialLinks { margin-bottom: 20px; }
     }
   }
 }
