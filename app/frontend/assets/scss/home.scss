@@ -392,5 +392,248 @@
       div.column { width: auto !important; }
     }
   }
+}
 
+// Mobile
+
+.section.featuredMob {
+  padding: 0 20px;
+  h2 {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 22px;
+    color: #ffffff;
+  }
+  .eventCard {
+    margin-top: 1rem;
+    height: 290px;
+    .wishList {
+      margin-top: 1rem;
+      margin-right: 1rem;
+    }
+    .eventOverlay {
+      padding: 1rem;
+      &:hover { background: unset; box-shadow: unset; }
+    .itemsLeft {
+      .info {
+        .popularTag {
+          font-size: 12px;
+          line-height: 18px;
+          max-width: 82px;
+        }
+        .eventName {
+          font-size: 22px;
+          line-height: 22px;
+        }
+        .eventDate {
+          font-size: 14px;
+          line-height: 14px;
+          padding-top: 8px;
+        }
+        .eventCity {
+          font-size: 14px;
+          line-height: 14px;
+          padding-top: 8px;
+          img {
+            height: 22px;
+            margin-right: 2px;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+    }
+  }
+}
+
+.section.eventsMob {
+  margin-top: 50px;
+  padding: unset;
+  h2 {
+    padding: 0 20px;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 22px;
+    color: #ffffff;
+  }
+  .horizontalList {
+    padding: 20px;
+    margin-top: -4px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding: 20px;
+    &::-webkit-scrollbar {
+      background: transparent;
+      width: 0;
+    }
+    .eventItem {
+      flex-shrink: 0;
+      flex-grow: 0;
+      flex-basis: 13.75rem;
+      width: 13.75rem;
+      scroll-snap-align: start;
+      transition: transform 0.2s ease-out 0s;
+      position: relative;
+      margin-right: 20px;
+      &:last-of-type { border-right: 1.4375rem solid transparent; width: 240px; }
+      div.wishList {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.875rem;
+        z-index: 2;
+        &:hover {
+          img { transform: scale(1.2); transition: .2s ease; }
+        }
+      }
+    }
+    .miniCard {
+      display: flex;
+      flex-direction: column;
+      height: 128.47px;
+      width: 220px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      margin-bottom: 4px;
+      padding: 14px;
+      div {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      div.itemsUp {
+        > div.soldTickets {
+          display: block;
+          align-self: flex-start;
+          > * {
+            vertical-align: middle;
+            display: inline-block;
+          }
+          p.ticketsNumber {
+            text-transform: uppercase;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 8px;
+            line-height: 10px;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+            margin-left: 8px;
+          }
+        }
+      }
+      div.itemsDown {
+        div {
+          align-self: flex-end;
+          p.popularTag {
+            background: linear-gradient(95.62deg, #C72328 -10.07%, #DD2476 100%);
+            border-radius: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            max-width: 60px;
+            font-weight: 600;
+            font-size: 8px;
+            line-height: 14px;
+            text-align: center;
+            margin-bottom: 8px;
+          }
+          p.eventCity {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 16px;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+            img { vertical-align: middle; margin-right: 3px; }
+          }
+        }
+      }
+    }
+    a > p { padding: 8px 4px 0; }
+    p.eventName {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 16px;
+      color: #ffffff;
+    }
+    p.eventDate {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 12px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}
+
+.section.registerCTAmob {
+  padding: 60px 40px;
+  margin-top: 50px;
+  background: linear-gradient(92.06deg, #023CB1 -10.07%, #1CB7F4 100%);
+  width: 100%;
+  height: 272px;
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    div:first-of-type { margin-bottom: 10px; }
+    div p {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 24px;
+      text-align: center;
+      color: #ffffff;
+    }
+    div:last-of-type {
+      margin-top: 20px;
+      .button {
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: #1CB7F4;
+      }
+    }
+  }
+}
+
+.section.sellerCTAmob {
+  padding: 60px 50px;
+  margin-top: 50px;
+  width: 100%;
+  height: 264px;
+  background: linear-gradient(92.12deg, #C72328 -10.07%, #DD2476 100%);
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    div:first-of-type { margin-bottom: 20px; }
+    div p {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 24px;
+      text-align: center;
+      color: #ffffff;
+    }
+    div {
+      .button {
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: #C72328;
+      }
+    }
+    div:last-of-type {
+      margin-top: 20px;
+      a {
+        color: #ffffff;
+        text-transform: uppercase;
+        text-decoration-line: underline;
+        font-weight: 600;
+        font-size: 16px;
+      }
+    }
+  }
 }
