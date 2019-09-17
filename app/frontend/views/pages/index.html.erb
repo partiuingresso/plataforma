@@ -100,74 +100,78 @@
   </section>
 <% end %>
 
-<div class="ellipse">
-  <div>
-    <%= image_tag asset_pack_path("media/assets/images/elements/ellipse.svg") %>
-  </div>
-</div>
-
-<section class="section filterEvents">
-  <div class="container">
-    <div class="selectCity">
-      <%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %>
-      <%= request.location.city %>, <%= request.location.state %>
-      <%= image_tag asset_pack_path("media/assets/images/icons/down.svg") %>
-    </div>
-    <div class="selectFilter">
-      Quero ir a um evento de <span class="selectCategory">música <%= image_tag asset_pack_path("media/assets/images/icons/down-blue.svg") %></span> <span class="selectWhen">neste final de semana <%= image_tag asset_pack_path("media/assets/images/icons/down-blue.svg") %></span>
-    </div>
-    <div class="tempTitle">
-      Mais eventos
+<% if @events.count >= 1 %>
+  <div class="ellipse">
+    <div>
+      <%= image_tag asset_pack_path("media/assets/images/elements/ellipse.svg") %>
     </div>
   </div>
-</section>
 
-<section class="section moreEvents">
-  <div class="container">
-    <div class="columns is-multiline <%= @events.count.odd? ? 'odd' : 'even' %>">
-      <% @events.each do |event| %>
-        <div class="column">
-          <div class="eventCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
-            <%= link_to event_path(event) do %>
-              <div class="eventOverlay">
-                <div class="itemsLeft">                  
-                  <div class="soldTickets">
-                    <% if event.sold >= 1000 %>
-                      <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
-                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
-                    <% end %>
+
+  <section class="section filterEvents">
+    <div class="container">
+      <div class="selectCity">
+        <%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %>
+        <%= request.location.city %>, <%= request.location.state %>
+        <%= image_tag asset_pack_path("media/assets/images/icons/down.svg") %>
+      </div>
+      <div class="selectFilter">
+        Quero ir a um evento de <span class="selectCategory">música <%= image_tag asset_pack_path("media/assets/images/icons/down-blue.svg") %></span> <span class="selectWhen">neste final de semana <%= image_tag asset_pack_path("media/assets/images/icons/down-blue.svg") %></span>
+      </div>
+      <div class="tempTitle">
+        Mais eventos
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section moreEvents">
+    <div class="container">
+      <div class="columns is-multiline <%= @events.count.odd? ? 'odd' : 'even' %>">
+        <% @events.each do |event| %>
+          <div class="column">
+            <div class="eventCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+              <%= link_to event_path(event) do %>
+                <div class="eventOverlay">
+                  <div class="itemsLeft">                  
+                    <div class="soldTickets">
+                      <% if event.sold >= 1000 %>
+                        <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
+                        <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
+                      <% end %>
+                    </div>
+                    <div class="info">
+                      <% if event.running_out? %>
+                        <p class="popularTag">Esgotando</p>
+                      <% elsif event.sold >= 500 %>
+                        <p class="runningOutTag">Popular</p>
+                      <% end %>
+                      <p class="eventName"><%= truncate(event.name, length: 24) %></p>
+                      <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                      <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                    </div>
                   </div>
-                  <div class="info">
-                    <% if event.running_out? %>
-                      <p class="popularTag">Esgotando</p>
-                    <% elsif event.sold >= 500 %>
-                      <p class="runningOutTag">Popular</p>
-                    <% end %>
-                    <p class="eventName"><%= truncate(event.name, length: 24) %></p>
-                    <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                    <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                  <div class="itemsRight">
+                    <div>
+                      <span class="icon">
+                        <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div class="itemsRight">
-                  <div>
-                    <span class="icon">
-                      <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
-                    </span>
-                  </div>
-                </div>
+              <% end %>
+              <div class="wishList">
+                <a>
+                  <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
+                </a>
               </div>
-            <% end %>
-            <div class="wishList">
-              <a>
-                <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
-              </a>
             </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+<% end %>
 
 <section class="section sellerCTA">
   <div class="container">
