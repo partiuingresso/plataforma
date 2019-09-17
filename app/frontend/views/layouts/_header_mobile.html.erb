@@ -9,10 +9,39 @@
     <% end %>
     <span>Fechar</span>
   </div>
-  <div class="myTickets">
-    <%= link_to '', ticket_tokens_path, class: "#{current_page?(ticket_tokens_path) ? 'active' : ''}" %>
-  </div>
-  <div class="myAccount">
-    <%= link_to '', edit_user_registration_path, class: "#{current_page?(edit_user_registration_path) ? 'active' : ''}" %>
-  </div>
+  <% if signed_in? %>
+    <div class="myTickets">
+      <%= link_to '', ticket_tokens_path, class: "#{current_page?(ticket_tokens_path) ? 'active' : ''}" %>
+    </div>
+    <div class="myAccount">
+      <a></a>
+    </div>
+  <% else %>
+    <div class="signIn">
+      <%= link_to 'Entrar', login_path %>
+    </div>
+  <% end %>
+  <% if signed_in? %>
+    <div class="menu">
+      <%= link_to edit_user_registration_path, class: "profile #{current_page?(edit_user_registration_path) ? 'active' : ''}" do %>
+        <%= image_tag asset_pack_path("media/assets/images/elements/avatar-default.jpg"), width:'30' %>
+        <div class="details">
+          <div class="userName">
+            <%= current_user.name.first %> <%= current_user.name.last %>
+          </div>
+          <div class="userMail">
+            <%= current_user.email %>
+          </div>
+        </div>
+      <% end %>
+      <% if current_user.admin? %>
+        <%= link_to 'Admin', admin_dashboard_path, class: "admin #{current_page?(admin_dashboard_path) ? 'active' : ''}"%>
+      <% end %>
+      <% if current_user.producer_admin? %>
+        <%= link_to 'Dashboard', producer_admin_dashboard_path, class: "producer #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
+      <% end %>
+      <%= link_to 'Histórico de Pedidos', orders_path, class: "orders #{current_page?(orders_path) ? 'active' : ''}" %>
+      <%= link_to 'Sair', destroy_user_session_path, method: "delete", class: "logout" %>
+    </div>
+  <% end %>
 </header>

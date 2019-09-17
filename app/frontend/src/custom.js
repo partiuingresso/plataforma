@@ -39,3 +39,25 @@ if(searchMobile) {
     searchMobile.classList.remove('active')
   })
 }
+
+var menuMobileLink = document.querySelector('header.mobile > .myAccount > a')
+var menuMobile = document.querySelector('header.mobile > .menu')
+var html = document.querySelector('html')
+
+var toggleMenuMobile = function(e) {
+  if(menuMobileLink.classList.contains('active')) {
+    menuMobileLink.classList.remove('active')
+    menuMobile.className = 'menu'
+    html.classList.remove('is-clipped')
+  } else {
+    menuMobileLink.classList.add('active')
+    menuMobile.className = 'menu active'
+    html.classList.add('is-clipped')
+  }
+}
+
+if(menuMobileLink) {
+  menuMobileLink.addEventListener('click', toggleMenuMobile)
+}
+
+console.log(menuMobile)

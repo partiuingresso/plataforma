@@ -167,7 +167,8 @@ header.mobile {
   width: 100%;
   height: 48px;
   border-bottom: 1px solid #202020;
-  div {
+  > div {
+    z-index: 10;
     display: flex;
     align-items: center;
     height: 100%;
@@ -251,6 +252,139 @@ header.mobile {
       }
       &.active {
         &::before { background: url('../images/icons/user-grad.svg'); }
+      }
+    }
+  }
+  div.signIn {
+    flex: 0 1 auto;
+    a {
+      color: #ffffff;
+    }
+  }
+  div.menu {
+    display: none;
+    &.active { display: block; }
+    position: fixed;
+    z-index: 5;
+    margin-top: 48px;
+    height: 100%;
+    width: 100%;
+    background: #171717;
+    > * {
+      padding: 1.5rem;
+      display: flex;
+      &:not(:last-child):not(:first-child) {
+        border-top: 1px solid #202020;
+      }
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      .details {
+        flex: 1 1 auto;
+      }
+      .userName {
+        font-weight: 500;
+        font-size: 14px;
+        color: #ffffff;
+      }
+      .userMail {
+        font-size: 12px;
+      }
+      img:first-child {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 12px;
+      }
+      &::after {
+        content: '';
+        opacity: 0.75;
+        display: block;
+        vertical-align: middle;
+        background: url('../images/icons/pen.svg');
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
+      }
+      &.active:after { background-image: url('../images/icons/pen-grad.svg'); }
+    }
+    .orders {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/invoice.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/invoice-grad.svg'); }
+    }
+    .admin {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/ninja.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/ninja-grad.svg'); }
+    }
+    .producer {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      margin-top: -2px;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/dashboard.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/dashboard-grad.svg'); }
+    }
+    .logout {
+      margin-top: 3rem;
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      text-align: center;
+      border: 1px solid #202020;
+      border-radius: 10px;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/logout.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
       }
     }
   }
