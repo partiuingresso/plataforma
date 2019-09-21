@@ -10,6 +10,7 @@ class Event < ApplicationRecord
 
 	belongs_to :seller
 	belongs_to :user
+	has_many :staff, class_name: :EventStaff
 	belongs_to :address
 	has_many :offers, dependent: :destroy
 	has_many :orders

@@ -9,7 +9,7 @@ class ProducerAdmin::DashboardController < ApplicationController
 	      @total_balance = "Not Responding."
 	    end
 	    
-	    @events = Event.where(seller_id: current_user.seller_id).order(created_at: :desc).to_happen
+	    @events = Event.where(seller_id: current_user.seller.id).order(created_at: :desc).to_happen
 	end
 
 	private
