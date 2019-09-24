@@ -1,6 +1,13 @@
 <% content_for :head do %>
   <%= render partial: 'layouts/tags', locals: { fb_pixel: @event.fb_pixel, ga_id: @event.ga_id } %>
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%= @event.name %> · PartiuIngresso.com" />
+  <meta property="og:description" content="<%= sanitize @event.headline %>" />
+  <meta property="og:image" content="<%= image_url(@event.hero_image) %>" />
 <% end %>
+<% provide(:title, "#{@event.name}") %>
+
 <script>
   document.addEventListener("DOMContentLoaded", function(){
     toggle();
@@ -8,421 +15,247 @@
   });
   imgurl = "<%= url_for(@event.hero_image) %>"
 </script>
-<style>
-  .section.hero-event { background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= url_for(@event.hero_image) %>); }
 
-</style>
 <%= javascript_pack_tag "events/show" %>
 
-<section class="section hero-event events-show">
-  <div class="hero-content-event">
-    <div class="container">
-      <div class="columns is-multiline event header">
-        <% if @event.video.present? %>
-          <div class="column is-12 has-text-centered">
-            <a class="video-btn" data-src="<%= @event.video %>">
-              <span class="icon has-text-white">
-                <i class="fas fa-4x fa-play"></i>
-              </span>
-            </a>
-          </div>
-        <% end %> 
-        <div class="column event title is-11 is-offset-1">
-          <p class="event title has-text-white"><%= @event.name %></span></p>
-        </div> 
-      </div>
-    </div>
+<style>
+  .eventHero { background-image: linear-gradient(0deg, rgba(23, 23, 23, 0.6), rgba(23, 23, 23, 0.6)), linear-gradient(180deg, rgba(23, 23, 23, 0) 77.59%, #171717 100%), linear-gradient(180deg, #171717 0%, rgba(23, 23, 23, 0.2) 23.7%), url(<%= url_for(@event.hero_image) %>); }
+</style>
 
-    <div class="columns is-hidden-tablet">
-      <div class="column is-11 is-offset-1">
-        <table class="event table is-narrow">
-          <tbody>
-            <tr>
-              <td class="spacer"></td>
-              <td><span class="icon"><i class="far fa-calendar-check has-text-grey-light"></i></span></td>
-              <td><span class="has-text-grey"><%= l @event.start_t, format: ("%d de %B de %Y") %></span></td>
-              <td class="spacer"></td>
-            </tr>
-            <tr>
-              <td class="spacer"></td>
-              <td><span class="icon"><i class="far fa-clock has-text-grey-light"></i></span></td>
-              <td><span class="has-text-grey"><%= l @event.start_t, format: ("%H horas") %></span></td>
-              <td class="spacer"></td>
-            </tr>
-            <tr>
-              <td class="spacer"></td>
-              <td><span class="icon"><i class="fas fa-map-marker-alt has-text-grey-light"></i></span></td>
-              <td><span class="has-text-grey"><%= truncate(@event.address.name, length: 15) %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %></span></td>
-              <td class="spacer"></td>
-          </tbody>
-        </table>
+<section class="section eventHero">
+  <div class="container">
+    <div class="infoBlock">
+      <a class="videoButton">Assista o vídeo</a>
+      <h1 class="title">
+        <%= @event.name %>
+      </h1>
+      <div class="category">
+        Música
       </div>
     </div>
-  </div>
-  <div id="infobar" class="is-hidden-mobile">
-    <div class="container">
-      <div class="columns">
-        <div class="column is-11 is-offset-1 is-vcentered">
-          <div class="level">
-            <div class="level-left">
-              <div class="level-item">
-                <span class="icon is-medium">
-                  <span class="fa-stack">
-                    <i class="fas fa-circle fa-stack-2x"></i>
-                    <i class="far fa-calendar-check fa-stack-1x has-text-white"></i>
-                  </span>
-                </span>
-              </div>
-              <div class="level-item">
-                <span class="info"><%= l @event.start_t, format: ("%d de %B de %Y") %></span>
-              </div>
-              <div class="level-item spacer">
-                <span class="fa-stack">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="far fa-clock fa-stack-1x has-text-white"></i>
-                </span>
-              </div>
-              <div class="level-item">
-                <span class="info"><%= l @event.start_t, format: ("%H horas") %></span>
-              </div>
-              <div class="level-item spacer">
-                <span class="fa-stack">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fas fa-map-marker-alt fa-stack-1x has-text-white"></i>
-                </span>
-              </div>
-              <div class="level-item">
-                <span class="info"><%= @event.address.name %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %></span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="share">
+      <div class="title">
+        Compartilhe
+      </div>
+      <div class="links">
+        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/fb.svg"), alt:'Compartilhe no Facebook!'), nil %>
+        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/twitter.svg"), alt:'Compartilhe no Twitter!'), nil %>
+        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/whatsapp.svg"), alt:'Compartilhe no Whatsapp!'), nil %>
+        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/linkedin.svg"), alt:'Compartilhe no LinkedIn!'), nil %>
+        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/email.svg"), alt:'Compartilhe por E-mail!'), nil %>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section description">
+<section class="infoBar">
   <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-6">
-        <div class="columns description is-multiline">
+    <div class="date">
+      <div class="iconBlock">
+        <%= image_tag asset_pack_path("media/assets/images/icons/calendar.svg") %>
+      </div>
+      <div class="info">
+        <%= l @event.start_t, format: ("%d de %B de %Y") %>
+      </div>
+    </div>
+    <div class="time">
+      <div class="iconBlock">
+        <%= image_tag asset_pack_path("media/assets/images/icons/clock.svg") %>
+      </div>
+      <div class="info">
+        <%= l @event.start_t, format: ("%H horas") %>
+      </div>
+    </div>
+    <div class="local">
+      <div class="iconBlock">
+        <%= image_tag asset_pack_path("media/assets/images/icons/pin-big.svg") %>
+      </div>
+      <div class="info">
+        <%= truncate(@event.address.name, length: 30) %> - <%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %>
+      </div>
+    </div>
+  </div>
+</section>
 
-          <div class="column is-full">
-            <p class="title event-content"><%= sanitize @event.headline %></p>
-            <p><%= sanitize @event.description %></p>
-          </div>
-          <div class="column is-full">
-            <hr />
-          </div>
-
-          <div class="column is-full">
-            <p class="title event-content">COMO CHEGAR EM <span class="lightvibrant"><%= @event.address.name %></span></p>
-            <p>
-              <span class="icon">
-                <i class="fas fa-map-marked-alt"></i>
-              </span>
-              <%= @event.address.address %>, <%= @event.address.number %> - <%= @event.address.district %>
-            </p>
-            <p>
-              <span class="icon">
-                <i class="fas fa-globe-americas"></i>
-              </span>
-              <%= @event.address.city %>/<%= @event.address.state %>
-            </p>
-            <p>&nbsp;</p>
-            <p>
-              <div id="map">
-                <iframe
-                  width="500"
-                  height="300"
-                  frameborder="0" style="border:0"
-                  src="<%= @address_url %>" allowfullscreen>
-                </iframe>
-              </div>
-            </p>
-          </div>
-
-          <% if @event.testimonial_images.present? %>
-            <div class="column is-full">
-              <hr />
-            </div>
-            <div class="column is-full">
-              <p class="title event-content">O QUE DIZEM <span class="lightvibrant">SOBRE O SHOW?</span></p>
-              <div class="carousel carousel-animated carousel-animate-fade" data-autoplay="true" data-delay="4500">
-                <div class="carousel-container">
-                  <% @event.testimonial_images.each do |t| %>
-                    <div class="carousel-item">
-                      <%= image_tag t, class: "is-background testimonial", width:"450vw" %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-
-          <div class="column is-full">
-            <hr />
-          </div>
-
-          <div class="column is-full">
-            <p class="title event-content">DÚVIDAS SOBRE <span class="lightvibrant">O EVENTO?</span></p>
-            <p>
-              Entre em contato direto com o produtor:
-            </p>
-            <p>
-              <span class="icon is-inline-block">
-                <i class="far fa-building"></i>
-              </span>
-              <%= @event.seller.name %>
-            </p>
-            <p>
-              <span class="icon is-inline-block">
-                <i class="far fa-envelope"></i>
-              </span>
-              <%= @event.seller.email %>
-            </p>
-          </div>
-
+<section class="details">
+  <div class="container">
+    <div class="eventInfo">
+      <div class="description">
+        <h2><%= sanitize @event.headline %></h2>
+        <div class="text">
+          <%= sanitize @event.description %>
+          <div class="readMore">Leia mais ↘</div>
         </div>
       </div>
-      <div class="column is-4">
-        <div class="event offers card">
-          <div class="card-content">
-            <%= form_for @order, url: new_order_path, method: "get" do |f| %>
-              <%= f.hidden_field :event_id, value: @order.event.id %>
-              <div class="columns is-mobile">
-                <div class="column is-6">
-                  <p class="tickets title">Ingressos</p>
-                </div>
-                <div class="column is-6 has-text-right">
-                  <span class="icon">
-                    <i class="fas fa-shopping-cart"></i>
-                  </span>
-                  <span>R$</span><span id="total_price">0,00</span>
-                </div>
-              </div>
-              <ul>
-                <% @event.offers.order(price_cents: :asc).available.each do |offer| %>
-                  <li>
-                    <hr />
-                    <div class="columns is-vcentered is-multiline is-mobile">
-                      <div class="column is-6-desktop is-5-touch">
-                        <p class="is-size-6"><%= offer.name %></p>
-                      </div>
-                      <div class="column is-3 is-paddingless">
-                        <% if offer.free? %>
-                          <p>Gratuito</p>
-                        <% else %>
-                          <p><%= offer.price_with_service_fee.format %></p>
-                        <% end %>
-                      </div>
-                      <div class="column is-3">
-                        <%= f.fields_for :order_items do |order_item_f| %>
-                          <%= order_item_f.hidden_field :offer_id, value: offer.id %>
-                          <% if offer.available_quantity > 0 %>
-                            <div class="level is-mobile">
-                              <div class="level-item">
-                                <span class="icon is-small button minus">
-                                  <i class="fas fa-minus"></i>
-                                </span>
-                              </div>
-                              <div class="level-item">
-                                <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
-                                <span class="quantity-view">
-                                  0
-                                </span>
-                              </div>
-                              <div class="level-item">
-                                <span class="icon is-small button plus">
-                                  <i class="fas fa-plus"></i>
-                                </span>
-                              </div>
-                            </div>
-                          <% else %>
-                            <%= order_item_f.hidden_field :quantity, value: 0 %>
-                            <span class="tag is-light">ESGOTADO</span>
-                          <% end %>
-                        <% end %>
-                      </div>
-                      <div class="column is-12 offer-info">
-                        <div class="columns is-mobile">
-                          <% if offer.description? %>
-                            <div class="column is-4">
-                              <a class="toggleCart button">Mais info<i class="fas fa-sort-down"></i></a>
-                              <a class="button dismissCart is-hidden">ESCONDER<i class="fas fa-sort-up"></i></a>
-                            </div>
-                          <% end %>
-                          <% if offer.available_quantity < 50 %>
-                            <div class="column is-narrow has-text-left">
-                              <span class="icon is-small has-text-danger"><i class="fas fa-fire"></i></span>
-                              <span class="subtitle is-7">&nbsp;POPULAR</span>
-                            </div>
-                          <% end %>
-                        </div>
-
-                        <% if offer.description? %>
-                          <div class="columns offer-info-content is-hidden">
-                            <div class="column">
-                              <div class="has-background-light animated fadeIn fast">
-                                <%= sanitize offer.description %>
-                              </div>
-                            </div>
-                          </div>
-                        <% end %>
-                      </div>
-                    </div>
-                  </li>
-                <% end.empty? and begin %>
-                  <div class="has-text-centered">
-                    <p class="is-size-5 has-text-weight-semibold" style="margin: 50px 0px 50px 0px;">
-                      Vendas Encerradas 
-                      <span class="icon">
-                        <i class="fas fa-stopwatch"></i> 
-                      </span>
-                    </p>
+      <hr />
+      <div class="location">
+        <h2>
+          Como chegar em <br />
+          <span><%= @event.address.name %></span>
+        </h2>
+        <p class="address"><%= @event.address.address %>, <%= @event.address.number %> - <%= @event.address.district %></p>
+        <p class="city"><%= @event.address.city %>/<%= @event.address.state %></p>
+        <div id="map">
+          <iframe
+            width="500"
+            height="300"
+            frameborder="0" style="border:0"
+            src="<%= @address_url %>" allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+    <div class="cart">
+      <%= form_for @order, url: new_order_path, method: "get" do |f| %>
+        <%= f.hidden_field :event_id, value: @order.event.id %>
+        <div class="header">
+          <div class="title">Ingressos</div>
+          <div class="cartValue">R$ <span id="total_price">0,00</span></div>
+        </div>
+        <% @event.offers.order(price_cents: :asc).available.each do |offer| %>
+          <div class="offerItem">
+            <div class="offerName">
+              <div class="name">
+                <%= offer.name %>
+                <% if offer.sold.to_f/offer.quantity.to_f >= 0.65 && offer.sold.to_f/offer.quantity.to_f != 1 %>
+                  <div class="hasIcon">
+                    <%= image_tag asset_pack_path("media/assets/images/icons/fire.svg") %>
+                    <span class="tooltip">Ingressos estão acabando rápido!</span>
                   </div>
                 <% end %>
-              </ul>
-              <div class="control" style="margin-top: 2.5rem;">
-                <%= f.button "Comprar", class: "button is-primary is-medium is-fullwidth" %>
               </div>
-            <% end %>
+              <% if offer.available_quantity <= 10 && offer.available_quantity != 0 %>
+                <div class="quantityLeft">Restam <%= offer.available_quantity %> ingressos</div>
+              <% end %>
+            </div>
+            <div class="offerContent">
+              <div class="offerPrice">
+                <% if offer.free? %>
+                  <p>Gratuito</p>
+                <% else %>
+                  <p><%= offer.price_with_service_fee.format %></p>
+                <% end %>
+              </div>
+              <% if offer.description? %>
+                <div class="moreInfo">
+                  <div class="buttonInfo"></div>
+                  <div class="description">
+                    <%= sanitize offer.description %>
+                  </div>
+                </div>
+              <% end %>
+              <div class="offerControl">
+                <%= f.fields_for :order_items do |order_item_f| %>
+                <%= order_item_f.hidden_field :offer_id, value: offer.id %>
+                  <% if offer.available_quantity > 0 %>
+                    <div class="minus">
+                      <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="1" x2="10" y2="1" stroke="white" stroke-width="2"/>
+                      </svg>
+                    </div>
+                    <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
+                    <div class="quantity">
+                      0
+                    </div>
+                    <div class="plus">
+                      <svg width="11" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="5" x2="10" y2="5" stroke="white" stroke-width="2"/>
+                        <line x1="5" y1="0" x2="5" y2="10" stroke="white" stroke-width="2"/>
+                      </svg>
+                    </div>
+                  <% else %>
+                    <%= order_item_f.hidden_field :quantity, value: 0 %>
+                    <span class="tag">ESGOTADO</span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
           </div>
-          <footer class="card-footer">
-            <a class="hide-cart">Voltar</a>
-          </footer>
+        <% end %>
+        <div class="checkout">
+          <%= f.button "Checkout ->", class: "cartButton" %>
+          <div class="checkoutInfo">
+            Parcele em até 12x
+          </div>
+        </div>
+        <div class="sellingInfo closed">
+          <div>
+            <%= image_tag asset_pack_path("media/assets/images/icons/eye.svg") %>
+          </div>
+          <div>
+            <strong>Este evento está chamando bastante atenção.</strong>
+            <span>Mais de 500 pessoas visualizaram este evento nas últimas horas.</span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="section producer">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h2>
+          Informações sobre o <br />
+          <span>produtor do evento</span>
+        </h2>
+        <div class="credentials">
+          <div class="producerPicture">
+            <%= @event.seller.name[0] %>
+          </div>
+          <div class="producerInfo">
+            <div><%= @event.seller.name %></div>
+            <div>Página do produtor -></div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <h2>
+          Dúvidas sobre o <br />
+          <span>evento?</span>
+        </h2>
+        <div class="contact">
+          Entre em contato direto com o produtor:
+          <div class="contactInfo">
+            <a href="mailto:<%= @event.seller.email %>"><%= @event.seller.email %></a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 
 <section class="section faq">
   <div class="container">
-    <p class="title has-text-centered is-4">PERGUNTAS E RESPOSTAS</p>
-    <div class="columns is-centered">
-      <div class="column is-5">
-        <div class="card">
-          <header class="card-header toggle">
-            <p class="card-header-title">
-              MEU PEDIDO FOI CONCLUÍDO?
-            </p>
-            <span class="card-header-icon">
-              <i class="fas fa-angle-down"></i>
-            </span>
-          </header>
-          <div class="dismiss is-hidden">
-          <header class="card-header">
-            <p class="card-header-title has-text-primary">
-              MEU PEDIDO FOI CONCLUÍDO?
-            </p>
-            <span class="card-header-icon has-text-primary">
-              <i class="fas fa-angle-up"></i>
-            </span>
-          </header>
-            <div class="card-content">
-              Ao efetuar uma compra, seu pagamento será processado e assim que for aprovado você receberá em seu e-mail a confirmação junto com o(s) ingresso(s) em anexo.
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <header class="card-header toggle">
-            <p class="card-header-title">
-              ONDE ESTÃO MEUS INGRESSOS?
-            </p>
-            <span class="card-header-icon">
-              <i class="fas fa-angle-down"></i>
-            </span>
-          </header>
-          <div class="dismiss is-hidden">
-          <header class="card-header">
-            <p class="card-header-title has-text-primary">
-              ONDE ESTÃO MEUS INGRESSOS?
-            </p>
-            <span class="card-header-icon has-text-primary">
-              <i class="fas fa-angle-up"></i>
-            </span>
-          </header>
-            <div class="card-content">
-              <p>Após sua compra ser aprovada você receberá um e-mail com todas as informações sobre sua compra e, inclusive, seu ingresso que estará disponível no formato de PDF em anexo. Todos os seus convidados receberão seus respectivos ingressos por e-mail. Você também pode acessar o menu "Meus Ingressos" aqui no site.</p><br />
-
-              <p><strong>IMPORTANTE:</strong> Leve para o evento seu ingresso impresso, sem dúvida é a forma mais segura para evitar qualquer transtorno. Mas, se preferir, guarde o arquivo PDF de seu ingresso em seu celular e apresente na entrada do evento.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <header class="card-header toggle">
-            <p class="card-header-title">
-              PRECISO IMPRIMIR MEU(S) INGRESSO(S)?
-            </p>
-            <span class="card-header-icon">
-              <i class="fas fa-angle-down"></i>
-            </span>
-          </header>
-          <div class="dismiss is-hidden">
-          <header class="card-header">
-            <p class="card-header-title has-text-primary">
-              PRECISO IMPRIMIR MEU(S) INGRESSO(S)?
-            </p>
-            <span class="card-header-icon has-text-primary">
-              <i class="fas fa-angle-up"></i>
-            </span>
-          </header>
-            <div class="card-content">
-              Você pode levar o PDF de seu ingresso, gerado após o pagamento, no celular. Mas a forma mais segura para evitar qualquer imprevisto é imprimir este documento.
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <header class="card-header toggle">
-            <p class="card-header-title">
-              OUTRAS DÚVIDAS?
-            </p>
-            <span class="card-header-icon">
-              <i class="fas fa-angle-down"></i>
-            </span>
-          </header>
-          <div class="dismiss is-hidden">
-          <header class="card-header">
-            <p class="card-header-title has-text-primary">
-              OUTRAS DÚVIDAS?
-            </p>
-            <span class="card-header-icon has-text-primary">
-              <i class="fas fa-angle-up"></i>
-            </span>
-          </header>
-            <div class="card-content">
-              Se você tiver dúvidas relacionadas especificamente com o evento, entre diretamente em contato com o organizador do evento. O e-mail do organizador se encontra na página do próprio evento e nos e-mails que você receberá ao efetuar uma compra. Caso sua dúvida seja em relação ao processo de compra ou qualquer dúvida em como utilizar o site da PartiuIngresso.com, acesse nossa <a href="https://ajuda.partiuingresso.com/">Central de Ajuda</a>. Estamos sempre prontos para ajudar!
-            </div>
-          </div>
-        </div>
-
+    <h2>Perguntas frequentes</h2>
+    <div class="faqItem">
+      <div class="question">
+        <div>Como vou receber os ingressos?</div>
+      </div>
+      <div class="answear">
+        Os ingressos são enviados para seu e-mail assim que a compra for aprovada, você também poderá acessar seus ingressos aqui no site ao cadastrar-se utilizando o mesmo endereço de e-mail utilizado no ato da compra. Para mais detalhes, <a href="https://ajuda.partiuingresso.com/hc/pt-br/articles/360030184893" target="_blank">leia nosso artigo</a> na Central de Ajuda.
       </div>
     </div>
-  </div>
-</section>
-
-
-<section class="section mobBtn is-hidden-desktop">
-  <div class="container has-text-centered">
-    <a class="button is-primary is-medium cart-btn">VER INGRESSOS</a>
-  </div>
-</section>
-
-
-<div class="modal">
-  <div class="video-background"></div>
-  <div class="modal-content back">
-    <p><span class="icon has-text-primary"><i class="fas fa-arrow-left"></i></span> Voltar</p>
-  </div>
-  <div class="modal-content img-raised">
-    <div class="container has-text-centered embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow=autoplay></iframe>
+    <div class="faqItem">
+      <div class="question">
+        <div>Em quanto tempo processa o pagamento?</div>
+      </div>
+      <div class="answear">
+        Na grande maioria dos casos o processamento leva apenas alguns segundos. Porém, pode ocorrer de seu pagamento cair em análise e o prazo para o processamento do mesmo é de até 3 dias úteis. Não fique preocupado, caso o evento que esteja comprando está perto de acontecer este prazo fica menor para garantir que o pagamento seja processado com antecedência antes do evento. O status de seu pagamento será enviado para o e-mail que você utilizou na compra.
+      </div>
+    </div>
+    <div class="faqItem">
+      <div class="question">
+        <div>Preciso imprimir os ingressos?</div>
+      </div>
+      <div class="answear">
+        Não há necessidade, é opcional. Você pode levar os ingressos em seu celular e os mesmos poderão ser validados sem o menor problema.
+      </div>
+    </div>
+    <div class="central">
+      <strong>Ainda tem dúvidas?</strong><br />
+      Acesse nossa <a href="https://ajuda.partiuingresso.com" target="_blank">Central de Ajuda</a>.
     </div>
   </div>
-</div>
+</section>

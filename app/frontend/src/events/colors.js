@@ -6,14 +6,11 @@ v.getPalette((err, palette) => {
     let vibrant = palette.Vibrant.getRgb()
     let muted = palette.Muted.getRgb()
     let darkmuted = palette.DarkMuted.getRgb()
-    let lightvibrant = palette.LightVibrant.getHex()
+    let lightvibrant = palette.LightVibrant.getRgb()
     let lightmuted = palette.LightMuted.getRgb()
-
-    var elem = document.getElementById('infobar')
-    elem.setAttribute('style', 'background-image: linear-gradient(to right, rgba('+darkvibrant+',0.3), rgba('+vibrant+',0.3));')
 
     var style = document.createElement('style')
     style.type = 'text/css'
-    style.innerHTML = '.vibrantbg { background-color: rgb('+vibrant+'); } .mutedbg { background-color: rgb('+muted+'); } .darkvibrantbg { background-color: rgb('+darkvibrant+'); } .darkmutedbg { background-color: rgb('+darkmuted+'); } .lightvibrantbg { background-color: rgb('+lightvibrant+'); } .lightmutedbg { background-color: rgba('+lightmuted+', 0.1); } .vibrant { color: rgb('+vibrant+'); } .muted { color: rgb('+muted+'); } .darkvibrant { color: rgb('+darkvibrant+'); } .darkmuted { color: rgb('+darkmuted+'); } .lightvibrant { color: '+lightvibrant+'; } .lightmuted { color: rgb('+lightmuted+'); }'
+    style.innerHTML = ':root { --darkvibrant: '+darkvibrant+'; --vibrant: '+vibrant+'; --muted: '+muted+'; --darkmuted: '+darkmuted+'; --lightvibrant: '+lightvibrant+'; --lightmuted: '+lightmuted+'; }'
     document.getElementsByTagName('footer')[0].appendChild(style)
 })
