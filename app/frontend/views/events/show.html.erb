@@ -6,13 +6,10 @@
   <meta property="og:description" content="<%= sanitize @event.headline %>" />
   <meta property="og:image" content="<%= image_url(@event.hero_image) %>" />
 <% end %>
+
 <% provide(:title, "#{@event.name}") %>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function(){
-    toggle();
-    toggleCart();
-  });
   imgurl = "<%= url_for(@event.hero_image) %>"
 </script>
 
@@ -25,7 +22,9 @@
 <section class="section eventHero">
   <div class="container">
     <div class="infoBlock">
-      <a class="videoButton">Assista o vídeo</a>
+      <% if @event.video.present? %>
+        <a class="videoButton" data-src="<%= @event.video %>">Assista o vídeo</a>
+      <% end %>
       <h1 class="title">
         <%= @event.name %>
       </h1>
@@ -38,11 +37,11 @@
         Compartilhe
       </div>
       <div class="links">
-        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/fb.svg"), alt:'Compartilhe no Facebook!'), nil %>
-        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/twitter.svg"), alt:'Compartilhe no Twitter!'), nil %>
-        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/whatsapp.svg"), alt:'Compartilhe no Whatsapp!'), nil %>
-        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/linkedin.svg"), alt:'Compartilhe no LinkedIn!'), nil %>
-        <%= link_to image_tag(asset_pack_path("media/assets/images/icons/email.svg"), alt:'Compartilhe por E-mail!'), nil %>
+        <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/fb.svg"), alt:'Compartilhe no Facebook!'), data: { sharer: 'facebook', hashtag: 'partiu', url: "#{request.url}" }) %>
+        <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/twitter.svg"), alt:'Compartilhe no Twitter!'), data: { sharer: 'twitter', title: "Partiu #{@event.name}!", hashtags: "#{@event.name.delete(' ')}", via: 'partiuingresso', url: "#{request.url}" }) %>
+        <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/whatsapp.svg"), alt:'Compartilhe no Whatsapp!'), data: { sharer: 'whatsapp', title: "Partiu #{@event.name}!", url: "#{request.url}", web: ''}) %>
+        <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/linkedin.svg"), alt:'Compartilhe no LinkedIn!'), data: { sharer: 'linkedin', url: "#{request.url}"}) %>
+        <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/email.svg"), alt:'Compartilhe por E-mail!'), data: { sharer: 'email', title: "Vamos neste evento: #{@event.name}? :)", subject: "Partiu #{@event.name}!" , url: "#{request.url}"}) %>
       </div>
     </div>
   </div>
@@ -171,13 +170,26 @@
               </div>
             </div>
           </div>
+        <% end.empty? and begin %>
+          <%if @event.start_t < DateTime.now %>
+            <div class="offerTimeout">
+              <div>Vendas encerradas</div>
+            </div>
+          <% else %>
+            <div class="offerUnavailable">
+              <div>Nenhum ingresso disponível no momento</div>
+              <div>Por favor, tente mais tarde.</div>
+            </div>
+          <% end %>
         <% end %>
-        <div class="checkout">
-          <%= f.button "Checkout ->", class: "cartButton" %>
-          <div class="checkoutInfo">
-            Parcele em até 12x
+        <% if @event.offers.present? %>
+          <div class="checkout">
+            <%= f.button "Checkout ->", class: "cartButton" %>
+            <div class="checkoutInfo">
+              Parcele em até 12x
+            </div>
           </div>
-        </div>
+        <% end %>
         <div class="sellingInfo closed">
           <div>
             <%= image_tag asset_pack_path("media/assets/images/icons/eye.svg") %>
@@ -258,4 +270,11 @@
       Acesse nossa <a href="https://ajuda.partiuingresso.com" target="_blank">Central de Ajuda</a>.
     </div>
   </div>
+</section>
+
+<section class="videoModal">
+    <div class="video">
+      <a class="back"><- VOLTAR</a>
+      <iframe class="embed" src="" id="video"  allowscriptaccess="always" allow=autoplay></iframe>
+    </div>
 </section>

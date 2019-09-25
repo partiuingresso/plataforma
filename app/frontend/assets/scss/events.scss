@@ -427,6 +427,58 @@ section.details {
         }
       }
     }
+    .offerTimeout {
+      position: relative;
+      &::before {
+        content: '';
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background: url('../images/icons/sales-closed.svg');
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        margin: 0 auto;
+        margin-bottom: 16px;
+      }
+      > div:first-of-type {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: rgba(255, 255, 255, 0.65);
+        text-align: center;
+        margin-bottom: 12px;
+      }
+    }
+    .offerUnavailable {
+      position: relative;
+      &::before {
+        content: '';
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background: url('../images/icons/na-offer.svg');
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        margin: 0 auto;
+        margin-bottom: 18px;
+      }
+      > div:first-of-type {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: rgba(255, 255, 255, 0.65);
+        text-align: center;
+        margin-bottom: 12px;
+      }
+      > div:last-of-type {
+        font-size: 14px;
+        line-height: 19px;
+        color: rgba(255, 255, 255, 0.65);
+        text-align: center;
+      }
+    }
     .checkout {
       padding-bottom: unset;
       .cartButton {
@@ -445,9 +497,8 @@ section.details {
         font-size: 16px;
         line-height: 16px;
         color: #0a0a0a;
-        transition: all 500ms ease-out;
         &:hover {
-          box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
           background: linear-gradient(97.28deg, rgba(var(--lightvibrant), 1) 0.17%, rgba(var(--vibrant), 1) 100%);
         }
       }
@@ -629,5 +680,38 @@ section.faq {
       &:hover { color: rgba(var(--lightvibrant), 1); }
     }
     strong { font-weight: 600; }
+  }
+}
+
+section.videoModal {
+  position: fixed;
+  z-index: 30;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: radial-gradient(44.27% 113.33% at 0% -39.33%, rgba(28, 183, 244, 0.3) 0%, rgba(28, 183, 244, 0.1) 55.83%, rgba(28, 183, 244, 0) 100%), linear-gradient(94.25deg, #000000 1.65%, #171717 97.74%);
+  overflow-y: hidden;
+  align-items: center;
+  justify-content: center;
+  display: none;
+  &.active { display: flex; }
+  .video {
+    iframe {
+      display: block;
+      margin-top: 24px;
+      width: 600px;
+      height: 337.5px;
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+    }
+    .back {
+      font-weight: 600;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.65);
+      &:hover { color: rgba(255, 255, 255, 1); }
+    }
   }
 }

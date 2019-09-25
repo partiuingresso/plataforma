@@ -7179,6 +7179,11 @@ shallow-clone@^3.0.0:
   dependencies:
     kind-of "^6.0.2"
 
+sharer.js@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/sharer.js/-/sharer.js-0.3.8.tgz#6932e748927ffdc2541879297c69a0d6f32fc637"
+  integrity sha512-EToFteXLIzinnnUyW0S+x44sWeM7FINVlA5kv+ENT2jCYmfRyRVN9NTqc6Xyvg4YGknX5XkqTtMIqI/Kp+qLDw==
+
 shasum@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/shasum/-/shasum-1.0.2.tgz#e7012310d8f417f4deb5712150e5678b87ae565f"
