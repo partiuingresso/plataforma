@@ -144,11 +144,12 @@
           border-radius: 3px;
           text-transform: uppercase;
           color: #fff;
-          max-width: 87px;
+          width: fit-content;
           font-weight: 600;
           font-size: 0.875rem;
           text-align: center;
           margin-bottom: 20px;
+          padding: 0 10px;
         }
         p.runningOutTag {
           background: linear-gradient(95.62deg, #C72328 -10.07%, #DD2476 100%);
@@ -165,7 +166,6 @@
           font-size: 2rem;
           font-weight: bold;
           line-height: 2rem;
-          white-space: nowrap;
         }
         p.eventDate {
           font-size: 1.125rem;
@@ -419,11 +419,15 @@
         .popularTag {
           font-size: 12px;
           line-height: 18px;
-          max-width: 82px;
+          width: fit-content;
+          padding: 0 10px;
         }
         .eventName {
           font-size: 22px;
           line-height: 22px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .eventDate {
           font-size: 14px;
@@ -535,7 +539,8 @@
             border-radius: 3px;
             text-transform: uppercase;
             color: #fff;
-            max-width: 60px;
+            width: fit-content;
+            padding: 0 10px;
             font-weight: 600;
             font-size: 8px;
             line-height: 14px;
@@ -559,6 +564,9 @@
       font-size: 16px;
       line-height: 16px;
       color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     p.eventDate {
       font-weight: 500;
