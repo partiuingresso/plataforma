@@ -166,6 +166,10 @@
           font-size: 2rem;
           font-weight: bold;
           line-height: 2rem;
+          &.long {
+            font-size: 1.625rem;
+            line-height: 1.875rem;
+          }
         }
         p.eventDate {
           font-size: 1.125rem;
@@ -192,9 +196,10 @@
       }
     }
     .itemsRight {
-      display: flex;
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
       div:last-child {
-        align-self: flex-end;
         display: none;
       }
     }
@@ -567,6 +572,9 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      &.long {
+        font-size: 0.875rem;
+      }
     }
     p.eventDate {
       font-weight: 500;
