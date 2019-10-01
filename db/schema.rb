@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_213136) do
+ActiveRecord::Schema.define(version: 2019_09_17_200053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,13 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
     t.index ["user_id"], name: "index_credit_cards_on_user_id"
   end
 
+  create_table "event_staff", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_staff_on_event_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
@@ -160,21 +167,26 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
 # Could not dump table "orders" because of following StandardError
 #   Unknown type 'order_status' for column 'status'
 
+  create_table "seller_staff", force: :cascade do |t|
+    t.bigint "sellers_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sellers_id"], name: "index_seller_staff_on_sellers_id"
+  end
+
   create_table "sellers", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "moip_id", null: false
     t.string "moip_access_token", null: false
-    t.bigint "address_id"
-    t.string "business_name"
-    t.string "document_number"
-    t.integer "phone_area_code"
-    t.integer "phone_number"
     t.string "email"
-    t.bigint "owner_id"
+    t.integer "phone_number"
+    t.integer "phone_area_code"
+    t.string "document_number"
+    t.string "business_name"
+    t.string "name"
+    t.bigint "address_id"
     t.index ["address_id"], name: "index_sellers_on_address_id"
-    t.index ["owner_id"], name: "index_sellers_on_owner_id", unique: true
   end
 
 # Could not dump table "ticket_tokens" because of following StandardError
@@ -188,7 +200,6 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
     t.string "last_name"
     t.string "cpf"
     t.integer "role", null: false
-    t.bigint "seller_id"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -210,10 +221,12 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
     t.datetime "updated_at", null: false
     t.string "gender"
     t.datetime "birthday"
+    t.bigint "actor_id"
+    t.string "actor_type"
+    t.index ["actor_type", "actor_id"], name: "index_users_on_actor_type_and_actor_id", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["seller_id"], name: "index_users_on_seller_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
@@ -229,6 +242,7 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
   add_foreign_key "companies", "addresses"
   add_foreign_key "companies", "sellers"
   add_foreign_key "credit_cards", "users"
+  add_foreign_key "event_staff", "events"
   add_foreign_key "events", "addresses"
   add_foreign_key "events", "sellers"
   add_foreign_key "events", "users"
@@ -240,10 +254,9 @@ ActiveRecord::Schema.define(version: 2019_09_02_213136) do
   add_foreign_key "order_payments", "orders"
   add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
+  add_foreign_key "seller_staff", "sellers", column: "sellers_id"
   add_foreign_key "sellers", "addresses"
-  add_foreign_key "sellers", "users", column: "owner_id"
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "transfers", "bank_accounts"
   add_foreign_key "transfers", "sellers"
-  add_foreign_key "users", "sellers"
 end

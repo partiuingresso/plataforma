@@ -25,7 +25,7 @@ class ProducerAdmin::SellersController < ApplicationController
     if user_params[:email].present?
       @user = User.find_by(email: user_params[:email])
       if @user.present?
-        @user.seller_id = @seller.id
+        @user.seller.id = @seller.id
         @user.update(user_params)
       else
         redirect_to edit_producer_admin_seller_path(@seller), alert: "Usuário não encontrado." and return

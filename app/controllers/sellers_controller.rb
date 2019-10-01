@@ -6,12 +6,14 @@ class SellersController < ApplicationController
   end
 
   def create
-    result = CreateSeller.call(current_user, account_params)
-    if result.success?
-      head :no_content
-    else
-      head :bad_request
+    unless current_user.seller.present?
+      result = CreateSeller.call(current_user, account_params)
+      if result.success?
+        head :no_content and return
+      end
     end
+    
+    head :bad_request
   end
 
   private

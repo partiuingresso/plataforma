@@ -60,7 +60,7 @@ Rails.application.routes.draw do
     resources :events, except: [:index, :show] do
       resources :offers, only: [:create, :update, :destroy]
     end
-    resources :finances, except: [:index, :destroy]
+    resource :finance, except: [:index, :destroy]
   end
 
   # ==> Producer routes

@@ -11,7 +11,7 @@ class CreateSeller < ApplicationService
 	def call
 		begin
 			ActiveRecord::Base.transaction do
-				@seller = user.build_seller(owner: user, email: account_data[:help_email])
+				@seller = user.build_seller(email: account_data[:help_email])
 				@company = build_company unless company_data.nil?
 				# Cria conta transparente
 				account = Wirecard::create_account person, @company
