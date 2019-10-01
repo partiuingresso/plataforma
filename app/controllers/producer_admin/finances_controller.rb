@@ -1,7 +1,11 @@
 class ProducerAdmin::FinancesController < ApplicationController
-	load_and_authorize_resource
+	load_resource :seller, through: :current_user, singleton: true
+	load_and_authorize_resource through: :seller, singleton: true
 
 	def new
+		if current_user.seller.reload.finance.present?
+			redirect_to edit_finance_path and return
+		end
 		@finance.build_bank_account
 	end
 
@@ -13,7 +17,7 @@ class ProducerAdmin::FinancesController < ApplicationController
 		@finance.bank_account.moip_id = bank_account.id
 
 		if @finance.save
-			redirect_to edit_finance_path(@finance), notice: "Conta bancária criada com sucesso."
+			redirect_to edit_finance_path, notice: "Conta bancária criada com sucesso."
 		else
 			Wirecard::delete_bank_account @finance.seller
 			redirect_to new_finance_path, alert: "Ops... algo deu errado! Tente novamente."
@@ -36,15 +40,15 @@ class ProducerAdmin::FinancesController < ApplicationController
 			end
 			@finance.bank_account.moip_id = moip_bank_account.id
 			if @finance.save
-				redirect_to edit_finance_path(@finance), notice: "Conta bancária atualizada com sucesso."
+				redirect_to edit_finance_path, notice: "Conta bancária atualizada com sucesso."
 			else
-				redirect_to edit_finance_path(@finance), alert: "Ops... algo deu errado! Tente novamente."
+				redirect_to edit_finance_path, alert: "Ops... algo deu errado! Tente novamente."
 			end
 		else
 			if @finance.valid? && Wirecard::update_bank_account(@finance.seller) && @finance.save
-				redirect_to edit_finance_path(@finance), notice: "Conta bancária atualizada com sucesso."
+				redirect_to edit_finance_path, notice: "Conta bancária atualizada com sucesso."
 			else
-				redirect_to edit_finance_path(@finance), alert: "Ops... algo deu errado! Tente novamente."
+				redirect_to edit_finance_path, alert: "Ops... algo deu errado! Tente novamente."
 			end
 		end
 

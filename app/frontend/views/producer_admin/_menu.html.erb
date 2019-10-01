@@ -22,8 +22,8 @@
   </p>
   <ul class="menu-list">
     <li><%= link_to_in_li "Visão Geral", producer_admin_seller_path(current_user.seller) %></li>
-    <% if current_user.seller.finance.present? %>
-      <li><%= link_to_in_li "Conta Bancária", edit_finance_path(current_user.seller.finance) %></li>
+    <% if current_user.seller.finance.present? && current_user.seller.finance.persisted? %>
+      <li><%= link_to_in_li "Conta Bancária", edit_finance_path %></li>
     <% else %>
       <li><%= link_to_in_li "Conta Bancária", new_finance_path %></li>
     <% end %>
