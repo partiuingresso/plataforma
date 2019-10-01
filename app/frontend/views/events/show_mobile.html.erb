@@ -1,0 +1,290 @@
+<% content_for :head do %>
+  <%= render partial: 'layouts/tags', locals: { fb_pixel: @event.fb_pixel, ga_id: @event.ga_id } %>
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%= @event.name %> · PartiuIngresso.com" />
+  <meta property="og:description" content="<%= sanitize @event.headline %>" />
+  <meta property="og:image" content="<%= image_url(@event.hero_image) %>" />
+<% end %>
+
+<% provide(:title, "#{@event.name}") %>
+
+<script>
+  imgurl = "<%= url_for(@event.hero_image) %>"
+</script>
+
+<%= javascript_pack_tag "events/show" %>
+
+<style>
+  .eventHero { background: linear-gradient(0deg, rgba(23, 23, 23, 0.2), rgba(23, 23, 23, 0.2)), linear-gradient(180deg, rgba(23, 23, 23, 0) 0%, rgba(23, 23, 23, 0.02) 13.54%, rgba(23, 23, 23, 0.1) 28.65%, rgba(23, 23, 23, 0.3) 45.83%, rgba(23, 23, 23, 0.6) 63.54%, rgba(23, 23, 23, 0.9) 81.77%, #171717 100%), url(<%= url_for(@event.hero_image) %>); }
+</style>
+
+<section class="section eventHero mobile">
+  <div class="container">
+    <div class="infoBlock">
+      <% if @event.video.present? %>
+        <a class="videoButton" data-src="<%= @event.video %>">Assista o vídeo</a>
+      <% end %>
+      <h1 class="title">
+        <%= @event.name %>
+      </h1>
+      <div class="category">
+        Música
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="infoBar mobile">
+  <div class="container">
+    <div class="date">
+      <div class="iconBlock">
+        <%= image_tag asset_pack_path("media/assets/images/icons/calendar.svg") %>
+      </div>
+      <div class="info">
+        <%= l @event.start_t, format: ("%d de %B de %Y") %>
+      </div>
+    </div>
+    <div class="time">
+      <div class="iconBlock">
+        <%= image_tag asset_pack_path("media/assets/images/icons/clock.svg") %>
+      </div>
+      <div class="info">
+        <%= l @event.start_t, format: ("%H horas") %>
+      </div>
+    </div>
+    <div class="local">
+      <div class="iconBlock">
+        <%= image_tag asset_pack_path("media/assets/images/icons/pin-big.svg") %>
+      </div>
+      <div class="info">
+        <%= truncate(@event.address.name, length: 30) %><br /><%= truncate(@event.address.city, length: 24) %>/<%= @event.address.state %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="share mobile">
+  <div class="title">
+    Compartilhe
+  </div>
+  <div class="links">
+    <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/fb.svg"), alt:'Compartilhe no Facebook!'), data: { sharer: 'facebook', hashtag: 'partiu', url: "#{request.url}" }) %>
+    <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/twitter.svg"), alt:'Compartilhe no Twitter!'), data: { sharer: 'twitter', title: "Partiu #{@event.name}!", hashtags: "#{@event.name.delete(' ')}", via: 'partiuingresso', url: "#{request.url}" }) %>
+    <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/whatsapp.svg"), alt:'Compartilhe no Whatsapp!'), data: { sharer: 'whatsapp', title: "Partiu #{@event.name}!", url: "#{request.url}"}) %>
+    <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/linkedin.svg"), alt:'Compartilhe no LinkedIn!'), data: { sharer: 'linkedin', url: "#{request.url}"}) %>
+    <%= content_tag("a", image_tag(asset_pack_path("media/assets/images/icons/email.svg"), alt:'Compartilhe por E-mail!'), data: { sharer: 'email', title: "Vamos neste evento: #{@event.name}? :)", subject: "Partiu #{@event.name}!" , url: "#{request.url}"}) %>
+  </div>
+</section>
+
+<section class="details mobile">
+  <div class="container">
+    <div class="eventInfo">
+      <div class="description">
+        <h2><%= sanitize @event.headline %></h2>
+        <div class="text">
+          <%= sanitize @event.description %>
+          <div class="readMore">Leia mais ↘</div>
+        </div>
+      </div>
+      <hr />
+      <div class="location">
+        <h2>
+          Como chegar em <br />
+          <span><%= @event.address.name %></span>
+        </h2>
+        <p class="address"><%= @event.address.address %>, <%= @event.address.number %> - <%= @event.address.district %></p>
+        <p class="city"><%= @event.address.city %>/<%= @event.address.state %></p>
+        <div id="map">
+          <iframe
+            width="100%"
+            height="auto"
+            frameborder="0" style="border:0"
+            src="<%= @address_url %>" allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+    <div class="cart">
+      <%= form_for @order, url: new_order_path, method: "get" do |f| %>
+        <%= f.hidden_field :event_id, value: @order.event.id %>
+        <div class="header">
+          <div class="title">Ingressos</div>
+          <div class="cartValue">R$ <span id="total_price">0,00</span></div>
+        </div>
+        <% @event.offers.order(price_cents: :asc).available.each do |offer| %>
+          <div class="offerItem">
+            <div class="offerName">
+              <div class="name">
+                <%= offer.name %>
+                <% if offer.sold.to_f/offer.quantity.to_f >= 0.65 && offer.sold.to_f/offer.quantity.to_f != 1 %>
+                  <div class="hasIcon">
+                    <%= image_tag asset_pack_path("media/assets/images/icons/fire.svg") %>
+                    <span class="tooltip">Ingressos estão acabando rápido!</span>
+                  </div>
+                <% end %>
+              </div>
+              <% if offer.available_quantity <= 10 && offer.available_quantity != 0 %>
+                <div class="quantityLeft">Restam <%= offer.available_quantity %> ingressos</div>
+              <% end %>
+            </div>
+            <div class="offerContent">
+              <div class="offerPrice">
+                <% if offer.free? %>
+                  <p>Gratuito</p>
+                <% else %>
+                  <p><%= offer.price_with_service_fee.format %></p>
+                <% end %>
+              </div>
+              <% if offer.description? %>
+                <div class="moreInfo">
+                  <div class="buttonInfo"></div>
+                  <div class="description">
+                    <%= sanitize offer.description %>
+                  </div>
+                </div>
+              <% end %>
+              <div class="offerControl">
+                <%= f.fields_for :order_items do |order_item_f| %>
+                <%= order_item_f.hidden_field :offer_id, value: offer.id %>
+                  <% if offer.available_quantity > 0 %>
+                    <div class="minus">
+                      <svg width="10" height="2" viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="1" x2="10" y2="1" stroke="white" stroke-width="2"/>
+                      </svg>
+                    </div>
+                    <%= order_item_f.hidden_field :quantity, value: 0, class: "quantity-input", data: { price: offer.price_with_service_fee.to_f, max: [5, offer.available_quantity].min }, placeholder: "quantidade" %>
+                    <div class="quantity">
+                      0
+                    </div>
+                    <div class="plus">
+                      <svg width="11" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="5" x2="10" y2="5" stroke="white" stroke-width="2"/>
+                        <line x1="5" y1="0" x2="5" y2="10" stroke="white" stroke-width="2"/>
+                      </svg>
+                    </div>
+                  <% else %>
+                    <%= order_item_f.hidden_field :quantity, value: 0 %>
+                    <span class="tag">ESGOTADO</span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end.empty? and begin %>
+          <%if @event.start_t < DateTime.now %>
+            <div class="offerTimeout">
+              <div>Vendas encerradas</div>
+            </div>
+          <% else %>
+            <div class="offerUnavailable">
+              <div>Nenhum ingresso disponível no momento</div>
+            </div>
+          <% end %>
+        <% end %>
+        <% if @event.offers.present? %>
+          <div class="checkout">
+            <%= f.button "Checkout ->", class: "cartButton" %>
+            <div class="checkoutInfo">
+              Parcele em até 12x
+            </div>
+          </div>
+        <% end %>
+        <div class="sellingInfo">
+          <div>
+            <%= image_tag asset_pack_path("media/assets/images/icons/eye.svg") %>
+          </div>
+          <div>
+            <strong>Este evento está chamando bastante atenção.</strong>
+            <span>Mais de 500 pessoas visualizaram este evento nas últimas horas.</span>
+          </div>
+        </div>
+      <% end %>
+      <div class="goBack">
+        <- Voltar
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="producer mobile">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h2>
+          Informações sobre o <br />
+          <span>produtor do evento</span>
+        </h2>
+        <div class="credentials">
+          <div class="producerPicture">
+            <%= @event.seller.name[0] %>
+          </div>
+          <div class="producerInfo">
+            <div><%= @event.seller.name %></div>
+            <div>Página do produtor -></div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <h2>
+          Dúvidas sobre o <br />
+          <span>evento?</span>
+        </h2>
+        <div class="contact">
+          Entre em contato direto com o produtor:
+          <div class="contactInfo">
+            <a href="mailto:<%= @event.seller.email %>"><%= @event.seller.email %></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq mobile">
+  <div class="container">
+    <h2>Perguntas frequentes</h2>
+    <div class="faqItem">
+      <div class="question">
+        <div>Como vou receber os ingressos?</div>
+      </div>
+      <div class="answear">
+        Os ingressos são enviados para seu e-mail assim que a compra for aprovada, você também poderá acessar seus ingressos aqui no site ao cadastrar-se utilizando o mesmo endereço de e-mail utilizado no ato da compra. Para mais detalhes, <a href="https://ajuda.partiuingresso.com/hc/pt-br/articles/360030184893" target="_blank">leia nosso artigo</a> na Central de Ajuda.
+      </div>
+    </div>
+    <div class="faqItem">
+      <div class="question">
+        <div>Em quanto tempo processa o pagamento?</div>
+      </div>
+      <div class="answear">
+        Na grande maioria dos casos o processamento leva apenas alguns segundos. Porém, pode ocorrer de seu pagamento cair em análise e o prazo para o processamento do mesmo é de até 3 dias úteis. Não fique preocupado, caso o evento que esteja comprando está perto de acontecer este prazo fica menor para garantir que o pagamento seja processado com antecedência antes do evento. O status de seu pagamento será enviado para o e-mail que você utilizou na compra.
+      </div>
+    </div>
+    <div class="faqItem">
+      <div class="question">
+        <div>Preciso imprimir os ingressos?</div>
+      </div>
+      <div class="answear">
+        Não há necessidade, é opcional. Você pode levar os ingressos em seu celular e os mesmos poderão ser validados sem o menor problema.
+      </div>
+    </div>
+    <div class="central">
+      <strong>Ainda tem dúvidas?</strong><br />
+      Acesse nossa <a href="https://ajuda.partiuingresso.com" target="_blank">Central de Ajuda</a>.
+    </div>
+  </div>
+</section>
+
+
+<div class="showCart">
+  <button>Ver ingressos</button>
+</div>
+
+<section class="videoModal">
+    <div class="video mobile">
+      <a class="back"><- VOLTAR</a>
+      <div>
+        <iframe class="embed" src="" id="video"  allowscriptaccess="always" allow=autoplay></iframe>
+      </div>
+    </div>
+</section>

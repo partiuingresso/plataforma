@@ -2,6 +2,7 @@ import './colors'
 import video from './video'
 import '../carousel.js.erb'
 import cart from './cart'
+import cartModal from './cart-modal'
 import cartInfo from './cart-info'
 import faq from './faq'
 import read from './read-more'
@@ -14,6 +15,7 @@ export default {
     cartInfo.init()
 		video.init()
 		cart.init()
+    cartModal.init()
     Sharer.init()
 	}
 }
