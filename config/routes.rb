@@ -119,9 +119,9 @@ Rails.application.routes.draw do
   # ==> Chart routes
 
   namespace :charts do
-    get 'sales-count'
-    get 'sales-value'
-    get 'sales-tickets'
+    get 'sales-count/:seller_id', action: 'sales_count', as: 'sales_count'
+    get 'sales-value/:seller_id', action: 'sales_value', as: 'sales_value'
+    get 'sales-tickets/:seller_id', action: 'sales_tickets', as: 'sales_tickets'
     get 'all-sales-count'
     get 'all-sales-value'
     get 'all-sales-tickets'

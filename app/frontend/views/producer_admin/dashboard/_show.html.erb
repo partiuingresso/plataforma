@@ -113,13 +113,13 @@
         </ul>
       </div>
       <div id="chart_sales_count" class="tabcontent">
-        <%= line_chart charts_sales_count_path, colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
+        <%= line_chart charts_sales_count_path(@seller), colors: ["#F53237", "#DB3F4B"], label: "Vendas", thousands: ".", defer: true %>
       </div>
       <div id="chart_sales_tickets" class="tabcontent">
-        <%= line_chart charts_sales_tickets_path, colors: ["#F53237", "#DB3F4B"], label: "Ingressos", thousands: ".", defer: true %>
+        <%= line_chart charts_sales_tickets_path(@seller), colors: ["#F53237", "#DB3F4B"], label: "Ingressos", thousands: ".", defer: true %>
       </div>
       <div id="chart_sales_value" class="tabcontent">
-        <%= column_chart charts_sales_value_path,
+        <%= column_chart charts_sales_value_path(@seller),
         colors: ["#F53237", "#DB3F4B"],
         label: "Valor",
         prefix: "R$ ",
