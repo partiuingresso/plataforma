@@ -17,7 +17,9 @@ class ProducerAdmin::SellersController < ApplicationController
   end
 
   def edit
-    @staff = User.where(seller_id: @seller.id)
+    # @staff = User.where(seller_id: @seller.id)
+    @seller = current_user.seller
+    @staff = []
     @user = User.new
   end
 

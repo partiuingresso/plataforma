@@ -20,9 +20,18 @@ Rails.application.routes.draw do
   # ==> Admin routes
 
   namespace :admin do
+    resources :sellers, only: [:show, :new, :create, :edit] do
+      get 'backstage', to: 'producer_dashboard#show', as: 'dashboard'
+      resources :events, only: [:index]
+      resource :finance, only: [:new, :edit]
+    end
+    resources :events, only: [:show] do
+      resources :offers, only: [:index]
+      resources :marketings, only: [:index]
+    end
+    get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
     resources :orders, only: [:index]
     resources :users, only: [:index]
-    resources :sellers, only: [:show, :new, :create]
     resources :ticket_tokens, only: [:show, :update]
   end
 

@@ -1,0 +1,8 @@
+<%= render "producer_admin/events/header" %>
+<div data-behavior="vue">
+  <marketing-integrations
+    event_id="<%= @event.id %>"
+    fb="<%= @fb_pixel %>"
+    google="<%= @ga_id %>"
+  />
+</div>

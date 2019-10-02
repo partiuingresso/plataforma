@@ -1,0 +1,7 @@
+<%= render "producer_admin/events/header" %>
+<div data-behavior="vue">
+  <ticket-manager
+    offers_data="<%= OfferSerializer.new(@offers).serialized_json %>"
+    event="<%= @event.id %>"
+  />
+</div>

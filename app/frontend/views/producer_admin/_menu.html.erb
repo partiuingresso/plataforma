@@ -1,31 +1,10 @@
-<aside class="menu">
-  <p class="menu-label">
-    Painel do Produtor
-  </p>
-  <ul class="menu-list">
-    <li><%= link_to_in_li "Dashboard", producer_admin_dashboard_path %></li>
-  </ul>
-  <p class="menu-label">
-    Eventos
-  </p>
-  <ul class="menu-list">
-    <li><%= link_to_in_li "Meus Eventos", producer_admin_events_path %></li>
-  </ul>
-  <p class="menu-label">
-    Minha Negócio
-  </p>
-  <ul class="menu-list">
-    <li><%= link_to_in_li "Editar Negócio", edit_producer_admin_seller_path(current_user.seller) %></li>
-  </ul>
-  <p class="menu-label">
-    Financeiro
-  </p>
-  <ul class="menu-list">
-    <li><%= link_to_in_li "Visão Geral", producer_admin_seller_path(current_user.seller) %></li>
-    <% if current_user.seller.finance.present? && current_user.seller.finance.persisted? %>
-      <li><%= link_to_in_li "Conta Bancária", edit_finance_path %></li>
-    <% else %>
-      <li><%= link_to_in_li "Conta Bancária", new_finance_path %></li>
-    <% end %>
-  </ul>
-</aside>
+<%= render partial: 'producer_admin/menu_layout', locals: {
+  links: {
+    dashboard: producer_admin_dashboard_path,
+    events: producer_admin_events_path,
+    edit_seller: edit_producer_admin_seller_path(@seller),
+    show_seller: producer_admin_seller_path(@seller),
+    edit_finance: edit_finance_path,
+    new_finance: new_finance_path
+  }
+} %>

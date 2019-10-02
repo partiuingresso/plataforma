@@ -6,11 +6,11 @@
 <section class="section events-index">
 	<div class="container">
 		<div class="columns is-centered">
-      <div class="column is-3">
-        <%= render "producer_admin/menu" %>
+      <div class="column is-3">        
+        <%= render "admin/producer_menu" %>
       </div>
       <div class="column is-8 events-table">
-        <%= render partial: "index", locals: { event_path: lambda { |event| return producer_admin_event_path(event) } } %>
+        <%= render partial: "producer_admin/events/index", locals: { event_path: lambda { |event| admin_event_path(event) } } %>
       </div>
 		</div>
 	</div>

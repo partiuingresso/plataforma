@@ -1,0 +1,10 @@
+<%= render partial: 'producer_admin/menu_layout', locals: {
+  links: {
+    dashboard: admin_seller_dashboard_path(@seller),
+    events: admin_seller_events_path(@seller),
+    edit_seller: edit_admin_seller_path(@seller),
+    show_seller: admin_seller_path(@seller),
+    edit_finance: edit_admin_seller_finance_path(@seller),
+    new_finance: new_admin_seller_finance_path(@seller)
+  }
+} %>

@@ -3,6 +3,7 @@ class ProducerAdmin::EventsController < ApplicationController
 
 	def index
 		@events = Event.accessible_by(current_ability).order(start_t: :asc)
+		@seller = current_user.seller
 	end
 
 	def show
