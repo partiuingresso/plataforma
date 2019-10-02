@@ -5,9 +5,11 @@
     </div>
     <% if signed_in? %>
     <div class="navMenu">
-      <div class="newEvent">
-        <%= link_to "Criar Evento", new_event_path %>
-      </div>      
+      <% if current_user.producer_admin? %>
+        <div class="newEvent">
+          <%= link_to "Criar Evento", new_event_path %>
+        </div>    
+      <% end %>  
       <div class="navTickets">
         <%= link_to "Meus Ingressos", ticket_tokens_path %>
       </div>
