@@ -1,5 +1,5 @@
 class Admin::MarketingsController < ApplicationController
-	authorize_resouce :class => false
+	authorize_resource :class => false
 	
 	def index
 		@event = Event.find(params[:event_id])

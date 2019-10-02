@@ -1,5 +1,5 @@
 class Admin::EventsController < ApplicationController
-	load_resource except: [:index]
+	load_resource except: [:index, :new]
 	authorize_resource
 
 	def index
@@ -31,6 +31,18 @@ class Admin::EventsController < ApplicationController
 			format.html
 			format.csv { send_data @all_orders.to_csv, filename: "orders-#{Date.today}.csv" }
 		end
+	end
+
+	def new
+		@seller = Seller.find(params[:seller_id])
+		@event = @seller.events.build
+		@event.build_address
+
+		render "producer_admin/events/new"
+	end
+
+	def edit
+		render "producer_admin/events/edit"
 	end
 
 	private
