@@ -1,10 +1,19 @@
+<% provide(:title, "Cadastro de produtor") %>
+<% content_for :navbar do %>
+  &nbsp;
+<% end %>
+<% content_for :footer do %>
+  &nbsp;
+<% end %>
+
 <%= javascript_pack_tag "sellers/new" %>
-<section class="section hero">
-  <div class="container hero-content">
+<section class="section newSeller">
+  <div class="container">
+  	<div data-behavior="vue">
+      <div class="logo">
+        <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'33'), root_path %>
+      </div>
+  		<producer-registration-wizard first_name="<%= current_user.name.first %>" full_name="<%= current_user.name %>" email="<%= current_user.email %>" />
+  	</div>
   </div>
-</section>
-<section class="section">
-	<div data-behavior="vue">
-		<producer-registration-wizard />
-	</div>
 </section>

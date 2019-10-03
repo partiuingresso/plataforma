@@ -11,6 +11,8 @@ body {
 
 strong { color: unset; }
 
+input:focus { outline: none; }
+
 .title {
   color: unset;
   font-weight: 700;

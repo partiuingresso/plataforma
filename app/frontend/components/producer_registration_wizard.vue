@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<router-view :data="account" @finish="submit"></router-view>
+		<router-view :first_name="first_name" :email="email" :full_name="full_name" :data="account" @finish="submit"></router-view>
 	</div>
 </template>
 
@@ -23,7 +23,8 @@ const routes = [
 	{
 		path: '/',
 		name: 'welcome',
-		component: Welcome
+		component: Welcome,
+		props: true
 	},
 	{
 		path: '/identification_type',
@@ -66,6 +67,7 @@ const router = new VueRouter({
 
 export default {
 	router,
+	props: ["first_name", "full_name", "email"],
 	data() {
 		return {
 			account: {

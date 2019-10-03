@@ -1,12 +1,13 @@
 <template>
 	<div>
-		<h1>Certo, Nelson!</h1>
+		<h1>Certo, {{ first_name }}!</h1>
 		<p>
-			Qual é o <b>Nome Fantasia</b> de sua empresa?
+			Qual é o <b>Nome Fantasia</b> de sua empresa? <br />
 			Esta informação aparecerá nas comunicações oficiais do seu evento.
 		</p>
-		<input v-model="data.company.name" class="input" placeholder="Ex: Nelson Produções" />
-		<router-link :to="{ name: 'company_legal_information' }" class="button is-primary">Avançar</router-link>
+		<input v-model="data.company.name" :placeholder="`Ex: ${first_name} Produções`" />
+		<div class="error">Este campo não pode ficar vazio</div>
+		<router-link :to="{ name: 'company_legal_information' }" class="nextButton">Avançar -></router-link>
 	</div>
 </template>
 
@@ -14,6 +15,7 @@
 import WizardView from './wizard_view.vue'
 export default {
 	extends: WizardView,
+	props: ["first_name"],
 	created() {
 		this.data.company = {
 			name: '',
@@ -35,3 +37,30 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+div {
+	.error {
+		margin-top: -40px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+	}
+	input {
+		margin-top: 50px;
+		margin-bottom: 40px;
+		padding: 10px 0;
+		border-bottom: 3px solid #C72328;
+		border-style: none none solid none;
+		width: 100%;
+		font-weight: normal;
+		font-size: 20px;
+		line-height: 20px;
+		color: #ffffff;
+		background-color: transparent;
+		&::placeholder {
+			font-weight: normal;
+			color: rgba(255, 255, 255, 0.4);
+		}
+	}
+}
+</style>
