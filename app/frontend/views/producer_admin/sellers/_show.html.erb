@@ -71,7 +71,9 @@
   </div>
   <div class="column">
     <% if @seller.bank_account.present? %>
-      <%= form_for @new_transfer, url: producer_admin_transfers_path do |f| %>
+      <% admin ||= false %>
+      <% namespace = admin ? :admin : :producer_admin %>
+      <%= form_for [namespace, @new_transfer] do |f| %>
           <%= render partial: 'producer_admin/sellers/new_transfer_modal', locals: { field: f } %>
       <% end %>
       <div class="has-text-right">

@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :orders, only: [:index]
     resources :users, only: [:index]
     resources :ticket_tokens, only: [:show, :update]
+    resources :transfers, only: [:create]
   end
 
   scope module: 'admin', path: '/', as: '' do
