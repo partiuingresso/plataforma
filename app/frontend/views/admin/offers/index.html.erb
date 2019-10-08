@@ -13,7 +13,7 @@
       </div>
       <div class="column is-8">
         <%= render "admin/events/header" %>
-        <%= render "producer_admin/offers/index" %>
+        <%= render partial: "producer_admin/offers/index", locals: { admin: true } %>
       </div>
     </div>
 	</div>

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       resource :finance, only: [:new, :edit]
     end
     resources :events, except: [:index, :new, :create] do
-      resources :offers, only: [:index]
+      resources :offers, except: [:show, :edit, :new]
       resources :marketings, only: [:index]
     end
     get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
