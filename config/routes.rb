@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     resources :events, except: [:index, :new, :create] do
       resources :offers, except: [:show, :edit, :new]
       resources :marketings, only: [:index]
+      patch '/marketings/', to: 'marketings#update', as: 'marketing'
     end
     get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
     resources :orders, only: [:index]

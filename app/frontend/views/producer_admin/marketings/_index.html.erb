@@ -1,5 +1,7 @@
+<% admin ||= false %>
 <div data-behavior="vue">
   <marketing-integrations
+    :admin="<%= admin %>"
     event_id="<%= @event.id %>"
     fb="<%= @fb_pixel %>"
     google="<%= @ga_id %>"
