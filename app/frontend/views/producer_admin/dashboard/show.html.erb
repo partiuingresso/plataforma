@@ -12,7 +12,13 @@
       </div>
 
       <div class="column is-8">
-        <%= render "show" %>
+        <%= render partial: "show", locals: {
+          links: {
+            seller: producer_admin_seller_path(@seller),
+            events: producer_admin_events_path,
+            event: lambda { |event| producer_admin_event_path(event) }
+          }
+        } %>
       </div>
     </div>
   </div>

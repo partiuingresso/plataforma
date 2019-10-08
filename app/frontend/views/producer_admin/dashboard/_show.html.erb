@@ -34,7 +34,7 @@
         </div>
         <div class="level-right">
           <div class="level-item">
-            <%= link_to "Mais Info", producer_admin_seller_path(@seller), class: "mais-info" %>
+            <%= link_to "Mais Info", links[:seller], class: "mais-info" %>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="level-right">
           <div class="level-item">
-            <%= link_to "Ver todos", producer_admin_events_path, class: "mais-info" %>
+            <%= link_to "Ver todos", links[:events], class: "mais-info" %>
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@
           </div>
           <div class="level-right">
             <div class="level-item">
-              <%= link_to producer_admin_event_path(event) do %>
+              <%= link_to links[:event].call(event) do %>
                 <span class="icon has-text-link">
                   <i class="fas fa-chart-line"></i>
                 </span>
