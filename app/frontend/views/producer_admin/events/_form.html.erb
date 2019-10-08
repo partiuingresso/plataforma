@@ -1,4 +1,7 @@
-<%= form_for event do |f|%>
+<% admin ||= false %>
+<% seller ||= nil %>
+<% namespace = admin ? :admin : nil %>
+<%= form_for [namespace, seller, event] do |f|%>
   <% if event.errors.any? %>
     <article class="message is-danger">
       <div class="message-body">

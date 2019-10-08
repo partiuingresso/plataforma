@@ -1,5 +1,6 @@
 class Admin::EventsController < ApplicationController
-	load_resource except: [:index, :new]
+	load_resource :seller
+	load_resource :event, through: :seller, shallow: true, except: [:index]
 	authorize_resource
 
 	def index
@@ -34,18 +35,51 @@ class Admin::EventsController < ApplicationController
 	end
 
 	def new
-		@seller = Seller.find(params[:seller_id])
-		@event = @seller.events.build
 		@event.build_address
-
-		render "producer_admin/events/new"
 	end
 
-	def edit
-		render "producer_admin/events/edit"
+	def create
+		@event.user = current_user
+	    respond_to do |format|
+	      if @event.save
+	        format.html { redirect_to admin_event_offers_path(@event), notice: 'Evento criado com sucesso.' }
+	        format.json { render :show, status: :created, location: @event }
+	      else
+	        format.html { render :new }
+	        format.json { render json: @event.errors, status: :unprocessable_entity }
+	      end
+	    end
+	end
+
+	def edit; end
+
+	def update
+		if @event.update_attributes(event_params)
+			redirect_to admin_event_path(@event), notice: 'Evento atualizado com sucesso.'
+		else
+			redirect_back(fallback_location: edit_admin_event_path(@event))
+		end
+	end
+
+	def destroy
+		if @event.orders.present?
+			redirect_to admin_seller_events_path(@event.seller), alert: 'Evento não pode ser apagado.'
+		else
+			if @event.destroy
+				redirect_to admin_seller_events_path(@event.seller), notice: 'Evento apagado.'
+			end
+		end
 	end
 
 	private
+
+		def event_params
+			params.require(:event).permit(
+				:name, :video, :headline, :hero_image, :start_t, :end_t, :description,
+				address_attributes: [:id, :name, :address, :number, :complement, :district,
+				:city, :state, :zipcode]
+			)
+		end
 
 	    def search_params
 	      params.permit(:q)

@@ -22,10 +22,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :sellers, only: [:show, :new, :create, :edit] do
       get 'backstage', to: 'producer_dashboard#show', as: 'dashboard'
-      resources :events, only: [:index, :new]
+      resources :events, only: [:index, :new, :create]
       resource :finance, only: [:new, :edit]
     end
-    resources :events, except: [:index, :new, :destroy] do
+    resources :events, except: [:index, :new, :create] do
       resources :offers, only: [:index]
       resources :marketings, only: [:index]
     end
