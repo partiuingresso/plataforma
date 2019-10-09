@@ -81,7 +81,6 @@
         display: block;
         position: absolute;
         z-index: 2;
-        top: 0;
         width: 80px;
         height: 60px;
         top: -1px;
@@ -94,6 +93,23 @@
       }
       &.pass:before {
         background-image: url('../images/icons/lock.svg');
+      }
+      .viewPass {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 2;
+        cursor: pointer;
+        right: 20px;
+        width: 20px;
+        height: 60px;
+        top: -1px;
+        margin-right: 8px;
+        opacity: .65;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url('../images/icons/view.svg');
+        &:hover { opacity: .85; }
       }
       &.name:before {
         background-image: url('../images/icons/user.svg');
