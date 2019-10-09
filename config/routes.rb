@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     resources :sellers, only: [:show, :new, :create, :edit] do
       get 'backstage', to: 'producer_dashboard#show', as: 'dashboard'
       resources :events, only: [:index, :new, :create]
-      resource :finance, only: [:new, :edit]
+      resource :finance, only: [:new, :create, :edit, :update]
     end
     resources :events, except: [:index, :new, :create] do
       resources :offers, except: [:show, :edit, :new]

@@ -1,5 +1,8 @@
 <p class="title is-size-2">Conta Bancária</p>
-<%= form_with model: @finance, url: finance_path, local: true do |f| %>
+<% admin ||= false %>
+<% seller ||= nil %>
+<% namespace = admin ? :admin : nil %>
+<%= form_for [namespace, seller, @finance] do |f| %>
  
 	<%= f.fields_for :bank_account do |bank_account_f| %>
 		<div class="tile is-ancestor">
