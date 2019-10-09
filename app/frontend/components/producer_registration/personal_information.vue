@@ -24,8 +24,8 @@
 		</div>
 		
 		<div class="grouped">
-			<div>
-				<input v-if="type == 'company'" v-model="formData.phone" v-mask="['(##) ####-####', '(##) # ####-####']"  placeholder="DDD + Telefone" />
+			<div v-if="type == 'company'">
+				<input v-model="formData.phone" v-mask="['(##) ####-####', '(##) # ####-####']"  placeholder="DDD + Telefone" />
 				<div class="error">Campo inválido</div>
 			</div>
 			<div class="cep">
@@ -37,7 +37,7 @@
 		<div class="address">
 			<div class="grouped">
 				<div>
-					<input v-model="formData.address.address" class="street ok" :style="{ width: formData.address.address.length * 9.8 + 'px'}" placeholder="Endereço" />,
+					<input v-model="formData.address.address" class="street ok" :style="{ width: formData.address.address.length * 9.95 + 'px'}" placeholder="Endereço" />,
 					<div class="error">Campo inválido</div>
 				</div>
 				<div>
@@ -59,7 +59,7 @@
 			
 			<div class="grouped city">
 				<div>
-					<input v-model="formData.address.city" :style="{ width: formData.address.city.length * 9.8 + 'px'}" class="ok" placeholder="Cidade" />,
+					<input v-model="formData.address.city" :style="{ width: formData.address.city.length * 9.95 + 'px'}" class="ok city" placeholder="Cidade" />,
 					<div class="error">Campo inválido</div>
 				</div>
 				<div>
@@ -139,6 +139,8 @@ div {
 	}
 	input.complement { max-width: 140px; margin-right: 30px; }
 	input.numberInput { max-width: 120px; }
+	input.street { min-width: 240px; max-width: 720px; }
+	input.city { min-width: 120px; max-width: 530px; }
 	.cep {
 		position: relative;
 		display: inline-block;
@@ -151,6 +153,7 @@ div {
 			color: #ffffff;
 			width: 240px;
 		}
+		overflow: hidden;
 		max-width: 530px;
 		display: flex;
 		align-items: center;
