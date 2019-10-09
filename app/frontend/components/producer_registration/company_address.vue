@@ -8,7 +8,7 @@
 		</div>
 		<div class="address">
 			<div class="grouped">
-				<input v-model="formData.company.address.address" class="street ok" :style="{ width: formData.company.address.address.length * 9.8 + 'px'}" placeholder="Endereço" />,
+				<input v-model="formData.company.address.address" class="street ok" :style="{ width: formData.company.address.address.length * 9.95 + 'px'}" placeholder="Endereço" />,
         <div class="error street">Este campo não pode ficar vazio</div>
         <div class="is-inline-block">
   				<input v-model="formData.company.address.number" class="numberInput" placeholder="Número" />
@@ -21,7 +21,7 @@
         <div class="error district">Este campo não pode ficar vazio</div>
 			</div>
 			<div class="grouped">
-				<input v-model="formData.company.address.city" class="ok" :style="{ width: formData.company.address.city.length * 9.8 + 'px'}" placeholder="Cidade" />,
+				<input v-model="formData.company.address.city" class="ok city" :style="{ width: formData.company.address.city.length * 9.95 + 'px'}" placeholder="Cidade" />,
         <div class="error city">Este campo não pode ficar vazio</div>
 				<input v-model="formData.company.address.state" class="ok" placeholder="Estado" />
         <div class="error state">Este campo não pode ficar vazio</div>
@@ -83,6 +83,8 @@ div {
 	}
 	input.complement { max-width: 140px; }
 	input.numberInput { max-width: 120px; }
+  input.street { min-width: 240px; max-width: 720px; }
+  input.city { min-width: 120px; max-width: 530px; }
 	.cep {
 		position: relative;
 		margin-top: 50px;
@@ -92,11 +94,10 @@ div {
 	}
 	.grouped {
 		color: #ffffff;
+    margin-bottom: 30px;
 		> input {
 			&:last-of-type:not(.street) { margin-left: 20px; }
-      &.street { margin-bottom: 30px; }
 			display: inline-block;
-			margin-bottom: 30px;
 		}
 	}
   input {
