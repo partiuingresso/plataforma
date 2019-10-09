@@ -1,0 +1,35 @@
+<div class="columns">
+  <div class="column">
+  	<div class="box">
+  		<div class="level">
+  			<div class="level-left">
+  				<div class="level-item">
+  					<div>
+				    <p>
+				    	<em class="thin is-size-3 has-text-primary"><%= @event.name %></em>
+					    <%= link_to event_path(@event) do %>
+				        <span class="icon is-large">
+	    						<i class="fas fa-external-link-alt"></i>
+	    					</span>
+	  					<% end %>
+				    </p>
+				    <p class="subtitle is-uppercase is-6"><%= l @event.start_t, format: ("%d de %B de %Y") %> - <%= @event.address.city %>/<%= @event.address.state %></p>
+					  </div>
+				  </div>
+			  </div>
+			  <div class="level-right">
+			  	<div class="level-item">
+			  		<div>
+	            <%= link_to links[:edit_event], class: "button is-primary is-small" do %>
+	              <span>Editar Evento</span>
+	            <% end %>
+	           <%= link_to links[:event], class: "button is-small", method: :delete, data: { confirm: 'Deseja mesmo apagar este evento?' } do %>
+								<span>Apagar Evento</span>
+							<% end %> 
+						</div>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+  </div>
+</div>

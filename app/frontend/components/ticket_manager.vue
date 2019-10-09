@@ -101,6 +101,7 @@
 		</confirm-dialog>
 		<ticket-form
 			v-if="ticketFormVisible"
+			:admin="admin"
 			:event="event"
 			:offer="selectedOffer"
 			:free="ticketFree"
@@ -119,7 +120,11 @@ export default {
 		'confirm-dialog': ConfirmDialog,
 		'ticket-form': TicketForm
 	},
-	props: ['offers_data', 'event'],
+	props: {
+		offers_data: String,
+		event: Number,
+		admin: Boolean
+	},
 	data() {
 		return {
 			offers: [],
@@ -192,7 +197,7 @@ export default {
 		},
 		async deleteOffer() {
 			Rails.ajax({
-				url: `/events/${this.event}/offers/${this.selectedOffer.id}`,
+				url: this.url,
 				type: 'delete',
 				data: '',
 				success: this.successfulOfferDeletion,
@@ -251,6 +256,12 @@ export default {
 		},
 		confirmMessage() {
 			return `Tem certeza que deseja remover o ingresso <b>${this.selectedOffer.name}</b>?`
+		},
+		url() {
+			const prefix = this.admin ? '/admin' : ''
+			const url = prefix + `/events/${this.event}/offers/${this.selectedOffer.id}`
+
+			return url
 		}
 	}
 }

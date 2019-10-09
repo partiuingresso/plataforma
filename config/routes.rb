@@ -20,10 +20,21 @@ Rails.application.routes.draw do
   # ==> Admin routes
 
   namespace :admin do
+    resources :sellers, only: [:show, :new, :create, :edit] do
+      get 'backstage', to: 'producer_dashboard#show', as: 'dashboard'
+      resources :events, only: [:index, :new, :create]
+      resource :finance, only: [:new, :create, :edit, :update]
+    end
+    resources :events, except: [:index, :new, :create] do
+      resources :offers, except: [:show, :edit, :new]
+      resources :marketings, only: [:index]
+      patch '/marketings/', to: 'marketings#update', as: 'marketing'
+    end
+    get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
     resources :orders, only: [:index]
     resources :users, only: [:index]
-    resources :sellers, only: [:show, :new, :create]
     resources :ticket_tokens, only: [:show, :update]
+    resources :transfers, only: [:create]
   end
 
   scope module: 'admin', path: '/', as: '' do
@@ -110,9 +121,9 @@ Rails.application.routes.draw do
   # ==> Chart routes
 
   namespace :charts do
-    get 'sales-count'
-    get 'sales-value'
-    get 'sales-tickets'
+    get 'sales-count/:seller_id', action: 'sales_count', as: 'sales_count'
+    get 'sales-value/:seller_id', action: 'sales_value', as: 'sales_value'
+    get 'sales-tickets/:seller_id', action: 'sales_tickets', as: 'sales_tickets'
     get 'all-sales-count'
     get 'all-sales-value'
     get 'all-sales-tickets'

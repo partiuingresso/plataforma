@@ -1,14 +1,18 @@
 class Admin::SellersController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
 
-   def show
-    @seller = Seller.find(params[:id])
-    @user = current_user
-    if @user.update(seller: @seller)
-      redirect_to producer_admin_dashboard_path, notice: "Gerenciando #{@seller.name}"
-    else
-      redirect_to backoffice_path, alert: "Ops... algo deu errado! Tente novamente."
-    end
+  def show
+    balances = Wirecard::show_balances @seller
+
+    @future_balance = Money.new(balances.future.first.amount).format
+    @unavailable_balance = Money.new(balances.unavailable.first.amount).format
+    @current_balance = Money.new(balances.current.first.amount).format
+    available = [0, (balances.current.first.amount - balances.unavailable.first.amount)].max
+    @available_balance = Money.new(available).format
+
+    @new_transfer = @seller.transfers.build
+
+    @history_transfers = Kaminari.paginate_array(@seller.transfers).page(params[:page]).per(10)
   end
 
   def new
@@ -26,6 +30,13 @@ class Admin::SellersController < ApplicationController
         format.json { render json: @seller_form.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def edit
+    # @staff = User.where(seller_id: @seller.id)
+    @seller = Seller.find(params[:id])
+    @staff = []
+    @user = User.new
   end
 
 private

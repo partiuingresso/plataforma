@@ -233,7 +233,10 @@
 	    	type: Boolean
 	    },
 	    event: {
-	    	type: String
+	    	type: Number
+	    },
+	    admin: {
+	    	type: Boolean
 	    }
 	  },
 		data() {
@@ -317,7 +320,7 @@
 			},
 			updateOffer() {
 				Rails.ajax({
-					url: `/events/${this.event}/offers/${this.actionOffer.id}`,
+					url: this.url + this.actionOffer.id,
 					type: 'patch',
 					data: this.formData,
 					success: this.successfulOfferUpdate,
@@ -351,7 +354,7 @@
 			},
 			createOffer() {
 				Rails.ajax({
-					url: `/events/${this.event}/offers`,
+					url: this.url,
 					type: 'post',
 					data: this.formData,
 					success: this.successfulOfferCreation,
@@ -413,6 +416,12 @@
 				formData.append('offer[active]', this.actionOffer.active)
 
 				return formData
+			},
+			url() {
+				const prefix = this.admin ? '/admin' : ''
+				const url = prefix + `/events/${this.event}/offers/`
+
+				return url
 			}
 		},
 		watch: {

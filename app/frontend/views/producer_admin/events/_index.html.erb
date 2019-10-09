@@ -1,0 +1,61 @@
+<p class="title is-size-2">Meus Eventos</p>
+<div class="tabs">
+  <ul>
+    <li class="tablinks" onclick="openTab(event, 'to_happen')"><a>Ativos</a></li>
+    <li class="tablinks" onclick="openTab(event, 'history')"><a>Histórico</a></li>
+  </ul>
+</div>
+
+<div id="to_happen" class="tabcontent">
+  <table class="table table-events is-fullwidth is-narrow is-striped is-hoverable">
+		<thead>
+			<th>Evento</th>
+			<th>Quando</th>
+			<th>Onde</th>
+      <th></th>
+		</thead>
+		<tbody>
+			<% @events.order(created_at: :desc).to_happen.each do |event| %>
+      <tr class="clickable-row" data-href="<%= event_path.call(event) %>">
+				<td><%= event.name %></td>
+				<td><%= event.start_t.strftime("%d/%m/%Y") %></td>
+        <td><%= event.address.city %>-<%= event.address.state %></td>
+				<td class="has-text-centered">
+			    <%= link_to event_path(event) do %>
+		        <span class="icon">
+  						<i class="fas fa-external-link-alt"></i>
+  					</span>
+					<% end %>
+				</td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+
+<div id="history" class="tabcontent">
+  <table class="table table-events is-fullwidth is-narrow is-striped is-hoverable">
+    <thead>
+      <th>Evento</th>
+      <th>Quando</th>
+      <th>Onde</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <% @events.order(created_at: :desc).history.each do |event| %>
+      <tr class="clickable-row" data-href="<%= producer_admin_event_path(event) %>">
+        <td><%= event.name %></td>
+        <td><%= event.start_t.strftime("%d/%m/%Y") %></td>
+        <td><%= event.address.city %>-<%= event.address.state %></td>
+        <td class="has-text-centered">
+          <%= link_to event_path(event) do %>
+            <span class="icon">
+              <i class="fas fa-external-link-alt"></i>
+            </span>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

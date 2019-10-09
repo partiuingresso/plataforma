@@ -1,0 +1,25 @@
+<%= javascript_pack_tag "producer_admin/dashboard" %>
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+<section class="section painel backstage">
+  <div class="container">
+    <div class="columns is-centered">
+        
+      <div class="column is-3">        
+        <%= render "admin/producer_menu" %>
+      </div>
+
+      <div class="column is-8">
+        <%= render partial: "producer_admin/dashboard/show", locals: {
+          links: {
+            seller: admin_seller_path(@seller),
+            events: admin_seller_events_path(@seller),
+            event: lambda { |event| admin_event_path(event) }
+          }
+        } %>
+      </div>
+    </div>
+  </div>
+</section>

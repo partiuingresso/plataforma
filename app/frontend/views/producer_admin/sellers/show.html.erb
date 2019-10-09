@@ -8,97 +8,11 @@
     <div class="columns is-centered">
 
       <div class="column is-3">
-        <%= render 'producer_admin/menu' %>
+        <%= render "producer_admin/menu" %>
       </div>
 
       <div class="column is-8">
-        <p class="title is-size-2">Financeiro</p>
-
-        <div class="tile is-ancestor">
-          <div class="tile is-parent">
-           <div class="tile box is-child">
-            <div class="columns">
-             <div class="column is-3">
-               <div class="has-text-left">
-                 <p class="is-size-7 has-text-weight-semibold">Em Conta</p>
-                 <p class="is-size-3"><%= @current_balance %></p>
-               </div>
-             </div>
-             <div class="column is-3">
-               <div class="has-text-left">
-                 <p class="is-size-7 has-text-weight-semibold">Disponível</p>
-                 <p class="is-size-3 has-text-success"><%= @available_balance %></p>
-               </div>
-             </div>
-             <div class="column is-3">
-               <div class="has-text-left">
-                 <p class="is-size-7 has-text-weight-semibold">Bloqueado</p>
-                 <p class="is-size-3 has-text-danger"><%= @unavailable_balance %></p>
-               </div>
-             </div>
-             <div class="column is-3">
-               <div class="has-text-left">
-                 <p class="is-size-7 has-text-weight-semibold">A Receber</p>
-                 <p class="is-size-3 has-text-warning"><%= @future_balance %></p>
-               </div>
-             </div>
-            </div>
-           </div>
-          </div>
-        </div>
-        <div class="has-text-left">
-          <p class="is-size-6 has-text-weight-semibold">Histórico de transferências</p>
-        </div>
-        <table class="table is-fullwidth">
-          <thead>
-            <th>Data</th>
-            <th>Valor</th>
-            <th>Taxa</th>
-            <th></th>
-          </thead>
-          <% @history_transfers.each do |transfer| %>
-            <% if transfer.persisted? %>
-              <tr>
-                <td><%= transfer.created_at.strftime("%d/%m/%Y") %></td>
-                <td><%= transfer.amount.format %></td>
-                <td><%= transfer.fee.format %></td>
-                <td>
-                  <% if transfer.requested? %>
-                    <span class="tag is-rounded is-light">Solicitada</span>
-                  <% elsif transfer.completed? %>
-                    <span class="tag is-rounded is-success">Concluída</span>
-                  <% elsif transfer.failed? %>
-                    <span class="tag is-rounded is-danger">Falhou</span>
-                  <% elsif transfer.reversed? %>
-                    <span class="tag is-rounded is-danger">Revertida</span>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          <% end %>
-          <tbody>
-          </tbody>
-        </table>
-        <div class="columns is-centered is-vcentered">
-          <div class="column is-6 transferPagination">
-            <%= paginate @history_transfers, window: 2 %>
-          </div>
-          <div class="column">
-            <% if @seller.bank_account.present? %>
-              <%= form_for @new_transfer, url: producer_admin_transfers_path do |f| %>
-                  <%= render partial: 'new_transfer_modal', locals: { field: f } %>
-              <% end %>
-              <div class="has-text-right">
-                <button id="new-transfer-button" class="button is-primary">Sacar</button>
-              </div>
-            <% else %>
-              <div class="has-text-right">
-                <%= link_to "Você precisa cadastrar uma conta bancária.", new_finance_path, class: "button is-text has-text-link is-size-7" %>
-                <a class="button is-primary" disabled>Sacar</a>
-              </div>
-            <% end %>
-          </div>
-        </div>
+        <%= render "show" %>
       </div>
     </div>
   </div>

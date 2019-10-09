@@ -120,7 +120,7 @@
 	          <tbody>
 	            <% @tickets.each do |t| %>
 								<tr id="<%= t.code %>">
-		            	<%= render partial: "ticket_token_row", locals: {ticket_token: t} %>
+		            	<%= render partial: "producer/check_ins/ticket_token_row", locals: {ticket_token: t} %>
 		            </tr>
 	            <% end %>
 	          </tbody>

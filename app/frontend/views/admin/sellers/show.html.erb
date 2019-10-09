@@ -1,0 +1,19 @@
+<%= javascript_pack_tag "sellers/show" %>
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+<section class="section sellers-show">
+  <div class="container">
+    <div class="columns is-centered">
+
+      <div class="column is-3">
+        <%= render "admin/producer_menu" %>
+      </div>
+
+      <div class="column is-8">
+        <%= render partial: "producer_admin/sellers/show", locals: { admin: true } %>
+      </div>
+    </div>
+  </div>
+</section>

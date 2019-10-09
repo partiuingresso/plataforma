@@ -1,0 +1,20 @@
+<%= javascript_pack_tag "offers" %>
+<%= stylesheet_pack_tag "offers" %>
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+
+<section class="section offers">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-3">
+        <%= render "admin/events/menu" %>
+      </div>
+      <div class="column is-8">
+        <%= render "admin/events/header" %>
+        <%= render partial: "producer_admin/offers/index", locals: { admin: true } %>
+      </div>
+    </div>
+	</div>
+</section>

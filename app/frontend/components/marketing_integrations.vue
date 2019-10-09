@@ -78,7 +78,7 @@
 <script>
 	import Rails from 'rails-ujs'
 	export default {
-		props: ['event_id', 'fb', 'google'],
+		props: ['admin', 'event_id', 'fb', 'google'],
 		data() {
 			return {
 				editing: {
@@ -101,7 +101,7 @@
 				const formData = new FormData()
 				formData.append('event[fb_pixel]', this.fbPixel)
 				Rails.ajax({
-					url: `/producer_admin/events/${this.event_id}/marketings`,
+					url: this.url,
 					type: 'patch',
 					data: formData,
 					success: this.success,
@@ -113,7 +113,7 @@
 				const formData = new FormData()
 				formData.append('event[ga_id]', this.googleAnalytics)
 				Rails.ajax({
-					url: `/producer_admin/events/${this.event_id}/marketings`,
+					url: this.url,
 					type: 'patch',
 					data: formData,
 					success: this.success,
@@ -147,6 +147,14 @@
 						animate: { in: 'bounceInRight', out: 'bounceOutRight' }
 					}
 				)
+			}
+		},
+		computed: {
+			url() {
+				const prefix = this.admin ? '/admin' : '/producer_admin'
+				const url = prefix + `/events/${this.event_id}/marketings`
+
+				return url
 			}
 		}
 	}

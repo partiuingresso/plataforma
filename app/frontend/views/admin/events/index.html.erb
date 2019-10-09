@@ -1,0 +1,17 @@
+<%= javascript_pack_tag "events/index" %>
+<section class="section hero">
+  <div class="container hero-content">
+  </div>
+</section>
+<section class="section events-index">
+	<div class="container">
+		<div class="columns is-centered">
+      <div class="column is-3">        
+        <%= render "admin/producer_menu" %>
+      </div>
+      <div class="column is-8 events-table">
+        <%= render partial: "producer_admin/events/index", locals: { event_path: lambda { |event| admin_event_path(event) } } %>
+      </div>
+		</div>
+	</div>
+</section>
