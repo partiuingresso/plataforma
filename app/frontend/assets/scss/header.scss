@@ -9,6 +9,12 @@ header.partiuNav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    &.hr { display: block; padding: unset; }
+  }
+  hr {
+    height: 1px;
+    background: linear-gradient(270deg, rgba(32, 32, 32, 0.2) 0%, #202020 50.52%, rgba(32, 32, 32, 0.2) 100%);
+    box-shadow: 0px 4px 8px rgba(17, 17, 17, 0.25);
   }
 }
 

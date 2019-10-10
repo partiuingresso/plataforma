@@ -1,7 +1,45 @@
-<header class="section header_clean">
-  <nav class="navbar container" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <%= link_to image_tag(asset_pack_path("media/assets/images/logo.svg"), alt:'PartiuIngresso.com', width:'140', class:'logo'), root_path, class: "navbar-item" %>
+<header class="partiuNav">
+  <div class="container">
+    <div class="logo">
+      <%= link_to image_tag(asset_pack_path("media/assets/images/logo-light.svg"), alt:'PartiuIngresso.com', width:'120', class:'logo'), root_path %>
     </div>
-  </nav>
+    <% if signed_in? %>
+    <div class="navMenu">
+      <% if current_user.producer_admin? %>
+        <div class="newEvent">
+          <%= link_to "Criar Evento", new_event_path %>
+        </div>    
+      <% end %>  
+      <div class="navTickets">
+        <%= link_to "Meus Ingressos", ticket_tokens_path %>
+      </div>
+      <div class="navHelp">
+        <a href="https://ajuda.partiuingresso.com/hc">Ajuda</a>
+      </div>
+      <div class="navProfileMenu">
+        <div class="navDroplink">
+          <%= image_tag asset_pack_path("media/assets/images/elements/avatar-default.jpg"), width:'30' %>
+          <%= current_user.name.first %>
+          <%= image_tag asset_pack_path("media/assets/images/icons/down.svg") %>
+        </div>
+        <div class="navDropdown">
+          <% if current_user.admin? %>
+            <%= link_to 'Admin', admin_dashboard_path, class: "admin #{current_page?(admin_dashboard_path) ? 'active' : ''}"%>
+          <% end %>
+          <% if current_user.producer_admin? %>
+            <%= link_to 'Dashboard', producer_admin_dashboard_path, class: "producer #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
+          <% end %>
+          <%= link_to 'Configurações', edit_user_registration_path, class: "settings #{current_page?(edit_user_registration_path) ? 'active' : ''}" %>
+          <hr />
+          <%= link_to 'Sair', destroy_user_session_path, method: "delete", class: "logout" %>
+        </div>
+      </div>
+    </div>
+    <% else %>
+      <%= link_to "Entrar", login_path, class: "logInButton" %>
+    <% end %>
+  </div>
+  <div class="container hr">
+    <hr />
+  </div>
 </header>
