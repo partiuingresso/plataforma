@@ -5063,7 +5063,7 @@ moip-sdk-js@^2.1.1:
   resolved "https://registry.yarnpkg.com/moip-sdk-js/-/moip-sdk-js-2.1.1.tgz#822b59911afd4c2f00e9af2c81df4ac09cad0eb1"
   integrity sha512-/ontlwJcrMNm0yLPsu5aj8AsxeBVVosiR8wbKOZqQDe9fj0iN0P56+UKR9XX9GWuEYmw/PmNSoStrTxu6CbuTQ==
 
-moment@^2.10.2:
+moment@^2.10.2, moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==

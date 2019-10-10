@@ -14,113 +14,200 @@
 
 		<div class="grouped">
 			<div>
-				<input v-model="formData.document_number" v-mask="'###.###.###-##'" placeholder="CPF" />
-				<div class="error">Campo inválido</div>
+				<input
+					v-model.lazy="$v.formData.document_number.$model"
+					v-mask="'###.###.###-##'"
+					placeholder="CPF"
+				/>
+				<div v-show="$v.formData.document_number.$error">
+					<div v-if="!$v.formData.document_number.required" class="error active">Campo obrigatório</div>
+					<div v-if="!$v.formData.document_number.isCpf" class="error active">Campo inválido</div>
+				</div>
 			</div>
 			<div>
-				<input v-model="formData.birthdate" @focus="birthPlaceholder($event)" @blur="birthPlaceholder($event)" v-mask="'##/##/####'" placeholder="Data de nascimento" />
-				<div class="error">Campo inválido</div>
+				<input
+					placeholder="Data de nascimento"
+					v-model.lazy="$v.formData.birthdate.$model"
+					v-mask="'##/##/####'"
+					@focus="birthPlaceholder($event)"
+					@blur="birthPlaceholder($event)"
+				/>
+				<div v-show="$v.formData.birthdate.$error">
+					<div v-if="!$v.formData.birthdate.required" class="error active">Campo obrigatório</div>
+					<div v-if="!$v.formData.birthdate.isBirthdate" class="error active">Campo inválido</div>
+				</div>
 			</div>
 		</div>
 		
 		<div class="grouped">
 			<div>
 				<input v-if="type == 'company'" v-model="formData.phone" v-mask="['(##) ####-####', '(##) # ####-####']"  placeholder="DDD + Telefone" />
-				<div class="error">Campo inválido</div>
+				<div v-if="false" class="error active">Campo inválido</div>
 			</div>
-			<div class="cep">
-				<input @input="getCep($event)" v-mask="'#####-###'" v-model="formData.address.zipcode" placeholder="CEP" />
-				<div class="error">Campo inválido</div>
+			<div class="cep" ref="cep">
+				<input
+					placeholder="CEP"
+					v-mask="'#####-###'"
+					v-model.lazy="$v.formData.address.zipcode.$model"
+					@input="zipcodeInput($event)"
+				/>
+				<div v-show="$v.formData.address.zipcode.$error">
+					<div v-if="!$v.formData.address.zipcode.required" class="error active">Campo obrigatório</div>
+					<div v-if="!$v.formData.address.zipcode.isCep" class="error active">Campo inválido</div>
+				</div>
 			</div>
 		</div>
 
-		<div class="address">
+		<div class="address" ref="address">
 			<div class="grouped">
 				<div>
-					<input v-model="formData.address.address" class="street ok" :style="{ width: formData.address.address.length * 9.8 + 'px'}" placeholder="Endereço" />,
-					<div class="error">Campo inválido</div>
+					<input
+						placeholder="Endereço"
+						class="street ok"
+						v-model.lazy="$v.formData.address.address.$model"
+						:style="{ width: formData.address.address.length * 9.8 + 'px'}"
+					/>,
+					<div v-if="$v.formData.address.address.$error" class="error active">Campo obrigatório</div>
 				</div>
 				<div>
-					<input v-model="formData.address.number" class="numberInput" placeholder="Número" />
-					<div class="error">Campo inválido</div>
+					<input v-model.lazy="$v.formData.address.number.$model" class="numberInput" placeholder="Número" />
+					<div v-if="$v.formData.address.number.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>
 			
 			<div class="grouped">
 				<div>
 					<input v-model="formData.address.complement" class="complement" placeholder="Complemento" />
-					<div class="error">Campo inválido</div>
 				</div>
 				<div>
-					<input v-model="formData.address.district" class="ok" placeholder="Bairro" />
-					<div class="error">Campo inválido</div>
+					<input v-model.lazy="$v.formData.address.district.$model" class="ok" placeholder="Bairro" />
+					<div v-if="$v.formData.address.district.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>
 			
 			<div class="grouped city">
 				<div>
-					<input v-model="formData.address.city" :style="{ width: formData.address.city.length * 9.8 + 'px'}" class="ok" placeholder="Cidade" />,
-					<div class="error">Campo inválido</div>
+					<input
+						placeholder="Cidade"
+						class="ok"
+						v-model.lazy="$v.formData.address.city.$model"
+						:style="{ width: formData.address.city.length * 9.8 + 'px'}"
+					/>,
+					<div v-if="$v.formData.address.city.$error" class="error active">Campo obrigatório</div>
 				</div>
 				<div>
-					<input v-model="formData.address.state" class="ok" placeholder="Estado" />
-					<div class="error">Campo inválido</div>
+					<input v-model.lazy="$v.formData.address.state.$model" class="ok" placeholder="Estado" />
+					<div v-if="$v.formData.address.state.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>
 		</div>
 		
-		<router-link v-if="type == 'personal'" :to="{ name: 'contacts' }" class="nextButton">Avançar -></router-link>
+		<a @click="next" v-if="type == 'personal'" class="nextButton">Avançar -></a>
 		<a v-else class="nextButton" @click="finishButton">Finanlizar -></a>
 	</div>
 </template>
 
 <script>
 import WizardView from './wizard_view.vue'
-import {mask} from 'vue-the-mask'
+import { mask } from 'vue-the-mask'
 import cep from 'cep-promise'
+import moment from 'moment'
+import { helpers, required } from 'vuelidate/lib/validators'
+const isCpf = helpers.regex('cpf', /^\d{3}\.\d{3}\.\d{3}-\d{2}$/)
+const isBirthdate = (value) => {
+	let date = moment(value, 'DD/MM/YYYY')
+	return !helpers.req(value) || date.isValid() && date.isBefore(moment())
+}
+const isCep = helpers.regex('cep', /^\d{5}-\d{3}$/)
 export default {
 	extends: WizardView,
-	props: ["first_name", "full_name", "email"],
+	directives: {
+		mask
+	},
+	props: ['first_name', 'full_name', 'email'],
 	data() {
 		return {
 			formData: {...this.data}
 		}
 	},
-	directives: {mask},
-	methods: {
-		getCep(event) {
-			let address = this.formData.address
-			let cepDiv = event.target.parentElement
-			let addressDiv = this.$el.querySelector('.address')
-			let streetDiv = this.$el.querySelector('.street')
-			let numberDiv = this.$el.querySelector('.numberInput')
-			if(address.zipcode.length == 9) {
-				cep(address.zipcode).then(function(result) {
-					cepDiv.classList.remove('loading')
-					cepDiv.firstChild.classList.add('ok')
-					address.address = result.street
-					address.district = result.neighborhood
-					address.city = result.city
-					address.state = result.state
-					addressDiv.className = 'address active'
-					numberDiv.focus()
-				}).catch(function(){
-					cepDiv.classList.remove('loading')
-					addressDiv.className = 'address active'
-					streetDiv.style.width = '240px'
-					streetDiv.focus()
-				})
-				cepDiv.classList.add('loading')
-			} else {
-				cepDiv.classList.remove('loading')
+	validations: {
+		formData: {
+			document_number: {
+				required,
+				isCpf
+			},
+			birthdate: {
+				required,
+				isBirthdate
+			},
+			address: {
+				zipcode: {
+					required,
+					isCep
+				},
+				address: {
+					required
+				},
+				number: {
+					required
+				},
+				district: {
+					required
+				},
+				city: {
+					required
+				},
+				state: {
+					required
+				}
 			}
+		}
+	},
+	methods: {
+		next() {
+			this.$v.$touch()
+			if(!this.$v.$invalid) {
+				this.$router.push({ name: 'contacts' })
+			}
+		},
+		zipcodeInput(event) {
+			const value = event.target.value
+			if(value.length === 9) {
+				this.getCep(value)
+			}
+		},
+		async getCep(zipcode) {
+			const addressDiv = this.$refs.address
+			const cepDiv = this.$refs.cep
+			const streetDiv = this.$el.querySelector('.street')
+			const numberDiv = this.$el.querySelector('.numberInput')
+			const address = this.formData.address
+
+			cepDiv.classList.add('loading')
+			await cep(zipcode).then(function(result) {
+				cepDiv.classList.remove('loading')
+				cepDiv.firstChild.classList.add('ok')
+				address.address = result.street
+				address.district = result.neighborhood
+				address.city = result.city
+				address.state = result.state
+				addressDiv.className = 'address active'
+				numberDiv.focus()
+			}).catch(function() {
+				cepDiv.classList.remove('loading')
+				addressDiv.className = 'address active'
+				streetDiv.style.width = '240px'
+				streetDiv.focus()
+			})
+			// Limpa as mensagens de erro dos campos de endereço
+			this.$v.formData.address.$reset()
 		},
 		birthPlaceholder(event) {
 			let birthInput = event.target
 			if(birthInput.placeholder == 'Data de nascimento') {
-				birthInput.placeholder = "DD/MM/AAAA"
+				birthInput.placeholder = 'DD/MM/AAAA'
 			} else {
-				birthInput.placeholder = "Data de nascimento"
+				birthInput.placeholder = 'Data de nascimento'
 			}
 		}
 	}
@@ -186,5 +273,4 @@ div {
   	margin-top: 5px;
   }
 }
-</style>
 </style>
