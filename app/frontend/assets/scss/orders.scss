@@ -46,6 +46,27 @@ p.total {
 
 // Form
 
+section.checkout {
+  margin-top: 100px;
+  > .container {
+    padding: 40px 0;
+    background: rgba(23, 23, 23, 0.9);
+    box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    .title { color: #ffffff; }
+    .help { color: rgba(255, 255, 255, 0.75); }
+    .card {
+      margin-left: auto;
+      background: #202020;
+      box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.25);
+      color: #ffffff;
+      hr { background-color: rgba(255, 255, 255, 0.75); height: 1px; margin: 20px 0; }
+    }
+    hr { background-color: #202020; height: 1px; margin: 40px 0; }
+    p { color: #ffffff; }
+  }
+}
+
 .help.is-inline-block {
   margin-left: 0.5rem;
 }
@@ -97,6 +118,20 @@ p.total {
 }
 
 .section.checkout form {
+  label { color: #ffffff; }
+  span { color: rgba(255, 255, 255, 0.75); }
+  input.input, select {
+    background: #292D34;
+    color: #ffffff;
+    border: none;
+    box-shadow: none;
+    border-radius: 10px;
+    height: 40px;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+    &:focus { background: #3C4046; }
+  }
   input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
       appearance: none;
@@ -114,7 +149,7 @@ p.total {
 
 .expiredTime {
   display: none;
-  background-color:rgba(20, 20, 25, 0.95);
+  background-color:rgba(23, 23, 23, 0.95);
   background-attachment: fixed;
   background-size: cover;
   color: white;
@@ -127,7 +162,13 @@ p.total {
   padding-top: 2rem;
   font-size: 0.85rem;
   overflow: hidden;
-  & .container {
+  .column {
+    background: rgba(23, 23, 23, 0.9);
+    box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    color: #ffffff;
+  }
+  .container {
     margin-top: 10rem;
   }
 }
