@@ -9,6 +9,8 @@ $fullhd: 1230px + (2 * $gap);
 
 $column-gap: 1.05rem;
 
+$text: rgba(255, 255, 255, 0.75);
+
 .is-notice {
   @extend .is-success;
 }
