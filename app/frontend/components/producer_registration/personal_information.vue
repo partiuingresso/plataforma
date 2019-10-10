@@ -92,7 +92,7 @@
 						class="ok"
 						v-model.lazy="$v.formData.address.city.$model"
 						:style="{ width: formData.address.city.length * 9.95 + 'px'}"
-					/>
+					/>,
 					<div v-if="$v.formData.address.city.$error" class="error active">Campo obrigatório</div>
 				</div>
 				<div>
