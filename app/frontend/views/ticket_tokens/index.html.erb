@@ -1,23 +1,31 @@
 <% provide(:title, "Meus Ingressos") %>
+<% content_for :navbar do %>
+  <% if browser.mobile? %>
+    <%= render 'layouts/header_mobile' %>
+  <% else %>
+    <%= render 'layouts/header_clean' %>
+  <% end %>
+<% end %>
 <%= javascript_pack_tag "tickets" %>
-<section class="section hero">
-  <div class="container hero-content">
-  </div>
-</section>
 
 <% if @tickets.ready.empty? %>
   <section class="section tickets">
     <div class="container">
-      <div class="columns is-multiline">
-        <div class="column is-12">
+      <div class="columns is-multiline is-vcentered is-centered">
+        <div class="column is-narrow">
           <div class="content">
             <p class="title">Vai ficar em casa?</p>
-            <p class="subtitle is-6">Você não tem nenhum ingresso reservado. Comece agora a explorar os eventos disponíveis em sua região.</p>
+            <br />
+            <p class="subtitle is-6">Você não tem nenhum ingresso reservado. </p>
+            <p class="subtitle is-6">
+            Comece agora a explorar os eventos disponíveis em sua região. <br />
+            Estamos esperando você! 😎</p>
+            <br />
             <%= link_to "Partiu sair de casa!", root_path, class: 'button is-primary' %>
           </div>
         </div>
-        <div class="column is-12 has-text-centered no-ticket">
-          <%= image_tag asset_pack_path("media/assets/images/tickets/no-ticket.svg"), alt:'PartiuIngresso.com', width:'800vw' %>
+        <div class="column is-narrow has-text-centered is-hidden-mobile">
+          <%= image_tag asset_pack_path("media/assets/images/tickets/waiting.png"), alt:'PartiuIngresso.com', width:'300', class:'is-pulled-left' %>
         </div>
       </div>
     </div>
@@ -28,7 +36,7 @@
       <div class="columns is-multiline">
         <div class="column tickets is-12">
           <div class="content">
-            <p class="title">Meus Ingressos</p>
+            <p class="title">Meus ingressos</p>
           </div>
         </div>
         <% @ticket_tokens.each do |t| %>
