@@ -95,6 +95,7 @@ div {
 	.grouped {
 		color: #ffffff;
     margin-bottom: 30px;
+    overflow: visible;
 		> input {
 			&:last-of-type:not(.street) { margin-left: 20px; }
 			display: inline-block;

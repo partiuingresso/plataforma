@@ -240,7 +240,7 @@ div {
 			color: #ffffff;
 			width: 240px;
 		}
-		overflow: hidden;
+		overflow: visible;
 		max-width: 530px;
 		display: flex;
 		align-items: center;
