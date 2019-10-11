@@ -1,11 +1,6 @@
-<section class="section hero">
-  <div class="container hero-content">
-  </div>
-</section>
-
 <%= javascript_pack_tag "admin/seller" %>
 
-<section class="section painel seller-new">
+<section class="section seller-new">
   <div class="container">
     <div class="columns is-centered">
         
@@ -14,7 +9,7 @@
         </div>
 
 
-      <div class="column is-8">
+      <div class="column is-8 is-offset-1">
         <p class="title is-size-2">Cadastrar Novo Produtor</p>
         <%= form_for @seller_form, url: admin_sellers_path do |f| %>
           <% if @seller_form.errors.any? %>
@@ -30,7 +25,7 @@
             </article>
           <% end %>
           <div class="columns">
-            <div class="column is-8">
+            <div class="column is-12">
               <%= f.fields_for :person do |person_f| %>
                 <p class="title is-5">Dados pessoais</p>
                 <div class="box">
