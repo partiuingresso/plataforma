@@ -263,3 +263,10 @@ section.usersEdit {
     &:focus { background: #3C4046; }
   }
 }
+
+@media screen and (max-width: 600px) {
+  section.usersEdit {
+    margin-top: 24px;
+    padding: 0 20px;
+  }
+}
