@@ -226,5 +226,10 @@ tr.trhidden {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
+  .is-child { background: rgba(23, 23, 23, 0.99); border-radius: 10px; }
   box-shadow: 0px 15px 45px -12px rgba(0,0,0,0.75);
+}
+
+section.orders-index {
+  margin-top: 100px;
 }
