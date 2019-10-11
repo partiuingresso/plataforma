@@ -41,8 +41,15 @@
 		
 		<div class="grouped">
 			<div v-if="type == 'company'">
-				<input v-model="formData.phone" v-mask="['(##) ####-####', '(##) # ####-####']"  placeholder="DDD + Telefone" />
-				<div v-if="false" class="error active">Campo inválido</div>
+				<input
+					placeholder="DDD + Telefone"
+					v-model="$v.formData.phone.$model"
+					v-mask="['(##) ####-####', '(##) #####-####']"
+				/>
+				<div v-show="$v.formData.phone.$error">
+					<div v-if="!$v.formData.phone.required"	class="error active">Campo obrigatório</div>
+					<div v-if="!$v.formData.phone.isPhone"	class="error active">Campo inválido</div>
+				</div>
 			</div>
 			<div class="cep" ref="cep">
 				<input
@@ -102,8 +109,8 @@
 			</div>
 		</div>
 		
-		<a @click="next" v-if="type == 'personal'" class="nextButton">Avançar -></a>
-		<a v-else class="nextButton" @click="finishButton">Finanlizar -></a>
+		<a v-if="type == 'personal'" @click="next" class="nextButton">Avançar -></a>
+		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
 	</div>
 </template>
 
@@ -118,6 +125,7 @@ const isBirthdate = (value) => {
 	let date = moment(value, 'DD/MM/YYYY')
 	return !helpers.req(value) || date.isValid() && date.isBefore(moment())
 }
+const isPhone = helpers.regex('phone', /^\(\d{2}\)\s\d{4,5}-\d{4}$/)
 const isCep = helpers.regex('cep', /^\d{5}-\d{3}$/)
 export default {
 	extends: WizardView,
@@ -139,6 +147,10 @@ export default {
 			birthdate: {
 				required,
 				isBirthdate
+			},
+			phone: {
+				required,
+				isPhone
 			},
 			address: {
 				zipcode: {
@@ -168,6 +180,12 @@ export default {
 			this.$v.$touch()
 			if(!this.$v.$invalid) {
 				this.$router.push({ name: 'contacts' })
+			}
+		},
+		finish() {
+			this.$v.$touch()
+			if(!this.$v.$invalid) {
+				this.finishButton()
 			}
 		},
 		zipcodeInput(event) {

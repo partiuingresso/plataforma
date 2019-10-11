@@ -3,20 +3,59 @@
 		<h1>{{ data.company.name }}</h1>
 		<p>Curti o nome! 😎</p>
 		<p>Agora precisamos saber a <b>Razão Social</b> e o <b>CNPJ</b> de sua empresa.</p>
-		<input v-model="data.company.business_name" :placeholder="`Ex: ${data.company.name} Produtora de Eventos Ltda`" />
-    <div class="error name">Este campo não pode ficar vazio</div>
-		<input v-model="data.company.document_number" placeholder="Ex: 00.000.000/0000-00" v-mask="'##.###.###/####-##'" />
-    <div class="error cnpj">CNPJ inválido</div>
-		<router-link :to="{ name: 'company_address' }" class="nextButton">Avançar -></router-link>
+		<input
+      v-model.lazy="$v.business_name.$model"
+      :placeholder="`Ex: ${data.company.name} Produtora de Eventos Ltda`"
+    />
+    <div v-if="$v.business_name.$error" class="error name active">Campo obrigatório</div>
+		<input
+      placeholder="Ex: 00.000.000/0000-00"
+      v-model.lazy="$v.document_number.$model"
+      v-mask="'##.###.###/####-##'"
+    />
+    <div v-show="$v.document_number.$error">
+      <div v-if="!$v.document_number.required" class="error active cnpj">Campo obrigatório</div>
+      <div v-if="!$v.document_number.isCnpj" class="error active cnpj">Campo inválido</div>
+    </div>
+		<a @click="next" class="nextButton">Avançar -></a>
 	</div>
 </template>
 
 <script>
 import WizardView from './wizard_view.vue'
-import {mask} from 'vue-the-mask'
+import { mask } from 'vue-the-mask'
+import { helpers, required } from 'vuelidate/lib/validators'
+const isCnpj = helpers.regex('cnpj', /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
 export default {
 	extends: WizardView,
-  directives: {mask}
+  directives: {
+    mask 
+  },
+  data() {
+    return {
+      business_name: '',
+      document_number: ''
+    }
+  },
+  validations: {
+    business_name: {
+      required
+    },
+    document_number: {
+      required,
+      isCnpj
+    }
+  },
+  methods: {
+    next() {
+      this.$v.$touch()
+      if(!this.$v.$invalid) {
+        this.data.company.business_name = this.business_name
+        this.data.company.document_number = this.document_number
+        this.$router.push({ name: 'company_address' })
+      }
+    }
+  }
 }
 </script>
 

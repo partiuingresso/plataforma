@@ -3,41 +3,37 @@
 		<h1>Contatos</h1>
 		<p>Informe as melhores formas de entrar em contato com {{ this.type == 'company' ? 'seu negócio' : 'você' }}.</p>
 		<input
-			v-if="type == 'company'"
-			v-model="data.company.phone"
+			v-model.lazy="$v.phone.$model"
 			placeholder="DDD + Telefone"
 			v-mask="['(##) ####-####', '(##) #####-####']"
 		/>
-		<input
-			v-else
-			v-model.lazy="$v.formData.phone.$model"
-			placeholder="DDD + Telefone"
-			v-mask="['(##) ####-####', '(##) #####-####']"
-		/>
-		<div v-show="$v.formData.phone.$error">
-			<div v-if="!$v.formData.phone.required" class="error active">Campo obrigatório</div>
-			<div v-if="!$v.formData.phone.isPhone" class="error active">Campo inválido</div>
+		<div v-show="$v.phone.$error">
+			<div v-if="!$v.phone.required" class="error active">Campo obrigatório</div>
+			<div v-if="!$v.phone.isPhone" class="error active">Campo inválido</div>
 		</div>
 		<label class="checkbox">
-			<input v-model="formData.show_phone" type="checkbox" />
+			<input v-model="show_phone" type="checkbox" />
 			Deseja utilizar este número para realizar atendimento aos clientes?
 		</label>
-		<input v-model.lazy="$v.formData.help_email.$model" placeholder="Endereço de e-mail" />
-		<div v-show="$v.formData.help_email.$error">
-			<div v-if="!$v.formData.help_email.required" class="error active">Campo obrigatório</div>
-			<div v-if="!$v.formData.help_email.email" class="error active">Campo inválido</div>
+		<input
+			placeholder="Endereço de e-mail"
+			v-model.lazy="$v.help_email.$model"
+		/>
+		<div v-show="$v.help_email.$error">
+			<div v-if="!$v.help_email.required" class="error active">Campo obrigatório</div>
+			<div v-if="!$v.help_email.email" class="error active">Campo inválido</div>
 		</div>
 		<div class="warning">
 			<b>Importante!</b>	Este endereço de e-mail será utilizado para o atendimento aos clientes. <br />
 			Fique tranquilo! Você poderá alterar este contato quando quiser.
 		</div>
-		<router-link
-			v-if="type == 'company'"
-			:to="{ name: 'personal_information' }"
+		<a
 			class="nextButton"
+			v-if="type == 'company'"
+			@click="next"
 		>
 			Avançar ->
-		</router-link>
+		</a>
 		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
 	</div>
 </template>
@@ -54,27 +50,46 @@ export default {
 	},
 	data() {
 		return {
-			formData: this.data
+			phone: '',
+			show_phone: false,
+			help_email: ''
 		}
 	},
 	validations: {
-		formData: {
-			phone: {
-				required,
-				isPhone
-			},
-			help_email: {
-				required,
-				email
-			}
+		phone: {
+			required,
+			isPhone
+		},
+		help_email: {
+			required,
+			email
 		}
 	},
 	methods: {
 		finish() {
 			this.$v.$touch()
 			if(!this.$v.$invalid) {
+				this.commit()
 				this.finishButton()
 			}
+		},
+		next() {
+			this.$v.$touch()
+			if(!this.$v.$invalid) {
+				this.commit()
+				this.$router.push({ name: 'personal_information' })	
+			}
+		},
+		commit() {
+			if(this.type === 'company') {
+				this.data.company.phone = this.phone
+			} else {
+				this.data.phone = this.phone
+			}
+			Object.assign(this.data, {
+				show_phone: this.show_phone,
+				help_email: this.help_email
+			})
 		}
 	}
 }
