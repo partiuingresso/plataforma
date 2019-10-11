@@ -1,3 +1,7 @@
+<% content_for :navbar do %>
+  <%= render 'layouts/header' %>
+<% end %>
+
 <style>
   .homeHero { 
     background: url(<%= asset_pack_path("media/assets/images/hero/#{rand(29)}.jpg") %>) no-repeat left/cover;

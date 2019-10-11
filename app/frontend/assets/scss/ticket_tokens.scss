@@ -3,7 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 section.tickets {
-  margin-top: 100px;
   .title { color: #ffffff; margin-bottom: 24px; }
   .ticket-show {
     .title {
@@ -155,8 +154,6 @@ section.tickets {
 
 @media screen and (max-width: 600px) {
   section.tickets {
-    margin-top: unset;
-    padding: 0 20px;
     .title { 
       color: #ffffff;
       margin-bottom: 24px;
