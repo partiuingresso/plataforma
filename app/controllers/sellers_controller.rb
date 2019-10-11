@@ -9,6 +9,8 @@ class SellersController < ApplicationController
     unless current_user.seller.present?
       result = CreateSeller.call(current_user, account_params)
       if result.success?
+        flash[:notice] = "Párabens! Sua conta produtor foi criada com sucesso!"
+        flash.keep(:notice)
         head :no_content and return
       end
     end

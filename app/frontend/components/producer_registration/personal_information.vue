@@ -127,7 +127,7 @@ export default {
 	props: ['first_name', 'full_name', 'email'],
 	data() {
 		return {
-			formData: {...this.data}
+			formData: this.data
 		}
 	},
 	validations: {

@@ -75,6 +75,8 @@ export default {
 				email: '',
 				document_number: '',
 				birthdate: '',
+				show_phone: false,
+				help_email: '',
 				phone: '',
 				address: {
 					zipcode: '',
@@ -97,8 +99,12 @@ export default {
 			Rails.ajax({
 				url: '/sellers',
 				type: 'post',
-				data: formData
+				data: formData,
+				success: this.success
 			})
+		},
+		success() {
+			window.location.assign('/backstage')
 		}
 	}
 }
