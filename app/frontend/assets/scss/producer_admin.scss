@@ -48,6 +48,7 @@ section.backstage {
 
 .table.table-events {
   td { padding: 20px 10px; }
+  .clickable-row { cursor: pointer; border-radius: 10px; }
 }
 
 .events-new, .sellers-edit, #ticket-form-modal {
