@@ -1,8 +1,11 @@
 <%= javascript_pack_tag "admin/dashboard" %>
-<section class="section hero">
-  <div class="container hero-content">
-  </div>
-</section>
+<% content_for :navbar do %>
+  <% if browser.mobile? %>
+    <%= render 'layouts/header_mobile' %>
+  <% else %>
+    <%= render 'layouts/header_clean' %>
+  <% end %>
+<% end %>
 
 <section class="section admin-dashboard">
   <div class="container">
@@ -13,7 +16,7 @@
         </div>
 
 
-      <div class="column is-8">
+      <div class="column is-8 is-offset-1">
         <p class="title is-size-2">Dashboard</p>
 
         <div class="tile is-ancestor">
