@@ -1,11 +1,4 @@
 <%= javascript_pack_tag "orders/index" %>
-<% content_for :navbar do %>
-  <% if browser.mobile? %>
-    <%= render 'layouts/header_mobile' %>
-  <% else %>
-    <%= render 'layouts/header_clean' %>
-  <% end %>
-<% end %>
 
 <section class="section orders-index">
   <div class="container">
