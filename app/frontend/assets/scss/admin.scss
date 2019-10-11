@@ -56,3 +56,18 @@ section.seller-new {
 .tabs > ul {
   border-bottom-color: rgba(255, 255, 255, 0.25);
 }
+
+section.admin-orders {
+  input.input, select {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    box-shadow: none;
+    border-radius: 2px;
+    padding: 0 4px;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+    &:focus { background: #202020; }
+  }
+}
