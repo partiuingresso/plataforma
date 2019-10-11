@@ -11,9 +11,11 @@ table.admin-orders .input {
   padding: unset;
   border: 0;
   font-size: 0.85rem;
+  color: #ffffff;
 }
 
 table.admin-orders .icon {
+  color: rgba(255, 255, 255, 0.75);
 	&:hover {
 	  color: $primary;
 	  cursor: pointer;
@@ -49,4 +51,8 @@ section.seller-new {
     }
     &:focus { background: #3C4046; }
   }
+}
+
+.tabs > ul {
+  border-bottom-color: rgba(255, 255, 255, 0.25);
 }

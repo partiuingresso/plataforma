@@ -37,3 +37,15 @@
     font-size: 0.55rem;
   }
 }
+
+section.backstage {
+  .level.report.events {
+    background: #202020;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+}
+
+.table.table-events {
+  td { padding: 20px 10px; }
+}
