@@ -1,10 +1,21 @@
+
 $red: #C72328;
 $primary: $red;
+
 $navbar-dropdown-arrow: $red;
 $navbar-item-hover-color: $red;
+
 $menu-item-hover-background-color: #202020;
 $menu-item-hover-color: #ffffff;
 $menu-item-active-background-color: $red;
+
+$table-color: rgba(255, 255, 255, 0.75);
+$table-background-color: #202020;
+$table-cell-border: 1px solid #171717;
+$table-cell-heading-color: #ffffff;
+$table-head-cell-color: #ffffff;
+$table-row-hover-background-color: #363636;
+
 $label-color: unset;
 $gap: 32px;
 $fullhd: 1230px + (2 * $gap);
