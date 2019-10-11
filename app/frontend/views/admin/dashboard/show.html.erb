@@ -1,11 +1,4 @@
 <%= javascript_pack_tag "admin/dashboard" %>
-<% content_for :navbar do %>
-  <% if browser.mobile? %>
-    <%= render 'layouts/header_mobile' %>
-  <% else %>
-    <%= render 'layouts/header_clean' %>
-  <% end %>
-<% end %>
 
 <section class="section admin-dashboard">
   <div class="container">
