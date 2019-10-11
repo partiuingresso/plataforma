@@ -6,21 +6,27 @@
 			v-if="type == 'company'"
 			v-model="data.company.phone"
 			placeholder="DDD + Telefone"
-			v-mask="['(##) ####-####', '(##) # ####-####']"
+			v-mask="['(##) ####-####', '(##) #####-####']"
 		/>
 		<input
 			v-else
-			v-model="data.phone"
+			v-model.lazy="$v.formData.phone.$model"
 			placeholder="DDD + Telefone"
-			v-mask="['(##) ####-####', '(##) # ####-####']"
+			v-mask="['(##) ####-####', '(##) #####-####']"
 		/>
-		<div class="error"><- Campo inválido</div>
+		<div v-show="$v.formData.phone.$error">
+			<div v-if="!$v.formData.phone.required" class="error active">Campo obrigatório</div>
+			<div v-if="!$v.formData.phone.isPhone" class="error active">Campo inválido</div>
+		</div>
 		<label class="checkbox">
-			<input v-model="data.show_phone" type="checkbox" />
+			<input v-model="formData.show_phone" type="checkbox" />
 			Deseja utilizar este número para realizar atendimento aos clientes?
 		</label>
-		<input v-model="data.help_email" placeholder="Endereço de e-mail" />
-		<div class="error"><- Campo inválido</div>
+		<input v-model.lazy="$v.formData.help_email.$model" placeholder="Endereço de e-mail" />
+		<div v-show="$v.formData.help_email.$error">
+			<div v-if="!$v.formData.help_email.required" class="error active">Campo obrigatório</div>
+			<div v-if="!$v.formData.help_email.email" class="error active">Campo inválido</div>
+		</div>
 		<div class="warning">
 			<b>Importante!</b>	Este endereço de e-mail será utilizado para o atendimento aos clientes. <br />
 			Fique tranquilo! Você poderá alterar este contato quando quiser.
@@ -32,16 +38,45 @@
 		>
 			Avançar ->
 		</router-link>
-		<a v-else class="nextButton" @click="finishButton">Finanlizar -></a>
+		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
 	</div>
 </template>
 
 <script>
 import WizardView from './wizard_view.vue'
-import {mask} from 'vue-the-mask'
+import { mask } from 'vue-the-mask'
+import { helpers, required, email } from 'vuelidate/lib/validators'
+const isPhone = helpers.regex('phone', /^\(\d{2}\)\s\d{4,5}-\d{4}$/)
 export default {
 	extends: WizardView,
-	directives: {mask}
+	directives: {
+		mask
+	},
+	data() {
+		return {
+			formData: this.data
+		}
+	},
+	validations: {
+		formData: {
+			phone: {
+				required,
+				isPhone
+			},
+			help_email: {
+				required,
+				email
+			}
+		}
+	},
+	methods: {
+		finish() {
+			this.$v.$touch()
+			if(!this.$v.$invalid) {
+				this.finishButton()
+			}
+		}
+	}
 }
 </script>
 
