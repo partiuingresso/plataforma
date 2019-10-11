@@ -2,74 +2,152 @@
 	<div>
 		<h1>Endereço</h1>
 		<p>Digite o <b>CEP</b> e o endereço de <b>seu negócio</b>.</p>
-		<div class="cep">
-			<input @input="getCep($event)" v-model="formData.company.address.zipcode" v-mask="'#####-###'" placeholder="Ex: 00000-000" />
-      <div class="error cep">Este campo não pode ficar vazio</div>
+		<div class="cep" ref="cep">
+			<input
+				placeholder="Ex: 00000-000"
+				v-model.lazy="$v.address.zipcode.$model"
+				v-mask="'#####-###'"
+				@input="zipcodeInput($event)"
+			/>
+			<div v-show="$v.address.zipcode.$error">
+	      <div v-if="!$v.address.zipcode.required" class="error cep active">Campo obrigatório</div>
+	    </div>
 		</div>
-		<div class="address">
+		<div class="address" ref="address">
 			<div class="grouped">
-				<input v-model="formData.company.address.address" class="street ok" :style="{ width: formData.company.address.address.length * 9.95 + 'px'}" placeholder="Endereço" />,
-        <div class="error street">Este campo não pode ficar vazio</div>
+				<input
+					placeholder="Endereço"
+					class="street ok"
+					v-model.lazy="$v.address.address.$model"
+					:style="{ width: address.address.length * 9.95 + 'px'}"
+				/>,
+        <div v-if="$v.address.address.$error" class="error street active">Campo obrigatório</div>
         <div class="is-inline-block">
-  				<input v-model="formData.company.address.number" class="numberInput" placeholder="Número" />
-          <div class="error num">Este campo não pode ficar vazio</div>
+  				<input
+  					placeholder="Número"
+  					class="numberInput"
+  					v-model.lazy="$v.address.number.$model"
+  				/>
+          <div v-if="$v.address.number.$error" class="error num active">Campo obrigatório</div>
         </div>
 			</div>
 			<div class="grouped">
-				<input v-model="formData.company.address.complement" class="complement" placeholder="Complemento" />
-				<input v-model="formData.company.address.district" class="ok" placeholder="Bairro" />
-        <div class="error district">Este campo não pode ficar vazio</div>
+				<input
+					placeholder="Complemento"
+					class="complement"
+					v-model="address.complement"
+				/>
+				<input
+					placeholder="Bairro"
+					class="ok"
+					v-model.lazy="$v.address.district.$model"
+				/>
+        <div v-if="$v.address.district.$error" class="error district active">Campo obrigatório</div>
 			</div>
 			<div class="grouped">
-				<input v-model="formData.company.address.city" class="ok city" :style="{ width: formData.company.address.city.length * 9.95 + 'px'}" placeholder="Cidade" />,
-        <div class="error city">Este campo não pode ficar vazio</div>
-				<input v-model="formData.company.address.state" class="ok" placeholder="Estado" />
-        <div class="error state">Este campo não pode ficar vazio</div>
+				<input
+					placeholder="Cidade"
+					class="ok city"
+					v-model.lazy="$v.address.city.$model"
+					:style="{ width: address.city.length * 9.95 + 'px'}"
+				/>,
+        <div v-if="$v.address.city.$error" class="error city active">Campo obrigatório</div>
+				<input
+					placeholder="Estado"
+					class="ok"
+					v-model.lazy="$v.address.state.$model"
+				/>
+        <div v-if="$v.address.state.$error" class="error state active">Campo obrigatório</div>
 			</div>
 		</div>
-		<router-link :to="{ name: 'contacts', params: { type: 'company' } }" class="nextButton">Avançar -></router-link>
+		<a @click="next" class="nextButton">Avançar -></a>
 	</div>
 </template>
 
 <script>
 import WizardView from './wizard_view.vue'
-import {mask} from 'vue-the-mask'
+import { mask } from 'vue-the-mask'
 import cep from 'cep-promise'
+import { helpers, required } from 'vuelidate/lib/validators'
 export default {
 	extends: WizardView,
+	directives: {
+		mask
+	},
 	data() {
 		return {
-			formData: {...this.data}
+			address: {
+				zipcode: '',
+				address: '',
+				number: '',
+				complement: '',
+				district: '',
+				city: '',
+				state: ''
+			}
 		}
 	},
-	directives: {mask},
-	methods: {
-		getCep(event) {
-			let address = this.formData.company.address
-			let cepDiv = event.target.parentElement
-			let addressDiv = this.$el.querySelector('.address')
-			let streetDiv = this.$el.querySelector('.street')
-			let numberDiv = this.$el.querySelector('.numberInput')
-			if(address.zipcode.length == 9) {
-				cep(address.zipcode).then(function(result) {
-					cepDiv.classList.remove('loading')
-					cepDiv.firstChild.classList.add('ok')
-					address.address = result.street
-					address.district = result.neighborhood
-					address.city = result.city
-					address.state = result.state
-					addressDiv.className = 'address active'
-					numberDiv.focus()
-				}).catch(function(){
-					cepDiv.classList.remove('loading')
-					addressDiv.className = 'address active'
-					streetDiv.style.width = '240px'
-					streetDiv.focus()
-				})
-				cepDiv.classList.add('loading')
-			} else {
-				cepDiv.classList.remove('loading')
+	validations: {
+		address: {
+			zipcode: {
+				required
+			},
+			address: {
+				required
+			},
+			number: {
+				required
+			},
+			district: {
+				required
+			},
+			city: {
+				required
+			},
+			state: {
+				required
 			}
+		}
+	},
+	methods: {
+		next() {
+			this.$v.$touch()
+			if(!this.$v.$invalid) {
+				this.data.company.address = this.address
+				this.$router.push({ name: 'contacts', params: { type: 'company' } })
+			}
+		},
+		zipcodeInput(event) {
+			const value = event.target.value
+			if(value.length === 9) {
+				this.getCep(value)
+			}
+		},
+		async getCep(zipcode) {
+			const addressDiv = this.$refs.address
+			const cepDiv = this.$refs.cep
+			const streetDiv = this.$el.querySelector('.street')
+			const numberDiv = this.$el.querySelector('.numberInput')
+			const address = this.address
+
+			cepDiv.classList.add('loading')
+			await cep(zipcode).then(function(result) {
+				cepDiv.classList.remove('loading')
+				cepDiv.firstChild.classList.add('ok')
+				address.address = result.street
+				address.district = result.neighborhood
+				address.city = result.city
+				address.state = result.state
+				addressDiv.className = 'address active'
+				numberDiv.focus()
+			}).catch(function() {
+				cepDiv.classList.remove('loading')
+				addressDiv.className = 'address active'
+				streetDiv.style.width = '240px'
+				streetDiv.focus()
+			})
+			// Limpa as mensagens de erro dos campos de endereço
+			this.$v.$reset()
 		}
 	}
 }
