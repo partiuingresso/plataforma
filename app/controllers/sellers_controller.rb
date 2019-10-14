@@ -1,6 +1,8 @@
 class SellersController < ApplicationController
   def new
-    if current_user.seller.present?
+    if current_user.nil?
+      redirect_to login_path
+    elsif current_user.seller.present?
       redirect_to producer_admin_dashboard_path
     end
   end
