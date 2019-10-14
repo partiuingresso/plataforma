@@ -96,7 +96,7 @@
 				<div>
 					<input
 						placeholder="Cidade"
-						class="ok"
+						class="city ok"
 						v-model.lazy="$v.formData.address.city.$model"
 						:style="{ width: formData.address.city.length * 9.95 + 'px'}"
 					/>,
