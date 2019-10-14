@@ -34,7 +34,7 @@
 		>
 			Avançar ->
 		</a>
-		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
+		<a v-else class="nextButton" @click="finish" tabindex="0">Finanlizar -></a>
 	</div>
 </template>
 

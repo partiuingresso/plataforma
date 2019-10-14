@@ -63,7 +63,8 @@ section.newSeller {
       font-size: 20px;
       line-height: 20px;
       color: #ffffff;
-      &:hover { background-color: #db2b2f; }
+      outline: none;
+      &:hover, &:focus { background-color: #db2b2f; }
     }
     .loading {
       &::after {

@@ -109,8 +109,8 @@
 			</div>
 		</div>
 		
-		<a v-if="type == 'personal'" @click="next" class="nextButton">Avançar -></a>
-		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
+		<a v-if="type == 'personal'" @click="next" class="nextButton" tabindex="0">Avançar -></a>
+		<a v-else class="nextButton" @click="finish" tabindex="0">Finanlizar -></a>
 	</div>
 </template>
 

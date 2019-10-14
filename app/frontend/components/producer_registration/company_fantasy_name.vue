@@ -10,7 +10,7 @@
 			:placeholder="`Ex: ${first_name} Produções`"
 		/>
 		<div v-if="$v.name.$error" class="error active">Campo obrigatório</div>
-		<a @click="next" class="nextButton">Avançar -></a>
+		<a @click="next" class="nextButton" tabindex="0">Avançar -></a>
 	</div>
 </template>
 

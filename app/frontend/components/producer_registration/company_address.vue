@@ -60,7 +60,7 @@
         <div v-if="$v.address.state.$error" class="error state active">Campo obrigatório</div>
 			</div>
 		</div>
-		<a @click="next" class="nextButton">Avançar -></a>
+		<a @click="next" class="nextButton" tabindex="0">Avançar -></a>
 	</div>
 </template>
 
