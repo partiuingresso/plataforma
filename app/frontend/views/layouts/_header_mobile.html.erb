@@ -40,6 +40,9 @@
       <% if current_user.producer_admin? %>
         <%= link_to 'Dashboard', producer_admin_dashboard_path, class: "producer #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
       <% end %>
+      <% if current_user.producer? %>
+        <%= link_to 'Staff', producer_events_path, class: "staff #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
+      <% end %>
       <%= link_to 'Histórico de Pedidos', orders_path, class: "orders #{current_page?(orders_path) ? 'active' : ''}" %>
       <%= link_to 'Sair', destroy_user_session_path, method: "delete", class: "logout" %>
     </div>

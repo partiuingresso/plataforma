@@ -133,6 +133,14 @@ header.partiuNav {
           &::before { background: url('../images/icons/dashboard-grad.svg'); }
         }
       }
+      a.staff {
+        &::before {
+          background: url('../images/icons/qr-code.svg');
+        }
+        &:hover {
+          &::before { background: url('../images/icons/qr-code-grad.svg'); }
+        }
+      }
       a.settings {
         &::before {
           background: url('../images/icons/settings.svg');
@@ -372,6 +380,25 @@ header.mobile {
         height: 15px;
       }
       &.active:before { background-image: url('../images/icons/dashboard-grad.svg'); }
+    }
+    .staff {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      margin-top: -2px;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/qr-code.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/qr-code-grad.svg'); }
     }
     .logout {
       margin-top: 3rem;
