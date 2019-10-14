@@ -127,7 +127,12 @@ export default {
 	  .error {
   		vertical-align: middle;
   		width: auto;
+  		position: absolute;
+  		margin-top: 5px;
   		&.active { display: inline-block; }
+	  }
+	  label.checkbox, .warning {
+	  	margin-top: 25px;
 	  }
 	}
 </style>
