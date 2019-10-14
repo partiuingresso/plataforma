@@ -1,5 +1,14 @@
 <template>
 	<div>
+		<div class="serverError animated shake">
+			<div>
+				<strong>Foram encontrados 2 erros:</strong>
+				<ul>
+					<li>Número de telefone inválido</li>
+					<li>Endereço de e-mail inválido</li>
+				</ul>
+			</div>
+		</div>
 		<h1 v-if="type == 'company'">Falta pouco, {{ first_name }}!</h1>
 		<h1 v-else>Certo, {{ first_name }}!</h1>
 		<p>

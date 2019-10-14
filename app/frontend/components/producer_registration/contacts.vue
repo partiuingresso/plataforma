@@ -1,5 +1,14 @@
 <template>
 	<div>
+		<div class="serverError animated shake">
+			<div>
+				<strong>Foram encontrados 2 erros:</strong>
+				<ul>
+					<li>Número de telefone inválido</li>
+					<li>Endereço de e-mail inválido</li>
+				</ul>
+			</div>
+		</div>
 		<h1>Contatos</h1>
 		<p>Informe as melhores formas de entrar em contato com {{ this.type == 'company' ? 'seu negócio' : 'você' }}.</p>
 		<input
