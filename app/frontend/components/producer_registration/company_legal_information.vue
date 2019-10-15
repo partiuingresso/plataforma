@@ -6,12 +6,14 @@
 		<input
       v-model.lazy="$v.business_name.$model"
       :placeholder="`Ex: ${data.company.name} Produtora de Eventos Ltda`"
+      v-on:keyup.enter="next"
     />
     <div v-if="$v.business_name.$error" class="error name active">Campo obrigatório</div>
 		<input
       placeholder="Ex: 00.000.000/0000-00"
       v-model.lazy="$v.document_number.$model"
       v-mask="'##.###.###/####-##'"
+      v-on:keyup.enter="next"
     />
     <div v-show="$v.document_number.$error">
       <div v-if="!$v.document_number.required" class="error active cnpj">Campo obrigatório</div>

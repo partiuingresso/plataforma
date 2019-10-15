@@ -15,6 +15,7 @@
 			v-model.lazy="$v.phone.$model"
 			placeholder="DDD + Telefone"
 			v-mask="['(##) ####-####', '(##) #####-####']"
+			v-on:keyup.enter="resolve"
 		/>
 		<div v-show="$v.phone.$error">
 			<div v-if="!$v.phone.required" class="error active">Campo obrigatório</div>
@@ -27,6 +28,7 @@
 		<input
 			placeholder="Endereço de e-mail"
 			v-model.lazy="$v.help_email.$model"
+			v-on:keyup.enter="resolve"
 		/>
 		<div v-show="$v.help_email.$error">
 			<div v-if="!$v.help_email.required" class="error active">Campo obrigatório</div>
@@ -87,6 +89,13 @@ export default {
 			if(!this.$v.$invalid) {
 				this.commit()
 				this.$router.push({ name: 'personal_information' })	
+			}
+		},
+		resolve() {
+			if(this.type == 'company') {
+				this.next()
+			} else {
+				this.finish()
 			}
 		},
 		commit() {
