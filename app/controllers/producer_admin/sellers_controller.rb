@@ -17,34 +17,35 @@ class ProducerAdmin::SellersController < ApplicationController
   end
 
   def edit
-    # @staff = User.where(seller_id: @seller.id)
     @seller = current_user.seller
-    @staff = []
+    @staff_users = @seller.staff_users
     @user = User.new
   end
 
   def update
     if user_params[:email].present?
-      @user = User.find_by(email: user_params[:email])
-      if @user.present?
-        @user.seller.id = @seller.id
-        @user.update(user_params)
-      else
-        redirect_to edit_producer_admin_seller_path(@seller), alert: "Usuário não encontrado." and return
-      end
-    end
+      result = CreateSellerStaff.call(current_user, user_params)
 
-    if @seller.update(seller_params)
-      redirect_to edit_producer_admin_seller_path(@seller), notice: "Vendedor atualizado com sucesso."
+      if result.success? && @seller.update(seller_params)
+        redirect_to edit_producer_admin_seller_path(@seller), notice: "Produtor atualizado com sucesso."
+      else
+        msg = result.full_error_message.present? ? result.full_error_message : "Ops... Algo deu errado! Tente novamente."
+        redirect_to edit_producer_admin_seller_path(@seller), alert: msg
+      end
     else
-      redirect_to edit_producer_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
+
+      if @seller.update(seller_params)
+        redirect_to edit_producer_admin_seller_path(@seller), notice: "Produtor atualizado com sucesso."
+      else
+        redirect_to edit_producer_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
+      end
     end
   end
 
   def remove_staff
-    @user = User.find(params[:user_id])
-    @seller = @user.seller
-    if @user.update(role: :user, seller_id: nil)
+    @seller = current_user.seller
+    result = RemoveSellerStaff.call(current_user, params)
+    if result.success?
       redirect_to edit_producer_admin_seller_path(@seller), notice: "Usuário removido."
     else
       redirect_to edit_producer_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
@@ -58,7 +59,7 @@ private
   end
 
   def user_params
-    params.require(:user).permit(:email, :role)
+    params.require(:user).permit(:email)
   end
 
   def current_ability

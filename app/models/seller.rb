@@ -15,4 +15,8 @@ class Seller < ApplicationRecord
     def name
         company&.name || user.name.familiar
     end
+
+    def staff_users
+        staff.map { |s| s.user }
+    end
 end

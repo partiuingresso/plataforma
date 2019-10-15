@@ -168,10 +168,10 @@ ActiveRecord::Schema.define(version: 2019_09_17_200053) do
 #   Unknown type 'order_status' for column 'status'
 
   create_table "seller_staff", force: :cascade do |t|
-    t.bigint "sellers_id", null: false
+    t.bigint "seller_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sellers_id"], name: "index_seller_staff_on_sellers_id"
+    t.index ["seller_id"], name: "index_seller_staff_on_seller_id"
   end
 
   create_table "sellers", force: :cascade do |t|
@@ -254,7 +254,7 @@ ActiveRecord::Schema.define(version: 2019_09_17_200053) do
   add_foreign_key "order_payments", "orders"
   add_foreign_key "orders", "events"
   add_foreign_key "orders", "users"
-  add_foreign_key "seller_staff", "sellers", column: "sellers_id"
+  add_foreign_key "seller_staff", "sellers"
   add_foreign_key "sellers", "addresses"
   add_foreign_key "ticket_tokens", "order_items"
   add_foreign_key "transfers", "bank_accounts"

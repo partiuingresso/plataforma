@@ -46,7 +46,7 @@
       <label class="label is-size-5">Cadastrar Equipe</label>
       <%= fields_for :user do |user_f| %>
         <div class="columns">
-          <div class="column is-9">
+          <div class="column">
             <div class="field">
               <label class="label">Email do Usuário</label>
               <div class="control has-icons-left has-icons-right">
@@ -54,16 +54,6 @@
                 <span class="icon is-small is-left">
                   <i class="far fa-envelope"></i>
                 </span>
-              </div>
-            </div>
-          </div>
-          <div class="column is-3">
-            <div class="field">
-              <div class="control">
-                <label class="label">Função</label>
-                <div class="select">
-                  <%= user_f.select :role, options_for_select([['Equipe', :producer], ['Gerente', :producer_admin]]) %>
-                </div>
               </div>
             </div>
           </div>
@@ -81,7 +71,7 @@
     <div class="tile is-child box">
       <label class="label is-size-5">Minha Equipe</label>
       <ul class="content is-small is-uppercase">
-        <% @staff.each do |s| %>
+        <% @staff_users.each do |s| %>
           <li> 
             <% if s.producer_admin? %>
               <span class="has-text-grey content is-small">Gerente</span>

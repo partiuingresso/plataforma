@@ -26,12 +26,24 @@ class User < ApplicationRecord
     actor if actor.is_a? Seller
   end
 
+  def seller_staff
+    actor if actor.is_a? SellerStaff
+  end
+
   def seller=(obj)
+    self.actor = obj
+  end
+
+  def seller_staff=(obj)
     self.actor = obj
   end
 
   def build_seller(attributes=nil)
     self.seller = Seller.new(attributes)
+  end
+
+  def build_seller_staff(attributes=nil)
+    self.seller_staff = SellerStaff.new(attributes)
   end
 
   def set_default_role
