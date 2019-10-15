@@ -128,7 +128,7 @@ import WizardView from './wizard_view.vue'
 import { mask } from 'vue-the-mask'
 import cep from 'cep-promise'
 import moment from 'moment'
-import { helpers, required } from 'vuelidate/lib/validators'
+import { helpers, required, requiredIf } from 'vuelidate/lib/validators'
 const isCpf = helpers.regex('cpf', /^\d{3}\.\d{3}\.\d{3}-\d{2}$/)
 const isBirthdate = (value) => {
 	let date = moment(value, 'DD/MM/YYYY')
@@ -158,7 +158,9 @@ export default {
 				isBirthdate
 			},
 			phone: {
-				required,
+				required: requiredIf(function(value) {
+					return this.type === 'company'
+				}),
 				isPhone
 			},
 			address: {
