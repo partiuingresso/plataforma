@@ -4,6 +4,7 @@
 		<p>Digite o <b>CEP</b> e o endereço de <b>seu negócio</b>.</p>
 		<div class="cep" ref="cep">
 			<input
+				v-autofocus
 				placeholder="Ex: 00000-000"
 				v-model.lazy="$v.address.zipcode.$model"
 				v-mask="'#####-###'"

@@ -15,6 +15,7 @@
 		<div class="grouped">
 			<div>
 				<input
+					v-autofocus
 					v-model.lazy="$v.formData.document_number.$model"
 					v-mask="'###.###.###-##'"
 					placeholder="CPF"

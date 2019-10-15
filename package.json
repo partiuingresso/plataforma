@@ -33,6 +33,7 @@
     "trix": "^1.1.0",
     "v-money": "^0.8.1",
     "vue": "^2.6.10",
+    "vue-autofocus-directive": "^1.0.4",
     "vue-loader": "^15.7.0",
     "vue-router": "^3.1.2",
     "vue-template-compiler": "^2.6.10",

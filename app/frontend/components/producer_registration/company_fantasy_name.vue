@@ -6,6 +6,7 @@
 			Esta informação aparecerá nas comunicações oficiais do seu evento.
 		</p>
 		<input
+			v-autofocus
 			v-model.lazy="$v.name.$model"
 			:placeholder="`Ex: ${first_name} Produções`"
 			v-on:keyup.enter="next"

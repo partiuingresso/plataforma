@@ -3,6 +3,7 @@
 		<h1>Contatos</h1>
 		<p>Informe as melhores formas de entrar em contato com {{ this.type == 'company' ? 'seu negócio' : 'você' }}.</p>
 		<input
+			v-autofocus
 			v-model.lazy="$v.phone.$model"
 			placeholder="DDD + Telefone"
 			v-mask="['(##) ####-####', '(##) #####-####']"

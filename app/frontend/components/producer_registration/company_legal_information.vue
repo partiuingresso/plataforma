@@ -4,6 +4,7 @@
 		<p>Curti o nome! 😎</p>
 		<p>Agora precisamos saber a <b>Razão Social</b> e o <b>CNPJ</b> de sua empresa.</p>
 		<input
+      v-autofocus
       v-model.lazy="$v.business_name.$model"
       :placeholder="`Ex: ${data.company.name} Produtora de Eventos Ltda`"
       v-on:keyup.enter="next"
@@ -31,7 +32,7 @@ const isCnpj = helpers.regex('cnpj', /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/)
 export default {
 	extends: WizardView,
   directives: {
-    mask 
+    mask
   },
   data() {
     return {

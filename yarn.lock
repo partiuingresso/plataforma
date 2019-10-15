@@ -8122,6 +8122,13 @@ vm-browserify@~0.0.1:
   dependencies:
     indexof "0.0.1"
 
+vue-autofocus-directive@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vue-autofocus-directive/-/vue-autofocus-directive-1.0.4.tgz#01f29d0440461f38c2226d7c8a7b1ad855293b5b"
+  integrity sha512-GytO9k7UEz4IIZW9SqmmdzzrXTA/p9kebkZSN8yclSN8DB45dKEV1pn6pqx1EHuSDkdCUqa54NPUPK9NUTRkvQ==
+  dependencies:
+    "@babel/runtime" "^7.4.5"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
