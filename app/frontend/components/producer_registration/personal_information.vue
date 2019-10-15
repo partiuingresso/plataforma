@@ -91,7 +91,7 @@
 					<div v-if="$v.formData.address.address.$error" class="error active">Campo obrigatório</div>
 				</div>
 				<div>
-					<input v-model.lazy="$v.formData.address.number.$model" class="numberInput" placeholder="Número" />
+					<input v-model.lazy="$v.formData.address.number.$model" class="numberInput" v-on:keyup.enter="resolve" placeholder="Número" />
 					<div v-if="$v.formData.address.number.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>
