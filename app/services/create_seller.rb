@@ -3,9 +3,9 @@ class CreateSeller < ApplicationService
 
 	def initialize(user, account_data)
 		@user = user
-		@account_data = format(account_data)
-		company_data = account_data[:company]
-		@company_data = format(company_data) unless company_data.nil?
+		@account_data = account_data
+		@company_data = account_data[:company]
+		format_data
 	end
 
 	def call
@@ -61,13 +61,26 @@ class CreateSeller < ApplicationService
 			RecursiveOpenStruct.new(person_data)
 		end
 
-		def format(data)
+		def format_data
+			@account_data = format_phone(@account_data)
+			@account_data = format_birthdate(@account_data)
+			@company_data = format_phone(@company_data) unless @company_data.nil?
+		end
+
+		def format_phone(data)
 			phone = data[:phone]
-			birthdate = data[:birthdate]
-			unless birthdate.nil? || phone.nil?
+			unless phone.nil?
 				data.to_h.merge({
 					phone_area_code: /\(\d\d\)/.match(phone).to_s.gsub(/[()]/, ''),
-					phone_number: /(?:\d\s*)?[0-9]{4}-?[0-9]{4}/.match(phone).to_s.gsub(/\s+/, '').sub(/-/, ''),
+					phone_number: /(?:\d\s*)?[0-9]{4}-?[0-9]{4}/.match(phone).to_s.gsub(/\s+/, '').sub(/-/, '')
+				})
+			end
+		end
+
+		def format_birthdate(data)
+			birthdate = data[:birthdate]
+			unless birthdate.nil?
+				data.to_h.merge({
 					birthdate: Date.strptime(birthdate, "%d/%m/%Y").strftime("%Y-%m-%d")
 				})
 			end
