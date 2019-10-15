@@ -33,13 +33,49 @@ class Admin::SellersController < ApplicationController
   end
 
   def edit
-    # @staff = User.where(seller_id: @seller.id)
-    @seller = Seller.find(params[:id])
-    @staff = []
+    @staff_users = @seller.staff_users
     @user = User.new
   end
 
+  def update
+    if user_params[:email].present?
+      result = CreateSellerStaff.call(@seller, user_params)
+
+      if result.success? && @seller.update(seller_params)
+        redirect_to edit_admin_seller_path(@seller), notice: "Produtor atualizado com sucesso."
+      else
+        msg = result.full_error_message.present? ? result.full_error_message : "Ops... Algo deu errado! Tente novamente."
+        redirect_to edit_admin_seller_path(@seller), alert: msg
+      end
+    else
+
+      if @seller.update(seller_params)
+        redirect_to edit_admin_seller_path(@seller), notice: "Produtor atualizado com sucesso."
+      else
+        redirect_to edit_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
+      end
+    end
+  end
+
+  def remove_staff
+    @seller = Seller.find(params[:seller_id])
+    result = RemoveSellerStaff.call(@seller, params)
+    if result.success?
+      redirect_to edit_admin_seller_path(@seller), notice: "Usuário removido."
+    else
+      redirect_to edit_admin_seller_path(@seller), alert: "Ops... Algo deu errado! Tente novamente."
+    end
+  end
+
 private
+
+  def seller_params
+    params.require(:seller).permit(:name, :email)
+  end
+
+  def user_params
+    params.require(:user).permit(:email)
+  end
 
   def permitted_params
     params.require(:seller_form).permit(:name, :business_name, :document_number, :email, :phone,

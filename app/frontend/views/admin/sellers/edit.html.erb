@@ -7,7 +7,12 @@
       </div>
 
       <div class="column is-9">
-        <%= render "producer_admin/sellers/edit" %>
+        <%= render partial: "producer_admin/sellers/edit", locals: {
+          admin: true,
+          links: {
+            remove_staff: lambda { |user_id| admin_seller_remove_staff_path(@seller, user_id) }
+          }
+        } %>
       </div>
     </div>
   </div>

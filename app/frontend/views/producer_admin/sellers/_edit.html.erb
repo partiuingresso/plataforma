@@ -1,6 +1,8 @@
 <p class="title is-size-2">Editar Negócio</p>
 
-<%= form_with(model: [:producer_admin, @seller], local: true) do |f| %>
+<% admin ||= false %>
+<% namespace = admin ? :admin : :producer_admin %>
+<%= form_with(model: [namespace, @seller], local: true) do |f| %>
   <% if @seller.errors.any? %>
     <article class="message signup is-danger">
       <div class="message-body">
@@ -81,7 +83,7 @@
             <% end %>
             <strong><%= s.name.full %></strong>
             <% if s.id != current_user.id %>
-              <%= link_to remove_staff_path(:user_id => s.id), data: { confirm: "Deseja remover este usuário?" } do %>
+              <%= link_to links[:remove_staff].call(:user_id => s.id), data: { confirm: "Deseja remover este usuário?" } do %>
                 <span class="icon is-small has-text-danger">
                   <i class="fas fa-times"></i>
                 </span>

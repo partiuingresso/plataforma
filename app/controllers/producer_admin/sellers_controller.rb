@@ -24,7 +24,7 @@ class ProducerAdmin::SellersController < ApplicationController
 
   def update
     if user_params[:email].present?
-      result = CreateSellerStaff.call(current_user, user_params)
+      result = CreateSellerStaff.call(@seller, user_params)
 
       if result.success? && @seller.update(seller_params)
         redirect_to edit_producer_admin_seller_path(@seller), notice: "Produtor atualizado com sucesso."
@@ -44,7 +44,7 @@ class ProducerAdmin::SellersController < ApplicationController
 
   def remove_staff
     @seller = current_user.seller
-    result = RemoveSellerStaff.call(current_user, params)
+    result = RemoveSellerStaff.call(@seller, params)
     if result.success?
       redirect_to edit_producer_admin_seller_path(@seller), notice: "Usuário removido."
     else

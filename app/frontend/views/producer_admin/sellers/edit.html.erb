@@ -7,7 +7,11 @@
       </div>
 
       <div class="column is-9">
-        <%= render "edit" %>
+        <%= render partial: "edit", locals: {
+          links: {
+            remove_staff: lambda { |user_id| remove_staff_path(user_id) }
+          }
+        } %>
       </div>
     </div>
   </div>

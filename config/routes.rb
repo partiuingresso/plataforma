@@ -20,10 +20,11 @@ Rails.application.routes.draw do
   # ==> Admin routes
 
   namespace :admin do
-    resources :sellers, only: [:show, :new, :create, :edit] do
+    resources :sellers, except: [:destroy] do
       get 'backstage', to: 'producer_dashboard#show', as: 'dashboard'
       resources :events, only: [:index, :new, :create]
       resource :finance, only: [:new, :create, :edit, :update]
+      get '/remove_staff/:user_id', to: 'sellers#remove_staff', as: "remove_staff"
     end
     resources :events, except: [:index, :new, :create] do
       resources :offers, except: [:show, :edit, :new]

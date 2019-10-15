@@ -1,15 +1,14 @@
 class RemoveSellerStaff < ApplicationService
-	attr_reader :user, :assign_user_data, :seller
+	attr_reader :assign_user_data, :seller
 
-	def initialize(user, assign_user_data)
-		@user = user
+	def initialize(seller, assign_user_data)
+		@seller = seller
 		@assign_user_data ||= assign_user_data
 	end
 
 	def call
 		begin
 			ActiveRecord::Base.transaction do
-				load_seller
 				@assign_user = User.find(assign_user_data[:user_id])
 				unless @assign_user.producer? && seller.staff_users.include?(@assign_user)
 					raise ActiveRecord::Rollback
@@ -29,10 +28,4 @@ class RemoveSellerStaff < ApplicationService
 
 		return self
 	end
-
-	private
-
-		def load_seller
-			@seller = user.seller
-		end
 end
