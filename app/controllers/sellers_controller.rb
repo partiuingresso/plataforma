@@ -13,7 +13,7 @@ class SellersController < ApplicationController
       if result.success?
         flash[:notice] = "Párabens! Sua conta produtor foi criada com sucesso!"
         flash.keep(:notice)
-        NotificationMailer.admin_new_seller.deliver_later
+        NotificationMailer.with(user: current_user).admin_new_seller.deliver_later
         head :no_content and return
       end
     end

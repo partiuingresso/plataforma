@@ -63,7 +63,8 @@ class NotificationMailer < ApplicationMailer
   end
 
   def admin_new_seller
-    mail(to: "socios@partiuingresso.com", subject: "Novo produtor cadastrado - #{current_user.name}")
+    @user = params[:user]
+    mail(to: "socios@partiuingresso.com", subject: "Novo produtor cadastrado - #{@user.name}")
   end
 
 end
