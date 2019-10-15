@@ -61,4 +61,9 @@ class NotificationMailer < ApplicationMailer
     end
     mail(to: @order.ticket_tokens[0].owner_email, subject: "Confirmação de recebimento de ingresso(s)")
   end
+
+  def admin_new_seller
+    mail(to: "socios@partiuingresso.com", subject: "Novo produtor cadastrado - #{current_user.name}")
+  end
+
 end
