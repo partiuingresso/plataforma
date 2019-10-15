@@ -51,7 +51,7 @@ section.backstage {
   .clickable-row { cursor: pointer; border-radius: 10px; }
 }
 
-.events-new, .sellers-edit, #ticket-form-modal, .finances {
+.events-new, .sellers-edit, #ticket-form-modal, .finances, .sellers-show {
   input.input, select, textarea, .trix-content {
     background: #292D34;
     color: #ffffff;
@@ -79,4 +79,15 @@ section.backstage {
     .file-name { border: none; }
     border-radius: 10px;
   }
+}
+
+section.sellers-show {
+  footer { height: unset; }
+  .modal-card {
+    background: rgba(23, 23, 23, 0.99);
+    box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+  .modal-card-title { color: #ffffff; }
+  .modal-card-body { background: unset; }
 }
