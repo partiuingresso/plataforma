@@ -218,13 +218,13 @@ div {
       margin-top: 5px;
     }
     &.street {
-      margin-top: -25px;
+      margin-top: 5px;
     }
     &.num {
       margin-top: 5px;
     }
     &.district {
-      margin-top: -25px;
+      margin-top: 5px;
       left: 285px;
     }
     &.city {
