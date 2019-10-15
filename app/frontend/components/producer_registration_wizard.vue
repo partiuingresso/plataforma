@@ -1,5 +1,15 @@
 <template>
 	<div>
+		<div v-show="showError" ref="globalError">
+			<div class="serverError animated shake">
+				<div>
+					<strong>Algo deu errado:</strong>
+					<ul>
+						<li>Verifique os campos preenchidos.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 		<router-view :first_name="first_name" :email="email" :full_name="full_name" :data="account" @finish="submit"></router-view>
 	</div>
 </template>
@@ -70,6 +80,7 @@ export default {
 	props: ["first_name", "full_name", "email"],
 	data() {
 		return {
+			showError: false,
 			account: {
 				name: '',
 				email: '',
@@ -100,11 +111,15 @@ export default {
 				url: '/sellers',
 				type: 'post',
 				data: formData,
-				success: this.success
+				success: this.success,
+				error: this.error
 			})
 		},
 		success() {
 			window.location.assign('/backstage')
+		},
+		error() {
+			this.showError = true
 		}
 	}
 }

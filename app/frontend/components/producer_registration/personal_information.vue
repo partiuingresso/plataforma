@@ -1,14 +1,5 @@
 <template>
 	<div>
-		<div class="serverError animated shake">
-			<div>
-				<strong>Foram encontrados 2 erros:</strong>
-				<ul>
-					<li>Número de telefone inválido</li>
-					<li>Endereço de e-mail inválido</li>
-				</ul>
-			</div>
-		</div>
 		<h1 v-if="type == 'company'">Falta pouco, {{ first_name }}!</h1>
 		<h1 v-else>Certo, {{ first_name }}!</h1>
 		<p>
@@ -54,7 +45,7 @@
 			<div v-if="type == 'company'">
 				<input
 					placeholder="DDD + Telefone"
-					v-model="$v.formData.phone.$model"
+					v-model.lazy="$v.formData.phone.$model"
 					v-mask="['(##) ####-####', '(##) #####-####']"
 					v-on:keyup.enter="resolve"
 				/>
@@ -118,7 +109,13 @@
 					<div v-if="$v.formData.address.city.$error" class="error active">Campo obrigatório</div>
 				</div>
 				<div>
-					<input v-model.lazy="$v.formData.address.state.$model" class="ok" v-on:keyup.enter="resolve" placeholder="Estado" />
+					<input
+						placeholder="Estado"
+						class="ok"
+						maxLength="2"
+						v-model.lazy="$v.formData.address.state.$model"
+						v-on:keyup.enter="resolve"
+					/>
 					<div v-if="$v.formData.address.state.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>

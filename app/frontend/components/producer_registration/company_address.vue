@@ -61,6 +61,7 @@
 				<input
 					placeholder="Estado"
 					class="ok"
+					maxLength="2"
 					v-model.lazy="$v.address.state.$model"
           v-on:keyup.enter="next"
 				/>
