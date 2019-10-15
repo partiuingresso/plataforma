@@ -1,6 +1,6 @@
 <script>
 export default {
-	props: ['data', 'type'],
+	props: ['data', 'type', 'loading'],
 	methods: {
 		finishButton() {
 			this.$emit('finish')

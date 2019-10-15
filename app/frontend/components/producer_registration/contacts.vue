@@ -37,7 +37,15 @@
 		>
 			Avançar ->
 		</a>
-		<a v-else class="nextButton" @click="finish" tabindex="0">Finanlizar -></a>
+		<a v-else class="nextButton" @click="finish" tabindex="0">
+			Finanlizar
+			<span v-if="loading">
+				<i class='fa fa-spinner fa-spin'></i>
+			</span>
+			<span v-else>
+				 ->
+			</span>
+		</a>
 	</div>
 </template>
 
@@ -71,7 +79,7 @@ export default {
 	methods: {
 		finish() {
 			this.$v.$touch()
-			if(!this.$v.$invalid) {
+			if(!this.$v.$invalid && !this.loading) {
 				this.commit()
 				this.finishButton()
 			}

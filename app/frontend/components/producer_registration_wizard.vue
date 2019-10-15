@@ -10,7 +10,15 @@
 				</div>
 			</div>
 		</div>
-		<router-view :first_name="first_name" :email="email" :full_name="full_name" :data="account" @finish="submit"></router-view>
+		<router-view
+			:first_name="first_name"
+			:email="email"
+			:full_name="full_name"
+			:data="account"
+			:loading="loading"
+			@finish="submit"
+		>
+		</router-view>
 	</div>
 </template>
 
@@ -80,6 +88,7 @@ export default {
 	props: ["first_name", "full_name", "email"],
 	data() {
 		return {
+			loading: false,
 			showError: false,
 			account: {
 				name: '',
@@ -114,12 +123,14 @@ export default {
 				success: this.success,
 				error: this.error
 			})
+			this.loading = true
 		},
 		success() {
 			window.location.assign('/backstage')
 		},
 		error() {
 			this.showError = true
+			this.loading = false
 		}
 	}
 }
