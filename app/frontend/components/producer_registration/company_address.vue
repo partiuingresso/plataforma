@@ -8,6 +8,7 @@
 				v-model.lazy="$v.address.zipcode.$model"
 				v-mask="'#####-###'"
 				@input="zipcodeInput($event)"
+        v-on:keyup.enter="next"
 			/>
 			<div v-show="$v.address.zipcode.$error">
 	      <div v-if="!$v.address.zipcode.required" class="error cep active">Campo obrigatório</div>
@@ -20,6 +21,7 @@
 					class="street ok"
 					v-model.lazy="$v.address.address.$model"
 					:style="{ width: address.address.length * 9.95 + 'px'}"
+          v-on:keyup.enter="next"
 				/>,
         <div v-if="$v.address.address.$error" class="error street active">Campo obrigatório</div>
         <div class="is-inline-block">
@@ -27,6 +29,7 @@
   					placeholder="Número"
   					class="numberInput"
   					v-model.lazy="$v.address.number.$model"
+            v-on:keyup.enter="next"
   				/>
           <div v-if="$v.address.number.$error" class="error num active">Campo obrigatório</div>
         </div>
@@ -36,11 +39,13 @@
 					placeholder="Complemento"
 					class="complement"
 					v-model="address.complement"
+          v-on:keyup.enter="next"
 				/>
 				<input
 					placeholder="Bairro"
 					class="ok"
 					v-model.lazy="$v.address.district.$model"
+          v-on:keyup.enter="next"
 				/>
         <div v-if="$v.address.district.$error" class="error district active">Campo obrigatório</div>
 			</div>
@@ -49,6 +54,7 @@
 					placeholder="Cidade"
 					class="ok city"
 					v-model.lazy="$v.address.city.$model"
+          v-on:keyup.enter="next"
 					:style="{ width: address.city.length * 9.95 + 'px'}"
 				/>,
         <div v-if="$v.address.city.$error" class="error city active">Campo obrigatório</div>
@@ -56,6 +62,7 @@
 					placeholder="Estado"
 					class="ok"
 					v-model.lazy="$v.address.state.$model"
+          v-on:keyup.enter="next"
 				/>
         <div v-if="$v.address.state.$error" class="error state active">Campo obrigatório</div>
 			</div>

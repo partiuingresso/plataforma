@@ -8,6 +8,7 @@
 		<input
 			v-model.lazy="$v.name.$model"
 			:placeholder="`Ex: ${first_name} Produções`"
+			v-on:keyup.enter="next"
 		/>
 		<div v-if="$v.name.$error" class="error active">Campo obrigatório</div>
 		<a @click="next" class="nextButton" tabindex="0">Avançar -></a>

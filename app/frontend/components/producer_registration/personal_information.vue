@@ -27,6 +27,7 @@
 					v-model.lazy="$v.formData.document_number.$model"
 					v-mask="'###.###.###-##'"
 					placeholder="CPF"
+					v-on:keyup.enter="resolve"
 				/>
 				<div v-show="$v.formData.document_number.$error">
 					<div v-if="!$v.formData.document_number.required" class="error active">Campo obrigatório</div>
@@ -40,6 +41,7 @@
 					v-mask="'##/##/####'"
 					@focus="birthPlaceholder($event)"
 					@blur="birthPlaceholder($event)"
+					v-on:keyup.enter="resolve"
 				/>
 				<div v-show="$v.formData.birthdate.$error">
 					<div v-if="!$v.formData.birthdate.required" class="error active">Campo obrigatório</div>
@@ -54,6 +56,7 @@
 					placeholder="DDD + Telefone"
 					v-model="$v.formData.phone.$model"
 					v-mask="['(##) ####-####', '(##) #####-####']"
+					v-on:keyup.enter="resolve"
 				/>
 				<div v-show="$v.formData.phone.$error">
 					<div v-if="!$v.formData.phone.required"	class="error active">Campo obrigatório</div>
@@ -66,6 +69,7 @@
 					v-mask="'#####-###'"
 					v-model.lazy="$v.formData.address.zipcode.$model"
 					@input="zipcodeInput($event)"
+					v-on:keyup.enter="resolve"
 				/>
 				<div v-show="$v.formData.address.zipcode.$error">
 					<div v-if="!$v.formData.address.zipcode.required" class="error active">Campo obrigatório</div>
@@ -82,6 +86,7 @@
 						class="street ok"
 						v-model.lazy="$v.formData.address.address.$model"
 						:style="{ width: formData.address.address.length * 9.95 + 'px'}"
+						v-on:keyup.enter="resolve"
 					/>,
 					<div v-if="$v.formData.address.address.$error" class="error active">Campo obrigatório</div>
 				</div>
@@ -93,10 +98,10 @@
 			
 			<div class="grouped">
 				<div>
-					<input v-model="formData.address.complement" class="complement" placeholder="Complemento" />
+					<input v-model="formData.address.complement" class="complement" v-on:keyup.enter="resolve" placeholder="Complemento" />
 				</div>
 				<div>
-					<input v-model.lazy="$v.formData.address.district.$model" class="ok" placeholder="Bairro" />
+					<input v-model.lazy="$v.formData.address.district.$model" class="ok" v-on:keyup.enter="resolve" placeholder="Bairro" />
 					<div v-if="$v.formData.address.district.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>
@@ -108,11 +113,12 @@
 						class="city ok"
 						v-model.lazy="$v.formData.address.city.$model"
 						:style="{ width: formData.address.city.length * 9.95 + 'px'}"
+						v-on:keyup.enter="resolve"
 					/>,
 					<div v-if="$v.formData.address.city.$error" class="error active">Campo obrigatório</div>
 				</div>
 				<div>
-					<input v-model.lazy="$v.formData.address.state.$model" class="ok" placeholder="Estado" />
+					<input v-model.lazy="$v.formData.address.state.$model" class="ok" v-on:keyup.enter="resolve" placeholder="Estado" />
 					<div v-if="$v.formData.address.state.$error" class="error active">Campo obrigatório</div>
 				</div>
 			</div>
@@ -197,6 +203,13 @@ export default {
 			this.$v.$touch()
 			if(!this.$v.$invalid) {
 				this.finishButton()
+			}
+		},
+		resolve() {
+			if(this.type == 'personal') {
+				this.next()
+			} else {
+				this.finish()
 			}
 		},
 		zipcodeInput(event) {
