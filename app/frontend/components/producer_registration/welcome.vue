@@ -40,7 +40,7 @@
 			margin: 60px auto;
 			padding: 20px 0;
 			text-align: center;
-			&:hover { background-color: #db2b2f; }
+			&:hover, &:focus { background-color: #db2b2f; }
 		}
 		.footerText {
 			font-size: 14px;

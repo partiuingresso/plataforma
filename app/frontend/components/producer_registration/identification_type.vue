@@ -27,7 +27,8 @@
 			line-height: 20px;
 			color: #ffffff;
 	    transition: background-color 250ms ease;
-			&:hover { background-color: #C72328; }
+	    outline: none;
+			&:hover, &:focus { background-color: #C72328; }
 			&:first-of-type { margin-right: 40px; }
 		}
 	}

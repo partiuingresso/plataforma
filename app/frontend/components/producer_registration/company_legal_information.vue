@@ -17,7 +17,7 @@
       <div v-if="!$v.document_number.required" class="error active cnpj">Campo obrigatório</div>
       <div v-if="!$v.document_number.isCnpj" class="error active cnpj">Campo inválido</div>
     </div>
-		<a @click="next" class="nextButton">Avançar -></a>
+		<a @click="next" class="nextButton" tabindex="0">Avançar -></a>
 	</div>
 </template>
 

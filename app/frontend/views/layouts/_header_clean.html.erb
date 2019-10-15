@@ -29,6 +29,9 @@
           <% if current_user.producer_admin? %>
             <%= link_to 'Dashboard', producer_admin_dashboard_path, class: "producer #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
           <% end %>
+          <% if current_user.producer? %>
+            <%= link_to 'Staff', producer_events_path, class: "staff #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
+          <% end %>
           <%= link_to 'Configurações', edit_user_registration_path, class: "settings #{current_page?(edit_user_registration_path) ? 'active' : ''}" %>
           <hr />
           <%= link_to 'Sair', destroy_user_session_path, method: "delete", class: "logout" %>

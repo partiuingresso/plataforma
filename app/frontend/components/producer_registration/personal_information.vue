@@ -1,5 +1,14 @@
 <template>
 	<div>
+		<div class="serverError animated shake">
+			<div>
+				<strong>Foram encontrados 2 erros:</strong>
+				<ul>
+					<li>Número de telefone inválido</li>
+					<li>Endereço de e-mail inválido</li>
+				</ul>
+			</div>
+		</div>
 		<h1 v-if="type == 'company'">Falta pouco, {{ first_name }}!</h1>
 		<h1 v-else>Certo, {{ first_name }}!</h1>
 		<p>
@@ -96,7 +105,7 @@
 				<div>
 					<input
 						placeholder="Cidade"
-						class="ok"
+						class="city ok"
 						v-model.lazy="$v.formData.address.city.$model"
 						:style="{ width: formData.address.city.length * 9.95 + 'px'}"
 					/>,
@@ -109,8 +118,8 @@
 			</div>
 		</div>
 		
-		<a v-if="type == 'personal'" @click="next" class="nextButton">Avançar -></a>
-		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
+		<a v-if="type == 'personal'" @click="next" class="nextButton" tabindex="0">Avançar -></a>
+		<a v-else class="nextButton" @click="finish" tabindex="0">Finanlizar -></a>
 	</div>
 </template>
 

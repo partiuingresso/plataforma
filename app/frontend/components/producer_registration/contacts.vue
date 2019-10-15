@@ -1,5 +1,14 @@
 <template>
 	<div>
+		<div class="serverError animated shake">
+			<div>
+				<strong>Foram encontrados 2 erros:</strong>
+				<ul>
+					<li>Número de telefone inválido</li>
+					<li>Endereço de e-mail inválido</li>
+				</ul>
+			</div>
+		</div>
 		<h1>Contatos</h1>
 		<p>Informe as melhores formas de entrar em contato com {{ this.type == 'company' ? 'seu negócio' : 'você' }}.</p>
 		<input
@@ -34,7 +43,7 @@
 		>
 			Avançar ->
 		</a>
-		<a v-else class="nextButton" @click="finish">Finanlizar -></a>
+		<a v-else class="nextButton" @click="finish" tabindex="0">Finanlizar -></a>
 	</div>
 </template>
 
@@ -127,7 +136,12 @@ export default {
 	  .error {
   		vertical-align: middle;
   		width: auto;
+  		position: absolute;
+  		margin-top: 5px;
   		&.active { display: inline-block; }
+	  }
+	  label.checkbox, .warning {
+	  	margin-top: 25px;
 	  }
 	}
 </style>
