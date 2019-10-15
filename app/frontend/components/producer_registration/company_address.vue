@@ -12,6 +12,7 @@
 			/>
 			<div v-show="$v.address.zipcode.$error">
 	      <div v-if="!$v.address.zipcode.required" class="error cep active">Campo obrigatório</div>
+	      <div v-if="!$v.address.zipcode.isCep" class="error cep active">Campo inválido</div>
 	    </div>
 		</div>
 		<div class="address" ref="address">
@@ -77,6 +78,7 @@ import WizardView from './wizard_view.vue'
 import { mask } from 'vue-the-mask'
 import cep from 'cep-promise'
 import { helpers, required } from 'vuelidate/lib/validators'
+const isCep = helpers.regex('cep', /^\d{5}-\d{3}$/)
 export default {
 	extends: WizardView,
 	directives: {
@@ -98,7 +100,8 @@ export default {
 	validations: {
 		address: {
 			zipcode: {
-				required
+				required,
+				isCep
 			},
 			address: {
 				required
