@@ -9,6 +9,8 @@ class Seller < ApplicationRecord
     has_many :orders, through: :events
     has_one :company
 
+    after_initialize :default_values, if: :new_record?
+
 	validates :moip_id, presence: true
 	validates :moip_access_token, presence: true
 
@@ -19,4 +21,10 @@ class Seller < ApplicationRecord
     def staff_users
         staff.map { |s| s.user }
     end
+
+    private
+
+        def default_values
+            self.verified = false
+        end
 end

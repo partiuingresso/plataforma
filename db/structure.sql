@@ -529,7 +529,7 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.seller_staff (
     id bigint NOT NULL,
-    sellers_id bigint NOT NULL,
+    seller_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -570,7 +570,8 @@ CREATE TABLE public.sellers (
     document_number character varying,
     business_name character varying,
     name character varying,
-    address_id bigint
+    address_id bigint,
+    verified boolean DEFAULT true NOT NULL
 );
 
 
@@ -1172,10 +1173,10 @@ CREATE INDEX index_orders_on_user_id ON public.orders USING btree (user_id);
 
 
 --
--- Name: index_seller_staff_on_sellers_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_seller_staff_on_seller_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_seller_staff_on_sellers_id ON public.seller_staff USING btree (sellers_id);
+CREATE INDEX index_seller_staff_on_seller_id ON public.seller_staff USING btree (seller_id);
 
 
 --
@@ -1334,14 +1335,6 @@ ALTER TABLE ONLY public.order_items
 
 
 --
--- Name: seller_staff fk_rails_5e6f96e9ac; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.seller_staff
-    ADD CONSTRAINT fk_rails_5e6f96e9ac FOREIGN KEY (sellers_id) REFERENCES public.sellers(id);
-
-
---
 -- Name: offers fk_rails_60bd59a32f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1403,6 +1396,14 @@ ALTER TABLE ONLY public.event_staff
 
 ALTER TABLE ONLY public.order_items
     ADD CONSTRAINT fk_rails_e3cb28f071 FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: seller_staff fk_rails_e4f6b79d65; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.seller_staff
+    ADD CONSTRAINT fk_rails_e4f6b79d65 FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
 
 
 --
@@ -1518,6 +1519,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190902213136'),
 ('20190917185729'),
 ('20190917191009'),
-('20190917200053');
+('20190917200053'),
+('20191015144548');
 
 

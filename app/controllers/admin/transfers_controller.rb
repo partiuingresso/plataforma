@@ -2,12 +2,18 @@ class Admin::TransfersController < ApplicationController
 	load_and_authorize_resource
 
 	def create
-		@transfer.bank_account = @transfer.seller.bank_account
+		@seller = @transfer.seller
+		unless @seller.verified?
+			msg = "Esta conta não foi verificada."
+			redirect_to admin_seller_path(@seller), alert: msg and return
+		end
+
+		@transfer.bank_account = @seller.bank_account
 		if @transfer.save
 			moip_transfer = Wirecard::create_transfer @transfer.reload
 			if moip_transfer.respond_to?(:id) && moip_transfer.id.present?
 				@transfer.update(fee_cents: moip_transfer.fee)
-				redirect_to admin_seller_path(@transfer.seller), notice: "Transferência solicitada com sucesso."
+				redirect_to admin_seller_path(@seller), notice: "Transferência solicitada com sucesso."
 			else
 				@transfer.destroy
 				render plain: moip_transfer.inspect
