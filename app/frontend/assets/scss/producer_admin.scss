@@ -91,3 +91,9 @@ section.sellers-show {
   .modal-card-title { color: #ffffff; }
   .modal-card-body { background: unset; }
 }
+
+@media screen and (max-width: 600px) {
+  .table.is-hoverable tbody tr:not(.is-selected):hover {
+      background-color: inherit;
+  }
+}
