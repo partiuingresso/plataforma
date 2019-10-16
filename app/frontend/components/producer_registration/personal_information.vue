@@ -70,7 +70,7 @@
 			</div>
 		</div>
 
-		<div class="address" ref="address">
+		<div v-show="showAddress" class="address">
 			<div class="grouped">
 				<div>
 					<input
@@ -156,7 +156,8 @@ export default {
 	props: ['first_name', 'full_name', 'email'],
 	data() {
 		return {
-			formData: this.data
+			formData: this.data,
+			showAddress: this.data.address.zipcode !== ''
 		}
 	},
 	validations: {
@@ -225,7 +226,7 @@ export default {
 			}
 		},
 		async getCep(zipcode) {
-			const addressDiv = this.$refs.address
+			const vue = this
 			const cepDiv = this.$refs.cep
 			const streetDiv = this.$el.querySelector('.street')
 			const numberDiv = this.$el.querySelector('.numberInput')
@@ -239,13 +240,13 @@ export default {
 				address.district = result.neighborhood
 				address.city = result.city
 				address.state = result.state
-				addressDiv.className = 'address active'
 				numberDiv.focus()
+				vue.showAddress = true
 			}).catch(function() {
 				cepDiv.classList.remove('loading')
-				addressDiv.className = 'address active'
 				streetDiv.style.width = '240px'
 				streetDiv.focus()
+				vue.showAddress = true
 			})
 			// Limpa as mensagens de erro dos campos de endereço
 			this.$v.formData.address.$reset()
@@ -268,9 +269,7 @@ div {
 		margin-bottom: 50px;
 	}
 	.address {
-		display: none;
 		.grouped { input:last-child { margin-left: unset; } display: block; max-width: unset; }
-		&.active { display: block; }
 	}
 	input.complement { max-width: 140px; margin-right: 30px; }
 	input.numberInput { max-width: 120px; }

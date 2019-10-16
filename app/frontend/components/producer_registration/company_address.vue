@@ -16,7 +16,7 @@
 	      <div v-if="!$v.address.zipcode.isCep" class="error cep active">Campo inválido</div>
 	    </div>
 		</div>
-		<div class="address" ref="address">
+		<div v-show="showAddress">
 			<div class="grouped">
 				<input
 					placeholder="Endereço"
@@ -87,15 +87,8 @@ export default {
 	},
 	data() {
 		return {
-			address: {
-				zipcode: '',
-				address: '',
-				number: '',
-				complement: '',
-				district: '',
-				city: '',
-				state: ''
-			}
+			address: {...this.data.company.address},
+			showAddress: this.data.company.address.zipcode !== ''
 		}
 	},
 	validations: {
@@ -136,7 +129,7 @@ export default {
 			}
 		},
 		async getCep(zipcode) {
-			const addressDiv = this.$refs.address
+			const vue = this
 			const cepDiv = this.$refs.cep
 			const streetDiv = this.$el.querySelector('.street')
 			const numberDiv = this.$el.querySelector('.numberInput')
@@ -150,13 +143,13 @@ export default {
 				address.district = result.neighborhood
 				address.city = result.city
 				address.state = result.state
-				addressDiv.className = 'address active'
 				numberDiv.focus()
+				vue.showAddress = true
 			}).catch(function() {
 				cepDiv.classList.remove('loading')
-				addressDiv.className = 'address active'
 				streetDiv.style.width = '240px'
 				streetDiv.focus()
+				vue.showAddress = true
 			})
 			// Limpa as mensagens de erro dos campos de endereço
 			this.$v.$reset()
@@ -167,10 +160,6 @@ export default {
 
 <style lang="scss" scoped>
 div {
-	.address {
-		display: none;
-		&.active { display: block; }
-	}
 	input.complement { max-width: 140px; }
 	input.numberInput { max-width: 120px; }
   input.street { min-width: 240px; max-width: 720px; }

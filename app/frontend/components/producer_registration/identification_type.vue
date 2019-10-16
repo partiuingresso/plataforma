@@ -2,15 +2,46 @@
 	<div>
 		<h1>Identificação</h1>
 		<p>Você gostaria de utilizar a <strong>PartiuIngresso.com</strong> para publicar seus eventos e receber pagamentos como...</p>
-		<router-link
-			:to="{ name: 'personal_information', params: { type: 'personal' } }"
-			class="selectButton"
-		>
-			Pessoa Física
-		</router-link>
-		<router-link :to="{ name: 'company_fantasy_name' }" class="selectButton">Pessoa Jurídica</router-link>
+		<a @click="personal" class="selectButton">Pessoa Física</a>
+		<a @click="company" class="selectButton">Pessoa Jurídica</a>
 	</div>
 </template>
+
+<script>
+import WizardView from './wizard_view.vue'
+export default {
+	extends: WizardView,
+	methods: {
+		personal() {
+			delete this.data.company
+			this.$router.push({ name: 'personal_information', params: { type: 'personal' } })
+		},
+		company() {
+			this.data.company = this.buildCompany()
+			this.$router.push({ name: 'company_fantasy_name' })
+		},
+		buildCompany() {
+			return {
+				name: '',
+				business_name: '',
+				document_number: '',
+				phone: '',
+				show_phone: '',
+				help_email: '',
+				address: {
+					zipcode: '',
+					address: '',
+					number: '',
+					complement: '',
+					district: '',
+					city: '',
+					state: ''
+				}
+			}
+		}
+	}
+}
+</script>
 
 <style lang="scss" scoped>
 	div {

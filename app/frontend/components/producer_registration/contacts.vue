@@ -61,9 +61,9 @@ export default {
 	},
 	data() {
 		return {
-			phone: '',
-			show_phone: false,
-			help_email: ''
+			phone: this.type === 'company' ? this.data.company.phone : this.data.phone,
+			show_phone: this.data.show_phone,
+			help_email: this.data.help_email
 		}
 	},
 	validations: {

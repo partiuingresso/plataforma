@@ -1,5 +1,6 @@
 <template>
 	<div>
+    <a @click="$router.go(-1)" class="goBack" alt="Voltar"><span><-</span></a>
 		<div v-show="showError" ref="globalError">
 			<div class="serverError animated shake">
 				<div>

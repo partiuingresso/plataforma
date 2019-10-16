@@ -24,31 +24,12 @@ export default {
 	props: ['first_name'],
 	data() {
 		return {
-			name: ''
+			name: this.data.company.name
 		}
 	},
 	validations: {
 		name: {
 			required
-		}
-	},
-	created() {
-		this.data.company = {
-			name: '',
-			business_name: '',
-			document_number: '',
-			phone: '',
-			show_phone: '',
-			help_email: '',
-			address: {
-				zipcode: '',
-				address: '',
-				number: '',
-				complement: '',
-				district: '',
-				city: '',
-				state: ''
-			}
 		}
 	},
 	methods: {

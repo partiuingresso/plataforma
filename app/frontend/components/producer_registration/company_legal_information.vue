@@ -36,8 +36,8 @@ export default {
   },
   data() {
     return {
-      business_name: '',
-      document_number: ''
+      business_name: this.data.company.business_name,
+      document_number: this.data.company.document_number
     }
   },
   validations: {
