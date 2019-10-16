@@ -3,6 +3,6 @@ class Producer::EventAbility
 
 	def initialize(user)
 		return unless user.role? :producer
-		can :read, Event, seller_id: user.seller.id
+		can :read, Event, seller_id: user.seller_staff.seller.id
 	end
 end

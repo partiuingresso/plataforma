@@ -1,7 +1,9 @@
 class Producer::EventsController < ApplicationController
 	load_and_authorize_resource
 
-	def index; end
+	def index
+		@seller = current_user.seller_staff.seller
+	end
 
 	private
 
