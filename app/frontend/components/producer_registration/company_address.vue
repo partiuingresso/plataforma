@@ -114,6 +114,9 @@ export default {
 			}
 		}
 	},
+	created() {
+		this.oldValue = ''
+	},
 	methods: {
 		next() {
 			this.$v.$touch()
@@ -124,8 +127,11 @@ export default {
 		},
 		zipcodeInput(event) {
 			const value = event.target.value
-			if(value.length === 9) {
-				this.getCep(value)
+			if(value !== this.oldValue) {
+				this.oldValue = value
+				if(value.length === 9) {
+					this.getCep(value)
+				}
 			}
 		},
 		async getCep(zipcode) {
@@ -135,6 +141,7 @@ export default {
 			const numberDiv = this.$el.querySelector('.numberInput')
 			const address = this.address
 
+			address.zipcode = zipcode
 			cepDiv.classList.add('loading')
 			await cep(zipcode).then(function(result) {
 				cepDiv.classList.remove('loading')
@@ -143,13 +150,17 @@ export default {
 				address.district = result.neighborhood
 				address.city = result.city
 				address.state = result.state
-				numberDiv.focus()
 				vue.showAddress = true
+				vue.$nextTick(() => {
+					numberDiv.focus()
+				})
 			}).catch(function() {
 				cepDiv.classList.remove('loading')
 				streetDiv.style.width = '240px'
-				streetDiv.focus()
 				vue.showAddress = true
+				vue.$nextTick(() => {
+					numberDiv.focus()
+				})
 			})
 			// Limpa as mensagens de erro dos campos de endereço
 			this.$v.$reset()
