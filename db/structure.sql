@@ -215,15 +215,18 @@ ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
 
 CREATE TABLE public.companies (
     id bigint NOT NULL,
-    seller_id bigint NOT NULL,
-    address_id bigint NOT NULL,
-    name character varying NOT NULL,
-    business_name character varying NOT NULL,
-    document_number character varying NOT NULL,
-    phone_area_code integer NOT NULL,
-    phone_number integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    moip_id character varying,
+    moip_access_token character varying,
+    email character varying,
+    phone_number integer,
+    phone_area_code integer,
+    document_number character varying,
+    business_name character varying,
+    name character varying,
+    address_id bigint,
+    seller_id bigint
 );
 
 
@@ -322,7 +325,7 @@ CREATE TABLE public.events (
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    seller_id bigint NOT NULL,
+    company_id bigint,
     headline character varying,
     video character varying,
     address_id bigint NOT NULL,
@@ -330,6 +333,7 @@ CREATE TABLE public.events (
     invite_text text,
     fb_pixel character varying,
     ga_id character varying,
+    seller_id bigint,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -360,8 +364,9 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 CREATE TABLE public.finances (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    seller_id bigint NOT NULL,
-    bank_account_id bigint NOT NULL
+    id bigint NOT NULL,
+    bank_account_id bigint NOT NULL,
+    seller_id bigint
 );
 
 
@@ -560,18 +565,12 @@ ALTER SEQUENCE public.seller_staff_id_seq OWNED BY public.seller_staff.id;
 
 CREATE TABLE public.sellers (
     id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
     moip_id character varying NOT NULL,
     moip_access_token character varying NOT NULL,
     email character varying,
-    phone_number integer,
-    phone_area_code integer,
-    document_number character varying,
-    business_name character varying,
-    name character varying,
-    address_id bigint,
-    verified boolean DEFAULT true NOT NULL
+    phone_area_code integer NOT NULL,
+    phone_number integer NOT NULL,
+    verified boolean DEFAULT false NOT NULL
 );
 
 
@@ -635,13 +634,14 @@ ALTER SEQUENCE public.ticket_tokens_id_seq OWNED BY public.ticket_tokens.id;
 
 CREATE TABLE public.transfers (
     id bigint NOT NULL,
-    seller_id bigint NOT NULL,
+    company_id bigint,
     bank_account_id bigint NOT NULL,
     amount_cents integer NOT NULL,
     fee_cents integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    status public.transfer_status DEFAULT 'requested'::public.transfer_status NOT NULL
+    status public.transfer_status DEFAULT 'requested'::public.transfer_status NOT NULL,
+    seller_id bigint
 );
 
 
@@ -695,6 +695,7 @@ CREATE TABLE public.users (
     updated_at timestamp without time zone NOT NULL,
     gender character varying,
     birthday timestamp without time zone,
+    company_id bigint,
     actor_id bigint,
     actor_type character varying
 );
@@ -903,7 +904,7 @@ ALTER TABLE ONLY public.companies
 --
 
 ALTER TABLE ONLY public.finances
-    ADD CONSTRAINT company_finances_pkey PRIMARY KEY (seller_id);
+    ADD CONSTRAINT company_finances_pkey PRIMARY KEY (id);
 
 
 --
@@ -1082,6 +1083,13 @@ CREATE INDEX index_events_on_address_id ON public.events USING btree (address_id
 
 
 --
+-- Name: index_events_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_company_id ON public.events USING btree (company_id);
+
+
+--
 -- Name: index_events_on_seller_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1103,10 +1111,17 @@ CREATE UNIQUE INDEX index_finances_on_bank_account_id ON public.finances USING b
 
 
 --
+-- Name: index_finances_on_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_finances_on_id ON public.finances USING btree (id);
+
+
+--
 -- Name: index_finances_on_seller_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_finances_on_seller_id ON public.finances USING btree (seller_id);
+CREATE UNIQUE INDEX index_finances_on_seller_id ON public.finances USING btree (seller_id);
 
 
 --
@@ -1180,13 +1195,6 @@ CREATE INDEX index_seller_staff_on_seller_id ON public.seller_staff USING btree 
 
 
 --
--- Name: index_sellers_on_address_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_sellers_on_address_id ON public.sellers USING btree (address_id);
-
-
---
 -- Name: index_ticket_tokens_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1215,6 +1223,13 @@ CREATE INDEX index_transfers_on_bank_account_id ON public.transfers USING btree 
 
 
 --
+-- Name: index_transfers_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transfers_on_company_id ON public.transfers USING btree (company_id);
+
+
+--
 -- Name: index_transfers_on_seller_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1226,6 +1241,13 @@ CREATE INDEX index_transfers_on_seller_id ON public.transfers USING btree (selle
 --
 
 CREATE UNIQUE INDEX index_users_on_actor_type_and_actor_id ON public.users USING btree (actor_type, actor_id);
+
+
+--
+-- Name: index_users_on_company_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_company_id ON public.users USING btree (company_id);
 
 
 --
@@ -1303,22 +1325,6 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: finances fk_rails_20abbc78fb; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.finances
-    ADD CONSTRAINT fk_rails_20abbc78fb FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
-
-
---
--- Name: companies fk_rails_244dfae511; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.companies
-    ADD CONSTRAINT fk_rails_244dfae511 FOREIGN KEY (address_id) REFERENCES public.addresses(id);
-
-
---
 -- Name: events fk_rails_2a2c9250e8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1351,19 +1357,11 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- Name: events fk_rails_88786fdf2d; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: finances fk_rails_786414e363; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.events
-    ADD CONSTRAINT fk_rails_88786fdf2d FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
-
-
---
--- Name: transfers fk_rails_95f2513d06; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.transfers
-    ADD CONSTRAINT fk_rails_95f2513d06 FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
+ALTER TABLE ONLY public.finances
+    ADD CONSTRAINT fk_rails_786414e363 FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
 
 
 --
@@ -1380,6 +1378,14 @@ ALTER TABLE ONLY public.finances
 
 ALTER TABLE ONLY public.active_storage_attachments
     ADD CONSTRAINT fk_rails_c3b3935057 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
+
+
+--
+-- Name: transfers fk_rails_da2471a4da; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transfers
+    ADD CONSTRAINT fk_rails_da2471a4da FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
 
 
 --
@@ -1423,6 +1429,14 @@ ALTER TABLE ONLY public.ticket_tokens
 
 
 --
+-- Name: events fk_rails_f57a335775; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT fk_rails_f57a335775 FOREIGN KEY (seller_id) REFERENCES public.sellers(id);
+
+
+--
 -- Name: orders fk_rails_f868b47f6a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1431,10 +1445,10 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- Name: sellers fk_rails_fe683b53d0; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: companies fk_rails_fe683b53d0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sellers
+ALTER TABLE ONLY public.companies
     ADD CONSTRAINT fk_rails_fe683b53d0 FOREIGN KEY (address_id) REFERENCES public.addresses(id);
 
 
@@ -1513,13 +1527,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190612195056'),
 ('20190701233746'),
 ('20190821023418'),
-('20190831024457'),
-('20190831050254'),
-('20190831053641'),
 ('20190902213136'),
-('20190917185729'),
-('20190917191009'),
-('20190917200053'),
-('20191015144548');
+('20191017222906');
 
 
