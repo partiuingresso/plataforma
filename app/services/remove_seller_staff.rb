@@ -10,7 +10,7 @@ class RemoveSellerStaff < ApplicationService
 		begin
 			ActiveRecord::Base.transaction do
 				@assign_user = User.find(assign_user_data[:user_id])
-				unless @assign_user.producer? && seller.staff_users.include?(@assign_user)
+				unless @assign_user.seller == @seller && seller.staff_users.include?(@assign_user)
 					raise ActiveRecord::Rollback
 				end
 

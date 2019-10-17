@@ -16,12 +16,12 @@ class CreateSellerStaff < ApplicationService
 					raise ActiveRecord::Rollback
 				end
 
-				unless @assign_user.user? && seller.staff_users.exclude?(@assign_user)
+				unless @assign_user.seller.nil? && seller.staff_users.exclude?(@assign_user)
 					raise ActiveRecord::Rollback
 				end
 
 				@assign_user.build_seller_staff(seller: seller)
-				@assign_user.role = :producer
+				@assign_user.role = assign_user_data[:role]
 
 				@assign_user.save!
 

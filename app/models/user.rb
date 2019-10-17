@@ -23,7 +23,11 @@ class User < ApplicationRecord
   after_initialize :set_default_role, :if => :new_record?
 
   def seller
-    actor if actor.is_a? Seller
+    if actor.is_a?(Seller)
+      actor
+    elsif actor.is_a?(SellerStaff)
+      actor.seller
+    end
   end
 
   def seller_staff
