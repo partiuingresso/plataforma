@@ -39,10 +39,10 @@
 		</a>
 		<a v-else class="nextButton" @click="finish" tabindex="0">
 			Finanlizar
-			<span v-if="loading">
+			<span v-show="loading">
 				<i class='fa fa-spinner fa-spin'></i>
 			</span>
-			<span v-else>
+			<span v-show="!loading">
 				 ->
 			</span>
 		</a>
