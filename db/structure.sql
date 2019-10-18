@@ -311,6 +311,8 @@ CREATE TABLE public.events (
     address_id bigint NOT NULL,
     features text,
     invite_text text,
+    fb_pixel character varying,
+    ga_id character varying,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -1311,6 +1313,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190520224725'),
 ('20190528033921'),
 ('20190612195056'),
-('20190701233746');
+('20190701233746'),
+('20190821023418');
 
 
