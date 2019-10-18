@@ -15,23 +15,6 @@ class Admin::SellersController < ApplicationController
     @history_transfers = Kaminari.paginate_array(@seller.transfers).page(params[:page]).per(10)
   end
 
-  def new
-    @seller_form = SellerForm.new
-  end
-
-  def create
-    @seller_form = SellerForm.new(permitted_params)
-    respond_to do |format|
-      if @seller_form.save
-        format.html { redirect_to admin_dashboard_path, notice: 'Vendedor criado com sucesso.' }
-        format.json { render :show, status: :created }
-      else
-        format.html { render :new }
-        format.json { render json: @seller_form.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def edit
     @staff_users = @seller.staff_users
     @user = User.new
