@@ -18,17 +18,19 @@
 
 <div class="tile is-ancestor">
   <div class="tile is-vertical is-8 is-parent">
-    <div class="tile is-child box">
-      <div class="field">
-        <label class="label">Nome da Empresa</label>
-        <div class="control has-icons-left has-icons-right">
-          <%= f.text_field :name, class: "input", placeholder: "Nome Fantasia" %>
-          <span class="icon is-small is-left">
-            <i class="far fa-building"></i>
-          </span>
+    <% if @seller.company.present? %>
+      <div class="tile is-child box">
+        <div class="field">
+          <label class="label">Nome da Empresa</label>
+          <div class="control has-icons-left has-icons-right">
+            <%= f.text_field :name, class: "input", placeholder: "Nome Fantasia" %>
+            <span class="icon is-small is-left">
+              <i class="far fa-building"></i>
+            </span>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
     <div class="tile is-child box">
       <div class="columns">
         <div class="column">
