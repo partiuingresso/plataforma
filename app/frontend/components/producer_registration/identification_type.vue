@@ -25,7 +25,6 @@ export default {
 				name: '',
 				business_name: '',
 				document_number: '',
-				phone: '',
 				show_phone: '',
 				help_email: '',
 				address: {

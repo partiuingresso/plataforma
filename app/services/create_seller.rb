@@ -11,7 +11,11 @@ class CreateSeller < ApplicationService
 	def call
 		begin
 			ActiveRecord::Base.transaction do
-				@seller = user.build_seller(email: account_data[:help_email])
+				@seller = user.build_seller(
+					email: account_data[:help_email],
+					phone_area_code: account_data[:phone_area_code],
+					phone_number: account_data[:phone_number]
+				)
 				@company = build_company unless company_data.nil?
 				# Cria conta transparente
 				account = Wirecard::create_account person, @company
@@ -44,8 +48,6 @@ class CreateSeller < ApplicationService
 					:name,
 					:business_name,
 					:document_number,
-					:phone_area_code,
-					:phone_number,
 					:address_attributes
 				)
 			)
@@ -64,7 +66,7 @@ class CreateSeller < ApplicationService
 		def format_data
 			@account_data = format_phone(@account_data)
 			@account_data = format_birthdate(@account_data)
-			@company_data = format_phone(@company_data) unless @company_data.nil?
+			@account_data = @account_data.symbolize_keys
 		end
 
 		def format_phone(data)

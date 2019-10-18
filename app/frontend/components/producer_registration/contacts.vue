@@ -61,7 +61,7 @@ export default {
 	},
 	data() {
 		return {
-			phone: this.type === 'company' ? this.data.company.phone : this.data.phone,
+			phone: this.data.phone,
 			show_phone: this.data.show_phone,
 			help_email: this.data.help_email
 		}
@@ -99,12 +99,8 @@ export default {
 			}
 		},
 		commit() {
-			if(this.type === 'company') {
-				this.data.company.phone = this.phone
-			} else {
-				this.data.phone = this.phone
-			}
 			Object.assign(this.data, {
+				phone: this.phone,
 				show_phone: this.show_phone,
 				help_email: this.help_email
 			})
