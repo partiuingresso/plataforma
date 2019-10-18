@@ -14,6 +14,7 @@ namespace :release do
           verified: true
         )
         c.update!(seller_id: c.id)
+        Seller.connection.execute("ALTER SEQUENCE sellers_id_seq RESTART #{Seller.count + 1}")
       end
 
       Transfer.all.each do |t|
