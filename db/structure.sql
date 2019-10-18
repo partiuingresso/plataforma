@@ -364,10 +364,30 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 CREATE TABLE public.finances (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    id bigint NOT NULL,
     bank_account_id bigint NOT NULL,
-    seller_id bigint
+    seller_id bigint,
+    id integer NOT NULL
 );
+
+
+--
+-- Name: finances_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.finances_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: finances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.finances_id_seq OWNED BY public.finances.id;
 
 
 --
@@ -789,6 +809,13 @@ ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.event
 
 
 --
+-- Name: finances id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.finances ALTER COLUMN id SET DEFAULT nextval('public.finances_id_seq'::regclass);
+
+
+--
 -- Name: offers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -900,14 +927,6 @@ ALTER TABLE ONLY public.companies
 
 
 --
--- Name: finances company_finances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.finances
-    ADD CONSTRAINT company_finances_pkey PRIMARY KEY (id);
-
-
---
 -- Name: credit_cards credit_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -929,6 +948,14 @@ ALTER TABLE ONLY public.event_staff
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: finances finances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.finances
+    ADD CONSTRAINT finances_pkey PRIMARY KEY (id);
 
 
 --
@@ -1108,13 +1135,6 @@ CREATE INDEX index_events_on_user_id ON public.events USING btree (user_id);
 --
 
 CREATE UNIQUE INDEX index_finances_on_bank_account_id ON public.finances USING btree (bank_account_id);
-
-
---
--- Name: index_finances_on_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_finances_on_id ON public.finances USING btree (id);
 
 
 --
@@ -1528,6 +1548,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190701233746'),
 ('20190821023418'),
 ('20190902213136'),
-('20191017222906');
+('20191017222906'),
+('20191018025854');
 
 
