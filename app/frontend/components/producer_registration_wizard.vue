@@ -92,8 +92,6 @@ export default {
 			loading: false,
 			showError: false,
 			account: {
-				name: '',
-				email: '',
 				document_number: '',
 				birthdate: '',
 				show_phone: false,

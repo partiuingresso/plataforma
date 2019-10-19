@@ -25,8 +25,6 @@ class SellersController < ApplicationController
 
     def account_params
       params.require(:account).permit(
-        :name,
-        :email,
         :document_number,
         :birthdate,
         :phone,
@@ -45,7 +43,6 @@ class SellersController < ApplicationController
           :name,
           :business_name,
           :document_number,
-          :phone,
           address: [
             :zipcode,
             :address,

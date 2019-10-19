@@ -43,18 +43,6 @@
 		</div>
 		
 		<div class="grouped">
-			<div v-if="type == 'company'">
-				<input
-					placeholder="DDD + Telefone"
-					v-model.lazy="$v.formData.phone.$model"
-					v-mask="['(##) ####-####', '(##) #####-####']"
-					v-on:keyup.enter="resolve"
-				/>
-				<div v-show="$v.formData.phone.$error">
-					<div v-if="!$v.formData.phone.required"	class="error active">Campo obrigatório</div>
-					<div v-if="!$v.formData.phone.isPhone"	class="error active">Campo inválido</div>
-				</div>
-			</div>
 			<div class="cep" ref="cep">
 				<input
 					placeholder="CEP"
@@ -125,10 +113,10 @@
 		<a v-if="type == 'personal'" @click="next" class="nextButton" tabindex="0">Avançar -></a>
 		<a v-else class="nextButton" @click="finish" tabindex="0">
 			Finanlizar
-			<span v-if="loading">
+			<span v-show="loading">
 				<i class='fa fa-spinner fa-spin'></i>
 			</span>
-			<span v-else>
+			<span v-show="!loading">
 			 ->
 			</span>
 		</a>
@@ -146,7 +134,6 @@ const isBirthdate = (value) => {
 	let date = moment(value, 'DD/MM/YYYY')
 	return !helpers.req(value) || date.isValid() && date.isBefore(moment())
 }
-const isPhone = helpers.regex('phone', /^\(\d{2}\)\s\d{4,5}-\d{4}$/)
 const isCep = helpers.regex('cep', /^\d{5}-\d{3}$/)
 export default {
 	extends: WizardView,
@@ -169,12 +156,6 @@ export default {
 			birthdate: {
 				required,
 				isBirthdate
-			},
-			phone: {
-				required: requiredIf(function(value) {
-					return this.type === 'company'
-				}),
-				isPhone
 			},
 			address: {
 				zipcode: {

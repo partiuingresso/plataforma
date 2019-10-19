@@ -88,8 +88,8 @@ module Wirecard
 				},
 				phone: {
 					countryCode: "55",
-					areaCode: company.phone_area_code,
-					number: company.phone_number
+					areaCode: person.phone_area_code.to_s,
+					number: person.phone_number.to_s
 				},
 				address: {
 					street: company.address.address,
