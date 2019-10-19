@@ -116,7 +116,7 @@
     <div class="container">
       <div class="selectCity">
         <%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %>
-        <%= request.location.region %>
+        <%= @user_location.region %>
         <%= image_tag asset_pack_path("media/assets/images/icons/down.svg") %>
       </div>
       <div class="selectFilter">
