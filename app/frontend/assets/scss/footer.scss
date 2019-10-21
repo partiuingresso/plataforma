@@ -6,6 +6,8 @@ footer {
   padding-top: 72px;
 }
 
+.modal footer { height: unset; }
+
 footer.default {
   hr {
     height: 1px;
