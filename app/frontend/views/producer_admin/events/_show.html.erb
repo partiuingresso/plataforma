@@ -12,7 +12,7 @@
               <div class="select is-small">
                 <%= select_tag(:offer, options_from_collection_for_select(@event.offers, :id, :name_with_allotment, params[:offer]), {:include_blank => 'Sem filtro'}) %>
               </div>
-              <%= submit_tag "Filtrar", class:"button is-small" %>
+              <%= submit_tag "Filtrar", class:"button is-small is-white" %>
             <% end %>
           </div>
         </div>

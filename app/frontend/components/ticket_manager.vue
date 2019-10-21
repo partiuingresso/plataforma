@@ -13,13 +13,13 @@
 					<p>Qual tipo de ingresso você deseja criar?</p>
 				</div>
 	      <div class="">
-				<a id="offer-button" class="button" @click="newOffer('costly')">
+				<a id="offer-button" class="button is-white" @click="newOffer('costly')">
 					<span class="icon has-text-success">
 					  <i class="fas fa-plus"></i>
 					</span>
 					<span>Ingresso Pago</span>
 				</a>
-				<a id="offer-button" class="button" @click="newOffer('free')">
+				<a id="offer-button" class="button is-white" @click="newOffer('free')">
 					<span class="icon has-text-success">
 					  <i class="fas fa-plus"></i>
 					</span>

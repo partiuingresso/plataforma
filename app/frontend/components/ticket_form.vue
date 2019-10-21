@@ -202,7 +202,7 @@
 		    	</div>
 		    </section>
 		    <footer class="modal-card-foot">
-		      <a class="button" @click="closeModal()">Cancelar</a>
+		      <a class="button is-white" @click="closeModal()">Cancelar</a>
 		      <button type="submit" class="button is-success">{{ actionMessage }}</button>
 		    </footer>
 		  </form>
