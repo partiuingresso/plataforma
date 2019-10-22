@@ -55,7 +55,7 @@ class ProducerAdmin::SellersController < ApplicationController
 private
 
   def seller_params
-    params.require(:seller).permit(:name, :email)
+    params.require(:seller).permit(:email, company_attributes: [:id, :name])
   end
 
   def user_params

@@ -19,17 +19,19 @@
 <div class="tile is-ancestor">
   <div class="tile is-vertical is-8 is-parent">
     <% if @seller.company.present? %>
-      <div class="tile is-child box">
-        <div class="field">
-          <label class="label">Nome da Empresa</label>
-          <div class="control has-icons-left has-icons-right">
-            <%= f.text_field :name, class: "input", placeholder: "Nome Fantasia" %>
-            <span class="icon is-small is-left">
-              <i class="far fa-building"></i>
-            </span>
+      <%= f.fields_for :company do |company_f| %>
+        <div class="tile is-child box">
+          <div class="field">
+            <label class="label">Nome da Empresa</label>
+            <div class="control has-icons-left has-icons-right">
+              <%= company_f.text_field :name, class: "input", placeholder: "Nome Fantasia" %>
+              <span class="icon is-small is-left">
+                <i class="far fa-building"></i>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
     <div class="tile is-child box">
       <div class="columns">

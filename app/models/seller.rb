@@ -9,6 +9,8 @@ class Seller < ApplicationRecord
     has_many :orders, through: :events
     has_one :company
 
+    accepts_nested_attributes_for :company
+
 	validates :moip_id, presence: true
 	validates :moip_access_token, presence: true
 
