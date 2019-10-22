@@ -66,6 +66,14 @@ section.checkout {
   }
 }
 
+@media screen and (max-width: 600px) {
+  section.checkout {
+    > .container {
+      box-shadow: unset;
+    }
+  }
+}
+
 .help.is-inline-block {
   margin-left: 0.5rem;
 }
