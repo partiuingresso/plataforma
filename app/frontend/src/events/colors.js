@@ -12,5 +12,5 @@ v.getPalette((err, palette) => {
     var style = document.createElement('style')
     style.type = 'text/css'
     style.innerHTML = ':root { --darkvibrant: '+darkvibrant+'; --vibrant: '+vibrant+'; --muted: '+muted+'; --darkmuted: '+darkmuted+'; --lightvibrant: '+lightvibrant+'; --lightmuted: '+lightmuted+'; }'
-    document.getElementsByTagName('footer')[0].appendChild(style)
+    document.getElementsByTagName('head')[0].appendChild(style)
 })
