@@ -8,8 +8,9 @@ class Event < ApplicationRecord
 			tsearch: {any_word: true, prefix: true}
 		}
 
-	belongs_to :company
+	belongs_to :seller
 	belongs_to :user
+	has_many :staff, class_name: :EventStaff
 	belongs_to :address
 	has_many :offers, dependent: :destroy
 	has_many :orders
@@ -33,14 +34,20 @@ class Event < ApplicationRecord
 
 	scope :available, -> {
 		joins(:offers)
-		.merge(Offer.available)
+		.merge(Offer.available).order(start_t: :asc)
 		.distinct
 	}
 
-	def end_date_cannot_be_before_start
-		if end_t.present? && end_t < start_t
-			errors.add(:end_t, "can't be before start date")
-		end
+	scope :available_to_happen, -> {
+		merge(available).where("events.start_t > ?", Date.today)
+	}
+
+	def self.highlights
+		all = Event.available_to_happen.includes(:offers)
+		closest = all.select { |event| event.start_t <= 10.days.from_now }
+		best_sellers = all.select { |event| event.sold >= 1000 } - closest
+
+		(closest.take(4) + best_sellers.take(4) + all).uniq.take(8)
 	end
 
 	def self.to_happen(margin = 0)
@@ -51,8 +58,25 @@ class Event < ApplicationRecord
 		Event.all.select { |event| event.start_t < DateTime.now }
 	end
 
+	def end_date_cannot_be_before_start
+		if end_t.present? && end_t < start_t
+			errors.add(:end_t, "can't be before start date")
+		end
+	end
+
+	def sold
+		offers.collect { |offer| offer.sold }.sum
+	end
+
 	def unavailable?
 		!available?
+	end
+
+	def running_out?
+		total = offers.collect { |offer| offer.quantity }.sum
+		available = offers.collect { |offer| offer.available_quantity }.sum
+
+		available.to_f / total <= 0.1
 	end
 
 	private

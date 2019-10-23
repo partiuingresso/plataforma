@@ -1,4 +1,7 @@
-<%= form_for event do |f|%>
+<% admin ||= false %>
+<% seller ||= nil %>
+<% namespace = admin ? :admin : nil %>
+<%= form_for [namespace, seller, event] do |f|%>
   <% if event.errors.any? %>
     <article class="message is-danger">
       <div class="message-body">
@@ -82,7 +85,7 @@
 			<div class="tile is-child box">
 				<label class="label">Título da descrição</label>
 				<div class="control">
-					<%= f.text_area :headline, class: "textarea", rows: 2, maxlength: 200 %>
+					<%= f.text_field :headline, class: "input", rows: 2, maxlength: 200 %>
 				</div>
 			</div>
 			<div class="tile is-child box">

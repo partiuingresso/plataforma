@@ -1,0 +1,425 @@
+header.partiuNav {
+  position: relative;
+  z-index: 30;
+  height: 60px;
+  margin-bottom: -60px;
+  background: transparent;
+  .container {
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &.hr { display: block; padding: unset; }
+  }
+  hr {
+    height: 1px;
+    background: linear-gradient(270deg, rgba(32, 32, 32, 0.2) 0%, #202020 50.52%, rgba(32, 32, 32, 0.2) 100%);
+    box-shadow: 0px 4px 8px rgba(17, 17, 17, 0.25);
+  }
+}
+
+.logInButton {
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 12px 27px;
+  text-transform: uppercase;
+  &:hover {
+    color: #ffffff;
+    background-color: #C72328;
+    border-color: #C72328;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.navMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    margin-left: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    &.newEvent a {
+      color: #DB2B2F;
+      &:hover {
+        background: linear-gradient(99.35deg, #C72328 -10.07%, #DD2476 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+    a { 
+      color: #ffffff;
+      opacity: .75;
+      &:hover { opacity: 1; }
+    }
+  }
+  .navProfileMenu {
+    margin-left: 20px;
+    margin-right: 20px;
+    .navDroplink {
+      opacity: 0.85;
+      cursor: pointer;
+      z-index: 100;
+      div { z-index: 30; }
+      img:first-child {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      img:last-child { margin-left: 10px; }
+      &:hover { opacity: 1; }
+    }
+    .navDropdown {
+      visibility: hidden;
+      opacity: 0;
+      padding: 16px 8px;
+      position: absolute;
+      z-index: 100;
+      top: 77px;
+      right: 0;
+      min-width: 170px;
+      border-radius: 8px;
+      background: rgba(30, 30, 30, 0.7);
+      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+      &.show {
+        transition: .3s cubic-bezier(.25,.8,.5,1);
+        visibility: visible;
+        opacity: 1;
+      }
+      a { 
+        font-weight: normal;
+        padding: 8px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 30px;
+        &:not(:first-child):not(:last-child) { margin-top: 10px; }
+        &:hover { background: #171717; }
+        &.active {
+          opacity: 1;
+          &:hover { background: unset; }
+        }
+        &::before {
+          content: '';
+          display: inline-block;
+          position: relative;
+          width: 16px;
+          height: 16px;
+          top: -1px;
+          margin-right: 8px;
+          background-size: 16px 16px;
+          background-repeat: no-repeat;
+        }
+      }
+      a.admin {
+        &::before {
+          background: url('../images/icons/ninja.svg');
+        }
+        &:hover {
+          &::before { background: url('../images/icons/ninja-grad.svg'); }
+        }
+      }
+      a.producer {
+        &::before {
+          background: url('../images/icons/dashboard.svg');
+        }
+        &:hover {
+          &::before { background: url('../images/icons/dashboard-grad.svg'); }
+        }
+      }
+      a.staff {
+        &::before {
+          background: url('../images/icons/qr-code.svg');
+        }
+        &:hover {
+          &::before { background: url('../images/icons/qr-code-grad.svg'); }
+        }
+      }
+      a.settings {
+        &::before {
+          background: url('../images/icons/settings.svg');
+        }
+        &:hover, &.active {
+          &::before { background: url('../images/icons/settings-grad.svg'); }
+        }
+      }
+      a.logout {
+        &::before {
+          background: url('../images/icons/logout.svg');
+        }
+        &:hover {
+          &::before { background: url('../images/icons/logout-grad.svg'); }
+        }
+      }
+      hr {
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin: 10px 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  header.partiuNav .container {
+    margin: 0 20px;
+  }
+}
+
+// Mobile
+
+header.mobile {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid #202020;
+  > div {
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px;
+    &:not(:last-of-type) { border-right: 1px solid #202020; }
+  }
+  div > a > img { vertical-align: middle; }
+  div.search {
+    flex: 1 1 auto;
+    color: rgba(255, 255, 255, 0.4);
+    form { display: none; }
+    span:last-of-type { display: none; }
+    &::before {
+      content: '';
+      display: inline-block;
+      background: url('../images/icons/search.svg');
+      width: 22px;
+      height: 22px;
+      opacity: 0.4;
+      margin-right: 18px;
+    }
+    &.active {
+      justify-content: space-between;
+      position: absolute;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background-color: #171717;
+      &::before { background: url('../images/icons/search-grad.svg'); opacity: 1; }
+      form { 
+        display: inline-block;
+        flex: 1 1 auto;
+        padding-right: 20px;
+        margin-left: -8px;
+        input.input {
+          background-color: transparent;
+          border: none;
+          box-shadow: none;
+          color: #ffffff;
+          padding-left: unset;
+          caret-color: rgba(255, 255, 255, 0.4);
+          &::placeholder { color: rgba(255, 255, 255, 0.4); }
+        }
+      }
+      span:first-of-type { display: none; }
+      span:last-of-type { display: inline-block; color: rgba(255, 255, 255, 0.65); }
+    }
+  }
+
+  div.myTickets {
+    flex: 0 1 auto;
+    a {
+      &::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        background: url('../images/icons/tickets-nav.svg');
+        background-repeat: no-repeat;
+        background-size: 22px 22px;
+        width: 22px;
+        height: 22px;
+      }
+      &.active {
+        &::before { background: url('../images/icons/tickets-nav-grad.svg'); }
+      }
+    }
+  }
+  div.myAccount {
+    flex: 0 1 auto;
+    a {
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        background: url('../images/icons/user.svg');
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        width: 16px;
+        height: 16px;
+      }
+      &.active {
+        &::before { background: url('../images/icons/user-grad.svg'); }
+      }
+    }
+  }
+  div.signIn {
+    flex: 0 1 auto;
+    a {
+      color: #ffffff;
+    }
+  }
+  div.menu {
+    display: none;
+    &.active { display: block; }
+    position: fixed;
+    z-index: 5;
+    margin-top: 48px;
+    height: 100%;
+    width: 100%;
+    background: #171717;
+    > * {
+      padding: 1.5rem;
+      display: flex;
+      &:not(:last-child):not(:first-child) {
+        border-top: 1px solid #202020;
+      }
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      .details {
+        flex: 1 1 auto;
+      }
+      .userName {
+        font-weight: 500;
+        font-size: 14px;
+        color: #ffffff;
+      }
+      .userMail {
+        font-size: 12px;
+      }
+      img:first-child {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 12px;
+      }
+      &::after {
+        content: '';
+        opacity: 0.75;
+        display: block;
+        vertical-align: middle;
+        background: url('../images/icons/pen.svg');
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
+      }
+      &.active:after { background-image: url('../images/icons/pen-grad.svg'); }
+    }
+    .orders {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/invoice.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/invoice-grad.svg'); }
+    }
+    .admin {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/ninja.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/ninja-grad.svg'); }
+    }
+    .producer {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      margin-top: -2px;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/dashboard.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/dashboard-grad.svg'); }
+    }
+    .staff {
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      margin-top: -2px;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/qr-code.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+      &.active:before { background-image: url('../images/icons/qr-code-grad.svg'); }
+    }
+    .logout {
+      margin-top: 3rem;
+      color: #ffffff;
+      font-size: 15px;
+      display: block;
+      text-align: center;
+      border: 1px solid #202020;
+      border-radius: 10px;
+      &::before {
+        content: '';
+        opacity: 0.75;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+        background: url('../images/icons/logout.svg');
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ class ProducerAdmin::EventsController < ApplicationController
 
 	def index
 		@events = Event.accessible_by(current_ability).order(start_t: :asc)
+		@seller = current_user.seller
 	end
 
 	def show
@@ -37,7 +38,7 @@ class ProducerAdmin::EventsController < ApplicationController
 
 	def create
 		@event = Event.new(event_params)
-		set_user_and_company
+		set_user_and_seller
 	    respond_to do |format|
 	      if @event.save
 	        format.html { redirect_to producer_admin_event_offers_path(@event), notice: 'Evento criado com sucesso.' }
@@ -71,9 +72,9 @@ class ProducerAdmin::EventsController < ApplicationController
 
 	private
 	
-		def set_user_and_company
+		def set_user_and_seller
 			@event.user = current_user
-			@event.company = current_user.company
+			@event.seller = current_user.seller
 		end
 
 		def event_params

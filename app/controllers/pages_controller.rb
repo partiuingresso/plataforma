@@ -1,7 +1,14 @@
 class PagesController < ApplicationController
+
   def index
-    @nextEvents = Event.where(start_t: 12.hours.ago..15.days.from_now)
-    @events = Event.order(created_at: :desc).to_happen - @nextEvents
+    @highlights = Event.highlights
+    @events = Event.order(created_at: :desc).to_happen - @highlights
+    if browser.mobile?
+      render "index_mobile"
+    else
+      @user_location = request.location
+      render "index"
+    end
   end
 
   def search

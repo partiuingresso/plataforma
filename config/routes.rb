@@ -20,15 +20,26 @@ Rails.application.routes.draw do
   # ==> Admin routes
 
   namespace :admin do
+    resources :sellers, except: [:new, :create, :destroy] do
+      get 'backstage', to: 'producer_dashboard#show', as: 'dashboard'
+      resources :events, only: [:index, :new, :create]
+      resource :finance, only: [:new, :create, :edit, :update]
+      get '/remove_staff/:user_id', to: 'sellers#remove_staff', as: "remove_staff"
+    end
+    resources :events, except: [:index, :new, :create] do
+      resources :offers, except: [:show, :edit, :new]
+      resources :marketings, only: [:index]
+      patch '/marketings/', to: 'marketings#update', as: 'marketing'
+    end
+    get '/check-in/:id', to: 'check_ins#show', as: 'check_in'
     resources :orders, only: [:index]
     resources :users, only: [:index]
-    resources :companies, only: [:show]
     resources :ticket_tokens, only: [:show, :update]
+    resources :transfers, only: [:create]
   end
 
   scope module: 'admin', path: '/', as: '' do
     get 'backoffice', to: 'dashboard#show', as: 'admin_dashboard'
-    resources :companies, only: [:new, :create]
     get '/send_received_email/:id', to: 'orders#send_received_email', as: 'send_received_email'
     get '/send_confirmed_email/:id', to: 'orders#send_confirmed_email', as: 'send_confirmed_email'
     get '/send_ticket_email/:id', to: 'orders#send_ticket_email', as: 'send_ticket_email'
@@ -46,6 +57,7 @@ Rails.application.routes.draw do
   # ==> Producer admin routes
 
   namespace :producer_admin do
+    resources :sellers, except: [:new, :create, :destroy]
     resources :events, only: [:index, :show] do
       resources :offers, only: [:index]
       resources :marketings, only: [:index]
@@ -56,12 +68,11 @@ Rails.application.routes.draw do
 
   scope module: 'producer_admin', path: '/', as: '' do
     get 'backstage', to: 'dashboard#show', as: 'producer_admin_dashboard'
-    resources :companies, only: [:show, :edit, :update]
-    get '/companies/remove_staff/:user_id', to: 'companies#remove_staff', as: "remove_staff"
+    get '/sellers/remove_staff/:user_id', to: 'sellers#remove_staff', as: "remove_staff"
     resources :events, except: [:index, :show] do
       resources :offers, only: [:create, :update, :destroy]
     end
-    resources :company_finances, except: [:index, :destroy]
+    resource :finance, except: [:index, :destroy]
   end
 
   # ==> Producer routes
@@ -75,6 +86,9 @@ Rails.application.routes.draw do
     post 'validations/', to: 'validations#create', as: 'validations'
     get 'validations/:code', to: 'validations#new', as: 'new_validation'
   end
+
+  # ==> Sellers routes
+  resources :sellers, only: [:new, :create]
 
   # ==> Events routes
 
@@ -108,9 +122,9 @@ Rails.application.routes.draw do
   # ==> Chart routes
 
   namespace :charts do
-    get 'sales-count'
-    get 'sales-value'
-    get 'sales-tickets'
+    get 'sales-count/:seller_id', action: 'sales_count', as: 'sales_count'
+    get 'sales-value/:seller_id', action: 'sales_value', as: 'sales_value'
+    get 'sales-tickets/:seller_id', action: 'sales_tickets', as: 'sales_tickets'
     get 'all-sales-count'
     get 'all-sales-value'
     get 'all-sales-tickets'

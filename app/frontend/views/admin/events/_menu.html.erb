@@ -1,0 +1,8 @@
+<%= render partial: "producer_admin/events/menu_layout", locals: {
+	links: {
+		event: admin_event_path(@event),
+		event_offers: admin_event_offers_path(@event),
+		event_marketings: admin_event_marketings_path(@event),
+		event_check_in:  admin_check_in_path(@event)
+	}
+} %>

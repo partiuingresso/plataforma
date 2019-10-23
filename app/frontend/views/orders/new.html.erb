@@ -2,19 +2,13 @@
 <% content_for :head do %>
   <%= render partial: 'layouts/tags', locals: { fb_pixel: @order.event.fb_pixel, ga_id: @order.event.ga_id } %>
 <% end %>
-<% content_for :navbar do %>
-<%= render 'layouts/header_checkout' %>
-<% end %>
-<% content_for :footer do %>
-<%= render 'layouts/footer_clear' %>
-<% end %>
 
 <%= javascript_pack_tag "orders/new" %>
 
 <section class="section checkout">
   <div class="container">
     <div class="columns is-centered ordered-mobile">
-      <div class="column is-6 is-offset-1 fl-2">
+      <div class="column is-7 fl-2">
         <% if @order.free? %>
           <p class="title is-hidden-touch">Confirmar seu pedido</p>
         <% else %>
@@ -43,7 +37,7 @@
         <% end %>
         <%= render 'orders/form' %>
       </div>
-      <div class="column is-3 is-forward-1 fl-1">
+      <div class="column is-3 is-offset-1 fl-1">
         <% if @order.free? %>
           <p class="title is-hidden-desktop">Confirmar seu pedido</p>
         <% else %>
@@ -122,13 +116,13 @@
           </div>
         </div>
         <br />
-        <div class="columns is-vcentered is-mobile animated slideInDown delay-1s">
-          <div class="column is-1 is-offset-1">
+        <div class="columns is-vcentered is-centered is-mobile animated slideInDown delay-1s">
+          <div class="column is-1">
             <span class="icon has-text-primary">
               <i class="far fa-2x fa-clock"></i>
             </span>
           </div>
-          <div class="column is-10 is-forward-1">
+          <div class="column is-10">
             <p class="content is-size-7">
               <strong>Seu pedido está reservado por <span class="has-text-primary" id="remainingTime"></span></strong> <br />
               Por favor, finalize sua compra antes de esgotar o tempo.

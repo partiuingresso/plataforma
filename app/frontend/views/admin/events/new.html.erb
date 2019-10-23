@@ -1,0 +1,23 @@
+<%= javascript_pack_tag "events/admin" %>
+
+<section class="section events-new">
+	<div class="container">		
+		<div class="columns is-centered">
+			<div class="column is-12">
+				<div class="level">
+					<div class="level-left">
+						<div class="level-item">
+							<p class="title is-size-2">Criar Evento</p>
+						</div>
+					</div>
+					<div class="level-right">
+						<div class="level-item">
+							<%= link_to 'Voltar ao dashboard', admin_seller_dashboard_path(@seller), class: "button is-info" %> 
+						</div>
+					</div>
+				</div>
+				<%= render partial: "producer_admin/events/form", locals: { seller: @seller, event: @event, admin: true } %>
+			</div>
+		</div>
+	</div>
+</section>

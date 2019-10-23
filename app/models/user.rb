@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :credit_cards
   has_many :orders
   has_many :ticket_tokens, through: :orders
-  belongs_to :company, optional: true
+  belongs_to :actor, polymorphic: true, optional: true
 
   pg_search_scope :search_user, against: [:first_name, :last_name, :email],
                     using: {
@@ -21,6 +21,34 @@ class User < ApplicationRecord
 
   enum role: [:guest, :user, :producer, :producer_admin, :admin]
   after_initialize :set_default_role, :if => :new_record?
+
+  def seller
+    if actor.is_a?(Seller)
+      actor
+    elsif actor.is_a?(SellerStaff)
+      actor.seller
+    end
+  end
+
+  def seller_staff
+    actor if actor.is_a? SellerStaff
+  end
+
+  def seller=(obj)
+    self.actor = obj
+  end
+
+  def seller_staff=(obj)
+    self.actor = obj
+  end
+
+  def build_seller(attributes=nil)
+    self.seller = Seller.new(attributes)
+  end
+
+  def build_seller_staff(attributes=nil)
+    self.seller_staff = SellerStaff.new(attributes)
+  end
 
   def set_default_role
     self.role ||= :user

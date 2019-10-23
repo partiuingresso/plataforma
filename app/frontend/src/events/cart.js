@@ -15,17 +15,15 @@ export default {
 				return total
 			}
 
-			var plus = document.querySelectorAll('.button.plus')
-			var minus = document.querySelectorAll('.button.minus')
+			var plus = document.querySelectorAll('.plus')
+			var minus = document.querySelectorAll('.minus')
 			var totalPrice = document.getElementById('total_price')
 
 			for(let button of plus) {
 				button.addEventListener('click', function(e) {
-				var buttonParent = button.parentElement
-				var divSibling = buttonParent.previousElementSibling
-				var quantityView = divSibling.querySelector('.quantity-view')
+				var quantityView = button.parentElement.querySelector('.quantity')
 				var number = Number(quantityView.innerHTML)
-				var hiddenInput = divSibling.querySelector('.quantity-input')
+				var hiddenInput = quantityView.previousElementSibling
 				var max = Number(hiddenInput.dataset.max)
 				if(number < max) {
 					number++
@@ -39,14 +37,12 @@ export default {
 
 			for(let button of minus) {
 				button.addEventListener('click', function(e) {
-				var buttonParent = button.parentElement
-				var divSibling = buttonParent.nextElementSibling
-				var quantityView = divSibling.querySelector('.quantity-view');
+				var quantityView = button.parentElement.querySelector('.quantity')
 				var number = Number(quantityView.innerHTML)
 					if(number > 0) {
 						number--
 						quantityView.innerHTML = number
-						var hiddenInput = divSibling.querySelector('.quantity-input')
+						var hiddenInput = quantityView.previousElementSibling
 						hiddenInput.value = number
 						let total = calculateTotal().toFixed(2)
 						totalPrice.innerText = total.toString(10).replace(".", ",")

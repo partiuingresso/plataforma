@@ -1,28 +1,36 @@
-<section class="section hero">
-  <div class="container hero-content">
-  </div>
-</section>
-
-<section class="section results">
+<section class="section results <%= browser.mobile? ? 'featuredMob' : '' %>">
   <div class="container">
     <% if @events.any? %>
       <p class="search title has-text-centered">
-        Exibindo resultados para <em><%= sanitize params[:q] %></em>
+        Exibindo resultados para <em class="has-text-primary"><%= sanitize params[:q] %></em>
       </p>
       <% @events.each do |event| %>
         <div class="columns is-centered">
-          <div class="column is-6">
-            <%= link_to event_path(event) do %>
-              <div class="event box" style="background-image: linear-gradient(rgba(20,20,25,0.6), rgba(20,20,25,0.6)), url(<%= rails_blob_path event.hero_image %>);">
-                <div class="event-overlay">
-                  <div class="item-down">
-                    <div>
-                      <p class="event-name"><%= truncate(event.name, length: 30) %></p>
-                      <p class="event-date"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
-                      <p class="event-city"><span class="icon is-small"><i class="fas fa-map-marker-alt"></i></span><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+          <div class="column is-8">
+            <div class="eventCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+              <%= link_to event_path(event) do %>
+                <div class="eventOverlay">
+                  <div class="itemsLeft">
+                    <div class="soldTickets">
+                      <% if event.sold >= 1000 %>
+                        <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
+                        <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
+                      <% end %>
+                    </div>
+                    <div class="info">
+                      <% if event.running_out? %>
+                        <p class="popularTag">Esgotando</p>
+                      <% elsif event.sold >= 500 %>
+                        <p class="popularTag">Popular</p>
+                      <% end %>
+                      <p class="eventName <% if event.name.length > 25 %>long<% end %>"><%= truncate(event.name, length: 35) %></p>
+                      <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                      <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg") %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
                     </div>
                   </div>
-                  <div class="item-down-right">
+                  <div class="itemsRight">
+                    <div>
+                    </div>
                     <div>
                       <span class="icon">
                         <i class="fas fa-chevron-right animated fadeInLeft fast"></i>
@@ -30,9 +38,14 @@
                     </div>
                   </div>
                 </div>
+              <% end %>
+              <div class="wishList">
+                <a>
+                  <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
+                </a>
               </div>
-            <% end %>
-         </div>
+            </div>
+          </div>
         </div>
       <% end %>
     <% else %>

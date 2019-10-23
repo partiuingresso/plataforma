@@ -1,94 +1,87 @@
 <% provide(:title, "Cadastre-se") %>
 <% content_for :navbar do %>
-<%= render 'layouts/header_clean' %>
+  &nbsp;
+<% end %>
+<% content_for :footer do %>
+  &nbsp;
 <% end %>
 
 <%= javascript_pack_tag "users/registration-new" %>
 
-<section class="section login">
-  <div class="container">
-    <div class="columns is-centered">
+<div class="usersBg">
+  <div class="usersCard registration">
+    <div class="logo">
+      <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'33'), root_path %>
+    </div>
+    <div class="form">
+      <div class="usersTitle">
+        Crie sua conta
+      </div>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+                                                  html: {novalidate: true }) do |f| %>
+        <%= devise_error_messages! %>
 
-      <div class="column is-5">
-        <div class="card">
-          <div class="card-content">
-            <p class="title has-text-centered">Crie sua conta</p>
-            <br />
-
-            <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
-                                                      html: {novalidate: true }) do |f| %>
-            <%= devise_error_messages! %>
-
-            <div class="field">
-              <label class="label">Nome completo</label>
-              <div class="control has-icons-left has-icons-right">
-                <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "input", placeholder: "Seu nome" %>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-user"></i>
-                </span>
-              </div>
-              <div class="error-msg-area">
-                <span id="blank_name_error" class="error" aria-alive="polite">O campo "Nome" é obrigatório.</span>
-                <span id="invalid_name_error" class="error" aria-alive="polite">Digite nome e sobrenome.</span>
-              </div>
+        <div class="field mb">
+          <label class="label">Nome completo</label>
+            <div class="control name">
+              <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "input", placeholder: "Seu nome" %>
             </div>
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control has-icons-left has-icons-right">
-                <%= f.email_field :email, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-                </span>
-              </div>
-              <div class="error-msg-area">
-                <span id="blank_email_error" class="error" aria-alive="polite">O campo "Email" é obrigatório.</span>
-                <span id="invalid_email_error" class="error" aria-alive="polite">Email inválido.</span>
-              </div>
+            <div class="error-msg-area">
+              <span id="blank_name_error" class="error" aria-alive="polite">O campo "Nome" é obrigatório.</span>
+              <span id="invalid_name_error" class="error" aria-alive="polite">Digite nome e sobrenome.</span>
             </div>
+        </div>
 
-            <div class="field">
-              <label class="label inline">Senha</label>
-              <p class="help inline">Mínimo de 8 caracteres</p>
-              <div class="control has-icons-left has-icons-right">
-                <%= f.password_field :password, autocomplete: "new-password", class: "input", placeholder: "********" %>
-                <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </div>
-              <div class="error-msg-area">
-                <span id="blank_password_error" class="error" aria-alive="polite">O campo "Senha" é obrigatório.</span>
-                <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisa ter pelo menos 8 caracteres.</span>
-              </div>
+        <div class="field mb">
+          <label class="label">Email</label>
+            <div class="control email">
+              <%= f.email_field :email, autocomplete: "email", class: "input", placeholder: "nome@exemplo.com" %>
             </div>
+            <div class="error-msg-area">
+              <span id="blank_email_error" class="error" aria-alive="polite">O campo "Email" é obrigatório.</span>
+              <span id="invalid_email_error" class="error" aria-alive="polite">Email inválido.</span>
+            </div>
+        </div>
 
-            <p class="help">Ao cadastrar-se, você concorda com a <%= link_to "política de privacidade", "#" %> e os <%= link_to "termos de uso", "#" %>.</p><br />
-
-            <nav class="level">
-              <div class="level-left">
-                <div class="level-item">
-                  <div class="control">
-                    <%= f.button "Cadastre-se", class: "button is-primary is-medium" %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <p class="help"><%= render "users/shared/links" %></p>
-                </div>
-              </div>
-            </nav>
-
-
-
-
-
-
+        <div class="field mb">
+          <label class="label">Senha</label>
+          <p class="help">Mínimo de 8 caracteres</p>
+          <div class="control pass">
+            <%= f.password_field :password, autocomplete: "new-password", class: "input", placeholder: "••••••••" %>
+            <div class="viewPass"></div>
+          </div>
+          <div class="error-msg-area">
+            <span id="blank_password_error" class="error" aria-alive="polite">O campo "Senha" é obrigatório.</span>
+            <span id="invalid_password_error" class="error" aria-alive="polite">A senha precisa ter pelo menos 8 caracteres.</span>
           </div>
         </div>
-      </div>
 
+        <div class="bottomLogin">
+          <div>
+          </div>
+          <div class="helpLink">
+            Precisa de ajuda?
+          </div>
+        </div>
+
+        <div class="signIn">
+          <%= f.button "Cadastre-se", class: "button" %>
+          <%= link_to "Já é cadastrado?", login_path %>
+        </div>
+
+        <div class="terms">
+          Ao cadastrar-se, você concorda com a <%= link_to "política de privacidade", privacy_path %> e os <%= link_to "termos de uso", terms_path %>.
+        </div>
+      <% end %>
+    </div>
+    <div class="needHelp">
+      <div class="usersTitle">
+        Precisa de ajuda?
+      </div>
+      <div class="content">
+        <%= render "users/shared/links" %>
+        <a class="goBack"><- Voltar</a>
+      </div>
     </div>
   </div>
-</section>
+</div>

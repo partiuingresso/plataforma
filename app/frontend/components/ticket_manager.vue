@@ -13,13 +13,13 @@
 					<p>Qual tipo de ingresso você deseja criar?</p>
 				</div>
 	      <div class="">
-				<a id="offer-button" class="button" @click="newOffer('costly')">
+				<a id="offer-button" class="button is-white" @click="newOffer('costly')">
 					<span class="icon has-text-success">
 					  <i class="fas fa-plus"></i>
 					</span>
 					<span>Ingresso Pago</span>
 				</a>
-				<a id="offer-button" class="button" @click="newOffer('free')">
+				<a id="offer-button" class="button is-white" @click="newOffer('free')">
 					<span class="icon has-text-success">
 					  <i class="fas fa-plus"></i>
 					</span>
@@ -101,6 +101,7 @@
 		</confirm-dialog>
 		<ticket-form
 			v-if="ticketFormVisible"
+			:admin="admin"
 			:event="event"
 			:offer="selectedOffer"
 			:free="ticketFree"
@@ -119,7 +120,11 @@ export default {
 		'confirm-dialog': ConfirmDialog,
 		'ticket-form': TicketForm
 	},
-	props: ['offers_data', 'event'],
+	props: {
+		offers_data: String,
+		event: Number,
+		admin: Boolean
+	},
 	data() {
 		return {
 			offers: [],
@@ -192,7 +197,7 @@ export default {
 		},
 		async deleteOffer() {
 			Rails.ajax({
-				url: `/events/${this.event}/offers/${this.selectedOffer.id}`,
+				url: this.url,
 				type: 'delete',
 				data: '',
 				success: this.successfulOfferDeletion,
@@ -251,6 +256,12 @@ export default {
 		},
 		confirmMessage() {
 			return `Tem certeza que deseja remover o ingresso <b>${this.selectedOffer.name}</b>?`
+		},
+		url() {
+			const prefix = this.admin ? '/admin' : ''
+			const url = prefix + `/events/${this.event}/offers/${this.selectedOffer.id}`
+
+			return url
 		}
 	}
 }

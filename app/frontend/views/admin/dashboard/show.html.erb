@@ -1,8 +1,4 @@
 <%= javascript_pack_tag "admin/dashboard" %>
-<section class="section hero">
-  <div class="container hero-content">
-  </div>
-</section>
 
 <section class="section admin-dashboard">
   <div class="container">
@@ -13,14 +9,14 @@
         </div>
 
 
-      <div class="column is-8">
-        <p class="title is-size-2">Dashboard</p>
+      <div class="column is-9">
+        <p class="title">Dashboard</p>
 
         <div class="tile is-ancestor">
           <div class="tile is-7 is-vertical is-parent">
             <div class="tile box is-child">
 
-              <label class="label is-size-5">Empresas Cadastradas</label>
+              <label class="label is-size-5">Produtores Cadastrados</label>
 
               <div class="columns is-mobile">
                 <div class="column is-2 has-text-left">
@@ -35,18 +31,18 @@
               </div>
 
               <div class="columns is-multiline is-mobile">
-                <% @companies.each do |company| %>
+                <% @sellers.each do |seller| %>
                   <div class="column is-2">
-                    <%= company.id %>
+                    <%= seller.id %>
                   </div>
 
                   <div class="column is-5">
-                    <%= company.name %>
+                    <%= seller.name %>
                   </div>
 
                   <div class="column is-5">
-                     <%= link_to 'Editar', edit_company_path(company), class: "button is-small" %>
-                     <%= link_to 'Gerenciar', admin_company_path(company), class: "button is-small" %>
+                     <%= link_to 'Editar', edit_producer_admin_seller_path(seller), class: "button is-small" %>
+                     <%= link_to 'Gerenciar', admin_seller_dashboard_path(seller), class: "button is-small" %>
                   </div>
 
                 <% end %>

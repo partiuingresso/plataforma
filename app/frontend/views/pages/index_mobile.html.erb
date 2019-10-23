@@ -1,0 +1,156 @@
+<section class="section featuredMob">
+  <div class="container">
+    <h2>Em alta</h2>
+    <% @highlights[0..0].try(:each) do |event| %>
+      <div class="eventCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+        <%= link_to event_path(event) do %>
+          <div class="eventOverlay">
+            <div class="itemsLeft">
+              <div class="soldTickets">
+                <% if event.sold >= 1000 %>
+                  <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg") %>
+                  <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
+                <% end %>
+              </div>
+              <div class="info">
+                <% if event.running_out? %>
+                  <p class="popularTag">Esgotando</p>
+                <% elsif event.sold >= 500 %>
+                  <p class="popularTag">Popular</p>
+                <% end %>
+                <p class="eventName <% if event.name.length > 25 %>long<% end %>"><%= event.name %></p>
+                <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+                <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg"), width: '14' %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="wishList">
+          <a>
+            <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg") %>
+          </a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<section class="section eventsMob">
+  <div class="container">
+    <h2>Destaques</h2>
+    <ul class="horizontalList">
+      <% @highlights[1..7].try(:each) do |event| %>
+        <li class="eventItem">
+          <%= link_to event_path(event) do %>
+            <div class="miniCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+              <div class="itemsUp">
+                <div class="soldTickets">
+                  <% if event.sold >= 1000 %>
+                    <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg"), width: '23' %>
+                    <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
+                  <% end %>
+                </div>
+              </div>
+              <div class="itemsDown">
+                <div>
+                  <% if event.running_out? %>
+                    <p class="popularTag">Esgotando</p>
+                  <% elsif event.sold >= 500 %>
+                    <p class="popularTag">Popular</p>
+                  <% end %>
+                  <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg"), width: '14' %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                </div>
+              </div>
+            </div>
+            <p class="eventName <% if event.name.length > 25 %>long<% end %>"><%= event.name %></p>
+            <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+          <% end %>
+          <div class="wishList">
+            <a>
+              <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg"), width: '16' %>
+            </a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>
+
+<% unless signed_in? %>
+  <section class="section registerCTAmob">
+    <div class="container">
+      <div>
+        <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg"), width: '29.27' %>
+      </div>
+      <div>
+        <p>
+        Fique por dentro de quando vão rolar
+        seus eventos favoritos
+        </p>
+      </div>
+      <div>
+        <%= link_to "Cadastre-se", signup_path, class: "button" %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<% if @events.count >= 1 %>
+  <section class="section eventsMob">
+    <div class="container">
+      <h2>Explore</h2>
+      <div class="horizontalList">
+        <% @events.each do |event| %>
+          <div class="eventItem">
+            <%= link_to event_path(event) do %>
+              <div class="miniCard" style="background-image: linear-gradient(180deg, rgba(27, 27, 27, 0) 0%, #1B1B1B 100%), url(<%= rails_blob_path event.hero_image %>);">
+                <div class="itemsUp">
+                  <div class="soldTickets">
+                    <% if event.sold >= 1000 %>
+                      <%= image_tag asset_pack_path("media/assets/images/icons/tickets.svg"), width: '23' %>
+                      <p class="ticketsNumber">Vendidos<br />+<%= number_to_human(event.sold) %></p>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="itemsDown">
+                  <div>
+                    <% if event.running_out? %>
+                      <p class="popularTag">Esgotando</p>
+                    <% elsif event.sold >= 500 %>
+                      <p class="popularTag">Popular</p>
+                    <% end %>
+                    <p class="eventCity"><%= image_tag asset_pack_path("media/assets/images/icons/pin.svg"), width: '14' %><%= truncate(event.address.city, length: 24) %>/<%= event.address.state %></p>
+                  </div>
+                </div>
+              </div>
+              <p class="eventName <% if event.name.length > 25 %>long<% end %>"><%= event.name %></p>
+              <p class="eventDate"><%= l event.start_t, format: ("%d de %B de %Y") %></p>
+            <% end %>
+            <div class="wishList">
+              <a>
+                <%= image_tag asset_pack_path("media/assets/images/icons/heart.svg"), width: '16' %>
+              </a>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<section class="section sellerCTAmob">
+  <div class="container">
+    <div>
+      <p>
+        Publicar seu evento na Partiu é fácil
+        e grátis!
+      </p>
+    </div>
+    <div>
+      <%= link_to "Comece agora", new_seller_path, class: "button" %>
+    </div>
+    <div>
+      <%= link_to "Saiba mais", '#', class: "learnMore" %>
+    </div>
+  </div>
+</section>

@@ -1,10 +1,6 @@
 <%= javascript_pack_tag "orders/index" %>
-<section class="section hero">
-  <div class="container hero-content">
-  </div>
-</section>
 
-<section class="section painel orders-index">
+<section class="section orders-index">
   <div class="container">
     <div class="columns is-centered">
 
@@ -12,7 +8,7 @@
         <%= render partial: 'users/registrations/menu' %>
       </div>
 
-      <div class="column is-6">
+      <div class="column is-8 is-offset-1">
         <% if current_user.orders.present? %>
           <%= render partial: 'orders/index' %>
         <% else %>

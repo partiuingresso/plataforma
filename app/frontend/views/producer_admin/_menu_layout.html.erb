@@ -1,0 +1,31 @@
+<aside class="menu">
+  <p class="menu-label">
+    Painel do Produtor
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to_in_li "Dashboard", links[:dashboard] %></li>
+  </ul>
+  <p class="menu-label">
+    Eventos
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to_in_li "Meus Eventos", links[:events] %></li>
+  </ul>
+  <p class="menu-label">
+    Minha Negócio
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to_in_li "Editar Negócio", links[:edit_seller] %></li>
+  </ul>
+  <p class="menu-label">
+    Financeiro
+  </p>
+  <ul class="menu-list">
+    <li><%= link_to_in_li "Visão Geral", links[:show_seller] %></li>
+    <% if @seller.finance.present? && @seller.finance.persisted? %>
+      <li><%= link_to_in_li "Conta Bancária", links[:edit_finance] %></li>
+    <% else %>
+      <li><%= link_to_in_li "Conta Bancária", links[:new_finance] %></li>
+    <% end %>
+  </ul>
+</aside>

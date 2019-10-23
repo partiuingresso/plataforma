@@ -2,6 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+section.tickets {
+  .title { color: #ffffff; margin-bottom: 24px; }
+  .ticket-show {
+    .title {
+      color: #ffffff;
+      margin-bottom: unset;
+      font-size: 20px;
+      &.is-7 { font-size: 0.75rem; }
+    }
+  }
+}
+
 .no-ticket {
   padding: unset;
   margin-top: -8rem;
@@ -43,11 +55,12 @@
 }
 
 .qr-box {
+  border-radius: 10px;
   background: white;
   position: absolute;
   z-index: 999;
   left: -25px;
-  top: 36%;
+  top: 50px;
   width: 60px;
   height: 60px;
   align-items: center;
@@ -104,7 +117,7 @@
   overflow-y: scroll;
   overflow-x: hidden;
   margin-top: -2rem;
-  background-color: rgba(20, 20, 25, 0.975);
+  background: rgba(23, 23, 23, 0.99);
   & .columns {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -116,7 +129,7 @@
       box-shadow: -1px 10px 45px -12px rgba(0,0,0,0.75);
     }
     & .column.box {
-      background-color: rgba(20,20,25, 1);
+      background: #202020;
       box-shadow: -1px 10px 45px -12px rgba(0,0,0,0.75);
       color: #ffffff;
       margin-left: 2rem;
@@ -140,6 +153,16 @@
 
 
 @media screen and (max-width: 600px) {
+  section.tickets {
+    .title { 
+      color: #ffffff;
+      margin-bottom: 24px;
+      font-weight: bold;
+      font-size: 22px;
+      line-height: 22px;
+    }
+  }
+
   .no-ticket {
     padding: unset;
     margin-top: -2rem;

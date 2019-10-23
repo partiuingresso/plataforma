@@ -1,0 +1,14 @@
+<%= javascript_pack_tag "events/index" %>
+<section class="section events-index">
+	<div class="container">
+		<div class="columns is-centered">
+      <div class="column is-3">        
+        <%= render "admin/producer_menu" %>
+      </div>
+      <div class="column is-9 events-table">
+        <%= link_to 'Criar Evento', new_admin_seller_event_path(@seller), class: "button is-small is-pulled-right" %>
+        <%= render partial: "producer_admin/events/index", locals: { event_path: lambda { |event| admin_event_path(event) } } %>
+      </div>
+		</div>
+	</div>
+</section>

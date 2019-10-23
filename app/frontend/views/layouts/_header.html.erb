@@ -1,110 +1,45 @@
-<header class="partiu_header">
+<header class="partiuNav">
   <div class="container">
-    <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <%= link_to image_tag(asset_pack_path("media/assets/images/logo-light.svg"), alt:'PartiuIngresso.com', width:'130', class:'logo'), root_path, class: "navbar-item" %>
-
-        <a role="button" class="navbar-burger burger has-text-white" aria-label="menu" aria-expanded="false" data-target="navbarPartiuIngresso">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+    <div class="logo">
+      <%= link_to image_tag(asset_pack_path("media/assets/images/logo-light.svg"), alt:'PartiuIngresso.com', width:'120', class:'logo'), root_path %>
+    </div>
+    <% if signed_in? %>
+    <div class="navMenu">
+      <% if current_user.producer_admin? %>
+        <div class="newEvent">
+          <%= link_to "Criar Evento", new_event_path %>
+        </div>    
+      <% end %>  
+      <div class="navTickets">
+        <%= link_to "Meus Ingressos", ticket_tokens_path %>
       </div>
-
-      <div id="navbarPartiuIngresso" class="navbar-menu">
-        <div class="navbar-end">
-          <% if signed_in? %>
-
-            <div class="navbar-item user">
-              <div class="buttons">
-
-            <% if current_user.admin? %>
-              <%= link_to new_event_path, class: "header button" do %>
-                <span>Criar Evento</span>
-              <% end %>
-            <% end %>
-
-            <%= link_to ticket_tokens_path, class: "header button" do %>
-              <span class="icon has-text-danger">
-                <i class="fas fa-ticket-alt"></i>
-              </span>
-              <span>Meus Ingressos</span>
-            <% end %>
-
-              </div>
-            </div>
-
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link user">
-                <span class="icon">
-                <i class="fas fa-user"></i>
-                </span> 
-                <span><%= current_user.name.first %></span>
-              </a>
-
-
-              <div class="navbar-dropdown is-boxed">
-
-                <% if current_user.producer_admin? %>
-                  <%= link_to producer_admin_dashboard_path, class: "navbar-item" do %>
-                    <span class="icon">
-                      <i class="fas fa-dollar-sign"></i>
-                    </span>
-                    <span>Produtor</span>
-                  <% end %>
-                <% end %>
-
-                <% if current_user.admin? %>
-                  <%= link_to admin_dashboard_path, class: "navbar-item" do %>
-                    <span class="icon">
-                      <i class="fas fa-jedi"></i>
-                    </span>
-                    <span>Admin</span>
-                  <% end %>
-                <% end %>
-
-                <% if current_user.producer_admin? || current_user.producer? %>
-                  <%= link_to producer_events_path, class: "navbar-item" do %>
-                    <span class="icon">
-                      <i class="fas fa-camera"></i>
-                    </span>
-                    <span>Check-in</span>
-                  <% end %>
-                <% end %>
-
-                <%= link_to edit_user_registration_path, class: "navbar-item" do %>
-                  <span class="icon">
-                    <i class="far fa-file-alt"></i>
-                  </span>
-                  <span>Minha Conta</span>
-                <% end %>
-
-                <%= link_to "https://ajuda.partiuingresso.com/hc/pt-br", class: "navbar-item" do %>
-                  <span class="icon">
-                    <i class="fas fa-question-circle"></i>
-                  </span>
-                  <span>Precisa de Ajuda?</span>
-                <% end %>
-
-                <hr class="navbar-divider">
-                <%= link_to destroy_user_session_path, method: "delete", class: "navbar-item" do %>
-                  <span class="icon has-text-grey-dark">
-                  <i class="fas fa-sign-out-alt"></i>
-                  </span>
-                  <span>Sair</span>
-                <% end %>
-              </div>
-            </div>
-            <% else %>
-              <div class="navbar-item">
-                <div class="buttons">
-                  <%= link_to "Cadastre-se", signup_path, class: "button is-primary" %>
-                  <%= link_to "Login", login_path, class: "button is-light" %>
-              </div>
-          </div>
+      <div class="navHelp">
+        <a href="https://ajuda.partiuingresso.com/hc">Ajuda</a>
+      </div>
+      <div class="navProfileMenu">
+        <div class="navDroplink">
+          <%= image_tag asset_pack_path("media/assets/images/elements/avatar-default.jpg"), width:'30' %>
+          <%= current_user.name.first %>
+          <%= image_tag asset_pack_path("media/assets/images/icons/down.svg") %>
+        </div>
+        <div class="navDropdown">
+          <% if current_user.admin? %>
+            <%= link_to 'Admin', admin_dashboard_path, class: "admin #{current_page?(admin_dashboard_path) ? 'active' : ''}"%>
           <% end %>
+          <% if current_user.producer_admin? %>
+            <%= link_to 'Dashboard', producer_admin_dashboard_path, class: "producer #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
+          <% end %>
+          <% if current_user.producer? %>
+            <%= link_to 'Staff', producer_events_path, class: "staff #{current_page?(producer_admin_dashboard_path) ? 'active' : ''}" %>
+          <% end %>
+          <%= link_to 'Configurações', edit_user_registration_path, class: "settings #{current_page?(edit_user_registration_path) ? 'active' : ''}" %>
+          <hr />
+          <%= link_to 'Sair', destroy_user_session_path, method: "delete", class: "logout" %>
         </div>
       </div>
-    </nav>
+    </div>
+    <% else %>
+      <%= link_to "Entrar", login_path, class: "logInButton" %>
+    <% end %>
   </div>
 </header>

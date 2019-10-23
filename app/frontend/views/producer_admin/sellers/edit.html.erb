@@ -1,0 +1,18 @@
+<section class="section sellers-edit">
+  <div class="container">
+    <div class="columns is-centered">
+        
+      <div class="column is-3">
+        <%= render "producer_admin/menu" %>
+      </div>
+
+      <div class="column is-9">
+        <%= render partial: "edit", locals: {
+          links: {
+            remove_staff: lambda { |user_id| remove_staff_path(user_id) }
+          }
+        } %>
+      </div>
+    </div>
+  </div>
+</section>

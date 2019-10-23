@@ -23,8 +23,10 @@
 
     <% if content_for?(:navbar) %>
       <%= yield(:navbar) %>
+    <% elsif browser.mobile? %>
+      <%= render 'layouts/header_mobile' %>
     <% else %>
-      <%= render 'layouts/header' %>
+      <%= render 'layouts/header_clean' %>
     <% end %>
 
     <%= yield %>

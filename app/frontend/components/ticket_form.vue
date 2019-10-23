@@ -202,7 +202,7 @@
 		    	</div>
 		    </section>
 		    <footer class="modal-card-foot">
-		      <a class="button" @click="closeModal()">Cancelar</a>
+		      <a class="button is-white" @click="closeModal()">Cancelar</a>
 		      <button type="submit" class="button is-success">{{ actionMessage }}</button>
 		    </footer>
 		  </form>
@@ -233,7 +233,10 @@
 	    	type: Boolean
 	    },
 	    event: {
-	    	type: String
+	    	type: Number
+	    },
+	    admin: {
+	    	type: Boolean
 	    }
 	  },
 		data() {
@@ -317,7 +320,7 @@
 			},
 			updateOffer() {
 				Rails.ajax({
-					url: `/events/${this.event}/offers/${this.actionOffer.id}`,
+					url: this.url + this.actionOffer.id,
 					type: 'patch',
 					data: this.formData,
 					success: this.successfulOfferUpdate,
@@ -351,7 +354,7 @@
 			},
 			createOffer() {
 				Rails.ajax({
-					url: `/events/${this.event}/offers`,
+					url: this.url,
 					type: 'post',
 					data: this.formData,
 					success: this.successfulOfferCreation,
@@ -413,6 +416,12 @@
 				formData.append('offer[active]', this.actionOffer.active)
 
 				return formData
+			},
+			url() {
+				const prefix = this.admin ? '/admin' : ''
+				const url = prefix + `/events/${this.event}/offers/`
+
+				return url
 			}
 		},
 		watch: {
@@ -424,6 +433,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.modal-card {
+		background: rgba(23, 23, 23, 0.99);
+		box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.25);
+		border-radius: 10px;
+	}
+	.modal-card-title { color: #ffffff; }
+	.modal-card-body { background: unset; }
+	footer { height: unset; }
+
 	#ticket-form-modal {
 		& .modal-card {
 			max-width: 1000px;

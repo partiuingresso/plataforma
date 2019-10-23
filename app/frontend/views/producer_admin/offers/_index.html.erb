@@ -1,0 +1,8 @@
+<% admin ||= false %>
+<div data-behavior="vue">
+  <ticket-manager
+    offers_data="<%= OfferSerializer.new(@offers).serialized_json %>"
+    :event="<%= @event.id %>"
+    :admin="<%= admin %>"
+  />
+</div>
