@@ -1,20 +1,32 @@
 <% provide(:title, "Cadastro de produtor") %>
-<% content_for :navbar do %>
-  &nbsp;
-<% end %>
-<% content_for :footer do %>
-  &nbsp;
-<% end %>
+<% if browser.mobile? %>
+  <section class="section">
+    <div class="container">
+      <strong class="has-text-white">Oi, <%= current_user.name.first %></strong> <br /><br />
+      <p>Agradecemos o seu interesse em publicar seus eventos por aqui.</p>
+      <p>Por favor, acesse a versão <strong>desktop</strong> do site para realizar seu cadastro.</p>
+      <br />
+      <p>Estamos te aguardando! 😉</p>
+    </div>
+  </section>
+<% else %>
+  <% content_for :navbar do %>
+    &nbsp;
+  <% end %>
+  <% content_for :footer do %>
+    &nbsp;
+  <% end %>
 
-<%= javascript_pack_tag "sellers/new" %>
-<%= stylesheet_pack_tag "sellers/new" %>
-<section class="newSeller">
-  <div class="container">
-  	<div data-behavior="vue">
-      <div class="logo">
-        <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'33'), root_path %>
+  <%= javascript_pack_tag "sellers/new" %>
+  <%= stylesheet_pack_tag "sellers/new" %>
+  <section class="newSeller">
+    <div class="container">
+      <div data-behavior="vue">
+        <div class="logo">
+          <%= link_to image_tag(asset_pack_path("media/assets/images/logo-grad.svg"), alt:'PartiuIngresso.com', width:'33'), root_path %>
+        </div>
+        <producer-registration-wizard first_name="<%= current_user.name.first %>" full_name="<%= current_user.name %>" email="<%= current_user.email %>" />
       </div>
-  		<producer-registration-wizard first_name="<%= current_user.name.first %>" full_name="<%= current_user.name %>" email="<%= current_user.email %>" />
-  	</div>
-  </div>
-</section>
+    </div>
+  </section>
+<% end %>
