@@ -31,7 +31,8 @@
     border-radius: 10px;
   }
   .container:not(.eventImage) {
-    height: fill-available;
+    height: 100%;
+    min-height: fill-available;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
