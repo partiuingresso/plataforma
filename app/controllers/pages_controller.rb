@@ -6,7 +6,7 @@ class PagesController < ApplicationController
     if browser.mobile?
       render "index_mobile"
     else
-      @user_location = request.location
+      # @user_location = request.location
       render "index"
     end
   end
