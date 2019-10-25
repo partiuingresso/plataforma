@@ -1,22 +1,49 @@
 .section.eventHero {
   margin-top: unset;
-  min-height: 540px;
-  background-size: cover;
-  background-position: center 30%;
-  background-repeat: no-repeat;
+  height: 696px;
   position: relative;
-  z-index: 0;
-  display: flex;
-  align-items: flex-end;
   padding-bottom: 24px;
-  .container {
+  overflow: hidden;
+  .blurryBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 696px;
+    width: 100vw;
+    z-index: 0;
+    background-size: 125%;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    filter: blur(20px);
+  }
+  .eventImage {
+    position: absolute;
+    top: 127px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    height: 450px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+  .container:not(.eventImage) {
+    height: fill-available;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
     .infoBlock {
       max-width: 70%;
+      .eventTitle {
+        display: flex;
+        align-items: center;
+      }
       .videoButton {
         display: inline-block;
-        margin-bottom: 12px;
+        height: 26px;
         padding: 6px;
         border: 1px solid #FFFFFF;
         box-sizing: border-box;
@@ -27,6 +54,8 @@
         color: #ffffff;
         opacity: .65;
         vertical-align: middle;
+        margin-left: 32px;
+        margin-bottom: 12px;
         &::before {
           content: '';
           display: inline-block;
@@ -45,7 +74,7 @@
         }
       }
       .title {
-        display: block;
+        display: inline-block;
         margin-bottom: 12px;
         font-weight: bold;
         font-size: 40px;
@@ -722,12 +751,19 @@ section.videoModal {
 // Mobile
 
 .section.eventHero.mobile {
-  min-height: calc(100vh - 384px);
+  min-height: calc(100vh - 440px);
   margin-top: -24px;
   padding: 1.25rem;
+  height: unset;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   .container {
     .infoBlock {
       .videoButton {
+        height: unset;
         position: absolute;
         bottom: 0;
         right: 0;
@@ -919,9 +955,11 @@ section.details.mobile {
   bottom: 0;
   background: #171717;
   width: 100%;
-  min-height: 100px;
-  padding: 18px 20px;
+  height: 84px;
+  padding: 0 20px;
   box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
   > button {
     outline: 0;
     border: none;
