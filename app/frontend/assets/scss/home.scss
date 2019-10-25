@@ -472,7 +472,10 @@
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scroll-padding: 20px;
+    scrollbar-width: none;
     &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      appearance: none;
       background: transparent;
       width: 0;
     }
@@ -504,6 +507,7 @@
       width: 220px;
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
       border-radius: 10px;
       margin-bottom: 4px;
       padding: 14px;
