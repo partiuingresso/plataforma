@@ -334,10 +334,7 @@
 .section.moreEvents {
   margin-top: -11px;
   * > .columns {
-    div.column { min-width: 373.33px; flex-basis: auto; }
-    &.odd {
-      div.column:first-child { min-width: 50%; max-width: 50%; flex-basis: auto; }
-    }
+    div.column { min-width: 373.33px; max-width: 421.2px; flex-basis: auto; flex: auto; }
   }
 }
 
