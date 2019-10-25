@@ -4,7 +4,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="<%= @event.name %> · PartiuIngresso.com" />
   <meta property="og:description" content="<%= sanitize @event.headline %>" />
-  <meta property="og:image" content="<%= image_url(@event.hero_image) %>" />
+  <meta property="og:image" content="<%= polymorphic_url(@event.hero_image) %>" />
 <% end %>
 
 <% provide(:title, "#{@event.name}") %>
