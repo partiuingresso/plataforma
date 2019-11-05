@@ -217,16 +217,11 @@ CREATE TABLE public.companies (
     id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    moip_id character varying,
-    moip_access_token character varying,
-    email character varying,
-    phone_number integer,
-    phone_area_code integer,
-    document_number character varying,
-    business_name character varying,
-    name character varying,
-    address_id bigint,
-    seller_id bigint
+    document_number character varying NOT NULL,
+    business_name character varying NOT NULL,
+    name character varying NOT NULL,
+    address_id bigint NOT NULL,
+    seller_id bigint NOT NULL
 );
 
 
@@ -325,7 +320,6 @@ CREATE TABLE public.events (
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    company_id bigint,
     headline character varying,
     video character varying,
     address_id bigint NOT NULL,
@@ -333,7 +327,7 @@ CREATE TABLE public.events (
     invite_text text,
     fb_pixel character varying,
     ga_id character varying,
-    seller_id bigint,
+    seller_id bigint NOT NULL,
     CONSTRAINT chronological_order_check CHECK ((start_t < end_t))
 );
 
@@ -365,7 +359,7 @@ CREATE TABLE public.finances (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     bank_account_id bigint NOT NULL,
-    seller_id bigint,
+    seller_id bigint NOT NULL,
     id integer NOT NULL
 );
 
@@ -590,7 +584,9 @@ CREATE TABLE public.sellers (
     email character varying,
     phone_area_code integer NOT NULL,
     phone_number integer NOT NULL,
-    verified boolean DEFAULT false NOT NULL
+    verified boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -654,14 +650,13 @@ ALTER SEQUENCE public.ticket_tokens_id_seq OWNED BY public.ticket_tokens.id;
 
 CREATE TABLE public.transfers (
     id bigint NOT NULL,
-    company_id bigint,
     bank_account_id bigint NOT NULL,
     amount_cents integer NOT NULL,
     fee_cents integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     status public.transfer_status DEFAULT 'requested'::public.transfer_status NOT NULL,
-    seller_id bigint
+    seller_id bigint NOT NULL
 );
 
 
@@ -715,7 +710,6 @@ CREATE TABLE public.users (
     updated_at timestamp without time zone NOT NULL,
     gender character varying,
     birthday timestamp without time zone,
-    company_id bigint,
     actor_id bigint,
     actor_type character varying
 );
@@ -1110,13 +1104,6 @@ CREATE INDEX index_events_on_address_id ON public.events USING btree (address_id
 
 
 --
--- Name: index_events_on_company_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_events_on_company_id ON public.events USING btree (company_id);
-
-
---
 -- Name: index_events_on_seller_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1243,13 +1230,6 @@ CREATE INDEX index_transfers_on_bank_account_id ON public.transfers USING btree 
 
 
 --
--- Name: index_transfers_on_company_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_transfers_on_company_id ON public.transfers USING btree (company_id);
-
-
---
 -- Name: index_transfers_on_seller_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1261,13 +1241,6 @@ CREATE INDEX index_transfers_on_seller_id ON public.transfers USING btree (selle
 --
 
 CREATE UNIQUE INDEX index_users_on_actor_type_and_actor_id ON public.users USING btree (actor_type, actor_id);
-
-
---
--- Name: index_users_on_company_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_users_on_company_id ON public.users USING btree (company_id);
 
 
 --
@@ -1549,6 +1522,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190821023418'),
 ('20190902213136'),
 ('20191017222906'),
-('20191018025854');
+('20191018025854'),
+('20191105182149');
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_18_025854) do
+ActiveRecord::Schema.define(version: 2019_11_05_182149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,16 +70,11 @@ ActiveRecord::Schema.define(version: 2019_10_18_025854) do
   create_table "companies", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "moip_id"
-    t.string "moip_access_token"
-    t.string "email"
-    t.integer "phone_number"
-    t.integer "phone_area_code"
-    t.string "document_number"
-    t.string "business_name"
-    t.string "name"
-    t.bigint "address_id"
-    t.bigint "seller_id"
+    t.string "document_number", null: false
+    t.string "business_name", null: false
+    t.string "name", null: false
+    t.bigint "address_id", null: false
+    t.bigint "seller_id", null: false
     t.index ["address_id"], name: "index_companies_on_address_id"
     t.index ["seller_id"], name: "index_companies_on_seller_id", unique: true
   end
@@ -107,7 +102,6 @@ ActiveRecord::Schema.define(version: 2019_10_18_025854) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "company_id"
     t.string "headline"
     t.string "video"
     t.bigint "address_id", null: false
@@ -115,9 +109,8 @@ ActiveRecord::Schema.define(version: 2019_10_18_025854) do
     t.text "invite_text"
     t.string "fb_pixel"
     t.string "ga_id"
-    t.bigint "seller_id"
+    t.bigint "seller_id", null: false
     t.index ["address_id"], name: "index_events_on_address_id"
-    t.index ["company_id"], name: "index_events_on_company_id"
     t.index ["seller_id"], name: "index_events_on_seller_id"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
@@ -126,7 +119,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_025854) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "bank_account_id", null: false
-    t.bigint "seller_id"
+    t.bigint "seller_id", null: false
     t.index ["bank_account_id"], name: "index_finances_on_bank_account_id", unique: true
     t.index ["seller_id"], name: "index_finances_on_seller_id", unique: true
   end
@@ -187,6 +180,8 @@ ActiveRecord::Schema.define(version: 2019_10_18_025854) do
     t.integer "phone_area_code", null: false
     t.integer "phone_number", null: false
     t.boolean "verified", default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 # Could not dump table "ticket_tokens" because of following StandardError
@@ -221,11 +216,9 @@ ActiveRecord::Schema.define(version: 2019_10_18_025854) do
     t.datetime "updated_at", null: false
     t.string "gender"
     t.datetime "birthday"
-    t.bigint "company_id"
     t.bigint "actor_id"
     t.string "actor_type"
     t.index ["actor_type", "actor_id"], name: "index_users_on_actor_type_and_actor_id", unique: true
-    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
