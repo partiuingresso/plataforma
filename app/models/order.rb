@@ -24,19 +24,18 @@ class Order < ApplicationRecord
 
   monetize :subtotal_cents
   monetize :total_cents
-  monetize :absolute_fee_cents
+  monetize :fee_cents
 
   def subtotal_cents
     order_items.collect { |order_item| order_item.quantity * order_item.offer.price_cents }.sum
   end
 
   def total_cents
-    subtotal_cents + absolute_fee_cents
+    subtotal_cents + fee_cents
   end
 
-  def absolute_fee_cents
-    fee = payment.present? ? payment.service_fee : Business::Finance::ServiceFee
-    (fee * subtotal).cents
+  def fee_cents
+    order_items.collect { |order_item| order_item.quantity * order_item.offer.fee.cents }.sum
   end
 
   def total_quantity

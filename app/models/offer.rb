@@ -24,10 +24,15 @@ class Offer < ApplicationRecord
 	validate :price_cannot_change_if_sold, on: :update
 
 	monetize :price_cents
+	monetize :fee_cents
 	monetize :price_with_service_fee_cents
 
+	def fee_cents
+		self.price_cents * Business::Finance::ServiceFee
+	end
+
 	def price_with_service_fee_cents
-		self.price_cents * (1 + Business::Finance::ServiceFee)
+		self.price_cents + fee_cents
 	end
 
 	def free?

@@ -19,7 +19,7 @@ module Wirecard
 
 			def create_order!
 				absolute_interest_cents = (Business::Finance::InterestRate[payment.installment_count] * order.total).cents
-				addition = order.absolute_fee_cents + absolute_interest_cents
+				addition = order.fee_cents + absolute_interest_cents
 				@wirecard_order = API.order.create({
 					own_id: order.number,
 					amount: {
