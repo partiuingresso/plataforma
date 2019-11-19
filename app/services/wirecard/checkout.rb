@@ -28,7 +28,7 @@ module Wirecard
 					},
 					items: order.order_items.costly.collect do |order_item|
 						{
-							product: order_item.offer.name,
+							product: product_description(order_item),
 							quantity: order_item.quantity,
 							price: order_item.offer.price_cents
 						}
@@ -132,6 +132,12 @@ module Wirecard
 
 					raise CheckoutErrors::PaymentError.new(code)
 				end
+			end
+
+			def product_description(order_item)
+				offer = order_item.offer
+				event = offer.event
+				"#{offer.name} (#{event.name} - #{event.address.city}/#{event.address.state})"
 			end
 	end
 end
