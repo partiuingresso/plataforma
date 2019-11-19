@@ -23,10 +23,10 @@
 							<div class="field has-addons">
 								<div class="control">
 									<div class="select">
-										<%= bank_account_f.select :document_type do %>
-											<%= content_tag(:option, "CPF", value: "CPF") %>
-											<%= content_tag(:option, "CNPJ", value: "CNPJ") %>
-										<% end %>
+										<%= bank_account_f.select :document_type,
+											options_for_select([['CPF', 'CPF'], ['CNPJ', 'CNPJ']],
+											@finance.bank_account.document_type)
+										%>
 									</div>
 								</div>
 								<div class="control is-expanded has-icons-right">
